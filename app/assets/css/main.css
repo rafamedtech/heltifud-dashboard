@@ -1,0 +1,71 @@
+@import "tailwindcss" theme(static);
+@import "@nuxt/ui";
+
+@theme static {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --color-green-50: #EFFDF5;
+  --color-green-100: #D9FBE8;
+  --color-green-200: #B3F5D1;
+  --color-green-300: #75EDAE;
+  --color-green-400: #00DC82;
+  --color-green-500: #00C16A;
+  --color-green-600: #00A155;
+  --color-green-700: #007F45;
+  --color-green-800: #016538;
+  --color-green-900: #0A5331;
+  --color-green-950: #052E16;
+}
+
+@layer base {
+  body {
+    @apply bg-default text-toned antialiased;
+  }
+}
+
+@layer components {
+  .app-surface {
+    @apply rounded-3xl border border-default/80 bg-default shadow-sm shadow-black/5;
+  }
+
+  .app-surface-soft {
+    @apply rounded-3xl border border-default/70 bg-elevated/60 shadow-sm shadow-black/5;
+  }
+
+  .app-grid {
+    background-image:
+      linear-gradient(rgb(15 23 42 / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(15 23 42 / 0.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .admin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--ui-border) 85%, transparent) transparent;
+  }
+
+  .dark .admin-scrollbar {
+    scrollbar-color: color-mix(in srgb, white 14%, transparent) transparent;
+  }
+
+  .admin-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .admin-scrollbar::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--ui-border) 88%, transparent);
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+  }
+
+  .dark .admin-scrollbar::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, white 14%, transparent);
+    border-color: transparent;
+  }
+
+  .admin-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}

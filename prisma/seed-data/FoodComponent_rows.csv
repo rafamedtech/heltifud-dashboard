@@ -1,0 +1,192 @@
+id,daySlotId,componentRole,nombre,descripcion,calorias,imagen,tipo,catalogItemId
+00b26701-95d3-46a7-aea8-fc939fb2f191,b18e1a7c-4107-46ef-9150-499354ade632,GUARNICION_1,Arroz con verduras,,249,,guarnicion,dbe0c1ac-9647-470e-8988-e0ce89d03c21
+0356aeb6-7f17-49a7-ab2f-d46e22da7b4d,fc952ced-9eae-4b40-9254-9933ae6ff920,PLATILLO_PRINCIPAL,Huevos divorciados,,271,,desayuno,83f3dcfc-1a26-4933-bf90-9460f927d4bb
+0698cc9f-dd5a-41ea-b782-8f0f332bad5a,188ab682-b5de-405a-ac76-19df59c0acad,GUARNICION_1,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,475ae4c8-19a7-468a-92b3-7408c2af1b73
+08c5963a-ad43-4233-a162-1cf623c93f81,15fe47e2-d23a-4647-92c2-a1fe55be2417,GUARNICION_1,Lentejas,,174,,guarnicion,d9683cef-5c36-4d89-b6df-3e37762c178f
+09f8430f-538f-43e3-8d06-1e1d21a8f433,d77c5fea-58c9-403d-8c55-e8b5b33e88b6,PLATILLO_PRINCIPAL,Pechuga BBQ,,293,,comida,ce71b08d-830e-44ab-bb9d-1fff25a28ac4
+0ac24873-5c4b-4da2-a584-5e3c3e91b352,86bf1db5-6f89-4690-9ba9-f62ad2736c0a,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+0d246af6-4eea-4235-8a21-f2327846ba69,b4404098-2c6b-4bb6-878f-210731bad56f,GUARNICION_1,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,475ae4c8-19a7-468a-92b3-7408c2af1b73
+0d6e96c7-9ecc-4d87-aa41-1f9c6d3f1b14,83931f81-3937-420b-9e36-100c3913f9a5,PLATILLO_PRINCIPAL,Pechuga en crema poblana,,323,,comida,b168731a-785c-4792-ae86-7193ea91c4a8
+0ed27ace-fad0-428e-8bbb-8975708a68d5,83f87405-104f-48c6-808c-6c9b5cb347be,PLATILLO_PRINCIPAL,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,67dcb986-e98c-4f98-bcdd-62032d19f305
+0f13ab3b-d8b7-42bf-b898-0667497a131e,98ed8f10-043d-467c-85fe-8d9252bff647,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,da2f1708-c1ed-4fcd-8aab-248bdac4b26d
+10eccef5-febd-4968-aa8d-a96dc9243109,3b2f412e-d27f-46fe-a97f-a2ef1cb6b0a2,PLATILLO_PRINCIPAL,Colacion 1 pendiente,,0,/images/placeholder-menu.jpg,snack,
+15525cb8-cba1-4421-8422-bdf3ad5d6db4,af4a41e8-42cc-42d9-ba71-76509b5f0a7b,GUARNICION_1,Fruta de temporada,Melón y piña,50,,guarnicion,a8852e28-b226-42f8-8784-1312be3e5476
+15954ea2-f0c2-4699-a738-ea6a4aa1d881,82f1026d-ded4-4346-9f09-b96e90e27df7,GUARNICION_2,Verduras salteadas,,0,/images/placeholder-menu.jpg,guarnicion,
+16a26d5e-efcd-4521-904d-496a95ad73b0,ee438a1e-818e-45b4-bd2d-5ab7c48b02b2,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+176b3bf2-8a4a-486f-9662-488d7152cf4c,d273437b-eb2b-450f-8fd5-5189a93e348c,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,
+176d1476-14d5-49e8-88fc-2314194d3007,b169573e-b14b-447d-9d38-63a175f7dbfe,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+181add8d-3494-4c57-bf53-5347145ae872,ac9aa6ba-1016-4833-a05b-8264ac59aa65,PLATILLO_PRINCIPAL,Omelette de rajas,,315,,desayuno,d306a275-4dce-40da-9b20-886ca10d9a0e
+18f58fff-d2f6-4630-9310-c9e155ced76d,f2a0ee02-3467-4dd3-a1bd-801e8c2dad1d,GUARNICION_1,Arroz blanco,,0,/images/placeholder-menu.jpg,guarnicion,
+18fa9d57-26ad-462f-9425-c62141bbd47b,79bad23a-5968-4ddd-bc6e-641f8da239fe,PLATILLO_PRINCIPAL,Breakfast burrito,,582,,desayuno,d78d4d21-cecb-4ba2-b371-68845acbc370
+1b6ffacc-e57f-4608-b1a3-ac57e16d8c0c,2e383af2-a00e-47a0-a536-b804567ea02e,PLATILLO_PRINCIPAL,Tortilla española,,504,,desayuno,8914e644-dc0e-47e6-a899-c1f59c251868
+1c0b6180-63a2-4d57-9563-3dc8867c5ecc,bcbccce1-1914-4dba-a648-102d14d91944,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+1d7646c9-0117-4b8a-ad60-8b1428d2c66d,322c2da9-f069-48f8-ba94-443406ce276f,PLATILLO_PRINCIPAL,Pechuga a la plancha,,250,,comida,046b4b6e-60be-4577-b43a-abb2852a99a4
+1e66892a-7f91-433f-add3-eaea25e97670,35319e3a-1510-4538-a2e1-16d8818f8b1b,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+20697f04-bae3-43af-aa17-874be5aee504,380789de-b247-4b52-9239-e38a6adcc2f8,PLATILLO_PRINCIPAL,Colacion 1 pendiente,,0,/images/placeholder-menu.jpg,snack,
+2088ccaa-09fd-4f55-8231-e90b17fda353,21b48d54-129f-4b9f-ad9c-ecd5c196271d,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,da2f1708-c1ed-4fcd-8aab-248bdac4b26d
+21637d59-1ef3-44fb-af36-d7a859d1dd06,4144498b-4d0e-49c0-a491-6e8b7d6874c2,GUARNICION_1,Papas horneadas,,174,,guarnicion,025b0a2e-126e-43fd-bb61-5f962aede914
+21a203b5-5ee7-49e1-a489-404c619ebf0a,3e9bf004-3669-491a-8d98-ac7bd3044fab,PLATILLO_PRINCIPAL,Teriyaki de pollo,,323,,comida,00341801-e617-4a32-a600-87fb404e6dbb
+22591d1b-b3d8-4d3a-8967-46dba2d46ab7,475408f2-adbc-4756-a1d0-41b5cf9dec62,PLATILLO_PRINCIPAL,Colacion 1 pendiente,,0,/images/placeholder-menu.jpg,snack,
+27e431a3-3f54-45fa-9f86-6838d81c6788,d9999497-386f-4653-a7ca-0d6f48eb4ece,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+28017a80-ca05-4403-a309-8e34190357c6,644c9fde-304d-40c5-85b5-4388f928cd58,PLATILLO_PRINCIPAL,Alambre de res,,386,,comida,bff5d6b3-7679-4ca3-b2d2-a3326670b5fa
+2a16fe74-a7db-4d9a-b255-f486c202b564,db8643bc-670d-49b3-89a8-e6f6b21e1291,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,da2f1708-c1ed-4fcd-8aab-248bdac4b26d
+2acdd7b1-141b-401d-ad1c-cf04eaaf572a,82f1026d-ded4-4346-9f09-b96e90e27df7,PLATILLO_PRINCIPAL,Milanesa de pollo,Menu basado en la imagen de referencia.,583,/images/placeholder-menu.jpg,comida,
+2bdfd0bd-16a8-40f6-bc86-c0916f98492e,e1ef579f-eaaf-4719-8da6-a7411ccd96ab,PLATILLO_PRINCIPAL,Estofado de pollo,,320,,comida,f1e6b65d-d516-4606-a2b2-30c84221b906
+2c0da341-70c3-4f68-b986-fb63ac52173c,83931f81-3937-420b-9e36-100c3913f9a5,GUARNICION_1,Puré de papa,,123,,guarnicion,471306fb-d14c-40ba-a105-664869f57abe
+2cef4919-c099-49da-9d96-f6708e04855d,60528346-26e2-4f51-a06f-5004ef554bed,GUARNICION_2,Verduras salteadas,,43,/images/placeholder-menu.jpg,guarnicion,57fc2813-65bd-4f47-a5de-23ef6ecec9f6
+2dc20697-ec56-45b5-b11a-c94a30c5ec63,da0f8d45-5304-45be-8458-b5decc301ee5,PLATILLO_PRINCIPAL,Huevos a la mexicana,Menu basado en la imagen de referencia.,367,/images/placeholder-menu.jpg,desayuno,5bcf2597-c9ff-451c-a456-fcd4dd763976
+31336544-93a0-4938-94c0-f02713273e6c,63f28448-8a81-42d8-808a-0691042d2851,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+31a0465e-528e-4248-b519-7f2c740e2192,2d97100e-def9-4bbc-92dc-1b6a708e638a,PLATILLO_PRINCIPAL,Sin colacion asignada,,0,/images/placeholder-menu.jpg,snack,
+323ece98-0525-4a27-a6ec-6bc45583c324,b09a3f92-e7f7-48ed-a272-67d866bd42fe,GUARNICION_2,Arroz con cilantro,,222,/images/placeholder-menu.jpg,guarnicion,f8564a07-8725-41e7-bfac-9121a270cce8
+32502bf4-5a96-4e56-b2fb-9ae5a9422a37,5cbc85bf-8013-446a-a6cd-94ef9045777f,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+33a98f3c-2219-4fae-8532-94c04e3e2664,322c2da9-f069-48f8-ba94-443406ce276f,GUARNICION_2,Verduras salteadas,,43,/images/placeholder-menu.jpg,guarnicion,57fc2813-65bd-4f47-a5de-23ef6ecec9f6
+35241c12-52d8-4dbe-aa05-c4558281dcc7,989e95b5-8b2c-4c13-a347-ab3404665799,PLATILLO_PRINCIPAL,Colacion 2 pendiente,,0,/images/placeholder-menu.jpg,snack,
+35f95c85-a0f3-49a2-b708-4f991131f918,569b61ca-93ba-4c80-8fef-8bab4b72efd6,GUARNICION_1,Fries de camote,,114,,guarnicion,fe7a8e81-2de6-4e32-9239-339a580a3a9a
+37443f89-241c-44df-8c7d-70cca6792383,fc952ced-9eae-4b40-9254-9933ae6ff920,GUARNICION_1,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,475ae4c8-19a7-468a-92b3-7408c2af1b73
+374a66d9-f922-4684-b495-b59a8f721e1a,e4a14cee-b49f-4cb3-81b1-7c03d7c42b28,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+3aeec9cd-347a-44cc-877e-eae82ee34f2a,b09a3f92-e7f7-48ed-a272-67d866bd42fe,GUARNICION_1,Verduras salteadas,,43,/images/placeholder-menu.jpg,guarnicion,57fc2813-65bd-4f47-a5de-23ef6ecec9f6
+3df9d27a-8bba-4207-ac7a-3f05277fa5ff,f2a0ee02-3467-4dd3-a1bd-801e8c2dad1d,PLATILLO_PRINCIPAL,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,
+3f209c0b-a104-4e82-aafa-0edb046e8d5e,15fe47e2-d23a-4647-92c2-a1fe55be2417,PLATILLO_PRINCIPAL,Fajitas de pollo,,313,,comida,05a71506-5f5a-41dc-80e7-35d630e6de4e
+41b26363-3b1b-44bf-8c3e-0a0e8a8d270b,39fa1fa3-ef8d-4025-85c5-7c21ce618220,PLATILLO_PRINCIPAL,Pechuga en crema de chipotle,Menu basado en la imagen de referencia.,256,/images/placeholder-menu.jpg,comida,d16c7a76-b73b-4652-9319-2723e51a78d9
+431fceb0-b81b-4da5-8485-d2e1fb3bc280,c8d24b13-c5ca-4fe1-a1de-aa8c5e056a7a,PLATILLO_PRINCIPAL,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,67dcb986-e98c-4f98-bcdd-62032d19f305
+47947454-7d63-4362-8232-9f3a79b10fff,a5355597-2887-4f92-92a3-d58407c9e2bc,PLATILLO_PRINCIPAL,Tinga de pollo,,290,,cena,9dceab13-0589-4e0f-9522-bc232021eb43
+484d40db-3271-40d2-b7cc-08afb356120b,da7bb4c8-5b79-4afa-8ad9-6afcbe89baa2,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+48597e4d-8d74-4fd1-a912-b0b2f07ef7fd,da0f8d45-5304-45be-8458-b5decc301ee5,GUARNICION_1,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,475ae4c8-19a7-468a-92b3-7408c2af1b73
+488c2fd7-ca20-455a-9eb9-ee2855484fb6,b18e1a7c-4107-46ef-9150-499354ade632,PLATILLO_PRINCIPAL,Brochetas de pollo,,312,,comida,a63ef5a3-940e-4e88-996e-9e80c148aa37
+48de362f-9ca0-4812-bf67-bb464e077606,97d9bb36-df5c-481f-9555-46d9019b40f5,PLATILLO_PRINCIPAL,Wrap de pollo con tocino,,589,,cena,72f6a464-d05b-420e-bc10-996ac0ca8cdc
+4a5d948f-1143-48c5-a4bd-9a0bc367e0f3,ec108472-d3d6-4268-a04d-38d417a8ea34,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+4c60909b-3000-4e2f-b4a5-96361b5a333f,83931f81-3937-420b-9e36-100c3913f9a5,GUARNICION_2,Verduras salteadas,,43,/images/placeholder-menu.jpg,guarnicion,57fc2813-65bd-4f47-a5de-23ef6ecec9f6
+4c74bc28-6dbe-420d-b27c-fec6d17f8aba,644c9fde-304d-40c5-85b5-4388f928cd58,GUARNICION_1,Lentejas,,174,,guarnicion,d9683cef-5c36-4d89-b6df-3e37762c178f
+4caab4e2-19ba-4286-b605-eac4dcf6f1a9,e0797803-5e79-44fb-97bf-57fd98ca13eb,PLATILLO_PRINCIPAL,Sándwich de huevo,,383,,desayuno,0248c275-249c-40fc-959b-d01f73bea23a
+4ccd77fc-8294-461a-bf0f-39e8eb5ff1fe,8c6b1e23-3698-4e93-8eaf-4be1a658d5b3,PLATILLO_PRINCIPAL,Bistec en salsa roja,Menu basado en la imagen de referencia.,306,/images/placeholder-menu.jpg,comida,
+5461de51-e5b6-4689-ac05-e08fb36ba762,8656975f-46d1-495c-ab5d-83ff2e271791,PLATILLO_PRINCIPAL,Papas a la mexicana con huevo,,442,,desayuno,b313476b-5840-4196-9182-4da98c258204
+5493cf3f-acb0-4c3f-a506-0f70a7efc47e,60528346-26e2-4f51-a06f-5004ef554bed,GUARNICION_1,Puré de papa,,123,,guarnicion,471306fb-d14c-40ba-a105-664869f57abe
+552be957-9f7c-4f83-95b9-e8c0d59f3a5d,34b6a217-269d-4aaf-a9ab-d3a0f26b93b8,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+55bc259e-9d7f-4e87-9f29-a91312c5dbc1,d273437b-eb2b-450f-8fd5-5189a93e348c,PLATILLO_PRINCIPAL,Pollo honey garlic,,304,,comida,
+55ee4328-5a05-44d8-8df3-0a36f4a98e81,7234dafb-8bfc-46c2-a9ef-3d5063b23cec,PLATILLO_PRINCIPAL,Colacion 2 pendiente,,0,/images/placeholder-menu.jpg,snack,
+562f1e31-63e2-43fa-9051-eaa610d06041,0e48d6c5-af25-4780-9d82-b47a258b56fc,PLATILLO_PRINCIPAL,Calabacitas suizas,,307,,cena,4370946f-6e92-472b-b8e5-7cb48ce981fb
+5a4b0f85-6779-40d2-9b25-6164c5d18eec,c33e60e2-8469-4d35-8510-982498aa6bbd,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+5ae1d579-2b00-4c0e-b74b-b2b83ad963bb,fd816e4c-4017-4a3b-828a-5ec98d147b07,PLATILLO_PRINCIPAL,Shawarma de pollo,,335,,comida,2c33eb83-d774-4dc9-b49b-332823f8d8c2
+5d05bc15-8fe0-418f-b03b-c5ad0249b35b,ac9aa6ba-1016-4833-a05b-8264ac59aa65,GUARNICION_1,Papas campesinas,,132,,guarnicion,a9b27eee-e289-4659-9f45-dd91b781e82a
+5da61014-ac87-4b0e-a45f-95a65cb4bd9c,60528346-26e2-4f51-a06f-5004ef554bed,PLATILLO_PRINCIPAL,Pescado empanizado,,304,,comida,eeeb4115-d446-42a6-a8de-f6bd96c91300
+5f13ca3a-14bd-4fb1-a558-f49b37db8c57,fd816e4c-4017-4a3b-828a-5ec98d147b07,GUARNICION_1,Papas horneadas,,174,,guarnicion,025b0a2e-126e-43fd-bb61-5f962aede914
+5fc60c99-175f-46d6-a117-051f461b84e0,bee39313-4d53-4094-b220-4288f3748db1,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+60c47139-fc80-47c4-af20-0ab8b3777005,b5db3f71-c6d8-4f16-886f-259ed04357ef,PLATILLO_PRINCIPAL,Sin colacion asignada,,0,/images/placeholder-menu.jpg,snack,
+61162406-4199-4b0d-9062-fc9958b61148,e1ef579f-eaaf-4719-8da6-a7411ccd96ab,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,da2f1708-c1ed-4fcd-8aab-248bdac4b26d
+616f47fe-d7cf-4660-a0d0-cba9b7d4af5c,e64207d8-68cc-472f-a3b9-ee5f709eca94,PLATILLO_PRINCIPAL,Sin menu asignado,,0,/images/placeholder-menu.jpg,comida,
+642d3f59-2208-4674-8c4c-f47ec9b09ca4,b8531a13-bdc5-4113-9b0e-016c277f1551,PLATILLO_PRINCIPAL,Crunchwrap de carne,,411,,cena,b3d39180-6736-4196-a0be-bce4fd917ae7
+6806fe7e-7e93-4285-ab18-66ee91dfdecf,4577b123-4c0b-4720-b852-f78850725818,GUARNICION_1,Arroz rojo,,226,/images/placeholder-menu.jpg,guarnicion,5c94991f-97a5-4964-83ce-28c6a411f524
+69665df8-2470-462c-84eb-614da22d3b2e,c582b2fd-e036-4bab-8a80-07c3824e0832,PLATILLO_PRINCIPAL,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,67dcb986-e98c-4f98-bcdd-62032d19f305
+6a620fdb-6260-4df7-abf1-de6d0879a4d5,9cdf7c97-88cc-4dc9-95f4-1e1b0428202b,GUARNICION_1,Arroz blanco,,0,/images/placeholder-menu.jpg,guarnicion,
+6ae42393-8d2c-414c-b03d-16f273c7e0c8,cd92236f-5c38-4e97-9c16-7ff4cbfd8d5e,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+6c0c7370-230c-4676-9491-6b2b9e09ad53,e0797803-5e79-44fb-97bf-57fd98ca13eb,GUARNICION_1,Fruta de temporada,Melón y piña,50,,guarnicion,a8852e28-b226-42f8-8784-1312be3e5476
+6ca9d284-2325-4db5-98ee-64bcef2abb3e,98ed8f10-043d-467c-85fe-8d9252bff647,PLATILLO_PRINCIPAL,Salteado de res,,274,,comida,4d793702-3054-44b4-b439-e940af66dc51
+6cd2fe97-f093-4a32-8fba-4a62e8fd2a3c,86e1fa2c-f750-499f-99ff-f27316668a12,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+6e326fa5-c426-4e59-adef-f715f90f8828,6a538810-af82-456e-a116-898ec9ac970b,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+6ed1a332-d057-4cf5-9ffc-872413e0e031,423f1576-079d-4e7d-9a8c-af140e56bb0b,PLATILLO_PRINCIPAL,Colacion 2 pendiente,,0,/images/placeholder-menu.jpg,snack,
+70509c75-3f0e-4dd5-90df-13805b55b322,21b48d54-129f-4b9f-ad9c-ecd5c196271d,GUARNICION_2,Verduras al vapor,,43,/images/placeholder-menu.jpg,guarnicion,6d933413-1b12-4a7c-8992-d9ab50a3e254
+707a1dda-ed32-496b-b71d-64fe4ca1c2e6,054a3185-0119-4bc1-bce7-20e8e6e76136,PLATILLO_PRINCIPAL,Pita de pechuga,,424,,cena,932cb019-a7a9-48e9-831e-184439e4068f
+74ce9af1-2b5b-40f9-ba61-5ff399bdd8df,cb2052bd-e2a9-4304-90b8-d03dd98a6e9d,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,
+74f3c864-1f7d-4321-baca-22c8694dbf9f,569b61ca-93ba-4c80-8fef-8bab4b72efd6,PLATILLO_PRINCIPAL,Sándwich de queso panela,,411,,cena,80eb6006-d240-41ab-883c-2d8e5bfc5417
+75cf3ba7-b4e3-4090-aada-d83759ac07f2,9b82c830-d35f-43a9-bf21-62f7c7d3a373,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+7868e866-743e-4ba4-97e9-ec9414def8f4,152d7684-84df-4da1-bffd-dda98e046914,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+7a1749d9-15b1-44be-8142-16b2f9fd4090,3e207250-f2b4-4164-92c9-b5fd58362061,PLATILLO_PRINCIPAL,Pasta stroganoff de res,,476,,comida,da129374-2108-408b-83e4-08b82d5c8d5c
+7a6862d4-0e66-4542-83a9-36ae76bb2df6,0e48d6c5-af25-4780-9d82-b47a258b56fc,GUARNICION_1,Puré de papa,,123,,guarnicion,471306fb-d14c-40ba-a105-664869f57abe
+7b6e7f9e-9056-425c-8c2e-e5abb372d94a,51cbbf0c-d2fb-4e7d-94a5-95a4184f2822,PLATILLO_PRINCIPAL,Huarache de pechuga,Rico huarache con pechuga de pollo,572,,cena,03c41bcf-3430-462d-93f7-461292bd6067
+7e15cf06-ba23-4592-b666-8c92377e6c15,8bff6163-4ead-4acb-9590-67de32eab6fa,PLATILLO_PRINCIPAL,Huarache de carne asada,,575,,cena,8244c69c-bd47-48c2-bb75-9b4f49cf0133
+7e4a09a5-ce3a-4dd8-b76b-694032c3d30c,b09a3f92-e7f7-48ed-a272-67d866bd42fe,PLATILLO_PRINCIPAL,Pescado al mojo de ajo,,266,,cena,d39cdafb-2240-44a0-8053-35d4965fd263
+7f3cbfe7-a5dd-49bf-a611-14519552b015,e1c9910c-233c-4af1-9e69-be5d6fb1b5f4,PLATILLO_PRINCIPAL,Taco bowl,,508,,comida,b4391535-4b8b-4608-87e9-79c354b5ed6f
+81257787-f22d-4248-b3e5-1d57493e805b,a744005e-df1e-4d66-9a16-32774866a819,PLATILLO_PRINCIPAL,Colacion 2 pendiente,,0,/images/placeholder-menu.jpg,snack,
+893f4f45-2764-4dbd-a9a4-3859993ace0a,19ccf541-097a-44c6-9180-039ecdcc9a5b,PLATILLO_PRINCIPAL,Huevo en salsa roja,Menu basado en la imagen de referencia.,356,/images/placeholder-menu.jpg,desayuno,12ad86c2-ce7d-4287-80f6-48590410e98a
+8a6c5926-6070-4970-bca0-b807e9aa982e,fadaae27-5c77-4fdc-b125-21e649a97a05,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+8ab7908d-b25b-401b-9ba9-8d54999f3c20,f8c0fd4e-7942-4022-afd8-f04a628511e3,GUARNICION_1,Fruta de temporada,Melón y piña,50,,guarnicion,a8852e28-b226-42f8-8784-1312be3e5476
+8ca978d5-49f6-4fe4-9046-d838c5ee3865,aa54d56f-fd5e-47e6-8ca0-08deb4468a3b,PLATILLO_PRINCIPAL,Sándwich japonés,,457,,desayuno,96174e18-0813-4fb5-b976-7c493f28c83a
+8d68280c-a701-4249-a090-29b21bdb902a,fbd45a73-4e9f-4781-8bab-b3220db36512,GUARNICION_1,Papas horneadas,,174,,guarnicion,025b0a2e-126e-43fd-bb61-5f962aede914
+8e66001d-5a75-4971-89aa-cf63b5ed8e56,392389d1-317f-45ff-b33d-bd2ea7bfeda0,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+8fcdbeb3-5577-476d-8d8c-566ef85c8aa4,d77c5fea-58c9-403d-8c55-e8b5b33e88b6,GUARNICION_1,Puré de papa,,123,,guarnicion,471306fb-d14c-40ba-a105-664869f57abe
+8ffe81ce-abd1-44f5-b09b-e87f6fa9245b,334bd39a-604f-4594-b483-44cf5ec5010f,PLATILLO_PRINCIPAL,Enmoladas de pollo,,333,,comida,df99294b-450f-40d9-9940-6b3268b994b1
+900cb6a6-8a5e-4208-831a-2f281c0614dd,ca88d3fd-37af-44bc-b564-aeff73dc9149,PLATILLO_PRINCIPAL,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,67dcb986-e98c-4f98-bcdd-62032d19f305
+904ffc63-5524-4458-b10f-eaeaa07a8be9,24d2d215-a5fb-4b1d-a6ce-49b003351192,GUARNICION_1,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,475ae4c8-19a7-468a-92b3-7408c2af1b73
+9222903e-aa68-43f9-8d8f-e55479da586d,4144498b-4d0e-49c0-a491-6e8b7d6874c2,PLATILLO_PRINCIPAL,Tenders de pechuga de pollo,,265,,cena,46e8580b-bfe0-4cc6-bb70-81e6b3a99004
+94e02680-3559-473c-8ae2-076927b26c4d,fb139610-2a3c-4e08-9ff6-3f69db4fdd1e,GUARNICION_1,Papas campesinas,,132,,guarnicion,a9b27eee-e289-4659-9f45-dd91b781e82a
+957f6273-5c2c-4982-9497-846953d52b63,cb2052bd-e2a9-4304-90b8-d03dd98a6e9d,PLATILLO_PRINCIPAL,Pescado al vapor,Menu basado en la imagen de referencia.,464,/images/placeholder-menu.jpg,cena,
+97ff9da9-0a9c-4493-ade4-e9bb37c9ea99,3de2754c-a227-4286-8354-4867664bd98e,PLATILLO_PRINCIPAL,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,67dcb986-e98c-4f98-bcdd-62032d19f305
+994ed160-fdf8-4416-a7fb-5fb5b9623a65,d2a060e5-3ec1-4ce3-84cf-366b85cec2d4,PLATILLO_PRINCIPAL,Ensalada de pollo,,542,,cena,506255bc-227f-496e-932a-e558410889ce
+9aa3fa3f-8e9b-45e1-bdab-8a6e59dafd77,fea12d2f-f95d-4b0a-bab7-d51f60373f8c,GUARNICION_1,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,475ae4c8-19a7-468a-92b3-7408c2af1b73
+9abc845f-e734-4b92-9749-df516f8e17ab,b0688fad-9e21-465b-a8fb-208dbddf5df9,PLATILLO_PRINCIPAL,Tacos de carne asada,,557,,cena,23c50f67-45a5-48e8-972c-50080d854460
+9dcab728-ae6e-4a7d-ab4a-6057e4ca8661,21b48d54-129f-4b9f-ad9c-ecd5c196271d,PLATILLO_PRINCIPAL,Pescado con mostaza,,195,,comida,1604d450-3f71-419e-a62c-15e8557f606c
+9e5d36a0-0a5f-4ae3-bd33-5c1a71883806,19ccf541-097a-44c6-9180-039ecdcc9a5b,GUARNICION_1,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,475ae4c8-19a7-468a-92b3-7408c2af1b73
+9ef2db90-9b80-4d34-9f87-97e9f0d3e791,27e73bf5-d30d-4e3f-ab88-25a6ec7e0766,PLATILLO_PRINCIPAL,Colacion 2 pendiente,,0,/images/placeholder-menu.jpg,snack,
+9f01cf73-9c46-4822-8de7-3b91686a8014,334bd39a-604f-4594-b483-44cf5ec5010f,GUARNICION_1,Arroz rojo,,226,/images/placeholder-menu.jpg,guarnicion,5c94991f-97a5-4964-83ce-28c6a411f524
+9f2dacfb-2daa-4dfd-b121-6451574bf802,39fa1fa3-ef8d-4025-85c5-7c21ce618220,GUARNICION_1,Puré de papa,,123,,guarnicion,
+a01d3fbc-da99-4001-a466-6e675337a4a2,27b2f720-05d0-4778-8159-a4e5f5e7e4a6,PLATILLO_PRINCIPAL,Sin colacion asignada,,0,/images/placeholder-menu.jpg,snack,
+a4dee336-bb06-4b88-9edc-e70582ded2ec,69c3ae4d-1cfe-4d54-87c3-15225dd654bb,GUARNICION_1,Chilaquiles verdes,,228,/images/placeholder-menu.jpg,guarnicion,6dd6f4ab-7917-4bd7-84d7-bc980e659140
+a72f4adf-b5f5-478c-b4c7-3fab774acb3c,114b1a6e-0020-4e91-bf93-9aa136eff215,PLATILLO_PRINCIPAL,Pancakes de zanahoria,,451,,desayuno,042a03e3-31f4-4f0c-85cf-a1f68aef63a2
+a77299f8-b632-462e-aab6-78ee6ac4413c,a5355597-2887-4f92-92a3-d58407c9e2bc,GUARNICION_1,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,475ae4c8-19a7-468a-92b3-7408c2af1b73
+a7bc7985-086b-4670-9d4f-9c9861110eb8,6ca844fe-e82f-4ab4-a20a-f498869f556a,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+a8bc3c98-9e6f-44e1-ab42-ff98d1f94e11,aaec9ce6-c119-4169-8dc1-a3b6bb3f738f,PLATILLO_PRINCIPAL,yogurt con fruta,,123,,snack,
+a984806a-e145-484a-b95c-e51b1a710108,e49c6aeb-618b-4903-8e58-6b9a217cb976,PLATILLO_PRINCIPAL,Sin menu asignado,,0,/images/placeholder-menu.jpg,cena,
+aaf11306-1a11-4553-a7c5-b27908350ab6,7242179f-6096-435f-a04c-52c90eddd7a0,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+ab1a820d-6da0-4488-8f05-cb6df0cbc927,6107339e-c38d-4213-a131-1292b565a67c,GUARNICION_1,Arroz con cilantro,,222,/images/placeholder-menu.jpg,guarnicion,f8564a07-8725-41e7-bfac-9121a270cce8
+ab429d50-4f3d-449a-818d-5013e9536bbb,d2589383-5081-4951-95df-a3339dc7dfdc,PLATILLO_PRINCIPAL,Omelette de espinacas y queso panela,,520,,desayuno,25183d15-43e7-4fe2-87af-e9a54377d3e9
+abc5f69a-c791-4b98-8731-c724dd5361ac,ec8a18eb-3d4e-4599-99d5-8422d70e57c5,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+abe81d6e-aab8-45ba-8879-32ff2de3c720,e06b85f9-cc01-4ca1-8020-7bf20d9e7f15,PLATILLO_PRINCIPAL,Colacion 1 pendiente,,0,/images/placeholder-menu.jpg,snack,
+b014c82a-de23-4792-baa3-3df9f9e7ce65,69c3ae4d-1cfe-4d54-87c3-15225dd654bb,PLATILLO_PRINCIPAL,Omelette de pechuga de pavo,Menu basado en la imagen de referencia.,325,/images/placeholder-menu.jpg,desayuno,eab76947-2809-4121-8eee-4543cded600a
+b3ef59a8-9c61-4170-82b1-2281f53f6e98,fbd45a73-4e9f-4781-8bab-b3220db36512,PLATILLO_PRINCIPAL,Omelette de champiñones y espinacas,,297,,desayuno,63eb2d74-7775-4929-a732-98c18667e2df
+b4b6bcb7-235a-44b5-ae7b-a64650f0819a,f9bc16c0-add4-440b-9b3f-19e3369f5e75,PLATILLO_PRINCIPAL,Quesadilla de pollo,,445,,cena,1a5d92a6-c23c-4537-8f56-2fa1b3b780de
+b5a2a79a-6c3a-44ab-8d8d-74bd51c4a867,2537d269-e216-4848-9c65-7caf9861f8ca,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+b6ba4fc9-8fe7-4b82-8a90-d1740629d12a,2d786a2c-5b24-4e5b-b0b9-b1c718ae213a,PLATILLO_PRINCIPAL,Panela en salsa,,361,,cena,76db7cb0-4296-4f19-8d50-33ae20f38fd9
+b6d41800-37ce-47ec-8ca1-469b3fe03d4b,db8643bc-670d-49b3-89a8-e6f6b21e1291,PLATILLO_PRINCIPAL,Panela en salsa verde,,314,,cena,5ef360cc-268f-48e5-865c-411e1d8f85a4
+b75e2292-557b-48de-a760-1b953ff50bf5,24d2d215-a5fb-4b1d-a6ce-49b003351192,PLATILLO_PRINCIPAL,Huevos con verduras,,291,,desayuno,fa350f15-67e0-4c36-8b9f-c3e8f193a509
+b7c9fd3b-9966-4ea6-9bc9-953f1d37ee7a,de121676-65fb-4d7f-a3cc-56453ba9db42,GUARNICION_2,Verduras salteadas,,43,/images/placeholder-menu.jpg,guarnicion,57fc2813-65bd-4f47-a5de-23ef6ecec9f6
+b923fd81-efff-4b17-bebc-6788864a1258,3e9bf004-3669-491a-8d98-ac7bd3044fab,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,da2f1708-c1ed-4fcd-8aab-248bdac4b26d
+bca4532b-4711-4c85-8de9-e26f1c72f973,a4c7437b-f05a-4b21-84ad-9801f3259fe2,PLATILLO_PRINCIPAL,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,67dcb986-e98c-4f98-bcdd-62032d19f305
+be99b46c-bc77-42bc-8f1a-d63f1619832c,0d4dc4b9-95ee-4515-8270-1a8d0645c799,PLATILLO_PRINCIPAL,Burritos de huevo con chorizo,Menu basado en la imagen de referencia.,532,/images/placeholder-menu.jpg,desayuno,
+c1bb5559-de36-4e6f-ac67-aedb0851be37,22ad2eec-347b-40ce-b3ec-4c6d41d1b49b,PLATILLO_PRINCIPAL,Huevos con ejote,,237,,desayuno,f389a85d-dd63-4f98-a21e-6c5d0e2f7c22
+c46e4f5b-f345-4d72-aa0f-5d0447dfad17,d0dda3bd-4df0-4dca-b916-ef0f17ea9f09,PLATILLO_PRINCIPAL,Espagueti con albóndigas,,408,,comida,589272e7-8d93-4ccb-8f52-e5b564d73a32
+c4b7c9fc-1fca-4e6f-8f16-4a258881a1c1,fb139610-2a3c-4e08-9ff6-3f69db4fdd1e,PLATILLO_PRINCIPAL,Omelette de panela y nopales,,324,,desayuno,4d3b8f9c-1714-4382-8ae1-2a502100a12a
+c6c8be8b-c4f2-4d21-a10d-94562f5c6d24,aa54d56f-fd5e-47e6-8ca0-08deb4468a3b,GUARNICION_1,Fruta de temporada,Melón y piña,50,,guarnicion,a8852e28-b226-42f8-8784-1312be3e5476
+c6fa19fc-49d0-4e23-adcb-3689a7c3f8ad,33aeb9a7-425b-4caf-a1b7-04c14a9a5e80,GUARNICION_1,Puré de papa,,123,,guarnicion,471306fb-d14c-40ba-a105-664869f57abe
+c779e588-3c1e-434f-8712-59a32cd27b32,8a3a2862-79db-4d33-aa58-ee7ced0a9d96,PLATILLO_PRINCIPAL,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,67dcb986-e98c-4f98-bcdd-62032d19f305
+c8d0f416-eb92-4423-b7da-4c72e25e9fff,8b8f8839-8267-4939-9645-b09f4b5951b6,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,da2f1708-c1ed-4fcd-8aab-248bdac4b26d
+c8d9681f-18cd-4cb7-97e0-c356260be06a,cd47b6d1-9b2c-4ec5-9271-321ff9a0e5b1,PLATILLO_PRINCIPAL,Yakimeshi de pollo,,450,,comida,52d6e3f9-c09b-432b-829a-3bbd8a45e3c3
+c96c9fa5-0249-46d2-b21a-1fd87738decb,322c2da9-f069-48f8-ba94-443406ce276f,GUARNICION_1,Mac n cheese,,282,/images/placeholder-menu.jpg,guarnicion,a01569f5-f6bf-41d7-8daa-6f305b6116ad
+ca504f9a-ac1f-467f-abe3-6326200c4146,3e1eaa91-fa48-4ef6-a6d5-5fca39c535a3,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+cb439abb-2750-4b7c-bcc0-96b32ecf0886,2d786a2c-5b24-4e5b-b0b9-b1c718ae213a,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,da2f1708-c1ed-4fcd-8aab-248bdac4b26d
+cd65db60-5e54-4a1e-a8d8-77ff549cbda0,0c675e2a-3d5b-447c-a48d-6b17d2c4d72c,PLATILLO_PRINCIPAL,Tortitas de atún,,371,,cena,342478e8-fa8e-46ea-955c-3979589c3f18
+cd6ae565-d940-4e6e-aa2e-8b944e693a33,22ad2eec-347b-40ce-b3ec-4c6d41d1b49b,GUARNICION_1,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,475ae4c8-19a7-468a-92b3-7408c2af1b73
+d0713a70-3942-48fb-904a-f8133b828d5b,de121676-65fb-4d7f-a3cc-56453ba9db42,PLATILLO_PRINCIPAL,Pescado adobado,,308,,cena,df9a9d62-1502-4b71-b6c4-45a163f429b7
+d0dff73d-1198-47cd-9b42-5d7bcabf0862,ef008384-1e27-40c6-bb1b-4d696943975d,PLATILLO_PRINCIPAL,Pancakes de chocolate con plátano,,543,,desayuno,5d111722-0401-4720-b131-fe4a1d89fe5b
+d531e44d-f584-4561-b496-f28adba12836,b8a85fbf-c409-4afa-9edb-0d0a27b84df5,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+d5b6d02e-090b-4f44-bf0e-669d628afd1b,2c9f6dd9-374c-4466-a4e7-c3f642f2d6e7,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+d84d5ef6-0e05-4969-a824-4a19e2661f36,188ab682-b5de-405a-ac76-19df59c0acad,PLATILLO_PRINCIPAL,Huevos con pechuga de pavo,,255,,desayuno,baa5b968-da29-46ab-9b43-cdc50b011317
+d8fd299c-0df3-41c3-a4f0-78bcf8fdcf27,2d8b89cb-245b-427d-a67e-9fe117013983,PLATILLO_PRINCIPAL,Entomatadas de queso panela,,456,,desayuno,703dcb3d-34af-4e37-8a3e-ae04cdfc9784
+da6eefef-0e39-4817-a7ed-30524890dc29,fea12d2f-f95d-4b0a-bab7-d51f60373f8c,PLATILLO_PRINCIPAL,Migas de huevo,,278,,desayuno,7e205e5a-63dc-445a-85e3-e8075b961a38
+dda22004-9d02-4c57-bf9e-559ce66c26af,6107339e-c38d-4213-a131-1292b565a67c,PLATILLO_PRINCIPAL,Fajitas de res,Menu basado en la imagen de referencia.,558,/images/placeholder-menu.jpg,comida,
+dee40927-3fa3-4ec6-a170-30d4578fdc91,9cdf7c97-88cc-4dc9-95f4-1e1b0428202b,PLATILLO_PRINCIPAL,Pescado teriyaki,Menu basado en la imagen de referencia.,516,/images/placeholder-menu.jpg,cena,
+dfc1f696-e1a5-47a8-a73b-c6c5aafc3846,b4404098-2c6b-4bb6-878f-210731bad56f,PLATILLO_PRINCIPAL,Bistec ranchero,,318,,comida,9dab025d-e372-43e5-8d90-7e8b9893ffe7
+e12657a6-8ab9-4d55-b64e-259c7c87e7df,1d34d24c-d0e7-45a3-96a7-ef23c1b3f083,PLATILLO_PRINCIPAL,Sin colacion asignada,,0,/images/placeholder-menu.jpg,snack,
+e1b7f309-8445-4455-945f-7bc200cf47da,63d645fa-8bb0-489a-9690-3eb0baeab791,PLATILLO_PRINCIPAL,Ensalada de pechuga,Menu basado en la imagen de referencia.,416,/images/placeholder-menu.jpg,cena,
+e28461ff-3ee1-4d23-bce6-97859f0a879c,af4a41e8-42cc-42d9-ba71-76509b5f0a7b,PLATILLO_PRINCIPAL,Pan francés,,290,,desayuno,0a956c5f-4b1f-4aa7-924d-1a170c6758d8
+e414a35f-13ae-4e31-bbae-2ffd7645fa5f,ddb67583-c4b1-42ba-86c1-04469f682e17,PLATILLO_PRINCIPAL,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,67dcb986-e98c-4f98-bcdd-62032d19f305
+e480f46c-7c5f-4f3b-9b1b-00ceaf9e9571,e0514dd8-4834-4dad-a08e-ede12bd279eb,PLATILLO_PRINCIPAL,Sin menu asignado,,0,/images/placeholder-menu.jpg,cena,
+e4d96fdf-410a-4610-aa2e-5f484643a9f3,3b7aa3c4-74ca-4f34-bc90-9f1c9c345205,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+e71df30f-7fb5-4538-8a8c-30cea19542c4,33aeb9a7-425b-4caf-a1b7-04c14a9a5e80,PLATILLO_PRINCIPAL,Wrap de ensalada cesar,,347,,cena,9bc44576-7be1-4e3f-8cfe-eedcd55321cc
+e73cc389-69f7-4b98-a54e-a1bb90578907,de121676-65fb-4d7f-a3cc-56453ba9db42,GUARNICION_1,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,da2f1708-c1ed-4fcd-8aab-248bdac4b26d
+eb0c5abf-2ea7-4eff-a61b-b3743fc4fabc,8c6b1e23-3698-4e93-8eaf-4be1a658d5b3,GUARNICION_1,Lentejas,,174,,guarnicion,
+eb1e1b94-96f2-4312-a08a-61459abbb5cd,fb5b906c-7379-4eab-a496-28f9f7c7b5c1,PLATILLO_PRINCIPAL,Sin menu asignado,,0,/images/placeholder-menu.jpg,desayuno,
+ec8b1905-0788-473b-91b5-d72274842e96,82f1026d-ded4-4346-9f09-b96e90e27df7,GUARNICION_1,Mac n cheese,,282,/images/placeholder-menu.jpg,guarnicion,a01569f5-f6bf-41d7-8daa-6f305b6116ad
+f244d62d-1071-470f-b67c-e3e3b6adad25,20b1c938-d294-4bfa-8501-4e8615de2440,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+f44c7054-23d8-45c1-8563-3bf2bece6abd,9a2cbc91-fcf8-440c-8650-09be633987fa,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2
+f4f4fcbb-6162-4580-86dd-e4908f4dcfe5,39fa1fa3-ef8d-4025-85c5-7c21ce618220,GUARNICION_2,Verduras salteadas,,43,/images/placeholder-menu.jpg,guarnicion,
+f50eb1d4-8c95-4247-b7e9-b35467435dca,8a61a2ad-e6fe-4aa7-ad7d-4a45753e8a3c,PLATILLO_PRINCIPAL,Sin menu asignado,,0,/images/placeholder-menu.jpg,desayuno,
+f587edab-ff3d-4ae0-bfc5-e4967a8147c5,8b8f8839-8267-4939-9645-b09f4b5951b6,PLATILLO_PRINCIPAL,Salteado de carne molida,,245,,comida,2f58252d-a017-4903-8e5d-e6ac37582300
+f68967c9-d516-4283-81f9-26d53cb70fc3,4577b123-4c0b-4720-b852-f78850725818,PLATILLO_PRINCIPAL,Chile relleno de carne y queso,,266,,comida,d6a40277-897e-4d97-8cda-97392da80453
+f7f94713-4d98-4887-b9d2-a418794f28a1,8ba7bd8d-9fbc-4aad-9565-7ba923191a8b,PLATILLO_PRINCIPAL,Papa rellena con pollo,,465,,comida,5649c1e4-739e-40a5-a27c-6d2868ceab22
+fa2fc3f1-10de-4ba6-ac89-c78b5cbab1e6,e4274cdc-c080-4805-a5f9-0249f4f30981,PLATILLO_PRINCIPAL,Bowl de pechuga,,641,,comida,8f2b2763-8c51-4772-b286-8d306115ecf6
+fa57e2a5-fbfe-49c1-922d-6dd2b587441b,a1a535fa-d632-46f3-93b8-05110920ac35,PLATILLO_PRINCIPAL,Avena trasnochada con mango,,419,,comida,d10bb35d-480d-4e35-868f-40b13a239832
+fcee3797-f17c-4532-8992-8dcb452da873,b962dd4e-fec6-4186-9e1b-835f126d9f17,PLATILLO_PRINCIPAL,Sin menu asignado,,0,/images/placeholder-menu.jpg,comida,
+fd1d326c-7ed6-423b-a332-1370a2a6f752,3c82a845-4487-4ece-af86-a3301d3758f8,PLATILLO_PRINCIPAL,Atún a la mexicana,,418,,cena,b2aeffc4-05e9-47d3-be53-770f3cd0b117
+fd89ffd8-6081-4693-8869-85e3126a7d56,409ce482-5711-46e0-b2c2-b9752e249e88,PLATILLO_PRINCIPAL,Enfrijoladas de huevo,,535,,desayuno,80649d87-d6e5-4882-af85-392c36ff3ba9
+fe5a4b4b-1838-49c9-8858-232c5333f6ce,f8c0fd4e-7942-4022-afd8-f04a628511e3,PLATILLO_PRINCIPAL,Bagel de pechuga de pavo,,505,,desayuno,db1fe472-9c77-44a7-8a49-6d89538946c5
+fe5f145f-a24a-4098-8ccd-9d1f26e74fcb,dc5c31a0-e68d-4cae-a732-5ff79c2e6586,PLATILLO_PRINCIPAL,Yogurt con fruta,,123,,snack,bb153e11-3fb9-47e2-a065-40d819e151d2

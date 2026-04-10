@@ -1,0 +1,110 @@
+generator client {
+  provider   = "prisma-client"
+  output     = "./generated/client"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum DayOfWeek {
+  LUNES
+  MARTES
+  MIERCOLES
+  JUEVES
+  VIERNES
+  SABADO
+  DOMINGO
+}
+
+enum SlotType {
+  DESAYUNO
+  COMIDA
+  CENA
+  SNACK1
+  SNACK2
+}
+
+enum ComponentRole {
+  PLATILLO_PRINCIPAL
+  GUARNICION_1
+  GUARNICION_2
+  ADICIONAL
+}
+
+model WeeklyMenu {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  isActive  Boolean   @default(false)
+  startDate DateTime
+  endDate   DateTime
+  name      String
+  days      MenuDay[]
+
+  @@index([isActive])
+  @@index([startDate, endDate])
+}
+
+model MenuDay {
+  id           String     @id @default(uuid())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  weeklyMenuId String
+  weeklyMenu   WeeklyMenu @relation(fields: [weeklyMenuId], references: [id], onDelete: Cascade)
+  dayOfWeek    DayOfWeek
+  order        Int
+  slots        DaySlot[]
+
+  @@unique([weeklyMenuId, dayOfWeek])
+  @@unique([weeklyMenuId, order])
+  @@index([weeklyMenuId, order])
+}
+
+model DaySlot {
+  id         String      @id @default(uuid())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  menuDayId  String
+  menuDay    MenuDay     @relation(fields: [menuDayId], references: [id], onDelete: Cascade)
+  slotType   SlotType
+  contenedor String?
+  components FoodComponent[]
+
+  @@unique([menuDayId, slotType])
+  @@index([menuDayId])
+}
+
+model FoodCatalogItem {
+  id          String          @id @default(uuid())
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  nombre      String
+  descripcion String
+  calorias    Int
+  imagen      String
+  tipo        String
+  components  FoodComponent[]
+
+  @@index([tipo, nombre])
+}
+
+model FoodComponent {
+  id            String          @id @default(uuid())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  daySlotId     String
+  daySlot       DaySlot         @relation(fields: [daySlotId], references: [id], onDelete: Cascade)
+  catalogItemId String?
+  catalogItem   FoodCatalogItem? @relation(fields: [catalogItemId], references: [id], onDelete: SetNull)
+  componentRole ComponentRole
+  nombre        String
+  descripcion   String
+  calorias      Int
+  imagen        String
+  tipo          String
+
+  @@index([daySlotId, componentRole])
+  @@index([catalogItemId])
+}

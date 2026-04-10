@@ -1,0 +1,105 @@
+id,nombre,descripcion,calorias,imagen,tipo,createdAt,updatedAt
+00341801-e617-4a32-a600-87fb404e6dbb,Teriyaki de pollo,,323,,comida,2026-03-18 20:02:36.527,2026-03-18 20:02:36.527
+0248c275-249c-40fc-959b-d01f73bea23a,Sándwich de huevo,,383,,desayuno,2026-03-31 21:27:52.164,2026-03-31 21:27:52.164
+025b0a2e-126e-43fd-bb61-5f962aede914,Papas horneadas,,174,,guarnicion,2026-03-18 02:32:11.214,2026-03-18 02:32:11.214
+03c41bcf-3430-462d-93f7-461292bd6067,Huarache de pechuga,Rico huarache con pechuga de pollo,572,,cena,2026-03-12 22:51:01.057,2026-03-12 22:51:01.057
+042a03e3-31f4-4f0c-85cf-a1f68aef63a2,Pancakes de zanahoria,,451,,desayuno,2026-03-18 19:59:05.765,2026-03-18 19:59:05.765
+046b4b6e-60be-4577-b43a-abb2852a99a4,Pechuga a la plancha,,250,,comida,2026-03-11 02:45:49.141,2026-04-09 03:23:22.277
+058cbe52-330f-4b1e-87a9-f063b2c2c2ad,Milanesa de pollo,Menu basado en la imagen de referencia.,583,/images/placeholder-menu.jpg,comida,2026-03-11 02:45:49.141,2026-03-11 02:45:49.141
+05a71506-5f5a-41dc-80e7-35d630e6de4e,Fajitas de pollo,,313,,comida,2026-03-26 03:41:40.295,2026-03-26 03:41:40.295
+0a956c5f-4b1f-4aa7-924d-1a170c6758d8,Pan francés,,290,,desayuno,2026-03-18 02:31:27.587,2026-03-18 02:31:27.587
+12ad86c2-ce7d-4287-80f6-48590410e98a,Huevo en salsa roja,Menu basado en la imagen de referencia.,356,/images/placeholder-menu.jpg,desayuno,2026-03-11 02:45:49.141,2026-03-13 00:01:07.013
+1604d450-3f71-419e-a62c-15e8557f606c,Pescado con mostaza,,195,,comida,2026-03-18 20:02:21.094,2026-03-18 20:02:21.094
+1a5d92a6-c23c-4537-8f56-2fa1b3b780de,Quesadilla de pollo,,445,,cena,2026-03-31 21:48:57.859,2026-03-31 21:48:57.859
+2360c413-8e87-484a-81df-a9f8d4387f3e,Pure de camote y papa,,184,/images/placeholder-menu.jpg,guarnicion,2026-03-11 02:45:49.141,2026-03-18 19:28:34.924
+23c50f67-45a5-48e8-972c-50080d854460,Tacos de carne asada,,557,,cena,2026-03-30 22:34:53.541,2026-04-09 03:32:45.656
+25183d15-43e7-4fe2-87af-e9a54377d3e9,Omelette de espinacas y queso panela,,520,,desayuno,2026-03-31 21:26:32.872,2026-03-31 21:26:32.872
+2c33eb83-d774-4dc9-b49b-332823f8d8c2,Shawarma de pollo,,335,,comida,2026-03-31 21:44:00.184,2026-03-31 21:44:00.184
+2f58252d-a017-4903-8e5d-e6ac37582300,Salteado de carne molida,,245,,comida,2026-03-18 02:33:52.676,2026-03-18 02:33:52.676
+308ec92d-b065-4a10-8f58-1ca5c60f7786,Pita con pollo pesto,Menu basado en la imagen de referencia.,410,/images/placeholder-menu.jpg,cena,2026-03-11 02:45:49.141,2026-03-11 02:45:49.141
+342478e8-fa8e-46ea-955c-3979589c3f18,Tortitas de atún,,371,,cena,2026-03-18 02:34:55.672,2026-03-18 02:34:55.672
+3a88eae3-1981-4a9a-9e5c-aaf4456ea326,Ensalada de nopal,,150,,guarnicion,2026-03-30 22:34:26.545,2026-03-30 22:34:26.545
+4370946f-6e92-472b-b8e5-7cb48ce981fb,Calabacitas suizas,,307,,cena,2026-03-26 03:43:43.062,2026-03-26 03:43:43.062
+46e8580b-bfe0-4cc6-bb70-81e6b3a99004,Tenders de pechuga de pollo,,265,,cena,2026-03-18 02:36:38.599,2026-03-18 02:36:38.599
+471306fb-d14c-40ba-a105-664869f57abe,Puré de papa,,123,,guarnicion,2026-03-12 22:31:27.413,2026-03-12 22:31:27.413
+475ae4c8-19a7-468a-92b3-7408c2af1b73,Frijol,,278,/images/placeholder-menu.jpg,guarnicion,2026-03-11 02:45:49.141,2026-03-12 23:56:19.304
+4ac1b592-8735-4c80-b453-39ba07cc78e2,Sopa de verduras con pollo,,405,,cena,2026-03-18 20:03:52.443,2026-03-18 20:03:52.443
+4b1abdb4-8cef-4a18-a5a1-154d10a1d121,Pescado teriyaki,Menu basado en la imagen de referencia.,516,/images/placeholder-menu.jpg,cena,2026-03-11 02:45:49.141,2026-03-11 02:45:49.141
+4d3b8f9c-1714-4382-8ae1-2a502100a12a,Omelette de panela y nopales,,324,,desayuno,2026-03-18 02:28:49.518,2026-03-18 02:28:49.518
+4d793702-3054-44b4-b439-e940af66dc51,Salteado de res,,274,,comida,2026-03-26 03:42:41.136,2026-03-26 03:42:41.136
+506255bc-227f-496e-932a-e558410889ce,Ensalada de pollo,,542,,cena,2026-03-31 21:53:00.063,2026-03-31 21:53:00.063
+52d6e3f9-c09b-432b-829a-3bbd8a45e3c3,Yakimeshi de pollo,,450,,comida,2026-03-31 21:49:53.99,2026-03-31 21:49:53.99
+55ee9afc-fab5-4a7d-a57e-cfbec0e29d4c,Pechuga con rajas,,253,,comida,2026-03-18 02:32:28.929,2026-03-18 02:32:28.929
+5649c1e4-739e-40a5-a27c-6d2868ceab22,Papa rellena con pollo,,465,,comida,2026-04-09 03:26:36.055,2026-04-09 03:26:36.055
+57fc2813-65bd-4f47-a5de-23ef6ecec9f6,Verduras salteadas,,43,/images/placeholder-menu.jpg,guarnicion,2026-03-11 02:45:49.141,2026-03-12 22:31:52.804
+589272e7-8d93-4ccb-8f52-e5b564d73a32,Espagueti con albóndigas,,408,,comida,2026-03-18 02:33:00.609,2026-03-18 02:33:00.609
+59152415-66d4-4197-a7e4-937d22accfed,Burritos de huevo con chorizo,Menu basado en la imagen de referencia.,532,/images/placeholder-menu.jpg,desayuno,2026-03-11 02:45:49.141,2026-03-11 02:45:49.141
+5bcf2597-c9ff-451c-a456-fcd4dd763976,Huevos a la mexicana,Menu basado en la imagen de referencia.,367,/images/placeholder-menu.jpg,desayuno,2026-03-11 02:45:49.141,2026-03-13 00:03:54.956
+5c94991f-97a5-4964-83ce-28c6a411f524,Arroz rojo,,226,/images/placeholder-menu.jpg,guarnicion,2026-03-11 02:45:49.141,2026-03-18 02:32:43.749
+5d111722-0401-4720-b131-fe4a1d89fe5b,Pancakes de chocolate con plátano,,543,,desayuno,2026-03-26 03:40:16.643,2026-03-26 03:40:16.643
+5dc9c9c1-8f16-4d3b-9114-5f19c2ca2225,Spring rolls de pollo,,405,,cena,2026-03-18 20:03:12.431,2026-03-18 20:03:12.431
+5e6469d6-7c1c-4c37-a171-72c4490e5c62,Pollo honey garlic,,304,,comida,2026-03-12 21:53:27.444,2026-03-12 21:53:27.444
+5ef360cc-268f-48e5-865c-411e1d8f85a4,Panela en salsa verde,,314,,cena,2026-03-31 21:50:34.596,2026-03-31 21:50:34.596
+601f20a5-34e3-43ac-a5f5-220c77394088,Chilaquiles en chipotle con huevo,,501,,desayuno,2026-03-18 20:00:15.761,2026-03-18 20:00:15.761
+63eb2d74-7775-4929-a732-98c18667e2df,Omelette de champiñones y espinacas,,297,,desayuno,2026-03-18 02:31:47.641,2026-03-18 02:31:47.641
+67dcb986-e98c-4f98-bcdd-62032d19f305,Chiles rellenos de panela,Menu basado en la imagen de referencia.,662,/images/placeholder-menu.jpg,cena,2026-03-11 02:45:49.141,2026-03-11 02:45:49.141
+6d933413-1b12-4a7c-8992-d9ab50a3e254,Verduras al vapor,,43,/images/placeholder-menu.jpg,guarnicion,2026-03-11 02:45:49.141,2026-03-12 22:32:02.693
+6dd6f4ab-7917-4bd7-84d7-bc980e659140,Chilaquiles verdes,,228,/images/placeholder-menu.jpg,guarnicion,2026-03-11 02:45:49.141,2026-03-12 23:47:21.812
+703dcb3d-34af-4e37-8a3e-ae04cdfc9784,Entomatadas de queso panela,,456,,desayuno,2026-03-26 03:39:33.009,2026-03-26 03:39:33.009
+725c9381-2828-40d9-a712-00e8a840c3b3,Alambre de pollo,,386,,comida,2026-03-18 02:33:24.568,2026-03-18 02:33:24.568
+72f6a464-d05b-420e-bc10-996ac0ca8cdc,Wrap de pollo con tocino,,589,,cena,2026-03-18 20:03:38.695,2026-03-18 20:03:38.695
+76db7cb0-4296-4f19-8d50-33ae20f38fd9,Panela en salsa,,361,,cena,2026-03-18 02:37:06.625,2026-03-18 20:47:26.976
+7743a796-8b99-440d-87fc-8fdaeae84486,Pollo ranchero,,267,,comida,2026-03-18 20:00:52.457,2026-03-18 20:00:52.457
+7a0bd41d-7977-4e08-b9c4-5aee7381cade,Omelette de jamón serrano,,310,,desayuno,2026-03-18 20:00:34.707,2026-03-18 20:00:34.707
+7e205e5a-63dc-445a-85e3-e8075b961a38,Migas de huevo,,278,,desayuno,2026-03-19 03:26:01.629,2026-03-19 03:26:01.629
+80649d87-d6e5-4882-af85-392c36ff3ba9,Enfrijoladas de huevo,,535,,desayuno,2026-03-31 20:58:57.113,2026-03-31 20:58:57.113
+80eb6006-d240-41ab-883c-2d8e5bfc5417,Sándwich de queso panela,,411,,cena,2026-03-26 03:43:15.944,2026-03-26 03:43:15.944
+8244c69c-bd47-48c2-bb75-9b4f49cf0133,Huarache de carne asada,,575,,cena,2026-03-26 03:43:56.297,2026-03-26 03:43:56.297
+83f3dcfc-1a26-4933-bf90-9460f927d4bb,Huevos divorciados,,271,,desayuno,2026-03-30 22:31:47.377,2026-04-09 03:05:21.027
+8914e644-dc0e-47e6-a899-c1f59c251868,Tortilla española,,504,,desayuno,2026-03-26 03:40:05.677,2026-03-26 03:40:05.677
+8f2b2763-8c51-4772-b286-8d306115ecf6,Bowl de pechuga,,641,,comida,2026-03-30 21:27:46.489,2026-04-09 03:17:32.37
+932cb019-a7a9-48e9-831e-184439e4068f,Pita de pechuga,,424,,cena,2026-04-09 03:41:24.151,2026-04-09 03:41:24.151
+96174e18-0813-4fb5-b976-7c493f28c83a,Sándwich japonés,,457,,desayuno,2026-03-18 19:59:28.005,2026-03-18 19:59:28.005
+99d06e71-d44a-41b3-9669-597e08f2caec,Bistec en salsa roja,Menu basado en la imagen de referencia.,306,/images/placeholder-menu.jpg,comida,2026-03-11 02:45:49.141,2026-03-12 22:28:41.347
+9bc44576-7be1-4e3f-8cfe-eedcd55321cc,Wrap de ensalada cesar,,347,,cena,2026-03-26 03:44:16.095,2026-03-26 03:44:16.095
+9dab025d-e372-43e5-8d90-7e8b9893ffe7,Bistec ranchero,,318,,comida,2026-03-26 03:41:24.598,2026-03-26 03:41:24.598
+9dceab13-0589-4e0f-9522-bc232021eb43,Tinga de pollo,,290,,cena,2026-03-18 02:35:42.727,2026-03-18 02:35:42.727
+a01569f5-f6bf-41d7-8daa-6f305b6116ad,Mac n cheese,,282,/images/placeholder-menu.jpg,guarnicion,2026-03-11 02:45:49.141,2026-03-18 19:58:03.695
+a248f97c-b1d7-4234-bf78-ab69981f58a2,Fajitas de res,Menu basado en la imagen de referencia.,558,/images/placeholder-menu.jpg,comida,2026-03-11 02:45:49.141,2026-03-11 02:45:49.141
+a5496b74-416d-42af-a6f7-e55476c1f9d3,Quesadilla de carne asada,,446,,cena,2026-03-18 20:02:50.465,2026-03-18 20:02:50.465
+a63ef5a3-940e-4e88-996e-9e80c148aa37,Brochetas de pollo,,312,,comida,2026-03-31 21:53:40.204,2026-03-31 21:53:40.204
+a8852e28-b226-42f8-8784-1312be3e5476,Fruta de temporada,Melón y piña,50,,guarnicion,2026-03-18 02:30:23.658,2026-03-18 02:30:23.658
+a9b27eee-e289-4659-9f45-dd91b781e82a,Papas campesinas,,132,,guarnicion,2026-03-18 02:29:17.949,2026-03-18 02:29:17.949
+b168731a-785c-4792-ae86-7193ea91c4a8,Pechuga en crema poblana,,323,,comida,2026-03-26 03:41:01.534,2026-03-26 03:41:01.534
+b2aeffc4-05e9-47d3-be53-770f3cd0b117,Atún a la mexicana,,418,,cena,2026-03-18 20:03:28.454,2026-03-18 20:57:37.474
+b313476b-5840-4196-9182-4da98c258204,Papas a la mexicana con huevo,,442,,desayuno,2026-03-31 21:17:01.245,2026-03-31 21:17:01.245
+b3d39180-6736-4196-a0be-bce4fd917ae7,Crunchwrap de carne,,411,,cena,2026-03-26 03:44:38.263,2026-03-28 18:38:47.841
+b4391535-4b8b-4608-87e9-79c354b5ed6f,Taco bowl,,508,,comida,2026-03-31 21:46:26.159,2026-03-31 21:57:59.522
+baa5b968-da29-46ab-9b43-cdc50b011317,Huevos con pechuga de pavo,,255,,desayuno,2026-03-18 02:30:53.627,2026-03-18 02:30:53.627
+bb153e11-3fb9-47e2-a065-40d819e151d2,Yogurt con fruta,,123,,snack,2026-03-19 03:28:40.599,2026-03-19 03:28:40.599
+bff5d6b3-7679-4ca3-b2d2-a3326670b5fa,Alambre de res,,386,,comida,2026-04-09 03:20:54.939,2026-04-09 03:20:54.939
+c5e171bb-68d5-48e1-9d0a-e9236e120e7f,Papa con salchicha y huevo,Menu basado en la imagen de referencia.,479,/images/placeholder-menu.jpg,desayuno,2026-03-11 02:45:49.141,2026-03-11 02:45:49.141
+ce71b08d-830e-44ab-bb9d-1fff25a28ac4,Pechuga BBQ,,293,,comida,2026-03-18 02:34:17.593,2026-03-18 02:34:17.593
+d10bb35d-480d-4e35-868f-40b13a239832,Avena trasnochada con mango,,419,,desayuno,2026-03-31 21:15:21.183,2026-03-31 21:15:50.536
+d16c7a76-b73b-4652-9319-2723e51a78d9,Pechuga en crema de chipotle,Menu basado en la imagen de referencia.,256,/images/placeholder-menu.jpg,comida,2026-03-11 02:45:49.141,2026-03-12 23:51:16.947
+d214995c-6a59-4f1a-90d1-db90ceb1d452,Huevo salsa verde,,356,,desayuno,2026-03-30 22:31:15.695,2026-03-30 22:31:15.695
+d306a275-4dce-40da-9b20-886ca10d9a0e,Omelette de rajas,,315,,desayuno,2026-03-26 03:40:34.764,2026-03-26 03:40:34.764
+d39cdafb-2240-44a0-8053-35d4965fd263,Pescado al mojo de ajo,,266,,cena,2026-03-18 02:36:11.949,2026-03-18 02:36:11.949
+d6a40277-897e-4d97-8cda-97392da80453,Chile relleno de carne y queso,,266,,comida,2026-03-31 21:51:34.528,2026-03-31 21:51:34.528
+d78d4d21-cecb-4ba2-b371-68845acbc370,Breakfast burrito,,582,,desayuno,2026-03-26 03:39:54.85,2026-03-26 03:39:54.85
+d9683cef-5c36-4d89-b6df-3e37762c178f,Lentejas,,174,,guarnicion,2026-03-12 22:19:37.448,2026-03-12 22:19:37.448
+da129374-2108-408b-83e4-08b82d5c8d5c,Pasta stroganoff de res,,476,,comida,2026-03-18 20:01:09.052,2026-03-18 20:01:09.052
+da2f1708-c1ed-4fcd-8aab-248bdac4b26d,Arroz blanco,,222,/images/placeholder-menu.jpg,guarnicion,2026-03-11 02:45:49.141,2026-03-12 21:51:52.931
+db1fe472-9c77-44a7-8a49-6d89538946c5,Bagel de pechuga de pavo,,505,,desayuno,2026-03-18 02:29:50.793,2026-03-18 02:29:50.793
+dbe0c1ac-9647-470e-8988-e0ce89d03c21,Arroz con verduras,,249,,guarnicion,2026-03-31 21:54:13.983,2026-03-31 21:54:13.983
+df99294b-450f-40d9-9940-6b3268b994b1,Enmoladas de pollo,,333,,comida,2026-03-26 03:43:00.816,2026-03-26 03:43:00.816
+df9a9d62-1502-4b71-b6c4-45a163f429b7,Pescado adobado,,308,,cena,2026-03-31 21:54:56.435,2026-04-01 01:31:41.139
+eab76947-2809-4121-8eee-4543cded600a,Omelette de pechuga de pavo,Menu basado en la imagen de referencia.,324,/images/placeholder-menu.jpg,desayuno,2026-03-11 02:45:49.141,2026-03-12 23:50:12.086
+eeeb4115-d446-42a6-a8de-f6bd96c91300,Pescado empanizado,,304,,comida,2026-03-31 21:45:04.358,2026-03-31 21:45:04.358
+efccf1dd-3695-4d61-8098-55fde7d6ff1b,Pescado al vapor,Menu basado en la imagen de referencia.,464,/images/placeholder-menu.jpg,cena,2026-03-11 02:45:49.141,2026-03-11 02:45:49.141
+f1e6b65d-d516-4606-a2b2-30c84221b906,Estofado de pollo,,320,,comida,2026-03-18 20:01:33.349,2026-03-18 20:01:33.349
+f389a85d-dd63-4f98-a21e-6c5d0e2f7c22,Huevos con ejote,,237,,desayuno,2026-03-12 23:55:22.238,2026-03-12 23:55:31.72
+f8564a07-8725-41e7-bfac-9121a270cce8,Arroz con cilantro,,222,/images/placeholder-menu.jpg,guarnicion,2026-03-11 02:45:49.141,2026-03-18 19:58:30.886
+fa350f15-67e0-4c36-8b9f-c3e8f193a509,Huevos con verduras,,291,,desayuno,2026-03-18 19:59:57.441,2026-03-19 03:22:31.84
+fa68dcd5-9198-4b12-81bb-5a244c67b85f,Ensalada de pechuga,Menu basado en la imagen de referencia.,416,/images/placeholder-menu.jpg,cena,2026-03-11 02:45:49.141,2026-03-12 22:54:26.528
+fe7a8e81-2de6-4e32-9239-339a580a3a9a,Fries de camote,,114,,guarnicion,2026-03-26 03:43:26.639,2026-03-26 03:43:26.639
