@@ -37,7 +37,7 @@ export default defineNuxtConfig({
       }),
     ],
     optimizeDeps: {
-      include: ['date-fns', 'date-fns/locale', 'boneyard-js', 'zod'],
+      include: ['date-fns', 'date-fns/locale', 'boneyard-js', 'zod', 'gsap'],
     },
   },
 

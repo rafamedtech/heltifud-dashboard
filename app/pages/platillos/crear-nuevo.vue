@@ -5,6 +5,7 @@ definePageMeta({
 })
 
 const route = useRoute()
+const { navigateBack } = useRouteBackNavigation()
 const returnTo = computed(() => (typeof route.query.returnTo === 'string' ? route.query.returnTo : undefined))
 const backTo = computed(() => returnTo.value ?? '/platillos')
 const hasUnsavedChanges = ref(false)
@@ -36,12 +37,12 @@ async function onBack() {
     return
   }
 
-  await navigateTo(backTo.value)
+  await navigateBack(backTo.value)
 }
 
 async function leaveWithoutSaving() {
   leaveConfirmOpen.value = false
-  await navigateTo(backTo.value)
+  await navigateBack(backTo.value)
 }
 </script>
 

@@ -86,6 +86,7 @@ const formErrors = computed<FormError[]>(() =>
 function showValidationToast() {
   toast.add({
     title: 'El platillo no se pudo guardar',
+    description: 'Los campos marcados en rojo hacen falta por llenar o revisar.',
     color: 'error',
     icon: 'i-lucide-circle-alert',
   });
@@ -264,8 +265,8 @@ async function onSubmit() {
           :initial-bones="fieldsBones"
           :loading="loadingFields"
         >
-          <div class="grid gap-5">
-          <UFormField name="nombre" label="Nombre" class="min-w-0" :ui="{ label: 'font-semibold text-highlighted' }">
+          <div class="mt-4 grid gap-5">
+          <UFormField name="nombre" :error="false" label="Nombre" class="min-w-0" :ui="{ label: 'font-semibold text-highlighted' }">
             <UInput
               v-model="state.nombre"
               class="w-full"
@@ -278,14 +279,9 @@ async function onSubmit() {
               size="xl"
               placeholder="Ej. Bowl de pollo con arroz integral"
             />
-            <template #error>
-              <span class="block min-h-5">
-                {{ fieldErrors.nombre || ' ' }}
-              </span>
-            </template>
           </UFormField>
 
-          <UFormField name="tipo" label="Tipo" class="min-w-0" :ui="{ label: 'font-semibold text-highlighted' }">
+          <UFormField name="tipo" :error="false" label="Tipo" class="min-w-0" :ui="{ label: 'font-semibold text-highlighted' }">
             <USelect
               v-model="state.tipo"
               :items="foodTypeOptions"
@@ -301,11 +297,6 @@ async function onSubmit() {
               size="xl"
               placeholder="Selecciona un tipo"
             />
-            <template #error>
-              <span class="block min-h-5">
-                {{ fieldErrors.tipo || ' ' }}
-              </span>
-            </template>
           </UFormField>
 
           <UFormField name="descripcion" label="Descripción" class="min-w-0" :ui="{ label: 'font-semibold text-highlighted' }">

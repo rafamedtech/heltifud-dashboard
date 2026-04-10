@@ -1,67 +1,68 @@
 <script setup lang="ts">
-import type { FoodCatalogItemDetail } from '~~/types/types';
+import type { FoodCatalogItemDetail } from '~~/types/types'
 
 definePageMeta({
   layout: 'admin',
-  middleware: ['supabase-auth'],
-});
+  middleware: ['supabase-auth']
+})
 
-const route = useRoute();
+const route = useRoute()
+const { navigateBack } = useRouteBackNavigation()
 const returnTo = computed(() =>
-  typeof route.query.returnTo === 'string' ? route.query.returnTo : undefined,
-);
-const backTo = computed(() => returnTo.value ?? '/platillos');
-const hasUnsavedChanges = ref(false);
-const leaveConfirmOpen = ref(false);
-const editFormId = 'food-catalog-edit-form';
+  typeof route.query.returnTo === 'string' ? route.query.returnTo : undefined
+)
+const backTo = computed(() => returnTo.value ?? '/platillos')
+const hasUnsavedChanges = ref(false)
+const leaveConfirmOpen = ref(false)
+const editFormId = 'food-catalog-edit-form'
 
 useSeoMeta({
   title: 'Gestión de platillos | Editar platillo | Heltifud Meal Preps',
   description:
     'Edita un platillo existente dentro del catálogo reutilizable del panel administrativo de Heltifud Meal Preps.',
-  robots: 'noindex, nofollow',
-});
+  robots: 'noindex, nofollow'
+})
 
 const {
   data: item,
   status,
-  error,
+  error
 } = useLazyFetch<FoodCatalogItemDetail>(
   `/api/food-components/${route.params.id}`,
   {
-    key: `food-catalog-${route.params.id}`,
-  },
-);
+    key: `food-catalog-${route.params.id}`
+  }
+)
 
 const isLoading = computed(
-  () => status.value === 'idle' || status.value === 'pending',
-);
+  () => status.value === 'idle' || status.value === 'pending'
+)
 
 async function onSaved() {
   if (typeof route.query.returnTo === 'string') {
-    await navigateTo(route.query.returnTo);
-    return;
+    await navigateTo(route.query.returnTo)
+    return
   }
 
-  await navigateTo('/platillos');
+  await navigateTo('/platillos')
 }
 
 function onDirtyChange(value: boolean) {
-  hasUnsavedChanges.value = value;
+  hasUnsavedChanges.value = value
 }
 
 async function onBack() {
   if (hasUnsavedChanges.value) {
-    leaveConfirmOpen.value = true;
-    return;
+    leaveConfirmOpen.value = true
+    return
   }
 
-  await navigateTo(backTo.value);
+  await navigateBack(backTo.value)
 }
 
 async function leaveWithoutSaving() {
-  leaveConfirmOpen.value = false;
-  await navigateTo(backTo.value);
+  leaveConfirmOpen.value = false
+  await navigateBack(backTo.value)
 }
 </script>
 
@@ -134,7 +135,9 @@ async function leaveWithoutSaving() {
         description="Tienes cambios sin guardar. Si sales ahora, se perderán."
       >
         <template #body>
-          <p class="text-sm text-muted">¿Quieres regresar de todos modos?</p>
+          <p class="text-sm text-muted">
+            ¿Quieres regresar de todos modos?
+          </p>
         </template>
 
         <template #footer>

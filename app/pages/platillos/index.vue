@@ -31,6 +31,7 @@ useSeoMeta({
 
 const route = useRoute()
 const toast = useToast()
+const { navigateBack } = useRouteBackNavigation()
 const deletingId = ref<string | null>(null)
 const pendingDeleteItem = ref<FoodCatalogItem | null>(null)
 const deleteBlockedState = ref<DeleteBlockedModalState | null>(null)
@@ -74,6 +75,10 @@ const deleteBlockedDescription = computed(() =>
 const { deleteFoodCatalogItem } = useFoodCatalog()
 
 const returnTo = computed(() => (typeof route.query.returnTo === 'string' ? route.query.returnTo : undefined))
+
+async function onBack() {
+  await navigateBack(returnTo.value ?? '/platillos')
+}
 
 function requestDelete(item: FoodCatalogItem) {
   pendingDeleteItem.value = item
@@ -140,10 +145,10 @@ function editTo(item: FoodCatalogItem) {
       <div class="flex items-center gap-3 lg:justify-end">
         <UButton
           v-if="returnTo"
-          :to="returnTo"
           variant="ghost"
           color="neutral"
           icon="i-lucide-arrow-left"
+          @click="onBack"
         >
           Regresar
         </UButton>

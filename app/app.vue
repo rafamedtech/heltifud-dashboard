@@ -37,10 +37,10 @@ useSeoMeta({
 
 <template>
   <UApp>
-    <NuxtLoadingIndicator />
-
     <NuxtLayout>
-      <NuxtPage />
+      <div data-route-transition-root class="min-h-full">
+        <NuxtPage :transition="false" :page-key="route => route.fullPath" />
+      </div>
     </NuxtLayout>
   </UApp>
 </template>
