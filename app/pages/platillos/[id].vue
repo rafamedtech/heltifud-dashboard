@@ -79,7 +79,7 @@ async function leaveWithoutSaving() {
 
     <template v-else>
       <section
-        class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between"
+        class="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between"
       >
         <div class="space-y-1">
           <h1 class="text-3xl font-semibold tracking-tight text-primary">
@@ -91,7 +91,7 @@ async function leaveWithoutSaving() {
           </p>
         </div>
 
-        <div class="flex items-center gap-3 lg:justify-end">
+        <div class="flex flex-wrap items-center gap-3 xl:justify-end">
           <UButton
             color="neutral"
             variant="subtle"
@@ -116,7 +116,7 @@ async function leaveWithoutSaving() {
         </div>
       </section>
 
-      <div class="mx-auto w-full max-w-5xl">
+      <div class="mx-auto w-full max-w-6xl">
         <AdminFoodCatalogForm
           :form-id="editFormId"
           hide-submit

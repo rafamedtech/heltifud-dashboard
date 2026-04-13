@@ -9,9 +9,28 @@ export const DAY_OF_WEEK_VALUES = [
 ] as const
 
 export const SLOT_KEYS = ['desayuno', 'comida', 'cena', 'snack1', 'snack2'] as const
+export const RECIPE_STATUS_VALUES = ['BORRADOR', 'ACTIVA', 'ARCHIVADA'] as const
+export const MEASUREMENT_UNIT_VALUES = [
+  'GRAMO',
+  'KILOGRAMO',
+  'MILILITRO',
+  'LITRO',
+  'PIEZA',
+  'TAZA',
+  'CUCHARADA',
+  'CUCHARADITA',
+  'ONZA',
+  'LIBRA',
+  'PAQUETE',
+  'LATA',
+  'BOTELLA',
+  'PORCION'
+] as const
 
 export type DayOfWeek = (typeof DAY_OF_WEEK_VALUES)[number]
 export type SlotKey = (typeof SLOT_KEYS)[number]
+export type RecipeStatus = (typeof RECIPE_STATUS_VALUES)[number]
+export type MeasurementUnit = (typeof MEASUREMENT_UNIT_VALUES)[number]
 
 export interface WeeklyPlan {
   id: number
@@ -38,6 +57,104 @@ export interface FoodItemDetail {
   tipo: string
 }
 
+export interface SupplyCategorySummary {
+  id: string
+  createdAt: string
+  updatedAt: string
+  nombre: string
+  slug: string
+  descripcion: string
+  isActive: boolean
+  sortOrder: number
+}
+
+export interface SupplyCategoryInput {
+  nombre: string
+  descripcion: string
+  isActive: boolean
+  sortOrder: number
+}
+
+export interface SupplyItemSummary {
+  id: string
+  createdAt: string
+  updatedAt: string
+  nombre: string
+  descripcion: string
+  codigo: string | null
+  unidadBase: MeasurementUnit
+  tags: string[]
+  isActive: boolean
+  costoReferencial: number | null
+  mermaPorcentaje: number | null
+  category: SupplyCategorySummary | null
+}
+
+export interface SupplyItemInput {
+  nombre: string
+  descripcion: string
+  codigo?: string | null
+  unidadBase: MeasurementUnit
+  tags: string[]
+  isActive: boolean
+  costoReferencial?: number | null
+  mermaPorcentaje?: number | null
+  categoryId?: string | null
+}
+
+export interface RecipeIngredient {
+  id: string
+  orden: number
+  grupo: string | null
+  cantidad: number
+  unidad: MeasurementUnit
+  notas: string
+  opcional: boolean
+  supplyItem: SupplyItemSummary
+}
+
+export interface RecipeDetail {
+  id: string
+  status: RecipeStatus
+  version: number
+  porciones: number | null
+  rendimientoCantidad: number | null
+  rendimientoUnidad: MeasurementUnit | null
+  tiempoPreparacionMin: number | null
+  tiempoCoccionMin: number | null
+  instrucciones: string
+  notas: string
+  ingredients: RecipeIngredient[]
+}
+
+export interface RecipeIngredientInput {
+  supplyName: string
+  supplyDescription: string
+  supplyCode?: string | null
+  supplyUnitBase: MeasurementUnit
+  supplyCategoryName?: string | null
+  supplyTags: string[]
+  supplyCostoReferencial?: number | null
+  supplyMermaPorcentaje?: number | null
+  grupo?: string | null
+  cantidad: number
+  unidad: MeasurementUnit
+  notas: string
+  opcional: boolean
+}
+
+export interface RecipeInput {
+  status?: RecipeStatus
+  porciones?: number | null
+  rendimientoCantidad?: number | null
+  rendimientoUnidad?: MeasurementUnit | null
+  tiempoPreparacionMin?: number | null
+  tiempoCoccionMin?: number | null
+  instrucciones: string
+  notas: string
+  ingredients: RecipeIngredientInput[]
+}
+
 export interface FoodCatalogItem extends Omit<FoodItemDetail, 'catalogItemId'> {
   id: string
   createdAt: string
@@ -51,9 +168,12 @@ export interface LinkedMenuSummary {
 
 export interface FoodCatalogItemDetail extends FoodCatalogItem {
   linkedMenus: LinkedMenuSummary[]
+  recipe?: RecipeDetail | null
 }
 
-export type FoodCatalogItemInput = Omit<FoodItemDetail, 'catalogItemId'>
+export interface FoodCatalogItemInput extends Omit<FoodItemDetail, 'catalogItemId'> {
+  recipe?: RecipeInput | null
+}
 
 export interface MenuSlot {
   platilloPrincipal: FoodItemDetail

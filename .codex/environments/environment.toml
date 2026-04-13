@@ -4,3 +4,13 @@ name = "heltifud-dashboard"
 
 [setup]
 script = "pnpm install"
+
+[[actions]]
+name = "Run"
+icon = "tool"
+command = "pnpm install"
+
+[[actions]]
+name = "Dev"
+icon = "tool"
+command = "pnpm dev"

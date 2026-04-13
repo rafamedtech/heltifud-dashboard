@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { DAY_OF_WEEK_VALUES } from './types'
+import { DAY_OF_WEEK_VALUES, MEASUREMENT_UNIT_VALUES, RECIPE_STATUS_VALUES } from './types'
 
 const REQUIRED_DAY_VALUES = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'] as const
 const SLOT_KEYS = ['desayuno', 'comida', 'cena', 'snack1', 'snack2'] as const
@@ -145,5 +145,90 @@ export const weeklyMenuInputSchema = z
   })
 
 export type WeeklyMenuInputParsed = z.infer<typeof weeklyMenuInputSchema>
-export const foodCatalogItemInputSchema = foodItemSchema
+const measurementUnitSchema = z.enum(MEASUREMENT_UNIT_VALUES)
+const recipeStatusSchema = z.enum(RECIPE_STATUS_VALUES)
+const uuidSchema = z.string().uuid()
+
+const recipeIngredientInputSchema = z.object({
+  supplyName: z.string().min(1, 'El insumo es obligatorio'),
+  supplyDescription: z.string().default(''),
+  supplyCode: z.string().trim().nullable().optional(),
+  supplyUnitBase: measurementUnitSchema,
+  supplyCategoryName: z.string().trim().nullable().optional(),
+  supplyTags: z.array(z.string().trim().min(1)).default([]),
+  supplyCostoReferencial: z.number().min(0).nullable().optional(),
+  supplyMermaPorcentaje: z.number().min(0).max(100).nullable().optional(),
+  grupo: z.string().trim().nullable().optional(),
+  cantidad: z.number().positive('La cantidad debe ser mayor a 0'),
+  unidad: measurementUnitSchema,
+  notas: z.string().default(''),
+  opcional: z.boolean().default(false)
+})
+
+const recipeInputSchema = z.object({
+  status: recipeStatusSchema.default('BORRADOR'),
+  porciones: z.number().int().positive().nullable().optional(),
+  rendimientoCantidad: z.number().positive().nullable().optional(),
+  rendimientoUnidad: measurementUnitSchema.nullable().optional(),
+  tiempoPreparacionMin: z.number().int().min(0).nullable().optional(),
+  tiempoCoccionMin: z.number().int().min(0).nullable().optional(),
+  instrucciones: z.string().default(''),
+  notas: z.string().default(''),
+  ingredients: z.array(recipeIngredientInputSchema).default([])
+}).superRefine((value, ctx) => {
+  if (value.rendimientoCantidad && !value.rendimientoUnidad) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['rendimientoUnidad'],
+      message: 'Selecciona la unidad del rendimiento.'
+    })
+  }
+
+  const seenIngredientKeys = new Set<string>()
+
+  value.ingredients.forEach((ingredient, index) => {
+    const key = [
+      ingredient.supplyName.trim().toLocaleLowerCase('es-MX'),
+      ingredient.grupo?.trim().toLocaleLowerCase('es-MX') ?? '',
+      ingredient.unidad
+    ].join('::')
+
+    if (seenIngredientKeys.has(key)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['ingredients', index, 'supplyName'],
+        message: 'Este insumo ya está repetido en la receta.'
+      })
+      return
+    }
+
+    seenIngredientKeys.add(key)
+  })
+})
+
+export const foodCatalogItemInputSchema = foodItemSchema.extend({
+  recipe: recipeInputSchema.nullable().optional()
+})
 export type FoodCatalogItemInputParsed = z.infer<typeof foodCatalogItemInputSchema>
+
+export const supplyCategoryInputSchema = z.object({
+  nombre: z.string().trim().min(1, 'El nombre es obligatorio'),
+  descripcion: z.string().default(''),
+  isActive: z.boolean().default(true),
+  sortOrder: z.number().int().min(0).default(0)
+})
+
+export const supplyItemInputSchema = z.object({
+  nombre: z.string().trim().min(1, 'El nombre es obligatorio'),
+  descripcion: z.string().default(''),
+  codigo: z.string().trim().nullable().optional(),
+  unidadBase: measurementUnitSchema,
+  tags: z.array(z.string().trim().min(1)).default([]),
+  isActive: z.boolean().default(true),
+  costoReferencial: z.number().min(0).nullable().optional(),
+  mermaPorcentaje: z.number().min(0).max(100).nullable().optional(),
+  categoryId: uuidSchema.nullable().optional()
+})
+
+export type SupplyCategoryInputParsed = z.infer<typeof supplyCategoryInputSchema>
+export type SupplyItemInputParsed = z.infer<typeof supplyItemInputSchema>

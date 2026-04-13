@@ -14,6 +14,23 @@ import {
 } from '~/utils/heltifud'
 import { formatWeekRange } from '~/utils/formatters'
 
+type SkeletonResponsiveBones = {
+  breakpoints: Record<number, {
+    name: string
+    viewportWidth: number
+    width: number
+    height: number
+    bones: Array<{
+      x: number
+      y: number
+      w: number
+      h: number
+      r: number | string
+      c?: boolean
+    }>
+  }>
+}
+
 const props = withDefaults(defineProps<{
   menu?: WeeklyMenu | null
   catalogItems: FoodCatalogItem[]
@@ -49,9 +66,15 @@ watch(
 
 const returnToCatalog = computed(() => `/platillos?returnTo=${encodeURIComponent(route.fullPath)}`)
 const fieldsSkeletonName = computed(() => props.mode === 'edit' ? 'admin-menu-edit-fields' : undefined)
-const fieldsInitialBones = computed(() => props.mode === 'edit' ? editFieldsBones : undefined)
+const fieldsInitialBones = computed(() =>
+  props.mode === 'edit'
+    ? editFieldsBones as unknown as SkeletonResponsiveBones
+    : undefined
+)
 const slotsSkeletonName = computed(() => props.mode === 'edit' ? 'admin-menu-edit-slots' : 'admin-menu-create-slots')
-const slotsInitialBones = computed(() => props.mode === 'edit' ? editSlotsBones : createSlotsBones)
+const slotsInitialBones = computed(() =>
+  (props.mode === 'edit' ? editSlotsBones : createSlotsBones) as unknown as SkeletonResponsiveBones
+)
 
 function countConfiguredSlots(day: WeeklyMenuFormState['days'][number]) {
   return SLOT_ORDER.reduce((count, slotKey) => count + (slotHasContent(day[slotKey]) ? 1 : 0), 0)

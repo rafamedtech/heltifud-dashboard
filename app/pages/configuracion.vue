@@ -22,7 +22,7 @@ useSeoMeta({
       </p>
     </section>
 
-    <section class="grid gap-4 md:grid-cols-3">
+    <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
       <UCard class="app-surface" :ui="{ body: 'space-y-4 p-6' }">
         <h2 class="text-lg font-semibold text-highlighted">
           General
@@ -66,6 +66,40 @@ useSeoMeta({
         </p>
         <UButton
           to="/settings/security"
+          color="neutral"
+          variant="outline"
+          icon="i-lucide-arrow-right"
+        >
+          Abrir
+        </UButton>
+      </UCard>
+
+      <UCard class="app-surface" :ui="{ body: 'space-y-4 p-6' }">
+        <h2 class="text-lg font-semibold text-highlighted">
+          Insumos
+        </h2>
+        <p class="text-sm text-muted">
+          CRUD dedicado del catálogo de insumos reutilizables para recetas y compras.
+        </p>
+        <UButton
+          to="/configuracion/insumos"
+          color="neutral"
+          variant="outline"
+          icon="i-lucide-arrow-right"
+        >
+          Abrir
+        </UButton>
+      </UCard>
+
+      <UCard class="app-surface" :ui="{ body: 'space-y-4 p-6' }">
+        <h2 class="text-lg font-semibold text-highlighted">
+          Categorías de insumos
+        </h2>
+        <p class="text-sm text-muted">
+          CRUD dedicado para organizar insumos por familias operativas.
+        </p>
+        <UButton
+          to="/configuracion/categorias-insumos"
           color="neutral"
           variant="outline"
           icon="i-lucide-arrow-right"

@@ -4,6 +4,25 @@ import Skeleton from 'boneyard-js/vue'
 import initialBones from '~/bones/admin-menu-index.bones.json'
 import { formatDate } from '~/utils/formatters'
 
+type SkeletonResponsiveBones = {
+  breakpoints: Record<number, {
+    name: string
+    viewportWidth: number
+    width: number
+    height: number
+    bones: Array<{
+      x: number
+      y: number
+      w: number
+      h: number
+      r: number | string
+      c?: boolean
+    }>
+  }>
+}
+
+const menuIndexSkeleton = initialBones as unknown as SkeletonResponsiveBones
+
 const {
   data: menus,
   refresh,
@@ -108,7 +127,7 @@ useSeoMeta({
       </div>
     </section>
 
-    <Skeleton name="admin-menu-index" :initial-bones="initialBones" :loading="isLoading">
+    <Skeleton name="admin-menu-index" :initial-bones="menuIndexSkeleton" :loading="isLoading">
       <section class="space-y-4">
         <section class="grid gap-3 lg:grid-cols-3">
           <div class="app-surface-soft relative px-4 py-4">

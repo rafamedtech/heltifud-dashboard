@@ -32,6 +32,20 @@ const links = [[{
     open.value = false
   }
 }, {
+  label: 'Insumos',
+  icon: 'i-lucide-package-search',
+  to: '/configuracion/insumos',
+  onSelect: () => {
+    open.value = false
+  }
+}, {
+  label: 'Categorías',
+  icon: 'i-lucide-tags',
+  to: '/configuracion/categorias-insumos',
+  onSelect: () => {
+    open.value = false
+  }
+}, {
   label: 'Configuración',
   icon: 'i-lucide-settings-2',
   to: '/configuracion',

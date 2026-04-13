@@ -8,6 +8,11 @@ import {
 } from '~/utils/route-transition'
 
 const TRANSITION_ROOT_SELECTOR = '[data-route-transition-root]'
+const ROUTE_TRANSITION_CLEANUP_KEY = '__heltifudRouteTransitionCleanup__'
+
+type WindowWithRouteTransitionCleanup = Window & {
+  [ROUTE_TRANSITION_CLEANUP_KEY]?: () => void
+}
 
 function getTransitionTarget() {
   const root = document.querySelector(TRANSITION_ROOT_SELECTOR)
@@ -74,6 +79,10 @@ function animateRouteIn(direction: RouteTransitionDirection) {
 
 export default defineNuxtPlugin(() => {
   const router = useRouter()
+  const clientWindow = window as WindowWithRouteTransitionCleanup
+
+  clientWindow[ROUTE_TRANSITION_CLEANUP_KEY]?.()
+
   const historyPosition = useState<number>(
     ROUTE_TRANSITION_HISTORY_POSITION_STATE_KEY,
     () => getRouteHistoryPosition()
@@ -100,7 +109,7 @@ export default defineNuxtPlugin(() => {
 
   window.addEventListener('popstate', handlePopState)
 
-  router.beforeEach(async () => {
+  const removeBeforeEach = router.beforeEach(async () => {
     const currentPosition = getRouteHistoryPosition()
     const direction = nextDirection.value
       ?? (currentPosition < historyPosition.value ? 'back' : 'forward')
@@ -109,10 +118,26 @@ export default defineNuxtPlugin(() => {
     await animateRouteOut(direction)
   })
 
-  router.afterEach(async () => {
+  const removeAfterEach = router.afterEach(async () => {
     syncHistoryPosition()
     await nextTick()
     await animateRouteIn(activeDirection.value)
     nextDirection.value = null
   })
+
+  const cleanup = () => {
+    window.removeEventListener('popstate', handlePopState)
+    removeBeforeEach()
+    removeAfterEach()
+
+    if (clientWindow[ROUTE_TRANSITION_CLEANUP_KEY] === cleanup) {
+      clientWindow[ROUTE_TRANSITION_CLEANUP_KEY] = undefined
+    }
+  }
+
+  clientWindow[ROUTE_TRANSITION_CLEANUP_KEY] = cleanup
+
+  if (import.meta.hot) {
+    import.meta.hot.dispose(cleanup)
+  }
 })

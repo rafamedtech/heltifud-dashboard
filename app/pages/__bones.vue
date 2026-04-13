@@ -11,6 +11,23 @@ import Skeleton from 'boneyard-js/vue'
 import menuIndexBones from '~/bones/admin-menu-index.bones.json'
 import { formatDate } from '~/utils/formatters'
 
+type SkeletonResponsiveBones = {
+  breakpoints: Record<number, {
+    name: string
+    viewportWidth: number
+    width: number
+    height: number
+    bones: Array<{
+      x: number
+      y: number
+      w: number
+      h: number
+      r: number | string
+      c?: boolean
+    }>
+  }>
+}
+
 definePageMeta({
   layout: false
 })
@@ -21,6 +38,7 @@ useSeoMeta({
 })
 
 const loading = true
+const menuIndexSkeleton = menuIndexBones as unknown as SkeletonResponsiveBones
 
 const catalogItems: FoodCatalogItem[] = [
   {
@@ -81,13 +99,17 @@ function createSlot(main: FoodCatalogItem, extras: FoodCatalogItem[] = [], optio
 }
 
 function createDay(dayOfWeek: DayMenu['dayOfWeek']): DayMenu {
+  const mainItem = catalogItems[0]!
+  const sideItem = catalogItems[1]!
+  const snackItem = catalogItems[2]!
+
   return {
     dayOfWeek,
-    desayuno: createSlot(catalogItems[0], [catalogItems[2]], { side1: catalogItems[1] }),
-    comida: createSlot(catalogItems[0], [], { side1: catalogItems[1] }),
-    cena: createSlot(catalogItems[0], [catalogItems[2]]),
-    snack1: createSlot(catalogItems[2]),
-    snack2: createSlot(catalogItems[2])
+    desayuno: createSlot(mainItem, [snackItem], { side1: sideItem }),
+    comida: createSlot(mainItem, [], { side1: sideItem }),
+    cena: createSlot(mainItem, [snackItem]),
+    snack1: createSlot(snackItem),
+    snack2: createSlot(snackItem)
   }
 }
 
@@ -125,7 +147,7 @@ const fixtureMenus: WeeklyMenu[] = [
 ]
 
 const fixtureFoodItem: FoodCatalogItemDetail = {
-  ...catalogItems[0],
+  ...catalogItems[0]!,
   linkedMenus: fixtureMenus.map(menu => ({
     id: menu.id,
     name: menu.name
@@ -149,7 +171,7 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
       </header>
 
       <section class="space-y-6">
-        <Skeleton name="admin-menu-index" :initial-bones="menuIndexBones" :loading="loading">
+        <Skeleton name="admin-menu-index" :initial-bones="menuIndexSkeleton" :loading="loading">
           <section class="space-y-4">
             <section class="grid gap-3 lg:grid-cols-3">
               <div class="app-surface-soft relative px-4 py-4">
@@ -158,10 +180,10 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
                 </p>
                 <div class="mt-3 space-y-1">
                   <p class="line-clamp-1 text-base font-semibold text-highlighted">
-                    {{ fixtureMenus[0].name }}
+                    {{ fixtureMenus[0]!.name }}
                   </p>
                   <p class="text-sm text-muted">
-                    {{ formatDate(fixtureMenus[0].startDate) }} - {{ formatDate(fixtureMenus[0].endDate) }}
+                    {{ formatDate(fixtureMenus[0]!.startDate) }} - {{ formatDate(fixtureMenus[0]!.endDate) }}
                   </p>
                 </div>
               </div>
@@ -172,10 +194,10 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
                 </p>
                 <div class="mt-3 space-y-1">
                   <p class="line-clamp-1 text-base font-semibold text-highlighted">
-                    {{ fixtureMenus[1].name }}
+                    {{ fixtureMenus[1]!.name }}
                   </p>
                   <p class="text-sm text-muted">
-                    Creado el {{ formatDate(fixtureMenus[1].createdAt) }}
+                    Creado el {{ formatDate(fixtureMenus[1]!.createdAt) }}
                   </p>
                 </div>
               </div>
