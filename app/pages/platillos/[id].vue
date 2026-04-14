@@ -138,6 +138,7 @@ async function onDelete() {
       }
       deleteConfirmOpen.value = false
     } else {
+      deleteConfirmOpen.value = false
       toast.add({
         title: 'No pudimos eliminar el platillo',
         description: 'No se pudo eliminar porque este platillo está siendo usado actualmente en un menú.',

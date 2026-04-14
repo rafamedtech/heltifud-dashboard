@@ -88,7 +88,7 @@ const columns: TableColumn<FoodCatalogItem>[] = [
       return h('div', { class: 'flex justify-center' }, [
         h(UButton, {
           to: props.editTo(row.original),
-          color: 'neutral',
+          color: 'primary',
           variant: 'ghost',
           icon: 'i-lucide-square-arrow-out-up-right',
           'aria-label': 'Ver detalles'

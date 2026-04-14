@@ -1,46 +1,55 @@
 <script setup lang="ts">
-import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui';
 
-const open = ref(true)
+const open = useCookie('sidebar-open');
 
-const route = useRoute()
-const colorMode = useColorMode()
-const supabase = useSupabaseClient()
-const user = useSupabaseUser()
-const toast = useToast()
+const route = useRoute();
+const colorMode = useColorMode();
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
+const toast = useToast();
 
-const isSigningOut = ref(false)
+const isSigningOut = ref(false);
 
 const workspace = computed(() => ({
   label: 'Heltifud Admin',
-  icon: 'i-lucide-utensils-crossed'
-}))
+  icon: 'i-lucide-utensils-crossed',
+}));
 
-const workspaceItems = computed<DropdownMenuItem[][]>(() => [[{
-  label: 'Panel administrativo',
-  icon: 'i-lucide-layout-dashboard',
-  to: '/'
-}, {
-  label: 'Ver menú público',
-  icon: 'i-lucide-external-link',
-  to: '/menu-publico'
-}]])
+const workspaceItems = computed<DropdownMenuItem[][]>(() => [
+  [
+    {
+      label: 'Panel administrativo',
+      icon: 'i-lucide-layout-dashboard',
+      to: '/',
+    },
+    {
+      label: 'Ver menú público',
+      icon: 'i-lucide-external-link',
+      to: '/menu-publico',
+    },
+  ],
+]);
 
 function getMainItems(state: 'collapsed' | 'expanded') {
-  const baseItems: NavigationMenuItem[] = [{
-    label: 'Resumen',
-    icon: 'i-lucide-layout-dashboard',
-    to: '/',
-    exact: true
-  }, {
-    label: 'Menús',
-    icon: 'i-lucide-calendar-range',
-    to: '/menu'
-  }, {
-    label: 'Platillos',
-    icon: 'i-lucide-chef-hat',
-    to: '/platillos'
-  }]
+  const baseItems: NavigationMenuItem[] = [
+    {
+      label: 'Resumen',
+      icon: 'i-lucide-layout-dashboard',
+      to: '/',
+      exact: true,
+    },
+    {
+      label: 'Menús',
+      icon: 'i-lucide-calendar-range',
+      to: '/menu',
+    },
+    {
+      label: 'Platillos',
+      icon: 'i-lucide-chef-hat',
+      to: '/platillos',
+    },
+  ];
 
   if (state === 'collapsed') {
     return [
@@ -48,9 +57,9 @@ function getMainItems(state: 'collapsed' | 'expanded') {
       {
         label: 'General',
         icon: 'i-lucide-sliders-horizontal',
-        to: '/configuracion'
-      }
-    ] satisfies NavigationMenuItem[]
+        to: '/configuracion',
+      },
+    ] satisfies NavigationMenuItem[];
   }
 
   return [
@@ -59,106 +68,129 @@ function getMainItems(state: 'collapsed' | 'expanded') {
       label: 'Configuración',
       icon: 'i-lucide-settings-2',
       defaultOpen: true,
-      children: [{
-        label: 'General',
-        icon: 'i-lucide-sliders-horizontal',
-        to: '/configuracion'
-      }, {
-        label: 'Insumos',
-        icon: 'i-lucide-package-search',
-        to: '/configuracion/insumos'
-      }, {
-        label: 'Categorías',
-        icon: 'i-lucide-tags',
-        to: '/configuracion/categorias-insumos'
-      }]
-    }
-  ] satisfies NavigationMenuItem[]
+      children: [
+        {
+          label: 'General',
+          icon: 'i-lucide-sliders-horizontal',
+          to: '/configuracion',
+        },
+        {
+          label: 'Insumos',
+          icon: 'i-lucide-package-search',
+          to: '/configuracion/insumos',
+        },
+        {
+          label: 'Categorías',
+          icon: 'i-lucide-tags',
+          to: '/configuracion/categorias-insumos',
+        },
+      ],
+    },
+  ] satisfies NavigationMenuItem[];
 }
 
-const supportItems = computed<NavigationMenuItem[]>(() => [{
-  label: 'Menú público',
-  icon: 'i-lucide-eye',
-  to: '/menu-publico'
-}])
+const supportItems = computed<NavigationMenuItem[]>(() => [
+  {
+    label: 'Menú público',
+    icon: 'i-lucide-eye',
+    to: '/menu-publico',
+  },
+]);
 
-const userMenuItems = computed<DropdownMenuItem[][]>(() => [[{
-  type: 'label',
-  label: user.value?.email ?? 'Sin sesión',
-  avatar: {
-    icon: 'i-lucide-user',
-    alt: user.value?.email ?? 'Admin'
-  }
-}], [{
-  label: 'Ir a configuración',
-  icon: 'i-lucide-settings-2',
-  to: '/configuracion'
-}, {
-  label: 'Ver menú público',
-  icon: 'i-lucide-external-link',
-  to: '/menu-publico'
-}], [{
-  label: 'Apariencia',
-  icon: 'i-lucide-sun-moon',
-  children: [{
-    label: 'Claro',
-    icon: 'i-lucide-sun',
-    type: 'checkbox',
-    checked: colorMode.value === 'light',
-    onUpdateChecked(checked: boolean) {
-      if (checked) {
-        colorMode.preference = 'light'
-      }
+const userMenuItems = computed<DropdownMenuItem[][]>(() => [
+  [
+    {
+      type: 'label',
+      label: user.value?.email ?? 'Sin sesión',
+      avatar: {
+        icon: 'i-lucide-user',
+        alt: user.value?.email ?? 'Admin',
+      },
     },
-    onSelect(e: Event) {
-      e.preventDefault()
-    }
-  }, {
-    label: 'Oscuro',
-    icon: 'i-lucide-moon',
-    type: 'checkbox',
-    checked: colorMode.value === 'dark',
-    onUpdateChecked(checked: boolean) {
-      if (checked) {
-        colorMode.preference = 'dark'
-      }
+  ],
+  [
+    {
+      label: 'Ir a configuración',
+      icon: 'i-lucide-settings-2',
+      to: '/configuracion',
     },
-    onSelect(e: Event) {
-      e.preventDefault()
-    }
-  }]
-}], [{
-  label: 'Cerrar sesión',
-  icon: 'i-lucide-log-out',
-  color: 'error',
-  disabled: isSigningOut.value,
-  onSelect: async () => {
-    await onSignOut()
-  }
-}]])
+    {
+      label: 'Ver menú público',
+      icon: 'i-lucide-external-link',
+      to: '/menu-publico',
+    },
+  ],
+  [
+    {
+      label: 'Apariencia',
+      icon: 'i-lucide-sun-moon',
+      children: [
+        {
+          label: 'Claro',
+          icon: 'i-lucide-sun',
+          type: 'checkbox',
+          checked: colorMode.value === 'light',
+          onUpdateChecked(checked: boolean) {
+            if (checked) {
+              colorMode.preference = 'light';
+            }
+          },
+          onSelect(e: Event) {
+            e.preventDefault();
+          },
+        },
+        {
+          label: 'Oscuro',
+          icon: 'i-lucide-moon',
+          type: 'checkbox',
+          checked: colorMode.value === 'dark',
+          onUpdateChecked(checked: boolean) {
+            if (checked) {
+              colorMode.preference = 'dark';
+            }
+          },
+          onSelect(e: Event) {
+            e.preventDefault();
+          },
+        },
+      ],
+    },
+  ],
+  [
+    {
+      label: 'Cerrar sesión',
+      icon: 'i-lucide-log-out',
+      color: 'error',
+      disabled: isSigningOut.value,
+      onSelect: async () => {
+        await onSignOut();
+      },
+    },
+  ],
+]);
 
 async function onSignOut() {
   if (isSigningOut.value) {
-    return
+    return;
   }
 
-  isSigningOut.value = true
+  isSigningOut.value = true;
 
-  const { error } = await supabase.auth.signOut()
+  const { error } = await supabase.auth.signOut();
 
   if (error) {
     toast.add({
       title: 'No se pudo cerrar la sesión',
       description: error.message,
       color: 'error',
-      icon: 'i-lucide-circle-alert'
-    })
-    isSigningOut.value = false
-    return
+      icon: 'i-lucide-circle-alert',
+    });
+    isSigningOut.value = false;
+    return;
   }
 
-  isSigningOut.value = false
-  await navigateTo('/login', { replace: true })
+  isSigningOut.value = false;
+  await navigateTo('/login', { replace: true });
 }
 </script>
 
@@ -173,7 +205,7 @@ async function onSignOut() {
         inner: 'bg-elevated/35 divide-transparent ring-0',
         header: 'border-b border-default/70',
         body: 'py-2',
-        footer: 'border-t border-default/70'
+        footer: 'border-t border-default/70',
       }"
     >
       <template #header="{ state }">
@@ -185,7 +217,9 @@ async function onSignOut() {
           <UButton
             :icon="workspace.icon"
             :label="state === 'expanded' ? workspace.label : undefined"
-            :trailing-icon="state === 'expanded' ? 'i-lucide-chevrons-up-down' : undefined"
+            :trailing-icon="
+              state === 'expanded' ? 'i-lucide-chevrons-up-down' : undefined
+            "
             color="neutral"
             variant="ghost"
             :square="state === 'collapsed'"
@@ -222,8 +256,12 @@ async function onSignOut() {
         >
           <UButton
             :avatar="{ icon: 'i-lucide-user', alt: user?.email ?? 'Admin' }"
-            :label="state === 'expanded' ? (user?.email ?? 'Sin sesión') : undefined"
-            :trailing-icon="state === 'expanded' ? 'i-lucide-chevrons-up-down' : undefined"
+            :label="
+              state === 'expanded' ? (user?.email ?? 'Sin sesión') : undefined
+            "
+            :trailing-icon="
+              state === 'expanded' ? 'i-lucide-chevrons-up-down' : undefined
+            "
             color="neutral"
             variant="ghost"
             :square="state === 'collapsed'"
@@ -236,7 +274,9 @@ async function onSignOut() {
     </USidebar>
 
     <div class="flex min-w-0 flex-1 flex-col">
-      <div class="flex h-(--ui-header-height) shrink-0 items-center justify-between gap-3 border-b border-default px-4 sm:px-6">
+      <div
+        class="flex h-(--ui-header-height) shrink-0 items-center justify-between gap-3 border-b border-default px-4 sm:px-6"
+      >
         <div class="flex min-w-0 items-center gap-3">
           <UButton
             icon="i-lucide-panel-left"
@@ -257,8 +297,12 @@ async function onSignOut() {
         </div>
       </div>
 
-      <div class="admin-scrollbar min-h-0 flex-1 overflow-y-auto py-6 sm:py-8 [scrollbar-gutter:stable]">
-        <div class="mx-auto flex min-h-full w-full max-w-7xl flex-col px-4 sm:px-6">
+      <div
+        class="admin-scrollbar min-h-0 flex-1 overflow-y-auto py-6 sm:py-8 [scrollbar-gutter:stable]"
+      >
+        <div
+          class="mx-auto flex min-h-full w-full max-w-7xl flex-col px-4 sm:px-6"
+        >
           <slot />
         </div>
       </div>

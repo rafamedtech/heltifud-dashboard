@@ -701,7 +701,7 @@ async function onSubmit() {
           >
             <div
               v-if="state.imagen"
-              class="aspect-[4/3] overflow-hidden rounded-none"
+              class="aspect-4/3 overflow-hidden rounded-none"
             >
               <img
                 :src="state.imagen"
@@ -711,7 +711,7 @@ async function onSubmit() {
             </div>
             <div
               v-else
-              class="flex aspect-[4/3] items-center justify-center rounded-none bg-[radial-gradient(circle_at_top,#00dc8220,transparent_55%)] text-muted"
+              class="flex aspect-4/3 items-center justify-center rounded-none bg-[radial-gradient(circle_at_top,#00dc8220,transparent_55%)] text-muted"
             >
               <div class="text-center">
                 <UIcon name="i-lucide-image" class="mx-auto mb-2 size-8" />
@@ -809,10 +809,6 @@ async function onSubmit() {
           <h2 class="text-xl font-semibold text-primary">
             Información general del platillo
           </h2>
-          <p class="text-sm text-muted">
-            El catálogo alimenta el editor de menús y ahora también centraliza
-            la receta operativa del platillo.
-          </p>
         </div>
 
         <div class="mt-4 space-y-5">
@@ -870,6 +866,10 @@ async function onSubmit() {
                     :color="fieldErrors.tipo ? 'error' : 'primary'"
                     size="xl"
                     placeholder="Selecciona un tipo"
+                    :ui="{
+                      content: '!max-h-none',
+                      viewport: '!overflow-visible',
+                    }"
                   />
                 </UFormField>
 
@@ -881,7 +881,7 @@ async function onSubmit() {
                 >
                   <UTextarea
                     v-model="state.descripcion"
-                    class="min-h-[8.5rem] w-full"
+                    class="min-h-34 w-full"
                     :rows="5"
                     placeholder="Describe rápidamente el platillo, ingredientes o notas internas."
                   />
@@ -928,7 +928,7 @@ async function onSubmit() {
                   >
                     <div
                       v-if="state.imagen"
-                      class="aspect-[4/3] overflow-hidden rounded-none"
+                      class="aspect-4/3 overflow-hidden rounded-none"
                     >
                       <img
                         :src="state.imagen"
@@ -938,7 +938,7 @@ async function onSubmit() {
                     </div>
                     <div
                       v-else
-                      class="flex aspect-[4/3] items-center justify-center rounded-none bg-[radial-gradient(circle_at_top,#00dc8220,transparent_55%)] text-muted"
+                      class="flex aspect-4/3 items-center justify-center rounded-none bg-[radial-gradient(circle_at_top,#00dc8220,transparent_55%)] text-muted"
                     >
                       <div class="text-center">
                         <UIcon
@@ -1060,10 +1060,6 @@ async function onSubmit() {
       <UCard class="app-surface" :ui="{ body: 'p-5 sm:p-6' }">
         <div class="space-y-1">
           <h2 class="text-xl font-semibold text-primary">Receta</h2>
-          <p class="text-sm text-muted">
-            Captura la receta base del platillo con cantidades, unidad,
-            categoría y tags por insumo.
-          </p>
         </div>
 
         <div class="mt-5 space-y-5">
@@ -1600,7 +1596,9 @@ async function onSubmit() {
       </template>
 
       <template #footer>
-        <div class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+        <div
+          class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end"
+        >
           <UButton
             color="neutral"
             variant="ghost"
