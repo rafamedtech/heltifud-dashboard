@@ -7,12 +7,7 @@ import { formatDate } from '~/utils/formatters'
 const props = defineProps<{
   items: FoodCatalogItem[]
   loading?: boolean
-  deletingId?: string | null
   editTo: (item: FoodCatalogItem) => unknown
-}>()
-
-const emit = defineEmits<{
-  delete: [item: FoodCatalogItem]
 }>()
 
 const search = ref('')
@@ -47,27 +42,29 @@ const availableTypes = computed(() => {
 })
 
 const filteredItems = computed(() => {
-  return props.items.filter((item) => {
-    const matchesSearch = !search.value
-      || item.nombre.toLowerCase().includes(search.value.toLowerCase())
-      || item.descripcion.toLowerCase().includes(search.value.toLowerCase())
+  return props.items
+    .filter((item) => {
+      const matchesSearch = !search.value
+        || item.nombre.toLowerCase().includes(search.value.toLowerCase())
+        || item.descripcion.toLowerCase().includes(search.value.toLowerCase())
 
-    const matchesType = typeFilter.value === 'all' || formatFoodType(item.tipo) === typeFilter.value
+      const matchesType = typeFilter.value === 'all' || formatFoodType(item.tipo) === typeFilter.value
 
-    return matchesSearch && matchesType
-  })
+      return matchesSearch && matchesType
+    })
+    .sort((a, b) => {
+      const aTime = new Date(a.updatedAt).getTime()
+      const bTime = new Date(b.updatedAt).getTime()
+
+      return bTime - aTime
+    })
 })
 
 const columns: TableColumn<FoodCatalogItem>[] = [
   {
     accessorKey: 'nombre',
     header: 'Platillo',
-    cell: ({ row }) => {
-      return h('div', { class: 'space-y-1 py-1' }, [
-        h('p', { class: 'font-medium text-highlighted' }, row.original.nombre),
-        h('p', { class: 'line-clamp-2 max-w-md text-sm text-muted' }, row.original.descripcion || 'Sin descripción')
-      ])
-    }
+    cell: ({ row }) => h('p', { class: 'py-1 font-medium text-highlighted' }, row.original.nombre)
   },
   {
     accessorKey: 'tipo',
@@ -86,22 +83,16 @@ const columns: TableColumn<FoodCatalogItem>[] = [
   },
   {
     id: 'actions',
-    header: () => h('div', { class: 'text-right' }, 'Acciones'),
+    header: () => h('div', { class: 'text-center' }, 'Detalles'),
     cell: ({ row }) => {
-      return h('div', { class: 'flex justify-end gap-2' }, [
+      return h('div', { class: 'flex justify-center' }, [
         h(UButton, {
           to: props.editTo(row.original),
           color: 'neutral',
           variant: 'ghost',
-          icon: 'i-lucide-square-pen'
-        }, () => 'Editar'),
-        h(UButton, {
-          color: 'error',
-          variant: 'ghost',
-          icon: 'i-lucide-trash',
-          loading: props.deletingId === row.original.id,
-          onClick: () => emit('delete', row.original)
-        }, () => 'Eliminar')
+          icon: 'i-lucide-square-arrow-out-up-right',
+          'aria-label': 'Ver detalles'
+        })
       ])
     }
   }
@@ -152,8 +143,8 @@ const columns: TableColumn<FoodCatalogItem>[] = [
           base: 'table-fixed border-separate border-spacing-0',
           thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
           tbody: '[&>tr]:last:[&>td]:border-b-0',
-          th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r',
-          td: 'border-b border-default'
+          th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-lg:[&:nth-child(4)]:hidden',
+          td: 'border-b border-default max-lg:[&:nth-child(4)]:hidden'
         }"
       />
 

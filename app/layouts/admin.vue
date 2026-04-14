@@ -1,82 +1,141 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+
+const open = ref(true)
 
 const route = useRoute()
+const colorMode = useColorMode()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 const toast = useToast()
 
-const open = ref(false)
 const isSigningOut = ref(false)
 
-const links = [[{
-  label: 'Resumen',
+const workspace = computed(() => ({
+  label: 'Heltifud Admin',
+  icon: 'i-lucide-utensils-crossed'
+}))
+
+const workspaceItems = computed<DropdownMenuItem[][]>(() => [[{
+  label: 'Panel administrativo',
   icon: 'i-lucide-layout-dashboard',
-  to: '/',
-  exact: true,
-  onSelect: () => {
-    open.value = false
-  }
+  to: '/'
 }, {
-  label: 'Menús',
-  icon: 'i-lucide-calendar-range',
-  to: '/menu',
-  onSelect: () => {
-    open.value = false
-  }
-}, {
-  label: 'Platillos',
-  icon: 'i-lucide-chef-hat',
-  to: '/platillos',
-  onSelect: () => {
-    open.value = false
-  }
-}, {
-  label: 'Insumos',
-  icon: 'i-lucide-package-search',
-  to: '/configuracion/insumos',
-  onSelect: () => {
-    open.value = false
-  }
-}, {
-  label: 'Categorías',
-  icon: 'i-lucide-tags',
-  to: '/configuracion/categorias-insumos',
-  onSelect: () => {
-    open.value = false
-  }
-}, {
-  label: 'Configuración',
-  icon: 'i-lucide-settings-2',
-  to: '/configuracion',
-  onSelect: () => {
-    open.value = false
-  }
-}], [{
   label: 'Ver menú público',
   icon: 'i-lucide-external-link',
-  to: '/menu-publico',
-  onSelect: () => {
-    open.value = false
-  }
-}]] satisfies NavigationMenuItem[][]
+  to: '/menu-publico'
+}]])
 
-const groups = computed(() => [{
-  id: 'admin',
-  label: 'Administración',
-  items: links.flat()
+function getMainItems(state: 'collapsed' | 'expanded') {
+  const baseItems: NavigationMenuItem[] = [{
+    label: 'Resumen',
+    icon: 'i-lucide-layout-dashboard',
+    to: '/',
+    exact: true
+  }, {
+    label: 'Menús',
+    icon: 'i-lucide-calendar-range',
+    to: '/menu'
+  }, {
+    label: 'Platillos',
+    icon: 'i-lucide-chef-hat',
+    to: '/platillos'
+  }]
+
+  if (state === 'collapsed') {
+    return [
+      ...baseItems,
+      {
+        label: 'General',
+        icon: 'i-lucide-sliders-horizontal',
+        to: '/configuracion'
+      }
+    ] satisfies NavigationMenuItem[]
+  }
+
+  return [
+    ...baseItems,
+    {
+      label: 'Configuración',
+      icon: 'i-lucide-settings-2',
+      defaultOpen: true,
+      children: [{
+        label: 'General',
+        icon: 'i-lucide-sliders-horizontal',
+        to: '/configuracion'
+      }, {
+        label: 'Insumos',
+        icon: 'i-lucide-package-search',
+        to: '/configuracion/insumos'
+      }, {
+        label: 'Categorías',
+        icon: 'i-lucide-tags',
+        to: '/configuracion/categorias-insumos'
+      }]
+    }
+  ] satisfies NavigationMenuItem[]
+}
+
+const supportItems = computed<NavigationMenuItem[]>(() => [{
+  label: 'Menú público',
+  icon: 'i-lucide-eye',
+  to: '/menu-publico'
+}])
+
+const userMenuItems = computed<DropdownMenuItem[][]>(() => [[{
+  type: 'label',
+  label: user.value?.email ?? 'Sin sesión',
+  avatar: {
+    icon: 'i-lucide-user',
+    alt: user.value?.email ?? 'Admin'
+  }
+}], [{
+  label: 'Ir a configuración',
+  icon: 'i-lucide-settings-2',
+  to: '/configuracion'
 }, {
-  id: 'session',
-  label: 'Sesión',
-  items: [{
-    id: 'logout',
-    label: 'Cerrar sesión',
-    icon: 'i-lucide-log-out',
-    onSelect: async () => {
-      await onSignOut()
+  label: 'Ver menú público',
+  icon: 'i-lucide-external-link',
+  to: '/menu-publico'
+}], [{
+  label: 'Apariencia',
+  icon: 'i-lucide-sun-moon',
+  children: [{
+    label: 'Claro',
+    icon: 'i-lucide-sun',
+    type: 'checkbox',
+    checked: colorMode.value === 'light',
+    onUpdateChecked(checked: boolean) {
+      if (checked) {
+        colorMode.preference = 'light'
+      }
+    },
+    onSelect(e: Event) {
+      e.preventDefault()
+    }
+  }, {
+    label: 'Oscuro',
+    icon: 'i-lucide-moon',
+    type: 'checkbox',
+    checked: colorMode.value === 'dark',
+    onUpdateChecked(checked: boolean) {
+      if (checked) {
+        colorMode.preference = 'dark'
+      }
+    },
+    onSelect(e: Event) {
+      e.preventDefault()
     }
   }]
-}])
+}], [{
+  label: 'Cerrar sesión',
+  icon: 'i-lucide-log-out',
+  color: 'error',
+  disabled: isSigningOut.value,
+  onSelect: async () => {
+    await onSignOut()
+  }
+}]])
 
 async function onSignOut() {
   if (isSigningOut.value) {
@@ -104,101 +163,105 @@ async function onSignOut() {
 </script>
 
 <template>
-  <UDashboardGroup unit="rem" class="h-dvh overflow-hidden">
-    <UDashboardSidebar
-      id="admin-layout"
+  <div class="flex h-dvh flex-1 overflow-hidden bg-default">
+    <USidebar
       v-model:open="open"
-      collapsible
-      resizable
-      class="bg-elevated/35"
-      :ui="{ footer: 'border-t border-default/70' }"
+      collapsible="icon"
+      rail
+      :ui="{
+        container: 'h-full',
+        inner: 'bg-elevated/35 divide-transparent ring-0',
+        header: 'border-b border-default/70',
+        body: 'py-2',
+        footer: 'border-t border-default/70'
+      }"
     >
-      <template #header="{ collapsed }">
-        <div class="flex items-center gap-3 px-1">
-          <div class="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary ring-1 ring-primary/15">
-            <UIcon name="i-lucide-utensils-crossed" class="size-5" />
-          </div>
+      <template #header="{ state }">
+        <UDropdownMenu
+          :items="workspaceItems"
+          :content="{ align: 'start', collisionPadding: 12 }"
+          :ui="{ content: 'w-(--reka-dropdown-menu-trigger-width) min-w-56' }"
+        >
+          <UButton
+            :icon="workspace.icon"
+            :label="state === 'expanded' ? workspace.label : undefined"
+            :trailing-icon="state === 'expanded' ? 'i-lucide-chevrons-up-down' : undefined"
+            color="neutral"
+            variant="ghost"
+            :square="state === 'collapsed'"
+            class="w-full overflow-hidden data-[state=open]:bg-elevated"
+            :ui="{ trailingIcon: 'text-dimmed ms-auto' }"
+          />
+        </UDropdownMenu>
+      </template>
 
-          <div v-if="!collapsed" class="min-w-0">
-            <p class="truncate text-sm font-semibold uppercase tracking-[0.24em] text-primary">
-              Heltifud
-            </p>
-            <p class="truncate text-xs text-muted">
-              Administración
-            </p>
-          </div>
+      <template #default="{ state }">
+        <div class="flex min-h-0 flex-1 flex-col gap-2">
+          <UNavigationMenu
+            :key="`main-${state}`"
+            :items="getMainItems(state)"
+            orientation="vertical"
+            :ui="{ link: 'p-1.5 overflow-hidden' }"
+          />
+
+          <UNavigationMenu
+            :key="`support-${state}`"
+            :items="supportItems"
+            orientation="vertical"
+            class="mt-auto"
+            :ui="{ link: 'p-1.5 overflow-hidden' }"
+          />
         </div>
       </template>
 
-      <template #default="{ collapsed }">
-        <UDashboardSearchButton :collapsed="collapsed" class="bg-transparent ring-default" />
-
-        <UNavigationMenu
-          :collapsed="collapsed"
-          :items="links[0]"
-          orientation="vertical"
-          tooltip
-          popover
-        />
-
-        <UNavigationMenu
-          :collapsed="collapsed"
-          :items="links[1]"
-          orientation="vertical"
-          tooltip
-          class="mt-auto"
-        />
+      <template #footer="{ state }">
+        <UDropdownMenu
+          :items="userMenuItems"
+          :content="{ align: 'center', collisionPadding: 12 }"
+          :ui="{ content: 'w-(--reka-dropdown-menu-trigger-width) min-w-56' }"
+        >
+          <UButton
+            :avatar="{ icon: 'i-lucide-user', alt: user?.email ?? 'Admin' }"
+            :label="state === 'expanded' ? (user?.email ?? 'Sin sesión') : undefined"
+            :trailing-icon="state === 'expanded' ? 'i-lucide-chevrons-up-down' : undefined"
+            color="neutral"
+            variant="ghost"
+            :square="state === 'collapsed'"
+            class="w-full overflow-hidden data-[state=open]:bg-elevated"
+            :loading="isSigningOut"
+            :ui="{ trailingIcon: 'text-dimmed ms-auto' }"
+          />
+        </UDropdownMenu>
       </template>
+    </USidebar>
 
-      <template #footer="{ collapsed }">
-        <div class="flex items-center gap-3">
-          <UAvatar
-            :alt="user?.email ?? 'Admin'"
-            icon="i-lucide-user"
-            size="md"
+    <div class="flex min-w-0 flex-1 flex-col">
+      <div class="flex h-(--ui-header-height) shrink-0 items-center justify-between gap-3 border-b border-default px-4 sm:px-6">
+        <div class="flex min-w-0 items-center gap-3">
+          <UButton
+            icon="i-lucide-panel-left"
+            color="neutral"
+            variant="ghost"
+            aria-label="Toggle sidebar"
+            @click="open = !open"
           />
 
-          <div v-if="!collapsed" class="min-w-0 flex-1">
-            <p class="truncate text-sm font-medium text-highlighted">
-              {{ user?.email ?? 'Sin sesión' }}
+          <div class="min-w-0">
+            <p class="truncate text-sm font-semibold text-highlighted">
+              {{ workspace.label }}
             </p>
             <p class="truncate text-xs text-muted">
               {{ route.path }}
             </p>
           </div>
-
-          <UButton
-            color="neutral"
-            variant="ghost"
-            square
-            :loading="isSigningOut"
-            icon="i-lucide-log-out"
-            @click="onSignOut"
-          />
         </div>
-      </template>
-    </UDashboardSidebar>
+      </div>
 
-    <UDashboardSearch :groups="groups" />
-
-    <UDashboardPanel
-      id="admin-panel"
-      class="min-h-0"
-      :ui="{ body: 'admin-scrollbar min-h-0 overflow-y-auto py-6 sm:py-8 [scrollbar-gutter:stable]' }"
-    >
-      <template #header>
-        <UDashboardNavbar title="Heltifud Admin">
-          <template #leading>
-            <UDashboardSidebarCollapse />
-          </template>
-        </UDashboardNavbar>
-      </template>
-
-      <template #body>
+      <div class="admin-scrollbar min-h-0 flex-1 overflow-y-auto py-6 sm:py-8 [scrollbar-gutter:stable]">
         <div class="mx-auto flex min-h-full w-full max-w-7xl flex-col px-4 sm:px-6">
           <slot />
         </div>
-      </template>
-    </UDashboardPanel>
-  </UDashboardGroup>
+      </div>
+    </div>
+  </div>
 </template>
