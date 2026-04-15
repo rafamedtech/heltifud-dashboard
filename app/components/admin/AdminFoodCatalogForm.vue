@@ -97,6 +97,7 @@ type SkeletonResponsiveBones = {
 
 const toast = useToast();
 const { saveFoodCatalogItem } = useFoodCatalog();
+const { saveSupplyCategory } = useSupplyCategories();
 const { data: catalogItems } = useFetch<FoodCatalogItem[]>(
   '/api/food-components',
   {
@@ -108,13 +109,12 @@ const { data: supplyItems } = useFetch<SupplyItemSummary[]>('/api/supplies', {
   key: 'supply-items-catalog',
   default: () => [],
 });
-const { data: supplyCategories } = useFetch<SupplyCategorySummary[]>(
-  '/api/supply-categories',
-  {
-    key: 'supply-categories-catalog',
-    default: () => [],
-  },
-);
+const { data: supplyCategories, refresh: refreshSupplyCategories } = useFetch<
+  SupplyCategorySummary[]
+>('/api/supply-categories', {
+  key: 'supply-categories-catalog',
+  default: () => [],
+});
 
 const foodTypeOptions = [
   'Desayuno',
@@ -126,7 +126,10 @@ const foodTypeOptions = [
 ];
 
 const recipeStatusOptions = [...RECIPE_STATUS_VALUES];
-const unitOptions = [...MEASUREMENT_UNIT_VALUES];
+const unitOptions = MEASUREMENT_UNIT_VALUES.map((unit) => ({
+  label: unit.charAt(0).toUpperCase() + unit.slice(1).toLowerCase(),
+  value: unit,
+}));
 const fieldsSkeleton = fieldsBones as unknown as SkeletonResponsiveBones;
 
 const state = reactive<FoodCatalogFormState>({
@@ -144,6 +147,7 @@ const editingIngredientIndex = ref<number | null>(null);
 const recipeDocumentModalOpen = ref(false);
 const zeroCaloriesModalOpen = ref(false);
 const pendingSavePayload = ref<FoodCatalogItemInput | null>(null);
+const isCreatingSupplyCategory = ref(false);
 const activeRecipeDocumentField = ref<'instrucciones' | 'notas'>(
   'instrucciones',
 );
@@ -177,6 +181,39 @@ const ingredientDraft = reactive<RecipeIngredientFormState>(
 );
 const isCreatingIngredient = computed(
   () => editingIngredientIndex.value === null,
+);
+function formatSelectMenuLabel(value: string) {
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue) return '';
+
+  return (
+    trimmedValue.charAt(0).toUpperCase() + trimmedValue.slice(1).toLowerCase()
+  );
+}
+const supplyItemOptions = computed(() =>
+  (supplyItems.value ?? []).map((supply) => ({
+    label: formatSelectMenuLabel(supply.nombre),
+    value: supply.nombre,
+  })),
+);
+const supplyCategoryOptions = computed(() =>
+  (supplyCategories.value ?? []).map((category) => ({
+    label: formatSelectMenuLabel(category.nombre),
+    value: category.nombre,
+  })),
+);
+const ingredientGroupOptions = computed(() =>
+  Array.from(
+    new Set(
+      state.recipe.ingredients
+        .map((ingredient) => ingredient.grupo.trim())
+        .filter(Boolean),
+    ),
+  ).map((group) => ({
+    label: formatSelectMenuLabel(group),
+    value: group,
+  })),
 );
 const recipeDocumentConfig = computed(() => {
   const isInstructions = activeRecipeDocumentField.value === 'instrucciones';
@@ -527,6 +564,61 @@ async function confirmZeroCaloriesSave() {
 
   zeroCaloriesModalOpen.value = false;
   await persistFoodCatalogItem(pendingSavePayload.value);
+}
+
+async function createSupplyCategoryOption(value: string) {
+  const normalizedValue = value.trim();
+
+  if (!normalizedValue || isCreatingSupplyCategory.value) {
+    return;
+  }
+
+  const existingCategory = (supplyCategories.value ?? []).find(
+    (category) =>
+      category.nombre.trim().toLocaleLowerCase('es-MX') ===
+      normalizedValue.toLocaleLowerCase('es-MX'),
+  );
+
+  if (existingCategory) {
+    ingredientDraft.supplyCategoryName = existingCategory.nombre;
+    return;
+  }
+
+  isCreatingSupplyCategory.value = true;
+
+  try {
+    const createdCategory = await saveSupplyCategory({
+      nombre: normalizedValue,
+      descripcion: '',
+      isActive: true,
+      sortOrder: (supplyCategories.value ?? []).length,
+    });
+
+    ingredientDraft.supplyCategoryName = createdCategory.nombre;
+    await refreshSupplyCategories();
+  } catch (error) {
+    toast.add({
+      title: 'No pudimos crear la categoría',
+      description:
+        error instanceof Error
+          ? error.message
+          : 'Inténtalo de nuevo en unos segundos.',
+      color: 'error',
+      icon: 'i-lucide-circle-alert',
+    });
+  } finally {
+    isCreatingSupplyCategory.value = false;
+  }
+}
+
+function createIngredientGroupOption(value: string) {
+  const normalizedValue = value.trim();
+
+  if (!normalizedValue) {
+    return;
+  }
+
+  ingredientDraft.grupo = normalizedValue;
 }
 
 function buildPayload(): FoodCatalogItemInput {
@@ -1098,32 +1190,6 @@ async function onSubmit() {
             </UFormField>
 
             <UFormField
-              label="Tiempo de preparación (min)"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model.number="state.recipe.tiempoPreparacionMin"
-                class="w-full"
-                type="number"
-                min="0"
-                placeholder="0"
-              />
-            </UFormField>
-
-            <UFormField
-              label="Tiempo de cocción (min)"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model.number="state.recipe.tiempoCoccionMin"
-                class="w-full"
-                type="number"
-                min="0"
-                placeholder="0"
-              />
-            </UFormField>
-
-            <UFormField
               label="Rendimiento"
               :ui="{ label: 'font-semibold text-highlighted' }"
             >
@@ -1144,6 +1210,8 @@ async function onSubmit() {
               <USelect
                 v-model="state.recipe.rendimientoUnidad"
                 :items="unitOptions"
+                label-key="label"
+                value-key="value"
                 class="w-full"
                 placeholder="Selecciona una unidad"
               />
@@ -1351,153 +1419,175 @@ async function onSubmit() {
       :ui="{ content: 'max-w-4xl' }"
     >
       <template #body>
-        <div class="space-y-4">
-          <div class="grid gap-4 lg:grid-cols-2">
-            <UFormField
-              label="Insumo"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model="ingredientDraft.supplyName"
-                list="supply-items-list"
-                placeholder="Ej. Pechuga de pollo"
-                @blur="hydrateIngredientFromCatalog(ingredientDraft)"
-              />
-            </UFormField>
+        <div class="space-y-5">
+          <div
+            class="rounded-xl border border-default/70 bg-elevated/20 p-4 sm:p-5"
+          >
+            <div class="mb-4 space-y-1">
+              <h3
+                class="text-sm font-semibold uppercase tracking-[0.18em] text-primary"
+              >
+                Datos principales
+              </h3>
+              <p class="text-sm text-muted">
+                Captura el insumo y la cantidad que se usa en la receta.
+              </p>
+            </div>
 
-            <UFormField
-              label="Categoría"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model="ingredientDraft.supplyCategoryName"
-                list="supply-categories-list"
-                placeholder="Ej. Proteínas"
-              />
-            </UFormField>
+            <div class="grid gap-4 lg:grid-cols-2 ingredient-modal-titlecase">
+              <UFormField
+                label="Insumo"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <USelectMenu
+                  v-model="ingredientDraft.supplyName"
+                  :items="supplyItemOptions"
+                  label-key="label"
+                  value-key="value"
+                  class="w-full"
+                  placeholder="Buscar..."
+                  :search-input="{ placeholder: 'Buscar...' }"
+                  @update:model-value="
+                    hydrateIngredientFromCatalog(ingredientDraft)
+                  "
+                />
+              </UFormField>
 
-            <UFormField
-              label="Cantidad"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model.number="ingredientDraft.cantidad"
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder="0"
-              />
-            </UFormField>
+              <UFormField
+                label="Cantidad"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.cantidad"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0"
+                />
+              </UFormField>
 
-            <UFormField
-              label="Unidad de receta"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <USelect
-                v-model="ingredientDraft.unidad"
-                :items="unitOptions"
-                class="w-full"
-              />
-            </UFormField>
+              <UFormField
+                label="Unidad base del insumo"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <USelect
+                  v-model="ingredientDraft.supplyUnitBase"
+                  :items="unitOptions"
+                  label-key="label"
+                  value-key="value"
+                  class="w-full"
+                />
+              </UFormField>
 
-            <UFormField
-              label="Unidad base del insumo"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <USelect
-                v-model="ingredientDraft.supplyUnitBase"
-                :items="unitOptions"
-                class="w-full"
-              />
-            </UFormField>
+              <UFormField
+                label="Unidad de receta"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <USelect
+                  v-model="ingredientDraft.unidad"
+                  :items="unitOptions"
+                  label-key="label"
+                  value-key="value"
+                  class="w-full"
+                />
+              </UFormField>
 
-            <UFormField
-              label="Grupo"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model="ingredientDraft.grupo"
-                placeholder="Ej. Marinada, salsa, topping"
-              />
-            </UFormField>
+              <UFormField
+                label="Categoría"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <USelectMenu
+                  v-model="ingredientDraft.supplyCategoryName"
+                  :items="supplyCategoryOptions"
+                  label-key="label"
+                  value-key="value"
+                  class="w-full"
+                  placeholder="Selecciona o crea una categoría"
+                  :search-input="{ placeholder: 'Buscar...' }"
+                  :create-item="true"
+                  :loading="isCreatingSupplyCategory"
+                  @create="createSupplyCategoryOption"
+                />
+              </UFormField>
 
-            <UFormField
-              label="Código interno"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model="ingredientDraft.supplyCode"
-                placeholder="SKU o código opcional"
-              />
-            </UFormField>
-
-            <UFormField
-              label="Tags"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model="ingredientDraft.supplyTagsText"
-                placeholder="pollo, proteina, refrigerado"
-              />
-            </UFormField>
-
-            <UFormField
-              label="Costo referencial"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model.number="ingredientDraft.supplyCostoReferencial"
-                type="number"
-                min="0"
-                step="0.01"
-                placeholder="0.00"
-              />
-            </UFormField>
-
-            <UFormField
-              label="Merma %"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UInput
-                v-model.number="ingredientDraft.supplyMermaPorcentaje"
-                type="number"
-                min="0"
-                max="100"
-                step="0.01"
-                placeholder="0"
-              />
-            </UFormField>
+              <UFormField
+                label="Grupo"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <USelectMenu
+                  v-model="ingredientDraft.grupo"
+                  :items="ingredientGroupOptions"
+                  label-key="label"
+                  value-key="value"
+                  class="w-full"
+                  placeholder="Selecciona o crea un grupo"
+                  :search-input="{ placeholder: 'Buscar...' }"
+                  :create-item="true"
+                  @create="createIngredientGroupOption"
+                />
+              </UFormField>
+            </div>
           </div>
 
-          <div class="grid gap-4">
-            <UFormField
-              label="Descripción del insumo"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UTextarea
-                v-model="ingredientDraft.supplyDescription"
-                :rows="3"
-                autoresize
-                placeholder="Marca, corte, presentación o cualquier detalle útil para compras y producción."
-              />
-            </UFormField>
+          <div
+            class="rounded-xl border border-default/70 bg-elevated/20 p-4 sm:p-5"
+          >
+            <div class="mb-4 space-y-1">
+              <h3
+                class="text-sm font-semibold uppercase tracking-[0.18em] text-primary"
+              >
+                Detalles operativos
+              </h3>
+              <p class="text-sm text-muted">
+                Agrega información útil para compras, inventario y producción.
+              </p>
+            </div>
 
-            <UFormField
-              label="Notas del ingrediente"
-              :ui="{ label: 'font-semibold text-highlighted' }"
-            >
-              <UTextarea
-                v-model="ingredientDraft.notas"
-                :rows="2"
-                autoresize
-                placeholder="Indicaciones puntuales para este ingrediente en la receta."
-              />
-            </UFormField>
+            <div class="grid gap-4 lg:grid-cols-3 ingredient-modal-titlecase">
+              <UFormField
+                label="Costo referencial"
+                class="min-w-0"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.supplyCostoReferencial"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                />
+              </UFormField>
 
-            <UCheckbox
-              v-model="ingredientDraft.opcional"
-              label="Este insumo es opcional"
-            />
+              <UFormField
+                label="Merma %"
+                class="min-w-0"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.supplyMermaPorcentaje"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  placeholder="0"
+                />
+              </UFormField>
+
+              <UFormField
+                label="Tags"
+                class="min-w-0"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model="ingredientDraft.supplyTagsText"
+                  class="w-full"
+                  placeholder="pollo, proteina, refrigerado"
+                />
+              </UFormField>
+            </div>
           </div>
         </div>
       </template>
