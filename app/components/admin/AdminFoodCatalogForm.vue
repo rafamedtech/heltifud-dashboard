@@ -47,7 +47,7 @@ type RecipeIngredientFormState = {
   supplyCode: string;
   supplyUnitBase: MeasurementUnit;
   supplyCategoryName: string;
-  supplyTagsText: string;
+  supplyTags: string[];
   supplyCostoReferencial: number | null;
   supplyMermaPorcentaje: number | null;
   grupo: string;
@@ -115,6 +115,13 @@ const { data: supplyCategories, refresh: refreshSupplyCategories } = useFetch<
   key: 'supply-categories-catalog',
   default: () => [],
 });
+const { data: recipeIngredientGroups } = useFetch<string[]>(
+  '/api/recipe-ingredient-groups',
+  {
+    key: 'recipe-ingredient-groups-catalog',
+    default: () => [],
+  },
+);
 
 const foodTypeOptions = [
   'Desayuno',
@@ -148,6 +155,9 @@ const recipeDocumentModalOpen = ref(false);
 const zeroCaloriesModalOpen = ref(false);
 const pendingSavePayload = ref<FoodCatalogItemInput | null>(null);
 const isCreatingSupplyCategory = ref(false);
+const createdSupplyItemOptions = ref<string[]>([]);
+const createdIngredientGroupOptions = ref<string[]>([]);
+const pendingIngredientModalCloseAction = ref<null | (() => void)>(null);
 const activeRecipeDocumentField = ref<'instrucciones' | 'notas'>(
   'instrucciones',
 );
@@ -192,9 +202,14 @@ function formatSelectMenuLabel(value: string) {
   );
 }
 const supplyItemOptions = computed(() =>
-  (supplyItems.value ?? []).map((supply) => ({
-    label: formatSelectMenuLabel(supply.nombre),
-    value: supply.nombre,
+  Array.from(
+    new Set([
+      ...(supplyItems.value ?? []).map((supply) => supply.nombre),
+      ...createdSupplyItemOptions.value,
+    ]),
+  ).map((supplyName) => ({
+    label: formatSelectMenuLabel(supplyName),
+    value: supplyName,
   })),
 );
 const supplyCategoryOptions = computed(() =>
@@ -203,12 +218,28 @@ const supplyCategoryOptions = computed(() =>
     value: category.nombre,
   })),
 );
+const supplyTagOptions = computed(() =>
+  Array.from(
+    new Set([
+      ...(supplyItems.value ?? []).flatMap((supply) => normalizeTags(supply.tags)),
+      ...state.recipe.ingredients.flatMap((ingredient) =>
+        normalizeTags(ingredient.supplyTags),
+      ),
+      ...normalizeTags(ingredientDraft.supplyTags),
+    ]),
+  ).map((tag) => ({
+    label: formatSelectMenuLabel(tag),
+    value: tag,
+  })),
+);
 const ingredientGroupOptions = computed(() =>
   Array.from(
     new Set(
-      state.recipe.ingredients
-        .map((ingredient) => ingredient.grupo.trim())
-        .filter(Boolean),
+      [
+        ...(recipeIngredientGroups.value ?? []),
+        ...state.recipe.ingredients.map((ingredient) => ingredient.grupo.trim()),
+        ...createdIngredientGroupOptions.value,
+      ].filter(Boolean),
     ),
   ).map((group) => ({
     label: formatSelectMenuLabel(group),
@@ -251,10 +282,10 @@ function createEmptyIngredient(): RecipeIngredientFormState {
     supplyCode: '',
     supplyUnitBase: 'GRAMO',
     supplyCategoryName: '',
-    supplyTagsText: '',
+    supplyTags: [],
     supplyCostoReferencial: null,
     supplyMermaPorcentaje: null,
-    grupo: '',
+    grupo: 'General',
     cantidad: null,
     unidad: 'GRAMO',
     notas: '',
@@ -284,7 +315,7 @@ function syncIngredientDraft(source?: RecipeIngredientFormState | null) {
   ingredientDraft.supplyCode = nextValue.supplyCode;
   ingredientDraft.supplyUnitBase = nextValue.supplyUnitBase;
   ingredientDraft.supplyCategoryName = nextValue.supplyCategoryName;
-  ingredientDraft.supplyTagsText = nextValue.supplyTagsText;
+  ingredientDraft.supplyTags = [...nextValue.supplyTags];
   ingredientDraft.supplyCostoReferencial = nextValue.supplyCostoReferencial;
   ingredientDraft.supplyMermaPorcentaje = nextValue.supplyMermaPorcentaje;
   ingredientDraft.grupo = nextValue.grupo;
@@ -312,15 +343,10 @@ function formatRecipeUnitLabel(unit: MeasurementUnit, quantity: number | null) {
   return `${baseLabel}(s)`;
 }
 
-function tagsToText(tags: string[]) {
-  return tags.join(', ');
-}
-
-function textToTags(value: string) {
-  return value
-    .split(',')
-    .map((tag) => tag.trim())
-    .filter(Boolean);
+function normalizeTags(tags: string[]) {
+  return Array.from(
+    new Set(tags.map((tag) => tag.trim()).filter(Boolean)),
+  );
 }
 
 function toNullableNumber(value: number | string | null | undefined) {
@@ -342,7 +368,7 @@ function ingredientHasContent(ingredient: RecipeIngredientFormState) {
     ingredient.supplyDescription.trim() ||
     ingredient.supplyCode.trim() ||
     ingredient.supplyCategoryName.trim() ||
-    ingredient.supplyTagsText.trim() ||
+    ingredient.supplyTags.length ||
     ingredient.grupo.trim() ||
     ingredient.notas.trim() ||
     ingredient.supplyCostoReferencial !== null ||
@@ -406,7 +432,7 @@ function syncState(item?: FoodCatalogItemDetail | null) {
           supplyCode: ingredient.supplyItem.codigo ?? '',
           supplyUnitBase: ingredient.supplyItem.unidadBase,
           supplyCategoryName: ingredient.supplyItem.category?.nombre ?? '',
-          supplyTagsText: tagsToText(ingredient.supplyItem.tags),
+          supplyTags: normalizeTags(ingredient.supplyItem.tags),
           supplyCostoReferencial: ingredient.supplyItem.costoReferencial,
           supplyMermaPorcentaje: ingredient.supplyItem.mermaPorcentaje,
           grupo: ingredient.grupo ?? '',
@@ -452,8 +478,10 @@ function openEditIngredientModal(index: number) {
 
 function closeIngredientModal() {
   ingredientModalOpen.value = false;
-  editingIngredientIndex.value = null;
-  syncIngredientDraft();
+  pendingIngredientModalCloseAction.value = () => {
+    editingIngredientIndex.value = null;
+    syncIngredientDraft();
+  };
 }
 
 function hydrateIngredientFromCatalog(ingredient: RecipeIngredientFormState) {
@@ -481,13 +509,16 @@ function hydrateIngredientFromCatalog(ingredient: RecipeIngredientFormState) {
   ingredient.supplyCode ||= matchedSupply.codigo ?? '';
   ingredient.supplyUnitBase = matchedSupply.unidadBase;
   ingredient.supplyCategoryName ||= matchedSupply.category?.nombre ?? '';
-  ingredient.supplyTagsText ||= tagsToText(matchedSupply.tags);
+  if (!ingredient.supplyTags.length) {
+    ingredient.supplyTags = normalizeTags(matchedSupply.tags);
+  }
   ingredient.supplyCostoReferencial ??= matchedSupply.costoReferencial;
   ingredient.supplyMermaPorcentaje ??= matchedSupply.mermaPorcentaje;
 }
 
 function saveIngredientDraft() {
   hydrateIngredientFromCatalog(ingredientDraft);
+  const editingIndex = editingIngredientIndex.value;
 
   const nextIngredient = {
     supplyName: ingredientDraft.supplyName.trim(),
@@ -495,7 +526,7 @@ function saveIngredientDraft() {
     supplyCode: ingredientDraft.supplyCode.trim(),
     supplyUnitBase: ingredientDraft.supplyUnitBase,
     supplyCategoryName: ingredientDraft.supplyCategoryName.trim(),
-    supplyTagsText: ingredientDraft.supplyTagsText.trim(),
+    supplyTags: normalizeTags(ingredientDraft.supplyTags),
     supplyCostoReferencial: ingredientDraft.supplyCostoReferencial,
     supplyMermaPorcentaje: ingredientDraft.supplyMermaPorcentaje,
     grupo: ingredientDraft.grupo.trim(),
@@ -505,13 +536,22 @@ function saveIngredientDraft() {
     opcional: ingredientDraft.opcional,
   } satisfies RecipeIngredientFormState;
 
-  if (editingIngredientIndex.value === null) {
-    state.recipe.ingredients.push(nextIngredient);
-  } else if (state.recipe.ingredients[editingIngredientIndex.value]) {
-    state.recipe.ingredients[editingIngredientIndex.value] = nextIngredient;
-  }
+  ingredientModalOpen.value = false;
+  pendingIngredientModalCloseAction.value = () => {
+    if (editingIndex === null) {
+      state.recipe.ingredients.push(nextIngredient);
+    } else if (state.recipe.ingredients[editingIndex]) {
+      state.recipe.ingredients[editingIndex] = nextIngredient;
+    }
 
-  closeIngredientModal();
+    editingIngredientIndex.value = null;
+    syncIngredientDraft();
+  };
+}
+
+function handleIngredientModalAfterLeave() {
+  pendingIngredientModalCloseAction.value?.();
+  pendingIngredientModalCloseAction.value = null;
 }
 
 function openRecipeDocumentModal(field: 'instrucciones' | 'notas') {
@@ -618,7 +658,63 @@ function createIngredientGroupOption(value: string) {
     return;
   }
 
+  const alreadyExists = [
+    ...(recipeIngredientGroups.value ?? []),
+    ...state.recipe.ingredients.map((ingredient) => ingredient.grupo.trim()),
+    ...createdIngredientGroupOptions.value,
+  ].some(
+    (groupName) =>
+      groupName.trim().toLocaleLowerCase('es-MX') ===
+      normalizedValue.toLocaleLowerCase('es-MX'),
+  );
+
+  if (!alreadyExists) {
+    createdIngredientGroupOptions.value = [
+      ...createdIngredientGroupOptions.value,
+      normalizedValue,
+    ];
+  }
+
   ingredientDraft.grupo = normalizedValue;
+}
+
+function createIngredientTagOption(value: string) {
+  const normalizedValue = value.trim();
+
+  if (!normalizedValue) {
+    return;
+  }
+
+  ingredientDraft.supplyTags = normalizeTags([
+    ...ingredientDraft.supplyTags,
+    normalizedValue,
+  ]);
+}
+
+function createSupplyItemOption(value: string) {
+  const normalizedValue = value.trim();
+
+  if (!normalizedValue) {
+    return;
+  }
+
+  const alreadyExists = [
+    ...(supplyItems.value ?? []).map((item) => item.nombre),
+    ...createdSupplyItemOptions.value,
+  ].some(
+    (itemName) =>
+      itemName.trim().toLocaleLowerCase('es-MX') ===
+      normalizedValue.toLocaleLowerCase('es-MX'),
+  );
+
+  if (!alreadyExists) {
+    createdSupplyItemOptions.value = [
+      ...createdSupplyItemOptions.value,
+      normalizedValue,
+    ];
+  }
+
+  ingredientDraft.supplyName = normalizedValue;
 }
 
 function buildPayload(): FoodCatalogItemInput {
@@ -650,7 +746,7 @@ function buildPayload(): FoodCatalogItemInput {
               supplyCode: ingredient.supplyCode.trim() || null,
               supplyUnitBase: ingredient.supplyUnitBase,
               supplyCategoryName: ingredient.supplyCategoryName.trim() || null,
-              supplyTags: textToTags(ingredient.supplyTagsText),
+              supplyTags: normalizeTags(ingredient.supplyTags),
               supplyCostoReferencial: toNullableNumber(
                 ingredient.supplyCostoReferencial,
               ),
@@ -689,10 +785,7 @@ watch(
 watch(
   () => ingredientModalOpen.value,
   (isOpen) => {
-    if (!isOpen) {
-      editingIngredientIndex.value = null;
-      syncIngredientDraft();
-    }
+    if (!isOpen) return;
   },
 );
 
@@ -1245,13 +1338,13 @@ async function onSubmit() {
 
             <div
               v-if="!state.recipe.ingredients.length"
-              class="rounded-none border border-dashed border-default p-4 text-sm text-muted"
+              class="rounded-xl border border-dashed border-default p-4 text-sm text-muted"
             >
               Agrega el primer insumo para empezar a construir la receta.
             </div>
 
             <div
-              class="overflow-hidden rounded-none border border-default bg-default/40"
+              class="overflow-hidden rounded-xl border border-default bg-default/40"
             >
               <article
                 v-for="(ingredient, index) in state.recipe.ingredients"
@@ -1281,6 +1374,13 @@ async function onSubmit() {
                           {{ ingredient.supplyName || 'insumo sin nombre' }}
                         </span>
                       </h4>
+                      <UBadge
+                        v-if="ingredient.grupo"
+                        color="neutral"
+                        variant="subtle"
+                      >
+                        {{ formatSelectMenuLabel(ingredient.grupo) }}
+                      </UBadge>
                       <span
                         v-if="ingredient.opcional"
                         class="text-sm text-warning"
@@ -1292,19 +1392,16 @@ async function onSubmit() {
                     <p
                       v-if="
                         ingredient.supplyDescription ||
-                        ingredient.notas ||
-                        ingredient.supplyCategoryName ||
-                        ingredient.grupo
+                        ingredient.notas
                       "
                       class="text-sm leading-6 text-muted"
                     >
                       {{
                         ingredient.supplyDescription ||
-                        ingredient.notas ||
-                        ingredient.supplyCategoryName ||
-                        ingredient.grupo
+                        ingredient.notas
                       }}
                     </p>
+
                   </div>
 
                   <div class="ml-4 flex shrink-0 items-center gap-2 self-start">
@@ -1417,6 +1514,7 @@ async function onSubmit() {
           : 'Actualiza la información operativa y de receta para este insumo.'
       "
       :ui="{ content: 'max-w-4xl' }"
+      @after:leave="handleIngredientModalAfterLeave"
     >
       <template #body>
         <div class="space-y-5">
@@ -1446,7 +1544,9 @@ async function onSubmit() {
                   value-key="value"
                   class="w-full"
                   placeholder="Buscar..."
+                  :create-item="true"
                   :search-input="{ placeholder: 'Buscar...' }"
+                  @create="createSupplyItemOption"
                   @update:model-value="
                     hydrateIngredientFromCatalog(ingredientDraft)
                   "
@@ -1581,10 +1681,17 @@ async function onSubmit() {
                 class="min-w-0"
                 :ui="{ label: 'font-semibold text-highlighted' }"
               >
-                <UInput
-                  v-model="ingredientDraft.supplyTagsText"
+                <USelectMenu
+                  v-model="ingredientDraft.supplyTags"
+                  :items="supplyTagOptions"
+                  label-key="label"
+                  value-key="value"
                   class="w-full"
-                  placeholder="pollo, proteina, refrigerado"
+                  multiple
+                  :create-item="true"
+                  :search-input="{ placeholder: 'Buscar...' }"
+                  placeholder="Selecciona uno o más tags"
+                  @create="createIngredientTagOption"
                 />
               </UFormField>
             </div>
@@ -1596,14 +1703,6 @@ async function onSubmit() {
         <div
           class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end"
         >
-          <UButton
-            color="neutral"
-            variant="ghost"
-            class="cursor-pointer"
-            @click="closeIngredientModal"
-          >
-            Cancelar
-          </UButton>
           <UButton
             color="primary"
             icon="i-lucide-save"

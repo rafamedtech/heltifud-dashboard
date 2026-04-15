@@ -159,7 +159,7 @@ async function onDelete() {
       color="error"
       variant="soft"
       title="No se pudo cargar el platillo"
-      :description="error.statusMessage || 'Intenta de nuevo en unos segundos.'"
+      :description="error.data?.message || error.statusMessage || 'Intenta de nuevo en unos segundos.'"
       icon="i-lucide-circle-alert"
     />
 

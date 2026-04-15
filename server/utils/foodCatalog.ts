@@ -169,8 +169,11 @@ function validateInput(input: FoodCatalogItemInput) {
   if (!parsed.success) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Payload inválido para platillo.',
-      data: parsed.error.flatten()
+      message: 'Payload inválido para platillo.',
+      data: {
+        message: 'Payload inválido para platillo.',
+        ...parsed.error.flatten()
+      }
     })
   }
 
@@ -206,7 +209,10 @@ function validateInput(input: FoodCatalogItemInput) {
     if (!ingredient.supplyName) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Cada ingrediente debe incluir un insumo.'
+        message: 'Cada ingrediente debe incluir un insumo.',
+        data: {
+          message: 'Cada ingrediente debe incluir un insumo.'
+        }
       })
     }
   }
@@ -227,8 +233,11 @@ function validateSupplyCategoryInput(input: SupplyCategoryInput) {
   if (!parsed.success) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Payload inválido para categoría.',
-      data: parsed.error.flatten()
+      message: 'Payload inválido para categoría.',
+      data: {
+        message: 'Payload inválido para categoría.',
+        ...parsed.error.flatten()
+      }
     })
   }
 
@@ -246,8 +255,11 @@ function validateSupplyItemInput(input: SupplyItemInput) {
   if (!parsed.success) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Payload inválido para insumo.',
-      data: parsed.error.flatten()
+      message: 'Payload inválido para insumo.',
+      data: {
+        message: 'Payload inválido para insumo.',
+        ...parsed.error.flatten()
+      }
     })
   }
 
@@ -541,6 +553,27 @@ export async function getSupplyCategoryById(id: string) {
   return category ? mapSupplyCategory(category) : null
 }
 
+export async function getRecipeIngredientGroups() {
+  const groups = await prisma.recipeIngredient.findMany({
+    where: {
+      grupo: {
+        not: null
+      }
+    },
+    select: {
+      grupo: true
+    },
+    distinct: ['grupo'],
+    orderBy: {
+      grupo: 'asc'
+    }
+  })
+
+  return groups
+    .map(group => group.grupo?.trim() ?? '')
+    .filter(Boolean)
+}
+
 export async function createSupplyCategory(input: SupplyCategoryInput) {
   const data = validateSupplyCategoryInput(input)
   const slug = slugify(data.nombre)
@@ -548,7 +581,10 @@ export async function createSupplyCategory(input: SupplyCategoryInput) {
   if (!slug) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'La categoría necesita un nombre válido para generar el slug.'
+      message: 'La categoría necesita un nombre válido para generar el slug.',
+      data: {
+        message: 'La categoría necesita un nombre válido para generar el slug.'
+      }
     })
   }
 
@@ -559,7 +595,10 @@ export async function createSupplyCategory(input: SupplyCategoryInput) {
   if (existing) {
     throw createError({
       statusCode: 409,
-      statusMessage: 'Ya existe una categoría con ese nombre.'
+      message: 'Ya existe una categoría con ese nombre.',
+      data: {
+        message: 'Ya existe una categoría con ese nombre.'
+      }
     })
   }
 
@@ -588,7 +627,10 @@ export async function updateSupplyCategory(id: string, input: SupplyCategoryInpu
   if (!slug) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'La categoría necesita un nombre válido para generar el slug.'
+      message: 'La categoría necesita un nombre válido para generar el slug.',
+      data: {
+        message: 'La categoría necesita un nombre válido para generar el slug.'
+      }
     })
   }
 
@@ -599,7 +641,10 @@ export async function updateSupplyCategory(id: string, input: SupplyCategoryInpu
   if (conflict && conflict.id !== id) {
     throw createError({
       statusCode: 409,
-      statusMessage: 'Ya existe una categoría con ese nombre.'
+      message: 'Ya existe una categoría con ese nombre.',
+      data: {
+        message: 'Ya existe una categoría con ese nombre.'
+      }
     })
   }
 
@@ -639,8 +684,9 @@ export async function deleteSupplyCategory(id: string) {
   if (existing._count.supplies > 0) {
     throw createError({
       statusCode: 409,
-      statusMessage: 'No se puede eliminar la categoría porque todavía tiene insumos asignados.',
+      message: 'No se puede eliminar la categoría porque todavía tiene insumos asignados.',
       data: {
+        message: 'No se puede eliminar la categoría porque todavía tiene insumos asignados.',
         code: 'SUPPLY_CATEGORY_IN_USE',
         supplyCount: existing._count.supplies,
         supplyNames: existing.supplies.map(supply => supply.nombre)
@@ -666,7 +712,10 @@ export async function createSupplyItem(input: SupplyItemInput) {
     if (!category) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'La categoría seleccionada no existe.'
+        message: 'La categoría seleccionada no existe.',
+        data: {
+          message: 'La categoría seleccionada no existe.'
+        }
       })
     }
   }
@@ -679,7 +728,10 @@ export async function createSupplyItem(input: SupplyItemInput) {
     if (existingCode) {
       throw createError({
         statusCode: 409,
-        statusMessage: 'Ya existe un insumo con ese código.'
+        message: 'Ya existe un insumo con ese código.',
+        data: {
+          message: 'Ya existe un insumo con ese código.'
+        }
       })
     }
   }
@@ -710,7 +762,10 @@ export async function updateSupplyItem(id: string, input: SupplyItemInput) {
     if (!category) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'La categoría seleccionada no existe.'
+        message: 'La categoría seleccionada no existe.',
+        data: {
+          message: 'La categoría seleccionada no existe.'
+        }
       })
     }
   }
@@ -723,7 +778,10 @@ export async function updateSupplyItem(id: string, input: SupplyItemInput) {
     if (existingCode && existingCode.id !== id) {
       throw createError({
         statusCode: 409,
-        statusMessage: 'Ya existe un insumo con ese código.'
+        message: 'Ya existe un insumo con ese código.',
+        data: {
+          message: 'Ya existe un insumo con ese código.'
+        }
       })
     }
   }
@@ -768,8 +826,9 @@ export async function deleteSupplyItem(id: string) {
   if (existing._count.recipeItems > 0) {
     throw createError({
       statusCode: 409,
-      statusMessage: 'No se puede eliminar el insumo porque todavía se usa en recetas.',
+      message: 'No se puede eliminar el insumo porque todavía se usa en recetas.',
       data: {
+        message: 'No se puede eliminar el insumo porque todavía se usa en recetas.',
         code: 'SUPPLY_ITEM_IN_USE',
         recipeCount: existing._count.recipeItems,
         foodCatalogItems: existing.recipeItems.map(item => ({
@@ -914,8 +973,9 @@ export async function deleteFoodCatalogItem(id: string) {
 
     throw createError({
       statusCode: 409,
-      statusMessage: 'Este platillo no se puede borrar todavía porque aparece en uno o más menús.',
+      message: 'Este platillo no se puede borrar todavía porque aparece en uno o más menús.',
       data: {
+        message: 'Este platillo no se puede borrar todavía porque aparece en uno o más menús.',
         code: 'FOOD_CATALOG_ITEM_IN_USE',
         itemName: existing.nombre,
         linkedMenus: linkedMenus.map(menu => ({

@@ -158,7 +158,10 @@ function normalizeOptionalFoodItem(item: OptionalFoodItemInput): FoodItemDetail 
   if (!normalized.nombre || !normalized.tipo) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Guarniciones opcionales requieren nombre y tipo cuando se capturan.'
+      message: 'Guarniciones opcionales requieren nombre y tipo cuando se capturan.',
+      data: {
+        message: 'Guarniciones opcionales requieren nombre y tipo cuando se capturan.'
+      }
     })
   }
 
@@ -316,8 +319,11 @@ function validatePayload(input: WeeklyMenuInput) {
   if (!parsed.success) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Payload inválido para menú semanal.',
-      data: parsed.error.flatten()
+      message: 'Payload inválido para menú semanal.',
+      data: {
+        message: 'Payload inválido para menú semanal.',
+        ...parsed.error.flatten()
+      }
     })
   }
 
@@ -336,7 +342,10 @@ async function assertNoOverlap(startDate: Date, endDate: Date, excludeId?: strin
   if (overlap) {
     throw createError({
       statusCode: 409,
-      statusMessage: 'El rango de fechas del menú se traslapa con otro menú existente.'
+      message: 'El rango de fechas del menú se traslapa con otro menú existente.',
+      data: {
+        message: 'El rango de fechas del menú se traslapa con otro menú existente.'
+      }
     })
   }
 }
