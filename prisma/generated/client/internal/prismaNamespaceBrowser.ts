@@ -59,7 +59,8 @@ export const ModelName = {
   SupplyCategory: 'SupplyCategory',
   SupplyItem: 'SupplyItem',
   Recipe: 'Recipe',
-  RecipeIngredient: 'RecipeIngredient'
+  RecipeIngredient: 'RecipeIngredient',
+  SupplyNutritionLookupLog: 'SupplyNutritionLookupLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -165,10 +166,34 @@ export const SupplyItemScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   nombre: 'nombre',
+  normalizedName: 'normalizedName',
   descripcion: 'descripcion',
   codigo: 'codigo',
+  barcode: 'barcode',
   unidadBase: 'unidadBase',
+  defaultServingSize: 'defaultServingSize',
+  defaultServingUnit: 'defaultServingUnit',
+  nutritionBasis: 'nutritionBasis',
+  calorias: 'calorias',
+  proteina: 'proteina',
+  carbohidratos: 'carbohidratos',
+  grasas: 'grasas',
+  fibra: 'fibra',
+  azucar: 'azucar',
+  sodio: 'sodio',
+  densidad: 'densidad',
+  ediblePortionFactor: 'ediblePortionFactor',
   tags: 'tags',
+  source: 'source',
+  sourceExternalId: 'sourceExternalId',
+  sourceQuery: 'sourceQuery',
+  sourceConfidence: 'sourceConfidence',
+  sourceSnapshot: 'sourceSnapshot',
+  lastSyncedAt: 'lastSyncedAt',
+  manualOverride: 'manualOverride',
+  needsReview: 'needsReview',
+  reviewNotes: 'reviewNotes',
+  status: 'status',
   isActive: 'isActive',
   costoReferencial: 'costoReferencial',
   mermaPorcentaje: 'mermaPorcentaje',
@@ -190,6 +215,16 @@ export const RecipeScalarFieldEnum = {
   rendimientoUnidad: 'rendimientoUnidad',
   tiempoPreparacionMin: 'tiempoPreparacionMin',
   tiempoCoccionMin: 'tiempoCoccionMin',
+  calorias: 'calorias',
+  proteina: 'proteina',
+  carbohidratos: 'carbohidratos',
+  grasas: 'grasas',
+  fibra: 'fibra',
+  azucar: 'azucar',
+  sodio: 'sodio',
+  costoEstimado: 'costoEstimado',
+  pesoTotalGramos: 'pesoTotalGramos',
+  nutritionCalculatedAt: 'nutritionCalculatedAt',
   instrucciones: 'instrucciones',
   notas: 'notas'
 } as const
@@ -207,11 +242,34 @@ export const RecipeIngredientScalarFieldEnum = {
   grupo: 'grupo',
   cantidad: 'cantidad',
   unidad: 'unidad',
+  quantityInBaseUnit: 'quantityInBaseUnit',
+  wasteFactor: 'wasteFactor',
   notas: 'notas',
+  notasInternas: 'notasInternas',
   opcional: 'opcional'
 } as const
 
 export type RecipeIngredientScalarFieldEnum = (typeof RecipeIngredientScalarFieldEnum)[keyof typeof RecipeIngredientScalarFieldEnum]
+
+
+export const SupplyNutritionLookupLogScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  supplyItemId: 'supplyItemId',
+  source: 'source',
+  sourceExternalId: 'sourceExternalId',
+  query: 'query',
+  normalizedQuery: 'normalizedQuery',
+  confidence: 'confidence',
+  outcome: 'outcome',
+  requestSnapshot: 'requestSnapshot',
+  responseSnapshot: 'responseSnapshot',
+  selectedSnapshot: 'selectedSnapshot',
+  errorMessage: 'errorMessage',
+  accepted: 'accepted'
+} as const
+
+export type SupplyNutritionLookupLogScalarFieldEnum = (typeof SupplyNutritionLookupLogScalarFieldEnum)[keyof typeof SupplyNutritionLookupLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -220,6 +278,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -236,4 +302,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

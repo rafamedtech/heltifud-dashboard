@@ -132,6 +132,17 @@ function mapSupplyItem(item: {
   descripcion: string
   codigo: string | null
   unidadBase: string
+  nutritionBasis: string | null
+  defaultServingSize: { toNumber: () => number } | number | null
+  defaultServingUnit: string | null
+  densidad: { toNumber: () => number } | number | null
+  calorias: { toNumber: () => number } | number | null
+  proteina: { toNumber: () => number } | number | null
+  carbohidratos: { toNumber: () => number } | number | null
+  grasas: { toNumber: () => number } | number | null
+  fibra: { toNumber: () => number } | number | null
+  azucar: { toNumber: () => number } | number | null
+  sodio: { toNumber: () => number } | number | null
   tags: string[]
   isActive: boolean
   costoReferencial: { toNumber: () => number } | number | null
@@ -155,6 +166,17 @@ function mapSupplyItem(item: {
     descripcion: item.descripcion,
     codigo: item.codigo,
     unidadBase: item.unidadBase as SupplyItemSummary['unidadBase'],
+    nutritionBasis: item.nutritionBasis as SupplyItemSummary['nutritionBasis'],
+    defaultServingSize: toNumber(item.defaultServingSize),
+    defaultServingUnit: item.defaultServingUnit as SupplyItemSummary['defaultServingUnit'],
+    densidad: toNumber(item.densidad),
+    calorias: toNumber(item.calorias),
+    proteina: toNumber(item.proteina),
+    carbohidratos: toNumber(item.carbohidratos),
+    grasas: toNumber(item.grasas),
+    fibra: toNumber(item.fibra),
+    azucar: toNumber(item.azucar),
+    sodio: toNumber(item.sodio),
     tags: item.tags,
     isActive: item.isActive,
     costoReferencial: toNumber(item.costoReferencial),
@@ -196,6 +218,17 @@ function validateInput(input: FoodCatalogItemInput) {
           supplyTags: normalizeTags(ingredient.supplyTags),
           supplyCostoReferencial: ingredient.supplyCostoReferencial ?? null,
           supplyMermaPorcentaje: ingredient.supplyMermaPorcentaje ?? null,
+          supplyCalorias: ingredient.supplyCalorias ?? null,
+          supplyProteina: ingredient.supplyProteina ?? null,
+          supplyCarbohidratos: ingredient.supplyCarbohidratos ?? null,
+          supplyGrasas: ingredient.supplyGrasas ?? null,
+          supplyFibra: ingredient.supplyFibra ?? null,
+          supplyAzucar: ingredient.supplyAzucar ?? null,
+          supplySodio: ingredient.supplySodio ?? null,
+          supplyNutritionBasis: ingredient.supplyNutritionBasis ?? null,
+          supplyDefaultServingSize: ingredient.supplyDefaultServingSize ?? null,
+          supplyDefaultServingUnit: ingredient.supplyDefaultServingUnit ?? null,
+          supplyDensidad: ingredient.supplyDensidad ?? null,
           grupo: trimNullableString(ingredient.grupo),
           cantidad: ingredient.cantidad,
           unidad: ingredient.unidad,
@@ -316,6 +349,17 @@ async function findOrCreateSupplyItem(
     descripcion: ingredient.supplyDescription,
     codigo: ingredient.supplyCode,
     unidadBase: ingredient.supplyUnitBase,
+    calorias: ingredient.supplyCalorias,
+    proteina: ingredient.supplyProteina,
+    carbohidratos: ingredient.supplyCarbohidratos,
+    grasas: ingredient.supplyGrasas,
+    fibra: ingredient.supplyFibra,
+    azucar: ingredient.supplyAzucar,
+    sodio: ingredient.supplySodio,
+    nutritionBasis: ingredient.supplyNutritionBasis,
+    defaultServingSize: ingredient.supplyDefaultServingSize,
+    defaultServingUnit: ingredient.supplyDefaultServingUnit,
+    densidad: ingredient.supplyDensidad,
     tags: ingredient.supplyTags,
     isActive: true,
     costoReferencial: ingredient.supplyCostoReferencial,

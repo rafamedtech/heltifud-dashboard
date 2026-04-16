@@ -70,3 +70,43 @@ export const MeasurementUnit = {
 } as const
 
 export type MeasurementUnit = (typeof MeasurementUnit)[keyof typeof MeasurementUnit]
+
+
+export const NutritionBasis = {
+  POR_100_GRAMOS: 'POR_100_GRAMOS',
+  POR_100_MILILITROS: 'POR_100_MILILITROS',
+  POR_PORCION: 'POR_PORCION',
+  POR_UNIDAD: 'POR_UNIDAD'
+} as const
+
+export type NutritionBasis = (typeof NutritionBasis)[keyof typeof NutritionBasis]
+
+
+export const NutritionSource = {
+  MANUAL: 'MANUAL',
+  USDA: 'USDA',
+  FATSECRET: 'FATSECRET',
+  OPENFOODFACTS: 'OPENFOODFACTS',
+  ETIQUETA: 'ETIQUETA',
+  OTRO: 'OTRO'
+} as const
+
+export type NutritionSource = (typeof NutritionSource)[keyof typeof NutritionSource]
+
+
+export const SupplyItemStatus = {
+  BORRADOR: 'BORRADOR',
+  ACTIVO: 'ACTIVO',
+  ARCHIVADO: 'ARCHIVADO'
+} as const
+
+export type SupplyItemStatus = (typeof SupplyItemStatus)[keyof typeof SupplyItemStatus]
+
+
+export const NutritionLookupOutcome = {
+  MATCH: 'MATCH',
+  SIN_RESULTADOS: 'SIN_RESULTADOS',
+  ERROR: 'ERROR'
+} as const
+
+export type NutritionLookupOutcome = (typeof NutritionLookupOutcome)[keyof typeof NutritionLookupOutcome]

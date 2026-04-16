@@ -83,6 +83,17 @@ export interface SupplyItemSummary {
   descripcion: string
   codigo: string | null
   unidadBase: MeasurementUnit
+  nutritionBasis?: 'POR_100_GRAMOS' | 'POR_100_MILILITROS' | 'POR_PORCION' | 'POR_UNIDAD' | null
+  defaultServingSize?: number | null
+  defaultServingUnit?: MeasurementUnit | null
+  densidad?: number | null
+  calorias?: number | null
+  proteina?: number | null
+  carbohidratos?: number | null
+  grasas?: number | null
+  fibra?: number | null
+  azucar?: number | null
+  sodio?: number | null
   tags: string[]
   isActive: boolean
   costoReferencial: number | null
@@ -136,6 +147,17 @@ export interface RecipeIngredientInput {
   supplyTags: string[]
   supplyCostoReferencial?: number | null
   supplyMermaPorcentaje?: number | null
+  supplyCalorias?: number | null
+  supplyProteina?: number | null
+  supplyCarbohidratos?: number | null
+  supplyGrasas?: number | null
+  supplyFibra?: number | null
+  supplyAzucar?: number | null
+  supplySodio?: number | null
+  supplyNutritionBasis?: 'POR_100_GRAMOS' | 'POR_100_MILILITROS' | 'POR_PORCION' | 'POR_UNIDAD' | null
+  supplyDefaultServingSize?: number | null
+  supplyDefaultServingUnit?: MeasurementUnit | null
+  supplyDensidad?: number | null
   grupo?: string | null
   cantidad: number
   unidad: MeasurementUnit

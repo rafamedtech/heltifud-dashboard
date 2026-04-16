@@ -392,7 +392,8 @@ export const ModelName = {
   SupplyCategory: 'SupplyCategory',
   SupplyItem: 'SupplyItem',
   Recipe: 'Recipe',
-  RecipeIngredient: 'RecipeIngredient'
+  RecipeIngredient: 'RecipeIngredient',
+  SupplyNutritionLookupLog: 'SupplyNutritionLookupLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -408,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "weeklyMenu" | "menuDay" | "daySlot" | "foodCatalogItem" | "foodComponent" | "supplyCategory" | "supplyItem" | "recipe" | "recipeIngredient"
+    modelProps: "weeklyMenu" | "menuDay" | "daySlot" | "foodCatalogItem" | "foodComponent" | "supplyCategory" | "supplyItem" | "recipe" | "recipeIngredient" | "supplyNutritionLookupLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1078,6 +1079,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SupplyNutritionLookupLog: {
+      payload: Prisma.$SupplyNutritionLookupLogPayload<ExtArgs>
+      fields: Prisma.SupplyNutritionLookupLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SupplyNutritionLookupLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SupplyNutritionLookupLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload>
+        }
+        findFirst: {
+          args: Prisma.SupplyNutritionLookupLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SupplyNutritionLookupLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload>
+        }
+        findMany: {
+          args: Prisma.SupplyNutritionLookupLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload>[]
+        }
+        create: {
+          args: Prisma.SupplyNutritionLookupLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload>
+        }
+        createMany: {
+          args: Prisma.SupplyNutritionLookupLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SupplyNutritionLookupLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload>[]
+        }
+        delete: {
+          args: Prisma.SupplyNutritionLookupLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload>
+        }
+        update: {
+          args: Prisma.SupplyNutritionLookupLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.SupplyNutritionLookupLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SupplyNutritionLookupLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SupplyNutritionLookupLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.SupplyNutritionLookupLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplyNutritionLookupLogPayload>
+        }
+        aggregate: {
+          args: Prisma.SupplyNutritionLookupLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSupplyNutritionLookupLog>
+        }
+        groupBy: {
+          args: Prisma.SupplyNutritionLookupLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplyNutritionLookupLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SupplyNutritionLookupLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplyNutritionLookupLogCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1204,10 +1279,34 @@ export const SupplyItemScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   nombre: 'nombre',
+  normalizedName: 'normalizedName',
   descripcion: 'descripcion',
   codigo: 'codigo',
+  barcode: 'barcode',
   unidadBase: 'unidadBase',
+  defaultServingSize: 'defaultServingSize',
+  defaultServingUnit: 'defaultServingUnit',
+  nutritionBasis: 'nutritionBasis',
+  calorias: 'calorias',
+  proteina: 'proteina',
+  carbohidratos: 'carbohidratos',
+  grasas: 'grasas',
+  fibra: 'fibra',
+  azucar: 'azucar',
+  sodio: 'sodio',
+  densidad: 'densidad',
+  ediblePortionFactor: 'ediblePortionFactor',
   tags: 'tags',
+  source: 'source',
+  sourceExternalId: 'sourceExternalId',
+  sourceQuery: 'sourceQuery',
+  sourceConfidence: 'sourceConfidence',
+  sourceSnapshot: 'sourceSnapshot',
+  lastSyncedAt: 'lastSyncedAt',
+  manualOverride: 'manualOverride',
+  needsReview: 'needsReview',
+  reviewNotes: 'reviewNotes',
+  status: 'status',
   isActive: 'isActive',
   costoReferencial: 'costoReferencial',
   mermaPorcentaje: 'mermaPorcentaje',
@@ -1229,6 +1328,16 @@ export const RecipeScalarFieldEnum = {
   rendimientoUnidad: 'rendimientoUnidad',
   tiempoPreparacionMin: 'tiempoPreparacionMin',
   tiempoCoccionMin: 'tiempoCoccionMin',
+  calorias: 'calorias',
+  proteina: 'proteina',
+  carbohidratos: 'carbohidratos',
+  grasas: 'grasas',
+  fibra: 'fibra',
+  azucar: 'azucar',
+  sodio: 'sodio',
+  costoEstimado: 'costoEstimado',
+  pesoTotalGramos: 'pesoTotalGramos',
+  nutritionCalculatedAt: 'nutritionCalculatedAt',
   instrucciones: 'instrucciones',
   notas: 'notas'
 } as const
@@ -1246,11 +1355,34 @@ export const RecipeIngredientScalarFieldEnum = {
   grupo: 'grupo',
   cantidad: 'cantidad',
   unidad: 'unidad',
+  quantityInBaseUnit: 'quantityInBaseUnit',
+  wasteFactor: 'wasteFactor',
   notas: 'notas',
+  notasInternas: 'notasInternas',
   opcional: 'opcional'
 } as const
 
 export type RecipeIngredientScalarFieldEnum = (typeof RecipeIngredientScalarFieldEnum)[keyof typeof RecipeIngredientScalarFieldEnum]
+
+
+export const SupplyNutritionLookupLogScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  supplyItemId: 'supplyItemId',
+  source: 'source',
+  sourceExternalId: 'sourceExternalId',
+  query: 'query',
+  normalizedQuery: 'normalizedQuery',
+  confidence: 'confidence',
+  outcome: 'outcome',
+  requestSnapshot: 'requestSnapshot',
+  responseSnapshot: 'responseSnapshot',
+  selectedSnapshot: 'selectedSnapshot',
+  errorMessage: 'errorMessage',
+  accepted: 'accepted'
+} as const
+
+export type SupplyNutritionLookupLogScalarFieldEnum = (typeof SupplyNutritionLookupLogScalarFieldEnum)[keyof typeof SupplyNutritionLookupLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1259,6 +1391,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1275,6 +1415,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -1403,6 +1552,62 @@ export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMo
 
 
 /**
+ * Reference to a field of type 'NutritionBasis'
+ */
+export type EnumNutritionBasisFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NutritionBasis'>
+    
+
+
+/**
+ * Reference to a field of type 'NutritionBasis[]'
+ */
+export type ListEnumNutritionBasisFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NutritionBasis[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NutritionSource'
+ */
+export type EnumNutritionSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NutritionSource'>
+    
+
+
+/**
+ * Reference to a field of type 'NutritionSource[]'
+ */
+export type ListEnumNutritionSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NutritionSource[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'SupplyItemStatus'
+ */
+export type EnumSupplyItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplyItemStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SupplyItemStatus[]'
+ */
+export type ListEnumSupplyItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplyItemStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'RecipeStatus'
  */
 export type EnumRecipeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecipeStatus'>
@@ -1413,6 +1618,20 @@ export type EnumRecipeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'RecipeStatus[]'
  */
 export type ListEnumRecipeStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecipeStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NutritionLookupOutcome'
+ */
+export type EnumNutritionLookupOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NutritionLookupOutcome'>
+    
+
+
+/**
+ * Reference to a field of type 'NutritionLookupOutcome[]'
+ */
+export type ListEnumNutritionLookupOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NutritionLookupOutcome[]'>
     
 
 
@@ -1533,6 +1752,7 @@ export type GlobalOmitConfig = {
   supplyItem?: Prisma.SupplyItemOmit
   recipe?: Prisma.RecipeOmit
   recipeIngredient?: Prisma.RecipeIngredientOmit
+  supplyNutritionLookupLog?: Prisma.SupplyNutritionLookupLogOmit
 }
 
 /* Types for Logging */

@@ -56,6 +56,34 @@ enum MeasurementUnit {
   PORCION
 }
 
+enum NutritionBasis {
+  POR_100_GRAMOS
+  POR_100_MILILITROS
+  POR_PORCION
+  POR_UNIDAD
+}
+
+enum NutritionSource {
+  MANUAL
+  USDA
+  FATSECRET
+  OPENFOODFACTS
+  ETIQUETA
+  OTRO
+}
+
+enum SupplyItemStatus {
+  BORRADOR
+  ACTIVO
+  ARCHIVADO
+}
+
+enum NutritionLookupOutcome {
+  MATCH
+  SIN_RESULTADOS
+  ERROR
+}
+
 model WeeklyMenu {
   id        String    @id @default(uuid())
   createdAt DateTime  @default(now())
@@ -149,62 +177,127 @@ model SupplyCategory {
 }
 
 model SupplyItem {
-  id               String             @id @default(uuid())
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  nombre           String
-  descripcion      String
-  codigo           String?            @unique
-  unidadBase       MeasurementUnit
-  tags             String[]           @default([])
-  isActive         Boolean            @default(true)
-  costoReferencial Decimal?           @db.Decimal(10, 2)
-  mermaPorcentaje  Decimal?           @db.Decimal(5, 2)
-  categoryId       String?
-  category         SupplyCategory?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  recipeItems      RecipeIngredient[]
+  id                  String                     @id @default(uuid())
+  createdAt           DateTime                   @default(now())
+  updatedAt           DateTime                   @updatedAt
+  nombre              String
+  normalizedName      String                     @default("")
+  descripcion         String
+  codigo              String?                    @unique
+  barcode             String?                    @unique
+  unidadBase          MeasurementUnit
+  defaultServingSize  Decimal?                   @db.Decimal(10, 2)
+  defaultServingUnit  MeasurementUnit?
+  nutritionBasis      NutritionBasis?
+  calorias            Decimal?                   @db.Decimal(10, 2)
+  proteina            Decimal?                   @db.Decimal(10, 2)
+  carbohidratos       Decimal?                   @db.Decimal(10, 2)
+  grasas              Decimal?                   @db.Decimal(10, 2)
+  fibra               Decimal?                   @db.Decimal(10, 2)
+  azucar              Decimal?                   @db.Decimal(10, 2)
+  sodio               Decimal?                   @db.Decimal(10, 2)
+  densidad            Decimal?                   @db.Decimal(10, 4)
+  ediblePortionFactor Decimal?                   @db.Decimal(5, 4)
+  tags                String[]                   @default([])
+  source              NutritionSource?
+  sourceExternalId    String?
+  sourceQuery         String?
+  sourceConfidence    Decimal?                   @db.Decimal(5, 4)
+  sourceSnapshot      Json?
+  lastSyncedAt        DateTime?
+  manualOverride      Boolean                    @default(false)
+  needsReview         Boolean                    @default(false)
+  reviewNotes         String                     @default("")
+  status              SupplyItemStatus           @default(BORRADOR)
+  isActive            Boolean                    @default(true)
+  costoReferencial    Decimal?                   @db.Decimal(10, 2)
+  mermaPorcentaje     Decimal?                   @db.Decimal(5, 2)
+  categoryId          String?
+  category            SupplyCategory?            @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  recipeItems         RecipeIngredient[]
+  nutritionLookups    SupplyNutritionLookupLog[]
 
   @@index([nombre])
+  @@index([normalizedName])
   @@index([isActive])
+  @@index([status, needsReview])
   @@index([categoryId, nombre])
+  @@index([source, sourceExternalId])
+  @@index([lastSyncedAt])
 }
 
 model Recipe {
-  id                   String             @id @default(uuid())
-  createdAt            DateTime           @default(now())
-  updatedAt            DateTime           @updatedAt
-  foodCatalogItemId    String             @unique
-  foodCatalogItem      FoodCatalogItem    @relation(fields: [foodCatalogItemId], references: [id], onDelete: Cascade)
-  status               RecipeStatus       @default(BORRADOR)
-  version              Int                @default(1)
-  porciones            Int?
-  rendimientoCantidad  Decimal?           @db.Decimal(10, 2)
-  rendimientoUnidad    MeasurementUnit?
-  tiempoPreparacionMin Int?
-  tiempoCoccionMin     Int?
-  instrucciones        String             @default("")
-  notas                String             @default("")
-  ingredients          RecipeIngredient[]
+  id                    String             @id @default(uuid())
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  foodCatalogItemId     String             @unique
+  foodCatalogItem       FoodCatalogItem    @relation(fields: [foodCatalogItemId], references: [id], onDelete: Cascade)
+  status                RecipeStatus       @default(BORRADOR)
+  version               Int                @default(1)
+  porciones             Int?
+  rendimientoCantidad   Decimal?           @db.Decimal(10, 2)
+  rendimientoUnidad     MeasurementUnit?
+  tiempoPreparacionMin  Int?
+  tiempoCoccionMin      Int?
+  calorias              Decimal?           @db.Decimal(10, 2)
+  proteina              Decimal?           @db.Decimal(10, 2)
+  carbohidratos         Decimal?           @db.Decimal(10, 2)
+  grasas                Decimal?           @db.Decimal(10, 2)
+  fibra                 Decimal?           @db.Decimal(10, 2)
+  azucar                Decimal?           @db.Decimal(10, 2)
+  sodio                 Decimal?           @db.Decimal(10, 2)
+  costoEstimado         Decimal?           @db.Decimal(10, 2)
+  pesoTotalGramos       Decimal?           @db.Decimal(10, 2)
+  nutritionCalculatedAt DateTime?
+  instrucciones         String             @default("")
+  notas                 String             @default("")
+  ingredients           RecipeIngredient[]
 
   @@index([status])
+  @@index([nutritionCalculatedAt])
 }
 
 model RecipeIngredient {
-  id           String          @id @default(uuid())
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  recipeId     String
-  recipe       Recipe          @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  supplyItemId String
-  supplyItem   SupplyItem      @relation(fields: [supplyItemId], references: [id], onDelete: Restrict)
-  orden        Int             @default(0)
-  grupo        String?
-  cantidad     Decimal         @db.Decimal(10, 2)
-  unidad       MeasurementUnit
-  notas        String          @default("")
-  opcional     Boolean         @default(false)
+  id                 String          @id @default(uuid())
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  recipeId           String
+  recipe             Recipe          @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  supplyItemId       String
+  supplyItem         SupplyItem      @relation(fields: [supplyItemId], references: [id], onDelete: Restrict)
+  orden              Int             @default(0)
+  grupo              String?
+  cantidad           Decimal         @db.Decimal(10, 2)
+  unidad             MeasurementUnit
+  quantityInBaseUnit Decimal?        @db.Decimal(12, 4)
+  wasteFactor        Decimal?        @db.Decimal(5, 4)
+  notas              String          @default("")
+  notasInternas      String          @default("")
+  opcional           Boolean         @default(false)
 
   @@unique([recipeId, orden])
   @@index([recipeId, orden])
   @@index([supplyItemId])
+}
+
+model SupplyNutritionLookupLog {
+  id               String                 @id @default(uuid())
+  createdAt        DateTime               @default(now())
+  supplyItemId     String?
+  supplyItem       SupplyItem?            @relation(fields: [supplyItemId], references: [id], onDelete: SetNull)
+  source           NutritionSource
+  sourceExternalId String?
+  query            String
+  normalizedQuery  String
+  confidence       Decimal?               @db.Decimal(5, 4)
+  outcome          NutritionLookupOutcome
+  requestSnapshot  Json?
+  responseSnapshot Json?
+  selectedSnapshot Json?
+  errorMessage     String?
+  accepted         Boolean?
+
+  @@index([supplyItemId, createdAt])
+  @@index([source, normalizedQuery])
+  @@index([outcome, createdAt])
 }

@@ -50,11 +50,82 @@ type RecipeIngredientFormState = {
   supplyTags: string[];
   supplyCostoReferencial: number | null;
   supplyMermaPorcentaje: number | null;
+  supplyCalorias: number | null;
+  supplyProteina: number | null;
+  supplyCarbohidratos: number | null;
+  supplyGrasas: number | null;
+  supplyFibra: number | null;
+  supplyAzucar: number | null;
+  supplySodio: number | null;
+  supplyNutritionBasis:
+    | 'POR_100_GRAMOS'
+    | 'POR_100_MILILITROS'
+    | 'POR_PORCION'
+    | 'POR_UNIDAD'
+    | null;
+  supplyDefaultServingSize: number | null;
+  supplyDefaultServingUnit: MeasurementUnit | null;
+  supplyDensidad: number | null;
   grupo: string;
   cantidad: number | null;
   unidad: MeasurementUnit;
   notas: string;
   opcional: boolean;
+};
+
+type NutritionBasisOption =
+  | 'POR_100_GRAMOS'
+  | 'POR_100_MILILITROS'
+  | 'POR_PORCION'
+  | 'POR_UNIDAD';
+
+type IngredientNutritionReviewSource = 'USDA' | 'FATSECRET';
+
+type IngredientNutritionReviewState = {
+  available: boolean;
+  message: string;
+  matchedName: string;
+  source: string;
+  confidence: number | null;
+  supplyCalorias: number | null;
+  supplyProteina: number | null;
+  supplyCarbohidratos: number | null;
+  supplyGrasas: number | null;
+  supplyFibra: number | null;
+  supplyAzucar: number | null;
+  supplySodio: number | null;
+  supplyNutritionBasis: NutritionBasisOption | null;
+  supplyDefaultServingSize: number | null;
+  supplyDefaultServingUnit: MeasurementUnit | null;
+  supplyDensidad: number | null;
+};
+
+type IngredientNutritionLookupResponse = {
+  normalized?: {
+    name?: string | null;
+    matchedName?: string | null;
+    nutritionBasis?: NutritionBasisOption | null;
+    defaultServingSize?: number | null;
+    defaultServingUnit?: MeasurementUnit | null;
+    density?: number | null;
+    calories?: number | null;
+    protein?: number | null;
+    carbs?: number | null;
+    fat?: number | null;
+    fiber?: number | null;
+    sugar?: number | null;
+    sodium?: number | null;
+  } | null;
+  source?: string | null;
+  confidence?: number | null;
+  providerMatches?: Array<{
+    source: IngredientNutritionReviewSource;
+    matched: boolean;
+    needsReview: boolean;
+    confidence: number | null;
+    message: string;
+    normalized?: IngredientNutritionLookupResponse['normalized'];
+  }>;
 };
 
 type RecipeFormState = {
@@ -155,9 +226,13 @@ const recipeDocumentModalOpen = ref(false);
 const zeroCaloriesModalOpen = ref(false);
 const pendingSavePayload = ref<FoodCatalogItemInput | null>(null);
 const isCreatingSupplyCategory = ref(false);
+const isHydratingIngredientNutrition = ref(false);
+const ingredientNutritionReviewOpen = ref(false);
 const createdSupplyItemOptions = ref<string[]>([]);
 const createdIngredientGroupOptions = ref<string[]>([]);
 const pendingIngredientModalCloseAction = ref<null | (() => void)>(null);
+const ingredientDeleteConfirmOpen = ref(false);
+const pendingIngredientDeleteIndex = ref<number | null>(null);
 const activeRecipeDocumentField = ref<'instrucciones' | 'notas'>(
   'instrucciones',
 );
@@ -172,6 +247,11 @@ const fieldErrors = reactive<Record<FieldErrorKey, string>>({
   tipo: '',
   recipe: '',
 });
+const ingredientFieldErrors = reactive({
+  supplyName: '',
+  cantidad: '',
+  supplyCategoryName: '',
+});
 
 const formErrors = computed<FormError[]>(() =>
   (Object.entries(fieldErrors) as Array<[FieldErrorKey, string]>)
@@ -180,6 +260,9 @@ const formErrors = computed<FormError[]>(() =>
 );
 
 const ingredientCount = computed(() => state.recipe.ingredients.length);
+const activeIngredientGroupTab = ref('todos');
+const activeIngredientNutritionReviewTab =
+  ref<IngredientNutritionReviewSource>('USDA');
 const ingredientPreview = computed(() =>
   state.recipe.ingredients
     .map((ingredient) => ingredient.supplyName.trim())
@@ -189,8 +272,17 @@ const ingredientPreview = computed(() =>
 const ingredientDraft = reactive<RecipeIngredientFormState>(
   createEmptyIngredient(),
 );
+const ingredientNutritionReviewDrafts = reactive<
+  Record<IngredientNutritionReviewSource, IngredientNutritionReviewState>
+>({
+  USDA: createEmptyIngredientNutritionReview('USDA'),
+  FATSECRET: createEmptyIngredientNutritionReview('FATSECRET'),
+});
 const isCreatingIngredient = computed(
   () => editingIngredientIndex.value === null,
+);
+const activeIngredientNutritionReviewDraft = computed(
+  () => ingredientNutritionReviewDrafts[activeIngredientNutritionReviewTab.value],
 );
 function formatSelectMenuLabel(value: string) {
   const trimmedValue = value.trim();
@@ -246,6 +338,95 @@ const ingredientGroupOptions = computed(() =>
     value: group,
   })),
 );
+const selectedIngredientSupply = computed(() => {
+  const normalizedName = ingredientDraft.supplyName
+    .trim()
+    .toLocaleLowerCase('es-MX');
+
+  if (!normalizedName) {
+    return null;
+  }
+
+  return (
+    (supplyItems.value ?? []).find(
+      (item) =>
+        item.nombre.trim().toLocaleLowerCase('es-MX') === normalizedName,
+    ) ?? null
+  );
+});
+const ingredientNutritionFactor = computed(() =>
+  resolveIngredientNutritionFactor(ingredientDraft),
+);
+const computedIngredientMacros = computed(() => {
+  const factor = ingredientNutritionFactor.value;
+
+  const scale = (value: number | null) =>
+    factor === null || value === null ? null : roundNutritionValue(value * factor);
+
+  return {
+    calories: scale(ingredientDraft.supplyCalorias),
+    protein: scale(ingredientDraft.supplyProteina),
+    carbs: scale(ingredientDraft.supplyCarbohidratos),
+    fat: scale(ingredientDraft.supplyGrasas),
+    fiber: scale(ingredientDraft.supplyFibra),
+    sugar: scale(ingredientDraft.supplyAzucar),
+    sodium: scale(ingredientDraft.supplySodio),
+  };
+});
+const ingredientListTabs = computed(() => [
+  {
+    label: 'Todos',
+    value: 'todos',
+  },
+  ...Array.from(
+    new Set(
+      state.recipe.ingredients
+        .map((ingredient) => ingredient.grupo.trim())
+        .filter(Boolean),
+    ),
+  ).map((group) => ({
+    label: formatSelectMenuLabel(group),
+    value: group,
+  })),
+]);
+const nutritionBasisOptions = [
+  { label: 'Por 100 gramos', value: 'POR_100_GRAMOS' },
+  { label: 'Por 100 mililitros', value: 'POR_100_MILILITROS' },
+  { label: 'Por porción', value: 'POR_PORCION' },
+  { label: 'Por unidad', value: 'POR_UNIDAD' },
+];
+const ingredientNutritionReviewTabs = [
+  { label: 'USDA', value: 'USDA' },
+  { label: 'FatSecret', value: 'FATSECRET' },
+];
+const filteredIngredients = computed(() => {
+  const ingredientsWithIndex = state.recipe.ingredients.map((ingredient, index) => ({
+    ingredient,
+    index,
+  }));
+
+  if (activeIngredientGroupTab.value === 'todos') {
+    return [...ingredientsWithIndex].sort((a, b) => {
+      const groupA = a.ingredient.grupo.trim().toLocaleLowerCase('es-MX');
+      const groupB = b.ingredient.grupo.trim().toLocaleLowerCase('es-MX');
+
+      if (groupA === groupB) {
+        return a.index - b.index;
+      }
+
+      if (!groupA) return 1;
+      if (!groupB) return -1;
+
+      return groupA.localeCompare(groupB, 'es-MX');
+    });
+  }
+
+  return ingredientsWithIndex
+    .filter(
+      ({ ingredient }) =>
+        ingredient.grupo.trim() === activeIngredientGroupTab.value,
+    );
+});
 const recipeDocumentConfig = computed(() => {
   const isInstructions = activeRecipeDocumentField.value === 'instrucciones';
 
@@ -285,6 +466,17 @@ function createEmptyIngredient(): RecipeIngredientFormState {
     supplyTags: [],
     supplyCostoReferencial: null,
     supplyMermaPorcentaje: null,
+    supplyCalorias: null,
+    supplyProteina: null,
+    supplyCarbohidratos: null,
+    supplyGrasas: null,
+    supplyFibra: null,
+    supplyAzucar: null,
+    supplySodio: null,
+    supplyNutritionBasis: null,
+    supplyDefaultServingSize: null,
+    supplyDefaultServingUnit: null,
+    supplyDensidad: null,
     grupo: 'General',
     cantidad: null,
     unidad: 'GRAMO',
@@ -307,6 +499,64 @@ function createEmptyRecipe(): RecipeFormState {
   };
 }
 
+function createEmptyIngredientNutritionReview(
+  source: IngredientNutritionReviewSource,
+): IngredientNutritionReviewState {
+  return {
+    available: false,
+    message: `No hubo coincidencias útiles en ${source}.`,
+    matchedName: '',
+    source,
+    confidence: null,
+    supplyCalorias: null,
+    supplyProteina: null,
+    supplyCarbohidratos: null,
+    supplyGrasas: null,
+    supplyFibra: null,
+    supplyAzucar: null,
+    supplySodio: null,
+    supplyNutritionBasis: null,
+    supplyDefaultServingSize: null,
+    supplyDefaultServingUnit: null,
+    supplyDensidad: null,
+  };
+}
+
+function syncIngredientNutritionReview(
+  reviewSource: IngredientNutritionReviewSource,
+  source?: Partial<IngredientNutritionReviewState> | null,
+) {
+  const target = ingredientNutritionReviewDrafts[reviewSource];
+  const nextValue = source ?? createEmptyIngredientNutritionReview(reviewSource);
+
+  target.available = nextValue.available ?? false;
+  target.message =
+    nextValue.message ??
+    `No hubo coincidencias útiles en ${reviewSource}.`;
+  target.matchedName = nextValue.matchedName ?? '';
+  target.source = nextValue.source ?? reviewSource;
+  target.confidence = nextValue.confidence ?? null;
+  target.supplyCalorias = nextValue.supplyCalorias ?? null;
+  target.supplyProteina = nextValue.supplyProteina ?? null;
+  target.supplyCarbohidratos = nextValue.supplyCarbohidratos ?? null;
+  target.supplyGrasas = nextValue.supplyGrasas ?? null;
+  target.supplyFibra = nextValue.supplyFibra ?? null;
+  target.supplyAzucar = nextValue.supplyAzucar ?? null;
+  target.supplySodio = nextValue.supplySodio ?? null;
+  target.supplyNutritionBasis = nextValue.supplyNutritionBasis ?? null;
+  target.supplyDefaultServingSize =
+    nextValue.supplyDefaultServingSize ?? null;
+  target.supplyDefaultServingUnit =
+    nextValue.supplyDefaultServingUnit ?? null;
+  target.supplyDensidad = nextValue.supplyDensidad ?? null;
+}
+
+function resetIngredientNutritionReview() {
+  syncIngredientNutritionReview('USDA');
+  syncIngredientNutritionReview('FATSECRET');
+  activeIngredientNutritionReviewTab.value = 'USDA';
+}
+
 function syncIngredientDraft(source?: RecipeIngredientFormState | null) {
   const nextValue = source ?? createEmptyIngredient();
 
@@ -318,11 +568,67 @@ function syncIngredientDraft(source?: RecipeIngredientFormState | null) {
   ingredientDraft.supplyTags = [...nextValue.supplyTags];
   ingredientDraft.supplyCostoReferencial = nextValue.supplyCostoReferencial;
   ingredientDraft.supplyMermaPorcentaje = nextValue.supplyMermaPorcentaje;
+  ingredientDraft.supplyCalorias = nextValue.supplyCalorias;
+  ingredientDraft.supplyProteina = nextValue.supplyProteina;
+  ingredientDraft.supplyCarbohidratos = nextValue.supplyCarbohidratos;
+  ingredientDraft.supplyGrasas = nextValue.supplyGrasas;
+  ingredientDraft.supplyFibra = nextValue.supplyFibra;
+  ingredientDraft.supplyAzucar = nextValue.supplyAzucar;
+  ingredientDraft.supplySodio = nextValue.supplySodio;
+  ingredientDraft.supplyNutritionBasis = nextValue.supplyNutritionBasis;
+  ingredientDraft.supplyDefaultServingSize = nextValue.supplyDefaultServingSize;
+  ingredientDraft.supplyDefaultServingUnit = nextValue.supplyDefaultServingUnit;
+  ingredientDraft.supplyDensidad = nextValue.supplyDensidad;
   ingredientDraft.grupo = nextValue.grupo;
   ingredientDraft.cantidad = nextValue.cantidad;
   ingredientDraft.unidad = nextValue.unidad;
   ingredientDraft.notas = nextValue.notas;
   ingredientDraft.opcional = nextValue.opcional;
+}
+
+function buildIngredientNutritionReviewFromLookup(
+  source: IngredientNutritionReviewSource,
+  match?: IngredientNutritionLookupResponse['providerMatches'][number] | null,
+) {
+  if (!match?.normalized) {
+    return {
+      available: false,
+      message: match?.message ?? `No hubo coincidencias útiles en ${source}.`,
+      matchedName: '',
+      source,
+      confidence: match?.confidence ?? null,
+      supplyCalorias: null,
+      supplyProteina: null,
+      supplyCarbohidratos: null,
+      supplyGrasas: null,
+      supplyFibra: null,
+      supplyAzucar: null,
+      supplySodio: null,
+      supplyNutritionBasis: null,
+      supplyDefaultServingSize: null,
+      supplyDefaultServingUnit: null,
+      supplyDensidad: null,
+    } satisfies IngredientNutritionReviewState;
+  }
+
+  return {
+    available: true,
+    message: match.message,
+    matchedName: match.normalized.matchedName ?? match.normalized.name ?? '',
+    source,
+    confidence: match.confidence ?? null,
+    supplyCalorias: match.normalized.calories ?? null,
+    supplyProteina: match.normalized.protein ?? null,
+    supplyCarbohidratos: match.normalized.carbs ?? null,
+    supplyGrasas: match.normalized.fat ?? null,
+    supplyFibra: match.normalized.fiber ?? null,
+    supplyAzucar: match.normalized.sugar ?? null,
+    supplySodio: match.normalized.sodium ?? null,
+    supplyNutritionBasis: match.normalized.nutritionBasis ?? null,
+    supplyDefaultServingSize: match.normalized.defaultServingSize ?? null,
+    supplyDefaultServingUnit: match.normalized.defaultServingUnit ?? null,
+    supplyDensidad: match.normalized.density ?? null,
+  } satisfies IngredientNutritionReviewState;
 }
 
 function formatEnumLabel(value: string) {
@@ -341,6 +647,121 @@ function formatRecipeUnitLabel(unit: MeasurementUnit, quantity: number | null) {
   }
 
   return `${baseLabel}(s)`;
+}
+
+function roundNutritionValue(value: number | null) {
+  if (value === null || Number.isNaN(value)) {
+    return null;
+  }
+
+  return Math.round(value * 100) / 100;
+}
+
+function convertToGrams(quantity: number | null, unit: MeasurementUnit | null) {
+  if (quantity === null || !unit) {
+    return null;
+  }
+
+  const ratios: Partial<Record<MeasurementUnit, number>> = {
+    GRAMO: 1,
+    KILOGRAMO: 1000,
+    ONZA: 28.349523125,
+    LIBRA: 453.59237,
+  };
+
+  const ratio = ratios[unit];
+  return ratio ? quantity * ratio : null;
+}
+
+function convertToMilliliters(
+  quantity: number | null,
+  unit: MeasurementUnit | null,
+) {
+  if (quantity === null || !unit) {
+    return null;
+  }
+
+  const ratios: Partial<Record<MeasurementUnit, number>> = {
+    MILILITRO: 1,
+    LITRO: 1000,
+    TAZA: 240,
+    CUCHARADA: 15,
+    CUCHARADITA: 5,
+    BOTELLA: 1000,
+    LATA: 355,
+  };
+
+  const ratio = ratios[unit];
+  return ratio ? quantity * ratio : null;
+}
+
+function resolveIngredientNutritionFactor(ingredient: RecipeIngredientFormState) {
+  const basis = ingredient.supplyNutritionBasis;
+  const quantity = ingredient.cantidad;
+
+  if (quantity === null || !basis) {
+    return null;
+  }
+
+  if (basis === 'POR_100_GRAMOS') {
+    const grams = convertToGrams(quantity, ingredient.unidad);
+
+    if (grams !== null) {
+      return grams / 100;
+    }
+
+    if (ingredient.supplyUnitBase === 'MILILITRO' || ingredient.supplyUnitBase === 'LITRO') {
+      const milliliters = convertToMilliliters(quantity, ingredient.unidad);
+      const density = ingredient.supplyDensidad;
+
+      if (milliliters !== null && density !== null) {
+        return (milliliters * density) / 100;
+      }
+    }
+
+    return null;
+  }
+
+  if (basis === 'POR_100_MILILITROS') {
+    const milliliters = convertToMilliliters(quantity, ingredient.unidad);
+
+    if (milliliters !== null) {
+      return milliliters / 100;
+    }
+
+    return null;
+  }
+
+  if (basis === 'POR_UNIDAD') {
+    return quantity;
+  }
+
+  const servingSize = ingredient.supplyDefaultServingSize;
+  const servingUnit = ingredient.supplyDefaultServingUnit;
+
+  if (!servingSize || !servingUnit) {
+    return null;
+  }
+
+  if (servingUnit === ingredient.unidad) {
+    return quantity / servingSize;
+  }
+
+  const grams = convertToGrams(quantity, ingredient.unidad);
+  const servingGrams = convertToGrams(servingSize, servingUnit);
+
+  if (grams !== null && servingGrams !== null) {
+    return grams / servingGrams;
+  }
+
+  const milliliters = convertToMilliliters(quantity, ingredient.unidad);
+  const servingMilliliters = convertToMilliliters(servingSize, servingUnit);
+
+  if (milliliters !== null && servingMilliliters !== null) {
+    return milliliters / servingMilliliters;
+  }
+
+  return null;
 }
 
 function normalizeTags(tags: string[]) {
@@ -373,6 +794,17 @@ function ingredientHasContent(ingredient: RecipeIngredientFormState) {
     ingredient.notas.trim() ||
     ingredient.supplyCostoReferencial !== null ||
     ingredient.supplyMermaPorcentaje !== null ||
+    ingredient.supplyCalorias !== null ||
+    ingredient.supplyProteina !== null ||
+    ingredient.supplyCarbohidratos !== null ||
+    ingredient.supplyGrasas !== null ||
+    ingredient.supplyFibra !== null ||
+    ingredient.supplyAzucar !== null ||
+    ingredient.supplySodio !== null ||
+    ingredient.supplyNutritionBasis !== null ||
+    ingredient.supplyDefaultServingSize !== null ||
+    ingredient.supplyDefaultServingUnit !== null ||
+    ingredient.supplyDensidad !== null ||
     ingredient.cantidad !== null,
   );
 }
@@ -435,6 +867,18 @@ function syncState(item?: FoodCatalogItemDetail | null) {
           supplyTags: normalizeTags(ingredient.supplyItem.tags),
           supplyCostoReferencial: ingredient.supplyItem.costoReferencial,
           supplyMermaPorcentaje: ingredient.supplyItem.mermaPorcentaje,
+          supplyCalorias: ingredient.supplyItem.calorias ?? null,
+          supplyProteina: ingredient.supplyItem.proteina ?? null,
+          supplyCarbohidratos: ingredient.supplyItem.carbohidratos ?? null,
+          supplyGrasas: ingredient.supplyItem.grasas ?? null,
+          supplyFibra: ingredient.supplyItem.fibra ?? null,
+          supplyAzucar: ingredient.supplyItem.azucar ?? null,
+          supplySodio: ingredient.supplyItem.sodio ?? null,
+          supplyNutritionBasis: ingredient.supplyItem.nutritionBasis ?? null,
+          supplyDefaultServingSize: ingredient.supplyItem.defaultServingSize ?? null,
+          supplyDefaultServingUnit:
+            ingredient.supplyItem.defaultServingUnit ?? null,
+          supplyDensidad: ingredient.supplyItem.densidad ?? null,
           grupo: ingredient.grupo ?? '',
           cantidad: ingredient.cantidad,
           unidad: ingredient.unidad,
@@ -455,14 +899,54 @@ function resetValidationState() {
   });
 }
 
+function resetIngredientValidationState() {
+  ingredientFieldErrors.supplyName = '';
+  ingredientFieldErrors.cantidad = '';
+  ingredientFieldErrors.supplyCategoryName = '';
+}
+
 function openCreateIngredientModal() {
   editingIngredientIndex.value = null;
   syncIngredientDraft();
+  resetIngredientValidationState();
   ingredientModalOpen.value = true;
 }
 
 function removeIngredient(index: number) {
   state.recipe.ingredients.splice(index, 1);
+}
+
+function confirmRemoveEditingIngredient() {
+  if (editingIngredientIndex.value === null) {
+    return;
+  }
+
+  pendingIngredientDeleteIndex.value = editingIngredientIndex.value;
+  ingredientDeleteConfirmOpen.value = true;
+}
+
+function removeEditingIngredient() {
+  if (pendingIngredientDeleteIndex.value === null) {
+    ingredientDeleteConfirmOpen.value = false;
+    return;
+  }
+
+  const ingredientIndex = pendingIngredientDeleteIndex.value;
+  ingredientDeleteConfirmOpen.value = false;
+
+  ingredientModalOpen.value = false;
+  pendingIngredientModalCloseAction.value = () => {
+    removeIngredient(ingredientIndex);
+    pendingIngredientDeleteIndex.value = null;
+    editingIngredientIndex.value = null;
+    syncIngredientDraft();
+    resetIngredientValidationState();
+  };
+}
+
+function cancelRemoveEditingIngredient() {
+  ingredientDeleteConfirmOpen.value = false;
+  pendingIngredientDeleteIndex.value = null;
 }
 
 function openEditIngredientModal(index: number) {
@@ -473,6 +957,7 @@ function openEditIngredientModal(index: number) {
 
   editingIngredientIndex.value = index;
   syncIngredientDraft(ingredient);
+  resetIngredientValidationState();
   ingredientModalOpen.value = true;
 }
 
@@ -481,6 +966,7 @@ function closeIngredientModal() {
   pendingIngredientModalCloseAction.value = () => {
     editingIngredientIndex.value = null;
     syncIngredientDraft();
+    resetIngredientValidationState();
   };
 }
 
@@ -514,10 +1000,211 @@ function hydrateIngredientFromCatalog(ingredient: RecipeIngredientFormState) {
   }
   ingredient.supplyCostoReferencial ??= matchedSupply.costoReferencial;
   ingredient.supplyMermaPorcentaje ??= matchedSupply.mermaPorcentaje;
+  ingredient.supplyCalorias ??= matchedSupply.calorias ?? null;
+  ingredient.supplyProteina ??= matchedSupply.proteina ?? null;
+  ingredient.supplyCarbohidratos ??= matchedSupply.carbohidratos ?? null;
+  ingredient.supplyGrasas ??= matchedSupply.grasas ?? null;
+  ingredient.supplyFibra ??= matchedSupply.fibra ?? null;
+  ingredient.supplyAzucar ??= matchedSupply.azucar ?? null;
+  ingredient.supplySodio ??= matchedSupply.sodio ?? null;
+  ingredient.supplyNutritionBasis ??= matchedSupply.nutritionBasis ?? null;
+  ingredient.supplyDefaultServingSize ??=
+    matchedSupply.defaultServingSize ?? null;
+  ingredient.supplyDefaultServingUnit ??=
+    matchedSupply.defaultServingUnit ?? null;
+  ingredient.supplyDensidad ??= matchedSupply.densidad ?? null;
+}
+
+async function hydrateIngredientNutritionFromLookup() {
+  const supplyName = ingredientDraft.supplyName.trim();
+
+  if (!supplyName || isHydratingIngredientNutrition.value) {
+    return;
+  }
+
+  isHydratingIngredientNutrition.value = true;
+
+  try {
+    const result = await $fetch<IngredientNutritionLookupResponse>(
+      '/api/admin/supplies/lookup',
+      {
+      method: 'POST',
+      body: {
+        name: supplyName,
+        description: ingredientDraft.supplyDescription.trim(),
+        codigo: ingredientDraft.supplyCode.trim() || null,
+        unidadBase: ingredientDraft.supplyUnitBase,
+      },
+    },
+    );
+
+    resetIngredientNutritionReview();
+
+    const usdaMatch = result.providerMatches?.find(
+      (match) => match.source === 'USDA',
+    );
+    const fatSecretMatch = result.providerMatches?.find(
+      (match) => match.source === 'FATSECRET',
+    );
+
+    if (!usdaMatch?.normalized && !fatSecretMatch?.normalized && !result?.normalized) {
+      toast.add({
+        title: 'No encontramos datos nutricionales',
+        description:
+          'No hubo respuesta útil para revisar este insumo.',
+        color: 'warning',
+        icon: 'i-lucide-circle-alert',
+      });
+      return;
+    }
+
+    syncIngredientNutritionReview(
+      'USDA',
+      buildIngredientNutritionReviewFromLookup('USDA', usdaMatch),
+    );
+    syncIngredientNutritionReview(
+      'FATSECRET',
+      buildIngredientNutritionReviewFromLookup('FATSECRET', fatSecretMatch),
+    );
+
+    if (
+      !usdaMatch &&
+      !fatSecretMatch &&
+      result?.normalized
+    ) {
+      const fallbackSource =
+        result.source === 'FATSECRET' ? 'FATSECRET' : 'USDA';
+
+      syncIngredientNutritionReview(fallbackSource, {
+        available: true,
+        message: 'Resultado disponible para revisión.',
+        matchedName: result.normalized.matchedName ?? result.normalized.name ?? '',
+        source: fallbackSource,
+        confidence: result.confidence ?? null,
+        supplyCalorias: result.normalized.calories ?? null,
+        supplyProteina: result.normalized.protein ?? null,
+        supplyCarbohidratos: result.normalized.carbs ?? null,
+        supplyGrasas: result.normalized.fat ?? null,
+        supplyFibra: result.normalized.fiber ?? null,
+        supplyAzucar: result.normalized.sugar ?? null,
+        supplySodio: result.normalized.sodium ?? null,
+        supplyNutritionBasis: result.normalized.nutritionBasis ?? null,
+        supplyDefaultServingSize: result.normalized.defaultServingSize ?? null,
+        supplyDefaultServingUnit: result.normalized.defaultServingUnit ?? null,
+        supplyDensidad: result.normalized.density ?? null,
+      });
+    }
+
+    if (ingredientNutritionReviewDrafts.USDA.available) {
+      activeIngredientNutritionReviewTab.value = 'USDA';
+    } else if (ingredientNutritionReviewDrafts.FATSECRET.available) {
+      activeIngredientNutritionReviewTab.value = 'FATSECRET';
+    }
+
+    ingredientNutritionReviewOpen.value = true;
+  } catch (error) {
+    toast.add({
+      title: 'No se pudieron obtener los datos nutricionales',
+      description:
+        error instanceof Error
+          ? error.message
+          : 'Inténtalo de nuevo en unos segundos.',
+      color: 'error',
+      icon: 'i-lucide-circle-alert',
+    });
+  } finally {
+    isHydratingIngredientNutrition.value = false;
+  }
+}
+
+function applyReviewedIngredientNutrition() {
+  const selectedDraft = activeIngredientNutritionReviewDraft.value;
+
+  if (!selectedDraft.available) {
+    toast.add({
+      title: 'No hay datos para aplicar',
+      description: 'Selecciona una coincidencia válida antes de continuar.',
+      color: 'warning',
+      icon: 'i-lucide-circle-alert',
+    });
+    return;
+  }
+
+  ingredientDraft.supplyCalorias =
+    selectedDraft.supplyCalorias;
+  ingredientDraft.supplyProteina =
+    selectedDraft.supplyProteina;
+  ingredientDraft.supplyCarbohidratos =
+    selectedDraft.supplyCarbohidratos;
+  ingredientDraft.supplyGrasas = selectedDraft.supplyGrasas;
+  ingredientDraft.supplyFibra = selectedDraft.supplyFibra;
+  ingredientDraft.supplyAzucar = selectedDraft.supplyAzucar;
+  ingredientDraft.supplySodio = selectedDraft.supplySodio;
+  ingredientDraft.supplyNutritionBasis =
+    selectedDraft.supplyNutritionBasis;
+  ingredientDraft.supplyDefaultServingSize =
+    selectedDraft.supplyDefaultServingSize;
+  ingredientDraft.supplyDefaultServingUnit =
+    selectedDraft.supplyDefaultServingUnit;
+  ingredientDraft.supplyDensidad =
+    selectedDraft.supplyDensidad;
+
+  ingredientNutritionReviewOpen.value = false;
+
+  toast.add({
+    title: 'Datos nutricionales aplicados',
+    description:
+      'Ya puedes revisar los macronutrientes calculados para este insumo.',
+    color: 'success',
+    icon: 'i-lucide-check-circle',
+  });
+}
+
+function closeIngredientNutritionReview() {
+  ingredientNutritionReviewOpen.value = false;
+}
+
+function validateIngredientDraft() {
+  resetIngredientValidationState();
+
+  if (!ingredientDraft.supplyName.trim()) {
+    ingredientFieldErrors.supplyName = 'required';
+  }
+
+  if (
+    ingredientDraft.cantidad === null ||
+    ingredientDraft.cantidad === undefined ||
+    Number.isNaN(Number(ingredientDraft.cantidad))
+  ) {
+    ingredientFieldErrors.cantidad = 'required';
+  }
+
+  if (!ingredientDraft.supplyCategoryName.trim()) {
+    ingredientFieldErrors.supplyCategoryName = 'required';
+  }
+
+  const hasErrors = Object.values(ingredientFieldErrors).some(Boolean);
+
+  if (hasErrors) {
+    toast.add({
+      title: 'No se pudo guardar el insumo',
+      description:
+        'Es necesario llenar los campos en rojo para poder guardar el insumo.',
+      color: 'error',
+      icon: 'i-lucide-circle-alert',
+    });
+  }
+
+  return !hasErrors;
 }
 
 function saveIngredientDraft() {
   hydrateIngredientFromCatalog(ingredientDraft);
+
+  if (!validateIngredientDraft()) {
+    return;
+  }
+
   const editingIndex = editingIngredientIndex.value;
 
   const nextIngredient = {
@@ -529,6 +1216,17 @@ function saveIngredientDraft() {
     supplyTags: normalizeTags(ingredientDraft.supplyTags),
     supplyCostoReferencial: ingredientDraft.supplyCostoReferencial,
     supplyMermaPorcentaje: ingredientDraft.supplyMermaPorcentaje,
+    supplyCalorias: ingredientDraft.supplyCalorias,
+    supplyProteina: ingredientDraft.supplyProteina,
+    supplyCarbohidratos: ingredientDraft.supplyCarbohidratos,
+    supplyGrasas: ingredientDraft.supplyGrasas,
+    supplyFibra: ingredientDraft.supplyFibra,
+    supplyAzucar: ingredientDraft.supplyAzucar,
+    supplySodio: ingredientDraft.supplySodio,
+    supplyNutritionBasis: ingredientDraft.supplyNutritionBasis,
+    supplyDefaultServingSize: ingredientDraft.supplyDefaultServingSize,
+    supplyDefaultServingUnit: ingredientDraft.supplyDefaultServingUnit,
+    supplyDensidad: ingredientDraft.supplyDensidad,
     grupo: ingredientDraft.grupo.trim(),
     cantidad: ingredientDraft.cantidad,
     unidad: ingredientDraft.unidad,
@@ -546,6 +1244,7 @@ function saveIngredientDraft() {
 
     editingIngredientIndex.value = null;
     syncIngredientDraft();
+    resetIngredientValidationState();
   };
 }
 
@@ -753,6 +1452,21 @@ function buildPayload(): FoodCatalogItemInput {
               supplyMermaPorcentaje: toNullableNumber(
                 ingredient.supplyMermaPorcentaje,
               ),
+              supplyCalorias: toNullableNumber(ingredient.supplyCalorias),
+              supplyProteina: toNullableNumber(ingredient.supplyProteina),
+              supplyCarbohidratos: toNullableNumber(
+                ingredient.supplyCarbohidratos,
+              ),
+              supplyGrasas: toNullableNumber(ingredient.supplyGrasas),
+              supplyFibra: toNullableNumber(ingredient.supplyFibra),
+              supplyAzucar: toNullableNumber(ingredient.supplyAzucar),
+              supplySodio: toNullableNumber(ingredient.supplySodio),
+              supplyNutritionBasis: ingredient.supplyNutritionBasis,
+              supplyDefaultServingSize: toNullableNumber(
+                ingredient.supplyDefaultServingSize,
+              ),
+              supplyDefaultServingUnit: ingredient.supplyDefaultServingUnit,
+              supplyDensidad: toNullableNumber(ingredient.supplyDensidad),
               grupo: ingredient.grupo.trim() || null,
               cantidad: Number(ingredient.cantidad) || 0,
               unidad: ingredient.unidad,
@@ -814,6 +1528,47 @@ watch(
     emit('submit-state-change', value);
   },
   { immediate: true },
+);
+
+watch(
+  () => ingredientListTabs.value,
+  (tabs) => {
+    if (!tabs.some((tab) => tab.value === activeIngredientGroupTab.value)) {
+      activeIngredientGroupTab.value = 'todos';
+    }
+  },
+  { immediate: true },
+);
+
+watch(
+  () => ingredientDraft.supplyName,
+  (value) => {
+    if (value.trim()) {
+      ingredientFieldErrors.supplyName = '';
+    }
+  },
+);
+
+watch(
+  () => ingredientDraft.cantidad,
+  (value) => {
+    if (
+      value !== null &&
+      value !== undefined &&
+      !Number.isNaN(Number(value))
+    ) {
+      ingredientFieldErrors.cantidad = '';
+    }
+  },
+);
+
+watch(
+  () => ingredientDraft.supplyCategoryName,
+  (value) => {
+    if (value.trim()) {
+      ingredientFieldErrors.supplyCategoryName = '';
+    }
+  },
 );
 
 async function onSubmit() {
@@ -1343,89 +2098,89 @@ async function onSubmit() {
               Agrega el primer insumo para empezar a construir la receta.
             </div>
 
-            <div
-              class="overflow-hidden rounded-xl border border-default bg-default/40"
+            <UTabs
+              v-else
+              v-model="activeIngredientGroupTab"
+              :items="ingredientListTabs"
+              color="primary"
+              variant="pill"
+              size="sm"
+              :ui="{
+                root: 'w-full gap-4',
+                list: 'w-full overflow-x-auto rounded-xl bg-elevated p-1',
+                trigger: 'shrink-0',
+                content: 'w-full',
+              }"
             >
-              <article
-                v-for="(ingredient, index) in state.recipe.ingredients"
-                :key="`ingredient-${index}`"
-                class="border-b border-default/70 px-4 py-3.5 last:border-b-0"
-              >
-                <div class="flex items-start justify-between gap-4">
-                  <div class="min-w-0 flex-1 space-y-1.5">
-                    <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span
-                        class="text-sm font-medium tabular-nums text-primary"
+              <template #content>
+                <div
+                  class="overflow-hidden rounded-xl border border-default bg-default/40"
+                >
+                  <article
+                    v-for="{ ingredient, index } in filteredIngredients"
+                    :key="`ingredient-${index}`"
+                    class="border-b border-default/70 px-4 py-3.5 last:border-b-0"
+                  >
+                    <div class="flex items-start justify-between gap-4">
+                      <button
+                        type="button"
+                        class="min-w-0 flex-1 space-y-1.5 rounded-lg text-left transition-colors hover:bg-elevated/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+                        @click="openEditIngredientModal(index)"
                       >
-                        {{ Number(index) + 1 }}.
-                      </span>
-                      <h4 class="text-base leading-6 text-highlighted">
-                        <span class="font-semibold">
-                          {{ ingredient.cantidad ?? 0 }}
+                        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                          <h4 class="text-base leading-6 text-highlighted">
+                            <span class="font-semibold">
+                              {{ ingredient.cantidad ?? 0 }}
+                              {{
+                                formatRecipeUnitLabel(
+                                  ingredient.unidad,
+                                  ingredient.cantidad,
+                                )
+                              }}
+                            </span>
+                            <span class="text-muted"> de </span>
+                            <span class="font-semibold">
+                              {{ ingredient.supplyName || 'insumo sin nombre' }}
+                            </span>
+                          </h4>
+                          <span
+                            v-if="ingredient.opcional"
+                            class="text-sm text-warning"
+                          >
+                            opcional
+                          </span>
+                        </div>
+
+                        <p
+                          v-if="
+                            ingredient.supplyDescription ||
+                            ingredient.notas
+                          "
+                          class="text-sm leading-6 text-muted"
+                        >
                           {{
-                            formatRecipeUnitLabel(
-                              ingredient.unidad,
-                              ingredient.cantidad,
-                            )
+                            ingredient.supplyDescription ||
+                            ingredient.notas
                           }}
-                        </span>
-                        <span class="text-muted"> de </span>
-                        <span class="font-semibold">
-                          {{ ingredient.supplyName || 'insumo sin nombre' }}
-                        </span>
-                      </h4>
+                        </p>
+                      </button>
+
                       <UBadge
-                        v-if="ingredient.grupo"
+                        v-if="
+                          ingredient.grupo &&
+                          activeIngredientGroupTab === 'todos'
+                        "
                         color="neutral"
                         variant="subtle"
+                        class="shrink-0 self-start"
                       >
                         {{ formatSelectMenuLabel(ingredient.grupo) }}
                       </UBadge>
-                      <span
-                        v-if="ingredient.opcional"
-                        class="text-sm text-warning"
-                      >
-                        opcional
-                      </span>
                     </div>
-
-                    <p
-                      v-if="
-                        ingredient.supplyDescription ||
-                        ingredient.notas
-                      "
-                      class="text-sm leading-6 text-muted"
-                    >
-                      {{
-                        ingredient.supplyDescription ||
-                        ingredient.notas
-                      }}
-                    </p>
-
-                  </div>
-
-                  <div class="ml-4 flex shrink-0 items-center gap-2 self-start">
-                    <UButton
-                      color="primary"
-                      variant="ghost"
-                      class="cursor-pointer"
-                      @click="openEditIngredientModal(index)"
-                    >
-                      Editar
-                    </UButton>
-
-                    <UButton
-                      color="error"
-                      variant="ghost"
-                      class="cursor-pointer"
-                      @click="removeIngredient(index)"
-                    >
-                      Quitar
-                    </UButton>
-                  </div>
+                  </article>
                 </div>
-              </article>
-            </div>
+              </template>
+            </UTabs>
           </div>
 
           <div class="space-y-4">
@@ -1535,7 +2290,12 @@ async function onSubmit() {
             <div class="grid gap-4 lg:grid-cols-2 ingredient-modal-titlecase">
               <UFormField
                 label="Insumo"
-                :ui="{ label: 'font-semibold text-highlighted' }"
+                :error="false"
+                required
+                :ui="{
+                  label: 'font-semibold text-highlighted',
+                  labelWrapper: 'items-center',
+                }"
               >
                 <USelectMenu
                   v-model="ingredientDraft.supplyName"
@@ -1543,6 +2303,8 @@ async function onSubmit() {
                   label-key="label"
                   value-key="value"
                   class="w-full"
+                  :color="ingredientFieldErrors.supplyName ? 'error' : 'primary'"
+                  :highlight="Boolean(ingredientFieldErrors.supplyName)"
                   placeholder="Buscar..."
                   :create-item="true"
                   :search-input="{ placeholder: 'Buscar...' }"
@@ -1555,11 +2317,18 @@ async function onSubmit() {
 
               <UFormField
                 label="Cantidad"
-                :ui="{ label: 'font-semibold text-highlighted' }"
+                :error="false"
+                required
+                :ui="{
+                  label: 'font-semibold text-highlighted',
+                  labelWrapper: 'items-center',
+                }"
               >
                 <UInput
                   v-model.number="ingredientDraft.cantidad"
                   class="w-full"
+                  :color="ingredientFieldErrors.cantidad ? 'error' : 'primary'"
+                  :highlight="Boolean(ingredientFieldErrors.cantidad)"
                   type="number"
                   min="0"
                   step="0.01"
@@ -1595,7 +2364,12 @@ async function onSubmit() {
 
               <UFormField
                 label="Categoría"
-                :ui="{ label: 'font-semibold text-highlighted' }"
+                :error="false"
+                required
+                :ui="{
+                  label: 'font-semibold text-highlighted',
+                  labelWrapper: 'items-center',
+                }"
               >
                 <USelectMenu
                   v-model="ingredientDraft.supplyCategoryName"
@@ -1603,6 +2377,12 @@ async function onSubmit() {
                   label-key="label"
                   value-key="value"
                   class="w-full"
+                  :color="
+                    ingredientFieldErrors.supplyCategoryName
+                      ? 'error'
+                      : 'primary'
+                  "
+                  :highlight="Boolean(ingredientFieldErrors.supplyCategoryName)"
                   placeholder="Selecciona o crea una categoría"
                   :search-input="{ placeholder: 'Buscar...' }"
                   :create-item="true"
@@ -1696,6 +2476,195 @@ async function onSubmit() {
               </UFormField>
             </div>
           </div>
+
+          <div
+            class="rounded-xl border border-default/70 bg-elevated/20 p-4 sm:p-5"
+          >
+            <div
+              class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
+            >
+              <div class="space-y-1">
+                <h3
+                  class="text-sm font-semibold uppercase tracking-[0.18em] text-primary"
+                >
+                  Macronutrientes
+                </h3>
+                <p class="text-sm text-muted">
+                  Edita base nutricional manualmente o revisa coincidencias
+                  externas antes de aplicarla.
+                </p>
+              </div>
+
+              <UButton
+                color="primary"
+                variant="subtle"
+                icon="i-lucide-search"
+                class="cursor-pointer self-start"
+                :loading="isHydratingIngredientNutrition"
+                :disabled="!ingredientDraft.supplyName.trim()"
+                @click="hydrateIngredientNutritionFromLookup"
+              >
+                {{
+                  isHydratingIngredientNutrition
+                    ? 'Buscando coincidencias...'
+                    : 'Buscar USDA / FatSecret'
+                }}
+              </UButton>
+            </div>
+
+            <p class="mb-4 text-xs text-muted">
+              Base nutricional:
+              {{
+                ingredientDraft.supplyNutritionBasis
+                  ? formatEnumLabel(ingredientDraft.supplyNutritionBasis)
+                  : 'Sin base nutricional disponible'
+              }}
+            </p>
+
+            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <UFormField
+                label="Calorías"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.supplyCalorias"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0"
+                />
+              </UFormField>
+
+              <UFormField
+                label="Proteína"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.supplyProteina"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0"
+                />
+              </UFormField>
+
+              <UFormField
+                label="Carbohidratos"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.supplyCarbohidratos"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0"
+                />
+              </UFormField>
+
+              <UFormField
+                label="Grasas"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.supplyGrasas"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0"
+                />
+              </UFormField>
+
+              <UFormField
+                label="Fibra"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.supplyFibra"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0"
+                />
+              </UFormField>
+
+              <UFormField
+                label="Azúcar"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.supplyAzucar"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0"
+                />
+              </UFormField>
+
+              <UFormField
+                label="Sodio"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model.number="ingredientDraft.supplySodio"
+                  class="w-full"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0"
+                />
+              </UFormField>
+
+              <UFormField
+                label="Unidad base"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  :model-value="
+                    selectedIngredientSupply
+                      ? formatEnumLabel(selectedIngredientSupply.unidadBase)
+                      : formatEnumLabel(ingredientDraft.supplyUnitBase)
+                  "
+                  class="w-full"
+                  readonly
+                />
+              </UFormField>
+            </div>
+
+            <div class="mt-4 rounded-xl border border-default/70 bg-default/60 p-4">
+              <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
+                Cálculo para cantidad actual
+              </p>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <UBadge color="primary" variant="subtle">
+                  {{ computedIngredientMacros.calories ?? '—' }} kcal
+                </UBadge>
+                <UBadge color="neutral" variant="subtle">
+                  Prot. {{ computedIngredientMacros.protein ?? '—' }}
+                </UBadge>
+                <UBadge color="neutral" variant="subtle">
+                  Carb. {{ computedIngredientMacros.carbs ?? '—' }}
+                </UBadge>
+                <UBadge color="neutral" variant="subtle">
+                  Gras. {{ computedIngredientMacros.fat ?? '—' }}
+                </UBadge>
+                <UBadge color="neutral" variant="subtle">
+                  Fibra {{ computedIngredientMacros.fiber ?? '—' }}
+                </UBadge>
+                <UBadge color="neutral" variant="subtle">
+                  Azúcar {{ computedIngredientMacros.sugar ?? '—' }}
+                </UBadge>
+                <UBadge color="neutral" variant="subtle">
+                  Sodio {{ computedIngredientMacros.sodium ?? '—' }}
+                </UBadge>
+              </div>
+            </div>
+          </div>
         </div>
       </template>
 
@@ -1704,12 +2673,216 @@ async function onSubmit() {
           class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end"
         >
           <UButton
+            v-if="!isCreatingIngredient"
+            color="error"
+            icon="i-lucide-trash-2"
+            class="cursor-pointer"
+            @click="confirmRemoveEditingIngredient"
+          >
+            Quitar insumo
+          </UButton>
+          <UButton
             color="primary"
             icon="i-lucide-save"
             class="cursor-pointer"
             @click="saveIngredientDraft"
           >
             {{ isCreatingIngredient ? 'Agregar insumo' : 'Guardar detalles' }}
+          </UButton>
+        </div>
+      </template>
+    </UModal>
+
+    <UModal
+      v-model:open="ingredientNutritionReviewOpen"
+      title="Revisar datos nutricionales"
+      description="Confirma que coincidencia sea correcta antes de aplicar datos al insumo."
+      :ui="{ content: 'max-w-4xl' }"
+    >
+      <template #body>
+        <UTabs
+          v-model="activeIngredientNutritionReviewTab"
+          :items="ingredientNutritionReviewTabs"
+          color="primary"
+          variant="pill"
+          :ui="{
+            root: 'w-full gap-4',
+            list: 'w-full rounded-xl bg-elevated p-1',
+            content: 'w-full',
+          }"
+        >
+          <template #content>
+            <div class="space-y-5">
+              <div
+                v-if="!activeIngredientNutritionReviewDraft.available"
+                class="rounded-xl border border-dashed border-default p-5 text-sm text-muted"
+              >
+                {{ activeIngredientNutritionReviewDraft.message }}
+              </div>
+
+              <template v-else>
+                <div class="rounded-xl border border-default/70 bg-elevated/20 p-4 sm:p-5">
+                  <div class="grid gap-4 sm:grid-cols-3">
+                    <UFormField
+                      label="Resultado encontrado"
+                      class="sm:col-span-2"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        :model-value="activeIngredientNutritionReviewDraft.matchedName"
+                        class="w-full"
+                        readonly
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Fuente"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        :model-value="activeIngredientNutritionReviewDraft.source"
+                        class="w-full"
+                        readonly
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Confianza"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        :model-value="
+                          activeIngredientNutritionReviewDraft.confidence === null
+                            ? ''
+                            : activeIngredientNutritionReviewDraft.confidence
+                        "
+                        class="w-full"
+                        readonly
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Base nutricional"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <USelect
+                        v-model="activeIngredientNutritionReviewDraft.supplyNutritionBasis"
+                        :items="nutritionBasisOptions"
+                        label-key="label"
+                        value-key="value"
+                        class="w-full"
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Tamaño base"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        v-model.number="activeIngredientNutritionReviewDraft.supplyDefaultServingSize"
+                        class="w-full"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0"
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Unidad base"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <USelect
+                        v-model="activeIngredientNutritionReviewDraft.supplyDefaultServingUnit"
+                        :items="unitOptions"
+                        label-key="label"
+                        value-key="value"
+                        class="w-full"
+                      />
+                    </UFormField>
+                  </div>
+                </div>
+
+                <div class="rounded-xl border border-default/70 bg-elevated/20 p-4 sm:p-5">
+                  <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                    <UFormField label="Calorías" :ui="{ label: 'font-semibold text-highlighted' }">
+                      <UInput v-model.number="activeIngredientNutritionReviewDraft.supplyCalorias" class="w-full" type="number" min="0" step="0.01" placeholder="0" />
+                    </UFormField>
+                    <UFormField label="Proteína" :ui="{ label: 'font-semibold text-highlighted' }">
+                      <UInput v-model.number="activeIngredientNutritionReviewDraft.supplyProteina" class="w-full" type="number" min="0" step="0.01" placeholder="0" />
+                    </UFormField>
+                    <UFormField label="Carbohidratos" :ui="{ label: 'font-semibold text-highlighted' }">
+                      <UInput v-model.number="activeIngredientNutritionReviewDraft.supplyCarbohidratos" class="w-full" type="number" min="0" step="0.01" placeholder="0" />
+                    </UFormField>
+                    <UFormField label="Grasas" :ui="{ label: 'font-semibold text-highlighted' }">
+                      <UInput v-model.number="activeIngredientNutritionReviewDraft.supplyGrasas" class="w-full" type="number" min="0" step="0.01" placeholder="0" />
+                    </UFormField>
+                    <UFormField label="Fibra" :ui="{ label: 'font-semibold text-highlighted' }">
+                      <UInput v-model.number="activeIngredientNutritionReviewDraft.supplyFibra" class="w-full" type="number" min="0" step="0.01" placeholder="0" />
+                    </UFormField>
+                    <UFormField label="Azúcar" :ui="{ label: 'font-semibold text-highlighted' }">
+                      <UInput v-model.number="activeIngredientNutritionReviewDraft.supplyAzucar" class="w-full" type="number" min="0" step="0.01" placeholder="0" />
+                    </UFormField>
+                    <UFormField label="Sodio" :ui="{ label: 'font-semibold text-highlighted' }">
+                      <UInput v-model.number="activeIngredientNutritionReviewDraft.supplySodio" class="w-full" type="number" min="0" step="0.01" placeholder="0" />
+                    </UFormField>
+                    <UFormField label="Densidad" :ui="{ label: 'font-semibold text-highlighted' }">
+                      <UInput v-model.number="activeIngredientNutritionReviewDraft.supplyDensidad" class="w-full" type="number" min="0" step="0.0001" placeholder="0" />
+                    </UFormField>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </template>
+        </UTabs>
+      </template>
+
+      <template #footer>
+        <div class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <UButton
+            color="neutral"
+            variant="ghost"
+            class="cursor-pointer"
+            @click="closeIngredientNutritionReview"
+          >
+            Cancelar
+          </UButton>
+          <UButton
+            color="primary"
+            icon="i-lucide-check"
+            class="cursor-pointer"
+            :disabled="!activeIngredientNutritionReviewDraft.available"
+            @click="applyReviewedIngredientNutrition"
+          >
+            Usar estos datos
+          </UButton>
+        </div>
+      </template>
+    </UModal>
+
+    <UModal
+      v-model:open="ingredientDeleteConfirmOpen"
+      title="Quitar insumo"
+      description="Este insumo se eliminará de la receta actual. ¿Quieres continuar?"
+      :ui="{ content: 'max-w-md' }"
+    >
+      <template #footer>
+        <div class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <UButton
+            color="neutral"
+            variant="ghost"
+            class="cursor-pointer"
+            @click="cancelRemoveEditingIngredient"
+          >
+            Cancelar
+          </UButton>
+          <UButton
+            color="error"
+            icon="i-lucide-trash-2"
+            class="cursor-pointer"
+            @click="removeEditingIngredient"
+          >
+            Quitar insumo
           </UButton>
         </div>
       </template>

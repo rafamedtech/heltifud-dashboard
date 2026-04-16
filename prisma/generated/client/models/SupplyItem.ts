@@ -27,11 +27,33 @@ export type AggregateSupplyItem = {
 }
 
 export type SupplyItemAvgAggregateOutputType = {
+  defaultServingSize: runtime.Decimal | null
+  calorias: runtime.Decimal | null
+  proteina: runtime.Decimal | null
+  carbohidratos: runtime.Decimal | null
+  grasas: runtime.Decimal | null
+  fibra: runtime.Decimal | null
+  azucar: runtime.Decimal | null
+  sodio: runtime.Decimal | null
+  densidad: runtime.Decimal | null
+  ediblePortionFactor: runtime.Decimal | null
+  sourceConfidence: runtime.Decimal | null
   costoReferencial: runtime.Decimal | null
   mermaPorcentaje: runtime.Decimal | null
 }
 
 export type SupplyItemSumAggregateOutputType = {
+  defaultServingSize: runtime.Decimal | null
+  calorias: runtime.Decimal | null
+  proteina: runtime.Decimal | null
+  carbohidratos: runtime.Decimal | null
+  grasas: runtime.Decimal | null
+  fibra: runtime.Decimal | null
+  azucar: runtime.Decimal | null
+  sodio: runtime.Decimal | null
+  densidad: runtime.Decimal | null
+  ediblePortionFactor: runtime.Decimal | null
+  sourceConfidence: runtime.Decimal | null
   costoReferencial: runtime.Decimal | null
   mermaPorcentaje: runtime.Decimal | null
 }
@@ -41,9 +63,32 @@ export type SupplyItemMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   nombre: string | null
+  normalizedName: string | null
   descripcion: string | null
   codigo: string | null
+  barcode: string | null
   unidadBase: $Enums.MeasurementUnit | null
+  defaultServingSize: runtime.Decimal | null
+  defaultServingUnit: $Enums.MeasurementUnit | null
+  nutritionBasis: $Enums.NutritionBasis | null
+  calorias: runtime.Decimal | null
+  proteina: runtime.Decimal | null
+  carbohidratos: runtime.Decimal | null
+  grasas: runtime.Decimal | null
+  fibra: runtime.Decimal | null
+  azucar: runtime.Decimal | null
+  sodio: runtime.Decimal | null
+  densidad: runtime.Decimal | null
+  ediblePortionFactor: runtime.Decimal | null
+  source: $Enums.NutritionSource | null
+  sourceExternalId: string | null
+  sourceQuery: string | null
+  sourceConfidence: runtime.Decimal | null
+  lastSyncedAt: Date | null
+  manualOverride: boolean | null
+  needsReview: boolean | null
+  reviewNotes: string | null
+  status: $Enums.SupplyItemStatus | null
   isActive: boolean | null
   costoReferencial: runtime.Decimal | null
   mermaPorcentaje: runtime.Decimal | null
@@ -55,9 +100,32 @@ export type SupplyItemMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   nombre: string | null
+  normalizedName: string | null
   descripcion: string | null
   codigo: string | null
+  barcode: string | null
   unidadBase: $Enums.MeasurementUnit | null
+  defaultServingSize: runtime.Decimal | null
+  defaultServingUnit: $Enums.MeasurementUnit | null
+  nutritionBasis: $Enums.NutritionBasis | null
+  calorias: runtime.Decimal | null
+  proteina: runtime.Decimal | null
+  carbohidratos: runtime.Decimal | null
+  grasas: runtime.Decimal | null
+  fibra: runtime.Decimal | null
+  azucar: runtime.Decimal | null
+  sodio: runtime.Decimal | null
+  densidad: runtime.Decimal | null
+  ediblePortionFactor: runtime.Decimal | null
+  source: $Enums.NutritionSource | null
+  sourceExternalId: string | null
+  sourceQuery: string | null
+  sourceConfidence: runtime.Decimal | null
+  lastSyncedAt: Date | null
+  manualOverride: boolean | null
+  needsReview: boolean | null
+  reviewNotes: string | null
+  status: $Enums.SupplyItemStatus | null
   isActive: boolean | null
   costoReferencial: runtime.Decimal | null
   mermaPorcentaje: runtime.Decimal | null
@@ -69,10 +137,34 @@ export type SupplyItemCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   nombre: number
+  normalizedName: number
   descripcion: number
   codigo: number
+  barcode: number
   unidadBase: number
+  defaultServingSize: number
+  defaultServingUnit: number
+  nutritionBasis: number
+  calorias: number
+  proteina: number
+  carbohidratos: number
+  grasas: number
+  fibra: number
+  azucar: number
+  sodio: number
+  densidad: number
+  ediblePortionFactor: number
   tags: number
+  source: number
+  sourceExternalId: number
+  sourceQuery: number
+  sourceConfidence: number
+  sourceSnapshot: number
+  lastSyncedAt: number
+  manualOverride: number
+  needsReview: number
+  reviewNotes: number
+  status: number
   isActive: number
   costoReferencial: number
   mermaPorcentaje: number
@@ -82,11 +174,33 @@ export type SupplyItemCountAggregateOutputType = {
 
 
 export type SupplyItemAvgAggregateInputType = {
+  defaultServingSize?: true
+  calorias?: true
+  proteina?: true
+  carbohidratos?: true
+  grasas?: true
+  fibra?: true
+  azucar?: true
+  sodio?: true
+  densidad?: true
+  ediblePortionFactor?: true
+  sourceConfidence?: true
   costoReferencial?: true
   mermaPorcentaje?: true
 }
 
 export type SupplyItemSumAggregateInputType = {
+  defaultServingSize?: true
+  calorias?: true
+  proteina?: true
+  carbohidratos?: true
+  grasas?: true
+  fibra?: true
+  azucar?: true
+  sodio?: true
+  densidad?: true
+  ediblePortionFactor?: true
+  sourceConfidence?: true
   costoReferencial?: true
   mermaPorcentaje?: true
 }
@@ -96,9 +210,32 @@ export type SupplyItemMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   nombre?: true
+  normalizedName?: true
   descripcion?: true
   codigo?: true
+  barcode?: true
   unidadBase?: true
+  defaultServingSize?: true
+  defaultServingUnit?: true
+  nutritionBasis?: true
+  calorias?: true
+  proteina?: true
+  carbohidratos?: true
+  grasas?: true
+  fibra?: true
+  azucar?: true
+  sodio?: true
+  densidad?: true
+  ediblePortionFactor?: true
+  source?: true
+  sourceExternalId?: true
+  sourceQuery?: true
+  sourceConfidence?: true
+  lastSyncedAt?: true
+  manualOverride?: true
+  needsReview?: true
+  reviewNotes?: true
+  status?: true
   isActive?: true
   costoReferencial?: true
   mermaPorcentaje?: true
@@ -110,9 +247,32 @@ export type SupplyItemMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   nombre?: true
+  normalizedName?: true
   descripcion?: true
   codigo?: true
+  barcode?: true
   unidadBase?: true
+  defaultServingSize?: true
+  defaultServingUnit?: true
+  nutritionBasis?: true
+  calorias?: true
+  proteina?: true
+  carbohidratos?: true
+  grasas?: true
+  fibra?: true
+  azucar?: true
+  sodio?: true
+  densidad?: true
+  ediblePortionFactor?: true
+  source?: true
+  sourceExternalId?: true
+  sourceQuery?: true
+  sourceConfidence?: true
+  lastSyncedAt?: true
+  manualOverride?: true
+  needsReview?: true
+  reviewNotes?: true
+  status?: true
   isActive?: true
   costoReferencial?: true
   mermaPorcentaje?: true
@@ -124,10 +284,34 @@ export type SupplyItemCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   nombre?: true
+  normalizedName?: true
   descripcion?: true
   codigo?: true
+  barcode?: true
   unidadBase?: true
+  defaultServingSize?: true
+  defaultServingUnit?: true
+  nutritionBasis?: true
+  calorias?: true
+  proteina?: true
+  carbohidratos?: true
+  grasas?: true
+  fibra?: true
+  azucar?: true
+  sodio?: true
+  densidad?: true
+  ediblePortionFactor?: true
   tags?: true
+  source?: true
+  sourceExternalId?: true
+  sourceQuery?: true
+  sourceConfidence?: true
+  sourceSnapshot?: true
+  lastSyncedAt?: true
+  manualOverride?: true
+  needsReview?: true
+  reviewNotes?: true
+  status?: true
   isActive?: true
   costoReferencial?: true
   mermaPorcentaje?: true
@@ -226,10 +410,34 @@ export type SupplyItemGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   nombre: string
+  normalizedName: string
   descripcion: string
   codigo: string | null
+  barcode: string | null
   unidadBase: $Enums.MeasurementUnit
+  defaultServingSize: runtime.Decimal | null
+  defaultServingUnit: $Enums.MeasurementUnit | null
+  nutritionBasis: $Enums.NutritionBasis | null
+  calorias: runtime.Decimal | null
+  proteina: runtime.Decimal | null
+  carbohidratos: runtime.Decimal | null
+  grasas: runtime.Decimal | null
+  fibra: runtime.Decimal | null
+  azucar: runtime.Decimal | null
+  sodio: runtime.Decimal | null
+  densidad: runtime.Decimal | null
+  ediblePortionFactor: runtime.Decimal | null
   tags: string[]
+  source: $Enums.NutritionSource | null
+  sourceExternalId: string | null
+  sourceQuery: string | null
+  sourceConfidence: runtime.Decimal | null
+  sourceSnapshot: runtime.JsonValue | null
+  lastSyncedAt: Date | null
+  manualOverride: boolean
+  needsReview: boolean
+  reviewNotes: string
+  status: $Enums.SupplyItemStatus
   isActive: boolean
   costoReferencial: runtime.Decimal | null
   mermaPorcentaje: runtime.Decimal | null
@@ -264,16 +472,41 @@ export type SupplyItemWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"SupplyItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SupplyItem"> | Date | string
   nombre?: Prisma.StringFilter<"SupplyItem"> | string
+  normalizedName?: Prisma.StringFilter<"SupplyItem"> | string
   descripcion?: Prisma.StringFilter<"SupplyItem"> | string
   codigo?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
+  barcode?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFilter<"SupplyItem"> | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.EnumMeasurementUnitNullableFilter<"SupplyItem"> | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.EnumNutritionBasisNullableFilter<"SupplyItem"> | $Enums.NutritionBasis | null
+  calorias?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.StringNullableListFilter<"SupplyItem">
+  source?: Prisma.EnumNutritionSourceNullableFilter<"SupplyItem"> | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
+  sourceQuery?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
+  sourceConfidence?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.JsonNullableFilter<"SupplyItem">
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"SupplyItem"> | Date | string | null
+  manualOverride?: Prisma.BoolFilter<"SupplyItem"> | boolean
+  needsReview?: Prisma.BoolFilter<"SupplyItem"> | boolean
+  reviewNotes?: Prisma.StringFilter<"SupplyItem"> | string
+  status?: Prisma.EnumSupplyItemStatusFilter<"SupplyItem"> | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFilter<"SupplyItem"> | boolean
   costoReferencial?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoryId?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
   category?: Prisma.XOR<Prisma.SupplyCategoryNullableScalarRelationFilter, Prisma.SupplyCategoryWhereInput> | null
   recipeItems?: Prisma.RecipeIngredientListRelationFilter
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogListRelationFilter
 }
 
 export type SupplyItemOrderByWithRelationInput = {
@@ -281,47 +514,121 @@ export type SupplyItemOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
+  normalizedName?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   codigo?: Prisma.SortOrderInput | Prisma.SortOrder
+  barcode?: Prisma.SortOrderInput | Prisma.SortOrder
   unidadBase?: Prisma.SortOrder
+  defaultServingSize?: Prisma.SortOrderInput | Prisma.SortOrder
+  defaultServingUnit?: Prisma.SortOrderInput | Prisma.SortOrder
+  nutritionBasis?: Prisma.SortOrderInput | Prisma.SortOrder
+  calorias?: Prisma.SortOrderInput | Prisma.SortOrder
+  proteina?: Prisma.SortOrderInput | Prisma.SortOrder
+  carbohidratos?: Prisma.SortOrderInput | Prisma.SortOrder
+  grasas?: Prisma.SortOrderInput | Prisma.SortOrder
+  fibra?: Prisma.SortOrderInput | Prisma.SortOrder
+  azucar?: Prisma.SortOrderInput | Prisma.SortOrder
+  sodio?: Prisma.SortOrderInput | Prisma.SortOrder
+  densidad?: Prisma.SortOrderInput | Prisma.SortOrder
+  ediblePortionFactor?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
+  source?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceExternalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceQuery?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceConfidence?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualOverride?: Prisma.SortOrder
+  needsReview?: Prisma.SortOrder
+  reviewNotes?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   costoReferencial?: Prisma.SortOrderInput | Prisma.SortOrder
   mermaPorcentaje?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
   category?: Prisma.SupplyCategoryOrderByWithRelationInput
   recipeItems?: Prisma.RecipeIngredientOrderByRelationAggregateInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogOrderByRelationAggregateInput
 }
 
 export type SupplyItemWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   codigo?: string
+  barcode?: string
   AND?: Prisma.SupplyItemWhereInput | Prisma.SupplyItemWhereInput[]
   OR?: Prisma.SupplyItemWhereInput[]
   NOT?: Prisma.SupplyItemWhereInput | Prisma.SupplyItemWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"SupplyItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SupplyItem"> | Date | string
   nombre?: Prisma.StringFilter<"SupplyItem"> | string
+  normalizedName?: Prisma.StringFilter<"SupplyItem"> | string
   descripcion?: Prisma.StringFilter<"SupplyItem"> | string
   unidadBase?: Prisma.EnumMeasurementUnitFilter<"SupplyItem"> | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.EnumMeasurementUnitNullableFilter<"SupplyItem"> | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.EnumNutritionBasisNullableFilter<"SupplyItem"> | $Enums.NutritionBasis | null
+  calorias?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.StringNullableListFilter<"SupplyItem">
+  source?: Prisma.EnumNutritionSourceNullableFilter<"SupplyItem"> | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
+  sourceQuery?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
+  sourceConfidence?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.JsonNullableFilter<"SupplyItem">
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"SupplyItem"> | Date | string | null
+  manualOverride?: Prisma.BoolFilter<"SupplyItem"> | boolean
+  needsReview?: Prisma.BoolFilter<"SupplyItem"> | boolean
+  reviewNotes?: Prisma.StringFilter<"SupplyItem"> | string
+  status?: Prisma.EnumSupplyItemStatusFilter<"SupplyItem"> | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFilter<"SupplyItem"> | boolean
   costoReferencial?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoryId?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
   category?: Prisma.XOR<Prisma.SupplyCategoryNullableScalarRelationFilter, Prisma.SupplyCategoryWhereInput> | null
   recipeItems?: Prisma.RecipeIngredientListRelationFilter
-}, "id" | "codigo">
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogListRelationFilter
+}, "id" | "codigo" | "barcode">
 
 export type SupplyItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
+  normalizedName?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   codigo?: Prisma.SortOrderInput | Prisma.SortOrder
+  barcode?: Prisma.SortOrderInput | Prisma.SortOrder
   unidadBase?: Prisma.SortOrder
+  defaultServingSize?: Prisma.SortOrderInput | Prisma.SortOrder
+  defaultServingUnit?: Prisma.SortOrderInput | Prisma.SortOrder
+  nutritionBasis?: Prisma.SortOrderInput | Prisma.SortOrder
+  calorias?: Prisma.SortOrderInput | Prisma.SortOrder
+  proteina?: Prisma.SortOrderInput | Prisma.SortOrder
+  carbohidratos?: Prisma.SortOrderInput | Prisma.SortOrder
+  grasas?: Prisma.SortOrderInput | Prisma.SortOrder
+  fibra?: Prisma.SortOrderInput | Prisma.SortOrder
+  azucar?: Prisma.SortOrderInput | Prisma.SortOrder
+  sodio?: Prisma.SortOrderInput | Prisma.SortOrder
+  densidad?: Prisma.SortOrderInput | Prisma.SortOrder
+  ediblePortionFactor?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
+  source?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceExternalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceQuery?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceConfidence?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualOverride?: Prisma.SortOrder
+  needsReview?: Prisma.SortOrder
+  reviewNotes?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   costoReferencial?: Prisma.SortOrderInput | Prisma.SortOrder
   mermaPorcentaje?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -341,10 +648,34 @@ export type SupplyItemScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SupplyItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SupplyItem"> | Date | string
   nombre?: Prisma.StringWithAggregatesFilter<"SupplyItem"> | string
+  normalizedName?: Prisma.StringWithAggregatesFilter<"SupplyItem"> | string
   descripcion?: Prisma.StringWithAggregatesFilter<"SupplyItem"> | string
   codigo?: Prisma.StringNullableWithAggregatesFilter<"SupplyItem"> | string | null
+  barcode?: Prisma.StringNullableWithAggregatesFilter<"SupplyItem"> | string | null
   unidadBase?: Prisma.EnumMeasurementUnitWithAggregatesFilter<"SupplyItem"> | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.EnumMeasurementUnitNullableWithAggregatesFilter<"SupplyItem"> | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.EnumNutritionBasisNullableWithAggregatesFilter<"SupplyItem"> | $Enums.NutritionBasis | null
+  calorias?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.StringNullableListFilter<"SupplyItem">
+  source?: Prisma.EnumNutritionSourceNullableWithAggregatesFilter<"SupplyItem"> | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.StringNullableWithAggregatesFilter<"SupplyItem"> | string | null
+  sourceQuery?: Prisma.StringNullableWithAggregatesFilter<"SupplyItem"> | string | null
+  sourceConfidence?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.JsonNullableWithAggregatesFilter<"SupplyItem">
+  lastSyncedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SupplyItem"> | Date | string | null
+  manualOverride?: Prisma.BoolWithAggregatesFilter<"SupplyItem"> | boolean
+  needsReview?: Prisma.BoolWithAggregatesFilter<"SupplyItem"> | boolean
+  reviewNotes?: Prisma.StringWithAggregatesFilter<"SupplyItem"> | string
+  status?: Prisma.EnumSupplyItemStatusWithAggregatesFilter<"SupplyItem"> | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolWithAggregatesFilter<"SupplyItem"> | boolean
   costoReferencial?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.DecimalNullableWithAggregatesFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -356,15 +687,40 @@ export type SupplyItemCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   nombre: string
+  normalizedName?: string
   descripcion: string
   codigo?: string | null
+  barcode?: string | null
   unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
   isActive?: boolean
   costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   category?: Prisma.SupplyCategoryCreateNestedOneWithoutSuppliesInput
   recipeItems?: Prisma.RecipeIngredientCreateNestedManyWithoutSupplyItemInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogCreateNestedManyWithoutSupplyItemInput
 }
 
 export type SupplyItemUncheckedCreateInput = {
@@ -372,15 +728,40 @@ export type SupplyItemUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   nombre: string
+  normalizedName?: string
   descripcion: string
   codigo?: string | null
+  barcode?: string | null
   unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
   isActive?: boolean
   costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoryId?: string | null
   recipeItems?: Prisma.RecipeIngredientUncheckedCreateNestedManyWithoutSupplyItemInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogUncheckedCreateNestedManyWithoutSupplyItemInput
 }
 
 export type SupplyItemUpdateInput = {
@@ -388,15 +769,40 @@ export type SupplyItemUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   category?: Prisma.SupplyCategoryUpdateOneWithoutSuppliesNestedInput
   recipeItems?: Prisma.RecipeIngredientUpdateManyWithoutSupplyItemNestedInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogUpdateManyWithoutSupplyItemNestedInput
 }
 
 export type SupplyItemUncheckedUpdateInput = {
@@ -404,15 +810,40 @@ export type SupplyItemUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recipeItems?: Prisma.RecipeIngredientUncheckedUpdateManyWithoutSupplyItemNestedInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogUncheckedUpdateManyWithoutSupplyItemNestedInput
 }
 
 export type SupplyItemCreateManyInput = {
@@ -420,10 +851,34 @@ export type SupplyItemCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   nombre: string
+  normalizedName?: string
   descripcion: string
   codigo?: string | null
+  barcode?: string | null
   unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
   isActive?: boolean
   costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -435,10 +890,34 @@ export type SupplyItemUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -449,10 +928,34 @@ export type SupplyItemUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -482,10 +985,34 @@ export type SupplyItemCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
+  normalizedName?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   codigo?: Prisma.SortOrder
+  barcode?: Prisma.SortOrder
   unidadBase?: Prisma.SortOrder
+  defaultServingSize?: Prisma.SortOrder
+  defaultServingUnit?: Prisma.SortOrder
+  nutritionBasis?: Prisma.SortOrder
+  calorias?: Prisma.SortOrder
+  proteina?: Prisma.SortOrder
+  carbohidratos?: Prisma.SortOrder
+  grasas?: Prisma.SortOrder
+  fibra?: Prisma.SortOrder
+  azucar?: Prisma.SortOrder
+  sodio?: Prisma.SortOrder
+  densidad?: Prisma.SortOrder
+  ediblePortionFactor?: Prisma.SortOrder
   tags?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  sourceExternalId?: Prisma.SortOrder
+  sourceQuery?: Prisma.SortOrder
+  sourceConfidence?: Prisma.SortOrder
+  sourceSnapshot?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrder
+  manualOverride?: Prisma.SortOrder
+  needsReview?: Prisma.SortOrder
+  reviewNotes?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   costoReferencial?: Prisma.SortOrder
   mermaPorcentaje?: Prisma.SortOrder
@@ -493,6 +1020,17 @@ export type SupplyItemCountOrderByAggregateInput = {
 }
 
 export type SupplyItemAvgOrderByAggregateInput = {
+  defaultServingSize?: Prisma.SortOrder
+  calorias?: Prisma.SortOrder
+  proteina?: Prisma.SortOrder
+  carbohidratos?: Prisma.SortOrder
+  grasas?: Prisma.SortOrder
+  fibra?: Prisma.SortOrder
+  azucar?: Prisma.SortOrder
+  sodio?: Prisma.SortOrder
+  densidad?: Prisma.SortOrder
+  ediblePortionFactor?: Prisma.SortOrder
+  sourceConfidence?: Prisma.SortOrder
   costoReferencial?: Prisma.SortOrder
   mermaPorcentaje?: Prisma.SortOrder
 }
@@ -502,9 +1040,32 @@ export type SupplyItemMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
+  normalizedName?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   codigo?: Prisma.SortOrder
+  barcode?: Prisma.SortOrder
   unidadBase?: Prisma.SortOrder
+  defaultServingSize?: Prisma.SortOrder
+  defaultServingUnit?: Prisma.SortOrder
+  nutritionBasis?: Prisma.SortOrder
+  calorias?: Prisma.SortOrder
+  proteina?: Prisma.SortOrder
+  carbohidratos?: Prisma.SortOrder
+  grasas?: Prisma.SortOrder
+  fibra?: Prisma.SortOrder
+  azucar?: Prisma.SortOrder
+  sodio?: Prisma.SortOrder
+  densidad?: Prisma.SortOrder
+  ediblePortionFactor?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  sourceExternalId?: Prisma.SortOrder
+  sourceQuery?: Prisma.SortOrder
+  sourceConfidence?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrder
+  manualOverride?: Prisma.SortOrder
+  needsReview?: Prisma.SortOrder
+  reviewNotes?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   costoReferencial?: Prisma.SortOrder
   mermaPorcentaje?: Prisma.SortOrder
@@ -516,9 +1077,32 @@ export type SupplyItemMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
+  normalizedName?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   codigo?: Prisma.SortOrder
+  barcode?: Prisma.SortOrder
   unidadBase?: Prisma.SortOrder
+  defaultServingSize?: Prisma.SortOrder
+  defaultServingUnit?: Prisma.SortOrder
+  nutritionBasis?: Prisma.SortOrder
+  calorias?: Prisma.SortOrder
+  proteina?: Prisma.SortOrder
+  carbohidratos?: Prisma.SortOrder
+  grasas?: Prisma.SortOrder
+  fibra?: Prisma.SortOrder
+  azucar?: Prisma.SortOrder
+  sodio?: Prisma.SortOrder
+  densidad?: Prisma.SortOrder
+  ediblePortionFactor?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  sourceExternalId?: Prisma.SortOrder
+  sourceQuery?: Prisma.SortOrder
+  sourceConfidence?: Prisma.SortOrder
+  lastSyncedAt?: Prisma.SortOrder
+  manualOverride?: Prisma.SortOrder
+  needsReview?: Prisma.SortOrder
+  reviewNotes?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   costoReferencial?: Prisma.SortOrder
   mermaPorcentaje?: Prisma.SortOrder
@@ -526,6 +1110,17 @@ export type SupplyItemMinOrderByAggregateInput = {
 }
 
 export type SupplyItemSumOrderByAggregateInput = {
+  defaultServingSize?: Prisma.SortOrder
+  calorias?: Prisma.SortOrder
+  proteina?: Prisma.SortOrder
+  carbohidratos?: Prisma.SortOrder
+  grasas?: Prisma.SortOrder
+  fibra?: Prisma.SortOrder
+  azucar?: Prisma.SortOrder
+  sodio?: Prisma.SortOrder
+  densidad?: Prisma.SortOrder
+  ediblePortionFactor?: Prisma.SortOrder
+  sourceConfidence?: Prisma.SortOrder
   costoReferencial?: Prisma.SortOrder
   mermaPorcentaje?: Prisma.SortOrder
 }
@@ -533,6 +1128,11 @@ export type SupplyItemSumOrderByAggregateInput = {
 export type SupplyItemScalarRelationFilter = {
   is?: Prisma.SupplyItemWhereInput
   isNot?: Prisma.SupplyItemWhereInput
+}
+
+export type SupplyItemNullableScalarRelationFilter = {
+  is?: Prisma.SupplyItemWhereInput | null
+  isNot?: Prisma.SupplyItemWhereInput | null
 }
 
 export type SupplyItemCreateNestedManyWithoutCategoryInput = {
@@ -585,17 +1185,37 @@ export type EnumMeasurementUnitFieldUpdateOperationsInput = {
   set?: $Enums.MeasurementUnit
 }
 
-export type SupplyItemUpdatetagsInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
 export type NullableDecimalFieldUpdateOperationsInput = {
   set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
   decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
   multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type NullableEnumMeasurementUnitFieldUpdateOperationsInput = {
+  set?: $Enums.MeasurementUnit | null
+}
+
+export type NullableEnumNutritionBasisFieldUpdateOperationsInput = {
+  set?: $Enums.NutritionBasis | null
+}
+
+export type SupplyItemUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type NullableEnumNutritionSourceFieldUpdateOperationsInput = {
+  set?: $Enums.NutritionSource | null
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type EnumSupplyItemStatusFieldUpdateOperationsInput = {
+  set?: $Enums.SupplyItemStatus
 }
 
 export type SupplyItemCreateNestedOneWithoutRecipeItemsInput = {
@@ -612,19 +1232,60 @@ export type SupplyItemUpdateOneRequiredWithoutRecipeItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SupplyItemUpdateToOneWithWhereWithoutRecipeItemsInput, Prisma.SupplyItemUpdateWithoutRecipeItemsInput>, Prisma.SupplyItemUncheckedUpdateWithoutRecipeItemsInput>
 }
 
+export type SupplyItemCreateNestedOneWithoutNutritionLookupsInput = {
+  create?: Prisma.XOR<Prisma.SupplyItemCreateWithoutNutritionLookupsInput, Prisma.SupplyItemUncheckedCreateWithoutNutritionLookupsInput>
+  connectOrCreate?: Prisma.SupplyItemCreateOrConnectWithoutNutritionLookupsInput
+  connect?: Prisma.SupplyItemWhereUniqueInput
+}
+
+export type SupplyItemUpdateOneWithoutNutritionLookupsNestedInput = {
+  create?: Prisma.XOR<Prisma.SupplyItemCreateWithoutNutritionLookupsInput, Prisma.SupplyItemUncheckedCreateWithoutNutritionLookupsInput>
+  connectOrCreate?: Prisma.SupplyItemCreateOrConnectWithoutNutritionLookupsInput
+  upsert?: Prisma.SupplyItemUpsertWithoutNutritionLookupsInput
+  disconnect?: Prisma.SupplyItemWhereInput | boolean
+  delete?: Prisma.SupplyItemWhereInput | boolean
+  connect?: Prisma.SupplyItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SupplyItemUpdateToOneWithWhereWithoutNutritionLookupsInput, Prisma.SupplyItemUpdateWithoutNutritionLookupsInput>, Prisma.SupplyItemUncheckedUpdateWithoutNutritionLookupsInput>
+}
+
 export type SupplyItemCreateWithoutCategoryInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   nombre: string
+  normalizedName?: string
   descripcion: string
   codigo?: string | null
+  barcode?: string | null
   unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
   isActive?: boolean
   costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   recipeItems?: Prisma.RecipeIngredientCreateNestedManyWithoutSupplyItemInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogCreateNestedManyWithoutSupplyItemInput
 }
 
 export type SupplyItemUncheckedCreateWithoutCategoryInput = {
@@ -632,14 +1293,39 @@ export type SupplyItemUncheckedCreateWithoutCategoryInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   nombre: string
+  normalizedName?: string
   descripcion: string
   codigo?: string | null
+  barcode?: string | null
   unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
   isActive?: boolean
   costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   recipeItems?: Prisma.RecipeIngredientUncheckedCreateNestedManyWithoutSupplyItemInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogUncheckedCreateNestedManyWithoutSupplyItemInput
 }
 
 export type SupplyItemCreateOrConnectWithoutCategoryInput = {
@@ -676,10 +1362,34 @@ export type SupplyItemScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"SupplyItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SupplyItem"> | Date | string
   nombre?: Prisma.StringFilter<"SupplyItem"> | string
+  normalizedName?: Prisma.StringFilter<"SupplyItem"> | string
   descripcion?: Prisma.StringFilter<"SupplyItem"> | string
   codigo?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
+  barcode?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFilter<"SupplyItem"> | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.EnumMeasurementUnitNullableFilter<"SupplyItem"> | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.EnumNutritionBasisNullableFilter<"SupplyItem"> | $Enums.NutritionBasis | null
+  calorias?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.StringNullableListFilter<"SupplyItem">
+  source?: Prisma.EnumNutritionSourceNullableFilter<"SupplyItem"> | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
+  sourceQuery?: Prisma.StringNullableFilter<"SupplyItem"> | string | null
+  sourceConfidence?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.JsonNullableFilter<"SupplyItem">
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"SupplyItem"> | Date | string | null
+  manualOverride?: Prisma.BoolFilter<"SupplyItem"> | boolean
+  needsReview?: Prisma.BoolFilter<"SupplyItem"> | boolean
+  reviewNotes?: Prisma.StringFilter<"SupplyItem"> | string
+  status?: Prisma.EnumSupplyItemStatusFilter<"SupplyItem"> | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFilter<"SupplyItem"> | boolean
   costoReferencial?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.DecimalNullableFilter<"SupplyItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -691,14 +1401,39 @@ export type SupplyItemCreateWithoutRecipeItemsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   nombre: string
+  normalizedName?: string
   descripcion: string
   codigo?: string | null
+  barcode?: string | null
   unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
   isActive?: boolean
   costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   category?: Prisma.SupplyCategoryCreateNestedOneWithoutSuppliesInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogCreateNestedManyWithoutSupplyItemInput
 }
 
 export type SupplyItemUncheckedCreateWithoutRecipeItemsInput = {
@@ -706,14 +1441,39 @@ export type SupplyItemUncheckedCreateWithoutRecipeItemsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   nombre: string
+  normalizedName?: string
   descripcion: string
   codigo?: string | null
+  barcode?: string | null
   unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
   isActive?: boolean
   costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoryId?: string | null
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogUncheckedCreateNestedManyWithoutSupplyItemInput
 }
 
 export type SupplyItemCreateOrConnectWithoutRecipeItemsInput = {
@@ -737,14 +1497,39 @@ export type SupplyItemUpdateWithoutRecipeItemsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   category?: Prisma.SupplyCategoryUpdateOneWithoutSuppliesNestedInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogUpdateManyWithoutSupplyItemNestedInput
 }
 
 export type SupplyItemUncheckedUpdateWithoutRecipeItemsInput = {
@@ -752,14 +1537,215 @@ export type SupplyItemUncheckedUpdateWithoutRecipeItemsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogUncheckedUpdateManyWithoutSupplyItemNestedInput
+}
+
+export type SupplyItemCreateWithoutNutritionLookupsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  nombre: string
+  normalizedName?: string
+  descripcion: string
+  codigo?: string | null
+  barcode?: string | null
+  unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
+  isActive?: boolean
+  costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  category?: Prisma.SupplyCategoryCreateNestedOneWithoutSuppliesInput
+  recipeItems?: Prisma.RecipeIngredientCreateNestedManyWithoutSupplyItemInput
+}
+
+export type SupplyItemUncheckedCreateWithoutNutritionLookupsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  nombre: string
+  normalizedName?: string
+  descripcion: string
+  codigo?: string | null
+  barcode?: string | null
+  unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
+  isActive?: boolean
+  costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  categoryId?: string | null
+  recipeItems?: Prisma.RecipeIngredientUncheckedCreateNestedManyWithoutSupplyItemInput
+}
+
+export type SupplyItemCreateOrConnectWithoutNutritionLookupsInput = {
+  where: Prisma.SupplyItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupplyItemCreateWithoutNutritionLookupsInput, Prisma.SupplyItemUncheckedCreateWithoutNutritionLookupsInput>
+}
+
+export type SupplyItemUpsertWithoutNutritionLookupsInput = {
+  update: Prisma.XOR<Prisma.SupplyItemUpdateWithoutNutritionLookupsInput, Prisma.SupplyItemUncheckedUpdateWithoutNutritionLookupsInput>
+  create: Prisma.XOR<Prisma.SupplyItemCreateWithoutNutritionLookupsInput, Prisma.SupplyItemUncheckedCreateWithoutNutritionLookupsInput>
+  where?: Prisma.SupplyItemWhereInput
+}
+
+export type SupplyItemUpdateToOneWithWhereWithoutNutritionLookupsInput = {
+  where?: Prisma.SupplyItemWhereInput
+  data: Prisma.XOR<Prisma.SupplyItemUpdateWithoutNutritionLookupsInput, Prisma.SupplyItemUncheckedUpdateWithoutNutritionLookupsInput>
+}
+
+export type SupplyItemUpdateWithoutNutritionLookupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
+  descripcion?: Prisma.StringFieldUpdateOperationsInput | string
+  codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  category?: Prisma.SupplyCategoryUpdateOneWithoutSuppliesNestedInput
+  recipeItems?: Prisma.RecipeIngredientUpdateManyWithoutSupplyItemNestedInput
+}
+
+export type SupplyItemUncheckedUpdateWithoutNutritionLookupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
+  descripcion?: Prisma.StringFieldUpdateOperationsInput | string
+  codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recipeItems?: Prisma.RecipeIngredientUncheckedUpdateManyWithoutSupplyItemNestedInput
 }
 
 export type SupplyItemCreateManyCategoryInput = {
@@ -767,10 +1753,34 @@ export type SupplyItemCreateManyCategoryInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   nombre: string
+  normalizedName?: string
   descripcion: string
   codigo?: string | null
+  barcode?: string | null
   unidadBase: $Enums.MeasurementUnit
+  defaultServingSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: $Enums.MeasurementUnit | null
+  nutritionBasis?: $Enums.NutritionBasis | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemCreatetagsInput | string[]
+  source?: $Enums.NutritionSource | null
+  sourceExternalId?: string | null
+  sourceQuery?: string | null
+  sourceConfidence?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Date | string | null
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: string
+  status?: $Enums.SupplyItemStatus
   isActive?: boolean
   costoReferencial?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -781,14 +1791,39 @@ export type SupplyItemUpdateWithoutCategoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   recipeItems?: Prisma.RecipeIngredientUpdateManyWithoutSupplyItemNestedInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogUpdateManyWithoutSupplyItemNestedInput
 }
 
 export type SupplyItemUncheckedUpdateWithoutCategoryInput = {
@@ -796,14 +1831,39 @@ export type SupplyItemUncheckedUpdateWithoutCategoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   recipeItems?: Prisma.RecipeIngredientUncheckedUpdateManyWithoutSupplyItemNestedInput
+  nutritionLookups?: Prisma.SupplyNutritionLookupLogUncheckedUpdateManyWithoutSupplyItemNestedInput
 }
 
 export type SupplyItemUncheckedUpdateManyWithoutCategoryInput = {
@@ -811,10 +1871,34 @@ export type SupplyItemUncheckedUpdateManyWithoutCategoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  normalizedName?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.StringFieldUpdateOperationsInput | string
   codigo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unidadBase?: Prisma.EnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit
+  defaultServingSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  defaultServingUnit?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  nutritionBasis?: Prisma.NullableEnumNutritionBasisFieldUpdateOperationsInput | $Enums.NutritionBasis | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  densidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ediblePortionFactor?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tags?: Prisma.SupplyItemUpdatetagsInput | string[]
+  source?: Prisma.NullableEnumNutritionSourceFieldUpdateOperationsInput | $Enums.NutritionSource | null
+  sourceExternalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceQuery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceConfidence?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sourceSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  manualOverride?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  needsReview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewNotes?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumSupplyItemStatusFieldUpdateOperationsInput | $Enums.SupplyItemStatus
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   costoReferencial?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   mermaPorcentaje?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -827,10 +1911,12 @@ export type SupplyItemUncheckedUpdateManyWithoutCategoryInput = {
 
 export type SupplyItemCountOutputType = {
   recipeItems: number
+  nutritionLookups: number
 }
 
 export type SupplyItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   recipeItems?: boolean | SupplyItemCountOutputTypeCountRecipeItemsArgs
+  nutritionLookups?: boolean | SupplyItemCountOutputTypeCountNutritionLookupsArgs
 }
 
 /**
@@ -850,22 +1936,54 @@ export type SupplyItemCountOutputTypeCountRecipeItemsArgs<ExtArgs extends runtim
   where?: Prisma.RecipeIngredientWhereInput
 }
 
+/**
+ * SupplyItemCountOutputType without action
+ */
+export type SupplyItemCountOutputTypeCountNutritionLookupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SupplyNutritionLookupLogWhereInput
+}
+
 
 export type SupplyItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   nombre?: boolean
+  normalizedName?: boolean
   descripcion?: boolean
   codigo?: boolean
+  barcode?: boolean
   unidadBase?: boolean
+  defaultServingSize?: boolean
+  defaultServingUnit?: boolean
+  nutritionBasis?: boolean
+  calorias?: boolean
+  proteina?: boolean
+  carbohidratos?: boolean
+  grasas?: boolean
+  fibra?: boolean
+  azucar?: boolean
+  sodio?: boolean
+  densidad?: boolean
+  ediblePortionFactor?: boolean
   tags?: boolean
+  source?: boolean
+  sourceExternalId?: boolean
+  sourceQuery?: boolean
+  sourceConfidence?: boolean
+  sourceSnapshot?: boolean
+  lastSyncedAt?: boolean
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: boolean
+  status?: boolean
   isActive?: boolean
   costoReferencial?: boolean
   mermaPorcentaje?: boolean
   categoryId?: boolean
   category?: boolean | Prisma.SupplyItem$categoryArgs<ExtArgs>
   recipeItems?: boolean | Prisma.SupplyItem$recipeItemsArgs<ExtArgs>
+  nutritionLookups?: boolean | Prisma.SupplyItem$nutritionLookupsArgs<ExtArgs>
   _count?: boolean | Prisma.SupplyItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["supplyItem"]>
 
@@ -874,10 +1992,34 @@ export type SupplyItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   nombre?: boolean
+  normalizedName?: boolean
   descripcion?: boolean
   codigo?: boolean
+  barcode?: boolean
   unidadBase?: boolean
+  defaultServingSize?: boolean
+  defaultServingUnit?: boolean
+  nutritionBasis?: boolean
+  calorias?: boolean
+  proteina?: boolean
+  carbohidratos?: boolean
+  grasas?: boolean
+  fibra?: boolean
+  azucar?: boolean
+  sodio?: boolean
+  densidad?: boolean
+  ediblePortionFactor?: boolean
   tags?: boolean
+  source?: boolean
+  sourceExternalId?: boolean
+  sourceQuery?: boolean
+  sourceConfidence?: boolean
+  sourceSnapshot?: boolean
+  lastSyncedAt?: boolean
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: boolean
+  status?: boolean
   isActive?: boolean
   costoReferencial?: boolean
   mermaPorcentaje?: boolean
@@ -890,10 +2032,34 @@ export type SupplyItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   nombre?: boolean
+  normalizedName?: boolean
   descripcion?: boolean
   codigo?: boolean
+  barcode?: boolean
   unidadBase?: boolean
+  defaultServingSize?: boolean
+  defaultServingUnit?: boolean
+  nutritionBasis?: boolean
+  calorias?: boolean
+  proteina?: boolean
+  carbohidratos?: boolean
+  grasas?: boolean
+  fibra?: boolean
+  azucar?: boolean
+  sodio?: boolean
+  densidad?: boolean
+  ediblePortionFactor?: boolean
   tags?: boolean
+  source?: boolean
+  sourceExternalId?: boolean
+  sourceQuery?: boolean
+  sourceConfidence?: boolean
+  sourceSnapshot?: boolean
+  lastSyncedAt?: boolean
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: boolean
+  status?: boolean
   isActive?: boolean
   costoReferencial?: boolean
   mermaPorcentaje?: boolean
@@ -906,20 +2072,45 @@ export type SupplyItemSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   nombre?: boolean
+  normalizedName?: boolean
   descripcion?: boolean
   codigo?: boolean
+  barcode?: boolean
   unidadBase?: boolean
+  defaultServingSize?: boolean
+  defaultServingUnit?: boolean
+  nutritionBasis?: boolean
+  calorias?: boolean
+  proteina?: boolean
+  carbohidratos?: boolean
+  grasas?: boolean
+  fibra?: boolean
+  azucar?: boolean
+  sodio?: boolean
+  densidad?: boolean
+  ediblePortionFactor?: boolean
   tags?: boolean
+  source?: boolean
+  sourceExternalId?: boolean
+  sourceQuery?: boolean
+  sourceConfidence?: boolean
+  sourceSnapshot?: boolean
+  lastSyncedAt?: boolean
+  manualOverride?: boolean
+  needsReview?: boolean
+  reviewNotes?: boolean
+  status?: boolean
   isActive?: boolean
   costoReferencial?: boolean
   mermaPorcentaje?: boolean
   categoryId?: boolean
 }
 
-export type SupplyItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "nombre" | "descripcion" | "codigo" | "unidadBase" | "tags" | "isActive" | "costoReferencial" | "mermaPorcentaje" | "categoryId", ExtArgs["result"]["supplyItem"]>
+export type SupplyItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "nombre" | "normalizedName" | "descripcion" | "codigo" | "barcode" | "unidadBase" | "defaultServingSize" | "defaultServingUnit" | "nutritionBasis" | "calorias" | "proteina" | "carbohidratos" | "grasas" | "fibra" | "azucar" | "sodio" | "densidad" | "ediblePortionFactor" | "tags" | "source" | "sourceExternalId" | "sourceQuery" | "sourceConfidence" | "sourceSnapshot" | "lastSyncedAt" | "manualOverride" | "needsReview" | "reviewNotes" | "status" | "isActive" | "costoReferencial" | "mermaPorcentaje" | "categoryId", ExtArgs["result"]["supplyItem"]>
 export type SupplyItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.SupplyItem$categoryArgs<ExtArgs>
   recipeItems?: boolean | Prisma.SupplyItem$recipeItemsArgs<ExtArgs>
+  nutritionLookups?: boolean | Prisma.SupplyItem$nutritionLookupsArgs<ExtArgs>
   _count?: boolean | Prisma.SupplyItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SupplyItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -934,16 +2125,41 @@ export type $SupplyItemPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     category: Prisma.$SupplyCategoryPayload<ExtArgs> | null
     recipeItems: Prisma.$RecipeIngredientPayload<ExtArgs>[]
+    nutritionLookups: Prisma.$SupplyNutritionLookupLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     createdAt: Date
     updatedAt: Date
     nombre: string
+    normalizedName: string
     descripcion: string
     codigo: string | null
+    barcode: string | null
     unidadBase: $Enums.MeasurementUnit
+    defaultServingSize: runtime.Decimal | null
+    defaultServingUnit: $Enums.MeasurementUnit | null
+    nutritionBasis: $Enums.NutritionBasis | null
+    calorias: runtime.Decimal | null
+    proteina: runtime.Decimal | null
+    carbohidratos: runtime.Decimal | null
+    grasas: runtime.Decimal | null
+    fibra: runtime.Decimal | null
+    azucar: runtime.Decimal | null
+    sodio: runtime.Decimal | null
+    densidad: runtime.Decimal | null
+    ediblePortionFactor: runtime.Decimal | null
     tags: string[]
+    source: $Enums.NutritionSource | null
+    sourceExternalId: string | null
+    sourceQuery: string | null
+    sourceConfidence: runtime.Decimal | null
+    sourceSnapshot: runtime.JsonValue | null
+    lastSyncedAt: Date | null
+    manualOverride: boolean
+    needsReview: boolean
+    reviewNotes: string
+    status: $Enums.SupplyItemStatus
     isActive: boolean
     costoReferencial: runtime.Decimal | null
     mermaPorcentaje: runtime.Decimal | null
@@ -1344,6 +2560,7 @@ export interface Prisma__SupplyItemClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   category<T extends Prisma.SupplyItem$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SupplyItem$categoryArgs<ExtArgs>>): Prisma.Prisma__SupplyCategoryClient<runtime.Types.Result.GetResult<Prisma.$SupplyCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   recipeItems<T extends Prisma.SupplyItem$recipeItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SupplyItem$recipeItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecipeIngredientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  nutritionLookups<T extends Prisma.SupplyItem$nutritionLookupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SupplyItem$nutritionLookupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplyNutritionLookupLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1377,10 +2594,34 @@ export interface SupplyItemFieldRefs {
   readonly createdAt: Prisma.FieldRef<"SupplyItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SupplyItem", 'DateTime'>
   readonly nombre: Prisma.FieldRef<"SupplyItem", 'String'>
+  readonly normalizedName: Prisma.FieldRef<"SupplyItem", 'String'>
   readonly descripcion: Prisma.FieldRef<"SupplyItem", 'String'>
   readonly codigo: Prisma.FieldRef<"SupplyItem", 'String'>
+  readonly barcode: Prisma.FieldRef<"SupplyItem", 'String'>
   readonly unidadBase: Prisma.FieldRef<"SupplyItem", 'MeasurementUnit'>
+  readonly defaultServingSize: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly defaultServingUnit: Prisma.FieldRef<"SupplyItem", 'MeasurementUnit'>
+  readonly nutritionBasis: Prisma.FieldRef<"SupplyItem", 'NutritionBasis'>
+  readonly calorias: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly proteina: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly carbohidratos: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly grasas: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly fibra: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly azucar: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly sodio: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly densidad: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly ediblePortionFactor: Prisma.FieldRef<"SupplyItem", 'Decimal'>
   readonly tags: Prisma.FieldRef<"SupplyItem", 'String[]'>
+  readonly source: Prisma.FieldRef<"SupplyItem", 'NutritionSource'>
+  readonly sourceExternalId: Prisma.FieldRef<"SupplyItem", 'String'>
+  readonly sourceQuery: Prisma.FieldRef<"SupplyItem", 'String'>
+  readonly sourceConfidence: Prisma.FieldRef<"SupplyItem", 'Decimal'>
+  readonly sourceSnapshot: Prisma.FieldRef<"SupplyItem", 'Json'>
+  readonly lastSyncedAt: Prisma.FieldRef<"SupplyItem", 'DateTime'>
+  readonly manualOverride: Prisma.FieldRef<"SupplyItem", 'Boolean'>
+  readonly needsReview: Prisma.FieldRef<"SupplyItem", 'Boolean'>
+  readonly reviewNotes: Prisma.FieldRef<"SupplyItem", 'String'>
+  readonly status: Prisma.FieldRef<"SupplyItem", 'SupplyItemStatus'>
   readonly isActive: Prisma.FieldRef<"SupplyItem", 'Boolean'>
   readonly costoReferencial: Prisma.FieldRef<"SupplyItem", 'Decimal'>
   readonly mermaPorcentaje: Prisma.FieldRef<"SupplyItem", 'Decimal'>
@@ -1826,6 +3067,30 @@ export type SupplyItem$recipeItemsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.RecipeIngredientScalarFieldEnum | Prisma.RecipeIngredientScalarFieldEnum[]
+}
+
+/**
+ * SupplyItem.nutritionLookups
+ */
+export type SupplyItem$nutritionLookupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SupplyNutritionLookupLog
+   */
+  select?: Prisma.SupplyNutritionLookupLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SupplyNutritionLookupLog
+   */
+  omit?: Prisma.SupplyNutritionLookupLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupplyNutritionLookupLogInclude<ExtArgs> | null
+  where?: Prisma.SupplyNutritionLookupLogWhereInput
+  orderBy?: Prisma.SupplyNutritionLookupLogOrderByWithRelationInput | Prisma.SupplyNutritionLookupLogOrderByWithRelationInput[]
+  cursor?: Prisma.SupplyNutritionLookupLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SupplyNutritionLookupLogScalarFieldEnum | Prisma.SupplyNutritionLookupLogScalarFieldEnum[]
 }
 
 /**

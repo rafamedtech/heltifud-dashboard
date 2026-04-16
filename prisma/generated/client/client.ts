@@ -86,3 +86,8 @@ export type Recipe = Prisma.RecipeModel
  * 
  */
 export type RecipeIngredient = Prisma.RecipeIngredientModel
+/**
+ * Model SupplyNutritionLookupLog
+ * 
+ */
+export type SupplyNutritionLookupLog = Prisma.SupplyNutritionLookupLogModel
