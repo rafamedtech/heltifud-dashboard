@@ -9,8 +9,6 @@ import type {
   SupplyCategorySummary,
   SupplyItemSummary,
 } from '~~/types/types';
-import Skeleton from 'boneyard-js/vue';
-import fieldsBones from '~/bones/admin-food-catalog-edit-fields.bones.json';
 import { foodCatalogItemInputSchema } from '~~/types/menuSchema';
 import { formatDateTime } from '~/utils/formatters';
 import { MEASUREMENT_UNIT_VALUES, RECIPE_STATUS_VALUES } from '~~/types/types';
@@ -146,26 +144,6 @@ type FoodCatalogFormState = Omit<FoodCatalogItemInput, 'tipo' | 'recipe'> & {
 };
 
 type FieldErrorKey = keyof Omit<FoodCatalogItemInput, 'recipe'> | 'recipe';
-type SkeletonResponsiveBones = {
-  breakpoints: Record<
-    number,
-    {
-      name: string;
-      viewportWidth: number;
-      width: number;
-      height: number;
-      bones: Array<{
-        x: number;
-        y: number;
-        w: number;
-        h: number;
-        r: number | string;
-        c?: boolean;
-      }>;
-    }
-  >;
-};
-
 const toast = useToast();
 const { saveFoodCatalogItem } = useFoodCatalog();
 const { saveSupplyCategory } = useSupplyCategories();
@@ -208,8 +186,6 @@ const unitOptions = MEASUREMENT_UNIT_VALUES.map((unit) => ({
   label: unit.charAt(0).toUpperCase() + unit.slice(1).toLowerCase(),
   value: unit,
 }));
-const fieldsSkeleton = fieldsBones as unknown as SkeletonResponsiveBones;
-
 const state = reactive<FoodCatalogFormState>({
   nombre: '',
   descripcion: '',
@@ -236,6 +212,7 @@ const pendingIngredientDeleteIndex = ref<number | null>(null);
 const activeRecipeDocumentField = ref<'instrucciones' | 'notas'>(
   'instrucciones',
 );
+const activeIngredientMacroTab = ref<'actual' | 'base'>('actual');
 const errorMessage = ref('');
 const recipeIssues = ref<string[]>([]);
 const initialSnapshot = ref('');
@@ -257,6 +234,9 @@ const formErrors = computed<FormError[]>(() =>
   (Object.entries(fieldErrors) as Array<[FieldErrorKey, string]>)
     .filter(([, message]) => Boolean(message))
     .map(([name, message]) => ({ name, message })),
+);
+const isFormHydrating = computed(
+  () => props.mode === 'edit' && props.loadingFields,
 );
 
 const ingredientCount = computed(() => state.recipe.ingredients.length);
@@ -395,6 +375,10 @@ const nutritionBasisOptions = [
   { label: 'Por porción', value: 'POR_PORCION' },
   { label: 'Por unidad', value: 'POR_UNIDAD' },
 ];
+const ingredientMacroTabs = [
+  { label: 'En esta receta', value: 'actual' },
+  { label: 'Base', value: 'base' },
+];
 const ingredientNutritionReviewTabs = [
   { label: 'USDA', value: 'USDA' },
   { label: 'FatSecret', value: 'FATSECRET' },
@@ -441,6 +425,18 @@ const recipeDocumentConfig = computed(() => {
       : 'Notas internas, empaque, reposo, conservación o montaje.',
   };
 });
+const recipeCaloriesTotal = computed(() =>
+  Math.round(
+    state.recipe.ingredients.reduce((sum, ingredient) => {
+      const value = resolveIngredientMacroValue(
+        ingredient,
+        ingredient.supplyCalorias,
+      );
+
+      return sum + (value ?? 0);
+    }, 0),
+  ),
+);
 const activeRecipeDocumentValue = computed({
   get: () =>
     activeRecipeDocumentField.value === 'instrucciones'
@@ -649,6 +645,30 @@ function formatRecipeUnitLabel(unit: MeasurementUnit, quantity: number | null) {
   return `${baseLabel}(s)`;
 }
 
+function formatIngredientNutritionBasisDisplay(
+  ingredient: RecipeIngredientFormState,
+) {
+  const basis =
+    ingredient.supplyNutritionBasis
+    ?? resolveNutritionBasisFromSupplyUnit(ingredient.supplyUnitBase);
+  const servingSize =
+    ingredient.supplyDefaultServingSize
+    ?? resolveNutritionServingSizeFromSupplyUnit(ingredient.supplyUnitBase);
+  const servingUnit =
+    ingredient.supplyDefaultServingUnit
+    ?? resolveNutritionServingUnitFromSupplyUnit(ingredient.supplyUnitBase);
+
+  if (!basis || !servingUnit) {
+    return 'Sin base nutricional disponible';
+  }
+
+  if (basis === 'POR_UNIDAD') {
+    return `${servingSize ?? 1} ${formatEnumLabel(servingUnit)}`;
+  }
+
+  return `${servingSize ?? 100} ${formatEnumLabel(servingUnit)}`;
+}
+
 function roundNutritionValue(value: number | null) {
   if (value === null || Number.isNaN(value)) {
     return null;
@@ -695,8 +715,71 @@ function convertToMilliliters(
   return ratio ? quantity * ratio : null;
 }
 
+function isMassMeasurementUnit(unit: MeasurementUnit) {
+  return ['GRAMO', 'KILOGRAMO', 'ONZA', 'LIBRA'].includes(unit);
+}
+
+function isVolumeMeasurementUnit(unit: MeasurementUnit) {
+  return [
+    'MILILITRO',
+    'LITRO',
+    'TAZA',
+    'CUCHARADA',
+    'CUCHARADITA',
+    'BOTELLA',
+    'LATA',
+  ].includes(unit);
+}
+
+function resolveNutritionBasisFromSupplyUnit(
+  unit: MeasurementUnit,
+): NutritionBasisOption {
+  if (isMassMeasurementUnit(unit)) {
+    return 'POR_100_GRAMOS';
+  }
+
+  if (isVolumeMeasurementUnit(unit)) {
+    return 'POR_100_MILILITROS';
+  }
+
+  return 'POR_UNIDAD';
+}
+
+function resolveNutritionServingUnitFromSupplyUnit(
+  unit: MeasurementUnit,
+): MeasurementUnit {
+  if (isMassMeasurementUnit(unit)) {
+    return 'GRAMO';
+  }
+
+  if (isVolumeMeasurementUnit(unit)) {
+    return 'MILILITRO';
+  }
+
+  return 'PIEZA';
+}
+
+function resolveNutritionServingSizeFromSupplyUnit(unit: MeasurementUnit) {
+  if (isMassMeasurementUnit(unit) || isVolumeMeasurementUnit(unit)) {
+    return 100;
+  }
+
+  return 1;
+}
+
+function syncIngredientNutritionBaseFromSupplyUnit(unit: MeasurementUnit) {
+  ingredientDraft.supplyNutritionBasis =
+    resolveNutritionBasisFromSupplyUnit(unit);
+  ingredientDraft.supplyDefaultServingUnit =
+    resolveNutritionServingUnitFromSupplyUnit(unit);
+  ingredientDraft.supplyDefaultServingSize =
+    resolveNutritionServingSizeFromSupplyUnit(unit);
+}
+
 function resolveIngredientNutritionFactor(ingredient: RecipeIngredientFormState) {
-  const basis = ingredient.supplyNutritionBasis;
+  const basis =
+    ingredient.supplyNutritionBasis
+    ?? resolveNutritionBasisFromSupplyUnit(ingredient.supplyUnitBase);
   const quantity = ingredient.cantidad;
 
   if (quantity === null || !basis) {
@@ -736,8 +819,12 @@ function resolveIngredientNutritionFactor(ingredient: RecipeIngredientFormState)
     return quantity;
   }
 
-  const servingSize = ingredient.supplyDefaultServingSize;
-  const servingUnit = ingredient.supplyDefaultServingUnit;
+  const servingSize =
+    ingredient.supplyDefaultServingSize
+    ?? resolveNutritionServingSizeFromSupplyUnit(ingredient.supplyUnitBase);
+  const servingUnit =
+    ingredient.supplyDefaultServingUnit
+    ?? resolveNutritionServingUnitFromSupplyUnit(ingredient.supplyUnitBase);
 
   if (!servingSize || !servingUnit) {
     return null;
@@ -762,6 +849,19 @@ function resolveIngredientNutritionFactor(ingredient: RecipeIngredientFormState)
   }
 
   return null;
+}
+
+function resolveIngredientMacroValue(
+  ingredient: RecipeIngredientFormState,
+  value: number | null,
+) {
+  const factor = resolveIngredientNutritionFactor(ingredient);
+
+  if (factor === null || value === null) {
+    return null;
+  }
+
+  return roundNutritionValue(value * factor);
 }
 
 function normalizeTags(tags: string[]) {
@@ -1199,8 +1299,6 @@ function validateIngredientDraft() {
 }
 
 function saveIngredientDraft() {
-  hydrateIngredientFromCatalog(ingredientDraft);
-
   if (!validateIngredientDraft()) {
     return;
   }
@@ -1420,7 +1518,7 @@ function buildPayload(): FoodCatalogItemInput {
   return {
     nombre: state.nombre.trim(),
     descripcion: state.descripcion.trim(),
-    calorias: Number(state.calorias) || 0,
+    calorias: recipeCaloriesTotal.value,
     imagen: state.imagen.trim(),
     tipo: state.tipo?.trim() ?? '',
     recipe: recipeHasContent(state.recipe)
@@ -1461,11 +1559,16 @@ function buildPayload(): FoodCatalogItemInput {
               supplyFibra: toNullableNumber(ingredient.supplyFibra),
               supplyAzucar: toNullableNumber(ingredient.supplyAzucar),
               supplySodio: toNullableNumber(ingredient.supplySodio),
-              supplyNutritionBasis: ingredient.supplyNutritionBasis,
+              supplyNutritionBasis:
+                ingredient.supplyNutritionBasis
+                ?? resolveNutritionBasisFromSupplyUnit(ingredient.supplyUnitBase),
               supplyDefaultServingSize: toNullableNumber(
-                ingredient.supplyDefaultServingSize,
+                ingredient.supplyDefaultServingSize
+                ?? resolveNutritionServingSizeFromSupplyUnit(ingredient.supplyUnitBase),
               ),
-              supplyDefaultServingUnit: ingredient.supplyDefaultServingUnit,
+              supplyDefaultServingUnit:
+                ingredient.supplyDefaultServingUnit
+                ?? resolveNutritionServingUnitFromSupplyUnit(ingredient.supplyUnitBase),
               supplyDensidad: toNullableNumber(ingredient.supplyDensidad),
               grupo: ingredient.grupo.trim() || null,
               cantidad: Number(ingredient.cantidad) || 0,
@@ -1500,7 +1603,24 @@ watch(
   () => ingredientModalOpen.value,
   (isOpen) => {
     if (!isOpen) return;
+
+    activeIngredientMacroTab.value = 'actual';
   },
+);
+
+watch(
+  () => ingredientDraft.supplyUnitBase,
+  (unit) => {
+    syncIngredientNutritionBaseFromSupplyUnit(unit);
+  },
+);
+
+watch(
+  () => recipeCaloriesTotal.value,
+  (value) => {
+    state.calorias = value;
+  },
+  { immediate: true },
 );
 
 const isDirty = computed(() => JSON.stringify(state) !== initialSnapshot.value);
@@ -1640,7 +1760,13 @@ async function onSubmit() {
             class="overflow-hidden rounded-none border border-default/70 bg-default"
           >
             <div
-              v-if="state.imagen"
+              v-if="loadingSidebar"
+              class="flex aspect-4/3 items-center justify-center rounded-none bg-[radial-gradient(circle_at_top,#00dc8220,transparent_55%)]"
+            >
+              <USkeleton class="h-full w-full rounded-none" />
+            </div>
+            <div
+              v-else-if="state.imagen"
               class="aspect-4/3 overflow-hidden rounded-none"
             >
               <img
@@ -1660,28 +1786,32 @@ async function onSubmit() {
             </div>
           </div>
 
-          <div class="space-y-2">
-            <div class="flex flex-wrap items-center gap-2">
-              <UBadge color="primary" variant="subtle">
-                {{ state.tipo || 'Sin tipo' }}
-              </UBadge>
-              <UBadge color="neutral" variant="soft">
-                {{ state.calorias || 0 }} kcal
-              </UBadge>
-              <UBadge color="warning" variant="soft">
-                {{ formatEnumLabel(state.recipe.status) }}
-              </UBadge>
-            </div>
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <USkeleton v-if="loadingSidebar" class="h-6 w-20 rounded-full" />
+                <UBadge v-else color="primary" variant="subtle">
+                  {{ state.tipo || 'Sin tipo' }}
+                </UBadge>
+                <USkeleton v-if="loadingSidebar" class="h-6 w-16 rounded-full" />
+                <UBadge v-else color="neutral" variant="soft">
+                  {{ state.calorias || 0 }} kcal
+                </UBadge>
+                <UBadge color="warning" variant="soft">
+                  {{ formatEnumLabel(state.recipe.status) }}
+                </UBadge>
+              </div>
 
-            <h3 class="text-lg font-semibold text-highlighted">
-              {{ state.nombre || 'Nombre pendiente' }}
-            </h3>
-            <p class="text-sm text-toned">
-              {{
-                state.descripcion ||
-                'Aquí verás un resumen rápido del platillo mientras lo capturas.'
-              }}
-            </p>
+              <USkeleton v-if="loadingSidebar" class="h-7 w-2/3" />
+              <h3 v-else class="text-lg font-semibold text-highlighted">
+                {{ state.nombre || 'Nombre pendiente' }}
+              </h3>
+              <USkeleton v-if="loadingSidebar" class="h-5 w-full" />
+              <p v-else class="text-sm text-toned">
+                {{
+                  state.descripcion ||
+                  'Aquí verás un resumen rápido del platillo mientras lo capturas.'
+                }}
+              </p>
           </div>
         </UCard>
 
@@ -1697,7 +1827,12 @@ async function onSubmit() {
               </h4>
             </div>
 
-            <div v-if="item?.linkedMenus?.length" class="space-y-2">
+            <div v-if="loadingSidebar" class="space-y-2">
+              <USkeleton class="h-10 w-full" />
+              <USkeleton class="h-10 w-full" />
+            </div>
+
+            <div v-else-if="item?.linkedMenus?.length" class="space-y-2">
               <p
                 v-if="item.linkedMenus.length === 1"
                 class="text-sm text-muted"
@@ -1761,113 +1896,111 @@ async function onSubmit() {
             :description="errorMessage"
           />
 
-          <Skeleton
-            name="admin-food-catalog-edit-fields"
-            :initial-bones="fieldsSkeleton"
-            :loading="loadingFields"
+          <div
+            class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.82fr)] lg:items-start"
           >
-            <div
-              class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.82fr)] lg:items-start"
-            >
-              <div class="grid gap-5">
-                <UFormField
-                  name="nombre"
-                  :error="false"
-                  label="Nombre"
-                  class="min-w-0"
-                  :ui="{ label: 'font-semibold text-highlighted' }"
-                >
-                  <UInput
-                    v-model="state.nombre"
-                    class="w-full"
-                    :color="
-                      fieldErrors.nombre
-                        ? 'error'
-                        : mode === 'create'
-                          ? 'primary'
-                          : 'neutral'
-                    "
-                    size="xl"
-                    placeholder="Ej. Bowl de pollo con arroz integral"
-                  />
-                </UFormField>
+            <div class="space-y-5">
+              <UFormField
+                name="nombre"
+                :error="false"
+                label="Nombre"
+                class="min-w-0"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model="state.nombre"
+                  class="w-full"
+                  :disabled="isFormHydrating"
+                  :color="
+                    fieldErrors.nombre
+                      ? 'error'
+                      : mode === 'create'
+                        ? 'primary'
+                        : 'neutral'
+                  "
+                  size="xl"
+                  :placeholder="
+                    isFormHydrating
+                      ? 'Cargando...'
+                      : 'Ej. Bowl de pollo con arroz integral'
+                  "
+                />
+              </UFormField>
 
-                <UFormField
-                  name="tipo"
-                  :error="false"
-                  label="Tipo"
-                  class="min-w-0"
-                  :ui="{ label: 'font-semibold text-highlighted' }"
-                >
-                  <USelect
-                    v-model="state.tipo"
-                    :items="foodTypeOptions"
-                    class="w-full"
-                    :color="fieldErrors.tipo ? 'error' : 'primary'"
-                    size="xl"
-                    placeholder="Selecciona un tipo"
-                    :ui="{
-                      content: '!max-h-none',
-                      viewport: '!overflow-visible',
-                    }"
-                  />
-                </UFormField>
+              <UFormField
+                name="tipo"
+                :error="false"
+                label="Tipo"
+                class="min-w-0"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <USelect
+                  v-model="state.tipo"
+                  :items="foodTypeOptions"
+                  class="w-full"
+                  :disabled="isFormHydrating"
+                  :color="fieldErrors.tipo ? 'error' : 'primary'"
+                  size="xl"
+                  :placeholder="
+                    isFormHydrating ? 'Cargando...' : 'Selecciona un tipo'
+                  "
+                  :ui="{
+                    content: '!max-h-none',
+                    viewport: '!overflow-visible',
+                  }"
+                />
+              </UFormField>
 
-                <UFormField
-                  name="descripcion"
-                  label="Descripción"
-                  class="min-w-0"
-                  :ui="{ label: 'font-semibold text-highlighted' }"
-                >
-                  <UTextarea
-                    v-model="state.descripcion"
-                    class="min-h-34 w-full"
-                    :rows="5"
-                    placeholder="Describe rápidamente el platillo, ingredientes o notas internas."
-                  />
-                </UFormField>
+              <UFormField
+                name="descripcion"
+                label="Descripción"
+                class="min-w-0"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UTextarea
+                  v-model="state.descripcion"
+                  class="w-full"
+                  :disabled="isFormHydrating"
+                  :rows="5"
+                  :ui="{ base: 'min-h-34 resize-none' }"
+                  :placeholder="
+                    isFormHydrating
+                      ? 'Cargando...'
+                      : 'Describe rápidamente el platillo, ingredientes o notas internas.'
+                  "
+                />
+              </UFormField>
 
-                <div class="grid gap-5 md:grid-cols-2">
-                  <UFormField
-                    name="calorias"
-                    label="Calorías"
-                    class="min-w-0"
-                    :ui="{ label: 'font-semibold text-highlighted' }"
-                  >
-                    <UInput
-                      v-model.number="state.calorias"
-                      class="w-full"
-                      type="number"
-                      min="0"
-                      size="xl"
-                      placeholder="0"
-                    />
-                  </UFormField>
+              <UFormField
+                name="imagen"
+                label="URL de imagen"
+                class="min-w-0"
+                :ui="{ label: 'font-semibold text-highlighted' }"
+              >
+                <UInput
+                  v-model="state.imagen"
+                  class="w-full"
+                  :disabled="isFormHydrating"
+                  type="url"
+                  size="xl"
+                  :placeholder="isFormHydrating ? 'Cargando...' : 'https://...'"
+                />
+              </UFormField>
+            </div>
 
-                  <UFormField
-                    name="imagen"
-                    label="URL de imagen"
-                    class="min-w-0"
-                    :ui="{ label: 'font-semibold text-highlighted' }"
-                  >
-                    <UInput
-                      v-model="state.imagen"
-                      class="w-full"
-                      type="url"
-                      size="xl"
-                      placeholder="https://..."
-                    />
-                  </UFormField>
-                </div>
-              </div>
-
-              <div class="hidden content-start gap-4 lg:grid">
+            <div class="hidden content-start gap-4 lg:grid">
                 <UCard class="app-surface-soft" :ui="{ body: 'space-y-5 p-5' }">
                   <div
                     class="overflow-hidden rounded-none border border-default/70 bg-default"
                   >
                     <div
-                      v-if="state.imagen"
+                      v-if="loadingSidebar"
+                      class="flex aspect-4/3 items-center justify-center rounded-none bg-[radial-gradient(circle_at_top,#00dc8220,transparent_55%)]"
+                    >
+                      <USkeleton class="h-full w-full rounded-none" />
+                    </div>
+                    <div
+                      v-else-if="state.imagen"
                       class="aspect-4/3 overflow-hidden rounded-none"
                     >
                       <img
@@ -1892,21 +2025,33 @@ async function onSubmit() {
 
                   <div class="space-y-2">
                     <div class="flex flex-wrap items-center gap-2">
-                      <UBadge color="primary" variant="subtle">
+                      <USkeleton v-if="loadingSidebar" class="h-6 w-20 rounded-full" />
+                      <UBadge v-else color="primary" variant="subtle">
                         {{ state.tipo || 'Sin tipo' }}
                       </UBadge>
-                      <UBadge color="neutral" variant="soft">
+                      <USkeleton v-if="loadingSidebar" class="h-6 w-16 rounded-full" />
+                      <UBadge v-else color="neutral" variant="soft">
                         {{ state.calorias || 0 }} kcal
                       </UBadge>
-                      <UBadge color="warning" variant="soft">
-                        {{ formatEnumLabel(state.recipe.status) }}
+                      <USkeleton
+                        v-if="loadingSidebar"
+                        class="h-6 w-20 rounded-full"
+                      />
+                      <UBadge
+                        v-else-if="!state.recipe.ingredients.length"
+                        color="warning"
+                        variant="soft"
+                      >
+                        Sin receta
                       </UBadge>
                     </div>
 
-                    <h3 class="text-lg font-semibold text-highlighted">
+                    <USkeleton v-if="loadingSidebar" class="h-7 w-2/3" />
+                    <h3 v-else class="text-lg font-semibold text-highlighted">
                       {{ state.nombre || 'Nombre pendiente' }}
                     </h3>
-                    <p class="text-sm text-toned">
+                    <USkeleton v-if="loadingSidebar" class="h-5 w-full" />
+                    <p v-else class="text-sm text-toned">
                       {{
                         state.descripcion ||
                         'Aquí verás un resumen rápido del platillo mientras lo capturas.'
@@ -1927,7 +2072,12 @@ async function onSubmit() {
                       </h4>
                     </div>
 
-                    <div v-if="item?.linkedMenus?.length" class="space-y-2">
+                    <div v-if="loadingSidebar" class="space-y-2">
+                      <USkeleton class="h-10 w-full" />
+                      <USkeleton class="h-10 w-full" />
+                    </div>
+
+                    <div v-else-if="item?.linkedMenus?.length" class="space-y-2">
                       <p
                         v-if="item.linkedMenus.length === 1"
                         class="text-sm text-muted"
@@ -1972,9 +2122,8 @@ async function onSubmit() {
                     </p>
                   </div>
                 </UCard>
-              </div>
             </div>
-          </Skeleton>
+          </div>
         </div>
 
         <div
@@ -2021,6 +2170,7 @@ async function onSubmit() {
                 v-model="state.recipe.status"
                 :items="recipeStatusOptions"
                 class="w-full"
+                :disabled="isFormHydrating"
               />
             </UFormField>
 
@@ -2031,9 +2181,10 @@ async function onSubmit() {
               <UInput
                 v-model.number="state.recipe.porciones"
                 class="w-full"
+                :disabled="isFormHydrating"
                 type="number"
                 min="1"
-                placeholder="Ej. 1"
+                :placeholder="isFormHydrating ? 'Cargando...' : 'Ej. 1'"
               />
             </UFormField>
 
@@ -2044,10 +2195,11 @@ async function onSubmit() {
               <UInput
                 v-model.number="state.recipe.rendimientoCantidad"
                 class="w-full"
+                :disabled="isFormHydrating"
                 type="number"
                 min="0"
                 step="0.01"
-                placeholder="Ej. 350"
+                :placeholder="isFormHydrating ? 'Cargando...' : 'Ej. 350'"
               />
             </UFormField>
 
@@ -2061,7 +2213,10 @@ async function onSubmit() {
                 label-key="label"
                 value-key="value"
                 class="w-full"
-                placeholder="Selecciona una unidad"
+                :disabled="isFormHydrating"
+                :placeholder="
+                  isFormHydrating ? 'Cargando...' : 'Selecciona una unidad'
+                "
               />
             </UFormField>
           </div>
@@ -2197,18 +2352,24 @@ async function onSubmit() {
               >
                 <button
                   type="button"
-                  class="flex h-36 w-full cursor-pointer items-start rounded-md bg-default px-3 py-2 text-left ring ring-inset ring-accented transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+                  class="flex h-36 w-full cursor-pointer items-start rounded-md bg-default px-3 py-2 text-left ring ring-inset ring-accented transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-75"
+                  :disabled="isFormHydrating"
                   @click="openRecipeDocumentModal('instrucciones')"
                 >
                   <span
                     class="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm leading-6"
                     :class="
-                      state.recipe.instrucciones
+                      isFormHydrating
+                        ? 'text-dimmed'
+                        : state.recipe.instrucciones
                         ? 'text-highlighted'
                         : 'text-dimmed'
                     "
                   >
                     {{
+                      isFormHydrating
+                        ? 'Cargando...'
+                        :
                       state.recipe.instrucciones ||
                       'Detalla pasos, orden de producción y puntos críticos.'
                     }}
@@ -2222,16 +2383,22 @@ async function onSubmit() {
               >
                 <button
                   type="button"
-                  class="flex h-36 w-full cursor-pointer items-start rounded-md bg-default px-3 py-2 text-left ring ring-inset ring-accented transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+                  class="flex h-36 w-full cursor-pointer items-start rounded-md bg-default px-3 py-2 text-left ring ring-inset ring-accented transition-colors hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-75"
+                  :disabled="isFormHydrating"
                   @click="openRecipeDocumentModal('notas')"
                 >
                   <span
                     class="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm leading-6"
                     :class="
-                      state.recipe.notas ? 'text-highlighted' : 'text-dimmed'
+                      isFormHydrating
+                        ? 'text-dimmed'
+                        : state.recipe.notas ? 'text-highlighted' : 'text-dimmed'
                     "
                   >
                     {{
+                      isFormHydrating
+                        ? 'Cargando...'
+                        :
                       state.recipe.notas ||
                       'Notas internas, empaque, reposo, conservación o montaje.'
                     }}
@@ -2346,6 +2513,7 @@ async function onSubmit() {
                   label-key="label"
                   value-key="value"
                   class="w-full"
+                  @update:model-value="syncIngredientNutritionBaseFromSupplyUnit"
                 />
               </UFormField>
 
@@ -2489,9 +2657,9 @@ async function onSubmit() {
                 >
                   Macronutrientes
                 </h3>
-                <p class="text-sm text-muted">
-                  Edita base nutricional manualmente o revisa coincidencias
-                  externas antes de aplicarla.
+                <p class="max-w-md text-sm text-muted">
+                  Prioridad visual en cálculo para cantidad actual. Base
+                  nutricional queda abajo para edición manual o revisión.
                 </p>
               </div>
 
@@ -2507,7 +2675,7 @@ async function onSubmit() {
                 {{
                   isHydratingIngredientNutrition
                     ? 'Buscando coincidencias...'
-                    : 'Buscar USDA / FatSecret'
+                    : 'Buscar en USDA'
                 }}
               </UButton>
             </div>
@@ -2515,155 +2683,237 @@ async function onSubmit() {
             <p class="mb-4 text-xs text-muted">
               Base nutricional:
               {{
-                ingredientDraft.supplyNutritionBasis
-                  ? formatEnumLabel(ingredientDraft.supplyNutritionBasis)
-                  : 'Sin base nutricional disponible'
+                formatIngredientNutritionBasisDisplay(ingredientDraft)
               }}
             </p>
 
-            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              <UFormField
-                label="Calorías"
-                :ui="{ label: 'font-semibold text-highlighted' }"
-              >
-                <UInput
-                  v-model.number="ingredientDraft.supplyCalorias"
-                  class="w-full"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0"
-                />
-              </UFormField>
+            <UTabs
+              v-model="activeIngredientMacroTab"
+              :items="ingredientMacroTabs"
+              color="primary"
+              variant="pill"
+              :ui="{
+                root: 'w-full gap-4',
+                list: 'w-full rounded-xl bg-elevated p-1',
+                content: 'w-full',
+              }"
+            >
+              <template #content>
+                <div
+                  v-if="activeIngredientMacroTab === 'actual'"
+                >
+                  <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    <div class="rounded-xl border border-default/70 bg-default p-4">
+                      <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
+                        Calorías
+                      </p>
+                      <p class="mt-2 text-2xl font-semibold text-highlighted">
+                        {{ computedIngredientMacros.calories ?? '—' }}
+                      </p>
+                      <p class="mt-1 text-sm text-muted">kcal</p>
+                    </div>
 
-              <UFormField
-                label="Proteína"
-                :ui="{ label: 'font-semibold text-highlighted' }"
-              >
-                <UInput
-                  v-model.number="ingredientDraft.supplyProteina"
-                  class="w-full"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0"
-                />
-              </UFormField>
+                    <div class="rounded-xl border border-default/70 bg-default p-4">
+                      <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
+                        Proteína
+                      </p>
+                      <p class="mt-2 text-xl font-semibold text-highlighted">
+                        {{ computedIngredientMacros.protein ?? '—' }}
+                      </p>
+                      <p class="mt-1 text-sm text-muted">g</p>
+                    </div>
 
-              <UFormField
-                label="Carbohidratos"
-                :ui="{ label: 'font-semibold text-highlighted' }"
-              >
-                <UInput
-                  v-model.number="ingredientDraft.supplyCarbohidratos"
-                  class="w-full"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0"
-                />
-              </UFormField>
+                    <div class="rounded-xl border border-default/70 bg-default p-4">
+                      <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
+                        Carbohidratos
+                      </p>
+                      <p class="mt-2 text-xl font-semibold text-highlighted">
+                        {{ computedIngredientMacros.carbs ?? '—' }}
+                      </p>
+                      <p class="mt-1 text-sm text-muted">g</p>
+                    </div>
 
-              <UFormField
-                label="Grasas"
-                :ui="{ label: 'font-semibold text-highlighted' }"
-              >
-                <UInput
-                  v-model.number="ingredientDraft.supplyGrasas"
-                  class="w-full"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0"
-                />
-              </UFormField>
+                    <div class="rounded-xl border border-default/70 bg-default p-4">
+                      <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
+                        Grasas
+                      </p>
+                      <p class="mt-2 text-xl font-semibold text-highlighted">
+                        {{ computedIngredientMacros.fat ?? '—' }}
+                      </p>
+                      <p class="mt-1 text-sm text-muted">g</p>
+                    </div>
 
-              <UFormField
-                label="Fibra"
-                :ui="{ label: 'font-semibold text-highlighted' }"
-              >
-                <UInput
-                  v-model.number="ingredientDraft.supplyFibra"
-                  class="w-full"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0"
-                />
-              </UFormField>
+                    <div class="rounded-xl border border-default/70 bg-default p-4">
+                      <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
+                        Fibra
+                      </p>
+                      <p class="mt-2 text-lg font-semibold text-highlighted">
+                        {{ computedIngredientMacros.fiber ?? '—' }}
+                      </p>
+                      <p class="mt-1 text-sm text-muted">g</p>
+                    </div>
 
-              <UFormField
-                label="Azúcar"
-                :ui="{ label: 'font-semibold text-highlighted' }"
-              >
-                <UInput
-                  v-model.number="ingredientDraft.supplyAzucar"
-                  class="w-full"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0"
-                />
-              </UFormField>
+                    <div class="rounded-xl border border-default/70 bg-default p-4">
+                      <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
+                        Azúcar
+                      </p>
+                      <p class="mt-2 text-lg font-semibold text-highlighted">
+                        {{ computedIngredientMacros.sugar ?? '—' }}
+                      </p>
+                      <p class="mt-1 text-sm text-muted">g</p>
+                    </div>
 
-              <UFormField
-                label="Sodio"
-                :ui="{ label: 'font-semibold text-highlighted' }"
-              >
-                <UInput
-                  v-model.number="ingredientDraft.supplySodio"
-                  class="w-full"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="0"
-                />
-              </UFormField>
+                    <div class="rounded-xl border border-default/70 bg-default p-4">
+                      <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
+                        Sodio
+                      </p>
+                      <p class="mt-2 text-lg font-semibold text-highlighted">
+                        {{ computedIngredientMacros.sodium ?? '—' }}
+                      </p>
+                      <p class="mt-1 text-sm text-muted">mg</p>
+                    </div>
 
-              <UFormField
-                label="Unidad base"
-                :ui="{ label: 'font-semibold text-highlighted' }"
-              >
-                <UInput
-                  :model-value="
-                    selectedIngredientSupply
-                      ? formatEnumLabel(selectedIngredientSupply.unidadBase)
-                      : formatEnumLabel(ingredientDraft.supplyUnitBase)
-                  "
-                  class="w-full"
-                  readonly
-                />
-              </UFormField>
-            </div>
+                    <div class="rounded-xl border border-default/70 bg-default p-4">
+                      <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
+                        Unidad base
+                      </p>
+                      <p class="mt-2 text-base font-semibold text-highlighted">
+                        {{
+                          formatEnumLabel(ingredientDraft.supplyUnitBase)
+                        }}
+                      </p>
+                      <p class="mt-1 text-sm text-muted">referencia</p>
+                    </div>
+                  </div>
+                </div>
 
-            <div class="mt-4 rounded-xl border border-default/70 bg-default/60 p-4">
-              <p class="text-xs font-medium uppercase tracking-[0.14em] text-muted">
-                Cálculo para cantidad actual
-              </p>
-              <div class="mt-3 flex flex-wrap gap-2">
-                <UBadge color="primary" variant="subtle">
-                  {{ computedIngredientMacros.calories ?? '—' }} kcal
-                </UBadge>
-                <UBadge color="neutral" variant="subtle">
-                  Prot. {{ computedIngredientMacros.protein ?? '—' }}
-                </UBadge>
-                <UBadge color="neutral" variant="subtle">
-                  Carb. {{ computedIngredientMacros.carbs ?? '—' }}
-                </UBadge>
-                <UBadge color="neutral" variant="subtle">
-                  Gras. {{ computedIngredientMacros.fat ?? '—' }}
-                </UBadge>
-                <UBadge color="neutral" variant="subtle">
-                  Fibra {{ computedIngredientMacros.fiber ?? '—' }}
-                </UBadge>
-                <UBadge color="neutral" variant="subtle">
-                  Azúcar {{ computedIngredientMacros.sugar ?? '—' }}
-                </UBadge>
-                <UBadge color="neutral" variant="subtle">
-                  Sodio {{ computedIngredientMacros.sodium ?? '—' }}
-                </UBadge>
-              </div>
-            </div>
+                <div
+                  v-else
+                  class="rounded-xl border border-default/70 bg-default/50 p-4 sm:p-5"
+                >
+                  <p class="mb-4 text-sm text-muted">
+                    Valores por pieza, 100 gramos o 100 mililitros según base nutricional.
+                  </p>
+
+                  <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                    <UFormField
+                      label="Calorías"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        v-model.number="ingredientDraft.supplyCalorias"
+                        class="w-full"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0"
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Proteína"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        v-model.number="ingredientDraft.supplyProteina"
+                        class="w-full"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0"
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Carbohidratos"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        v-model.number="ingredientDraft.supplyCarbohidratos"
+                        class="w-full"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0"
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Grasas"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        v-model.number="ingredientDraft.supplyGrasas"
+                        class="w-full"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0"
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Fibra"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        v-model.number="ingredientDraft.supplyFibra"
+                        class="w-full"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0"
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Azúcar"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        v-model.number="ingredientDraft.supplyAzucar"
+                        class="w-full"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0"
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Sodio"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        v-model.number="ingredientDraft.supplySodio"
+                        class="w-full"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0"
+                      />
+                    </UFormField>
+
+                    <UFormField
+                      label="Unidad base"
+                      :ui="{ label: 'font-semibold text-highlighted' }"
+                    >
+                      <UInput
+                        :model-value="
+                          formatEnumLabel(ingredientDraft.supplyUnitBase)
+                        "
+                        class="w-full"
+                        readonly
+                      />
+                    </UFormField>
+                  </div>
+
+                  <div class="mt-4 rounded-xl border border-dashed border-default p-3 text-xs text-muted">
+                    Si editas base, cálculo de tab anterior cambia en tiempo real según cantidad capturada.
+                  </div>
+                </div>
+              </template>
+            </UTabs>
           </div>
         </div>
       </template>

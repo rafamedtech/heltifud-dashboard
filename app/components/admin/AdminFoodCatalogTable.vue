@@ -12,6 +12,10 @@ const props = defineProps<{
 
 const search = ref('')
 const typeFilter = ref('all')
+const sortColumn = ref<'nombre' | 'tipo' | 'calorias' | 'updatedAt'>('updatedAt')
+const sortDirection = ref<'asc' | 'desc'>('desc')
+const page = ref(1)
+const pageSize = 10
 
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
@@ -41,8 +45,72 @@ const availableTypes = computed(() => {
   return Array.from(new Set([...foodTypeOptions, ...normalizedTypes])).sort((a, b) => a.localeCompare(b, 'es'))
 })
 
+function toggleSort(column: 'nombre' | 'tipo' | 'calorias' | 'updatedAt') {
+  if (sortColumn.value === column) {
+    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
+    return
+  }
+
+  sortColumn.value = column
+  sortDirection.value = column === 'updatedAt' ? 'desc' : 'asc'
+}
+
+function getSortIcon(column: 'nombre' | 'tipo' | 'calorias' | 'updatedAt') {
+  if (sortColumn.value !== column) {
+    return 'i-lucide-arrow-up-down'
+  }
+
+  return sortDirection.value === 'asc'
+    ? 'i-lucide-arrow-up'
+    : 'i-lucide-arrow-down'
+}
+
+function compareItems(a: FoodCatalogItem, b: FoodCatalogItem) {
+  const direction = sortDirection.value === 'asc' ? 1 : -1
+
+  switch (sortColumn.value) {
+    case 'nombre':
+      return a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' }) * direction
+    case 'tipo':
+      return formatFoodType(a.tipo).localeCompare(formatFoodType(b.tipo), 'es', { sensitivity: 'base' }) * direction
+    case 'calorias':
+      return ((a.calorias ?? 0) - (b.calorias ?? 0)) * direction
+    case 'updatedAt':
+    default:
+      return (new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()) * direction
+  }
+}
+
+function renderSortableHeader(
+  label: string,
+  column: 'nombre' | 'tipo' | 'calorias' | 'updatedAt',
+  options?: { align?: 'left' | 'center' | 'right' }
+) {
+  const justifyClass = options?.align === 'right'
+    ? 'justify-end'
+    : options?.align === 'center'
+      ? 'justify-center'
+      : 'justify-start'
+
+  return h('div', { class: `flex ${justifyClass}` }, [
+    h(UButton, {
+      color: 'neutral',
+      variant: 'ghost',
+      size: 'sm',
+      label,
+      trailingIcon: getSortIcon(column),
+      class: options?.align === 'right' ? 'px-0 text-right' : 'px-0',
+      ui: {
+        base: `-mx-2 gap-1.5 ${justifyClass}`,
+        label: 'font-semibold text-highlighted'
+      },
+      onClick: () => toggleSort(column)
+    })
+  ])
+}
+
 const filteredItems = computed(() => {
-  return props.items
+  return [...props.items]
     .filter((item) => {
       const matchesSearch = !search.value
         || item.nombre.toLowerCase().includes(search.value.toLowerCase())
@@ -52,33 +120,51 @@ const filteredItems = computed(() => {
 
       return matchesSearch && matchesType
     })
-    .sort((a, b) => {
-      const aTime = new Date(a.updatedAt).getTime()
-      const bTime = new Date(b.updatedAt).getTime()
+    .sort(compareItems)
+})
 
-      return bTime - aTime
-    })
+const totalItems = computed(() => filteredItems.value.length)
+
+const totalPages = computed(() => {
+  return Math.max(1, Math.ceil(totalItems.value / pageSize))
+})
+
+const paginatedItems = computed(() => {
+  const start = (page.value - 1) * pageSize
+  const end = start + pageSize
+
+  return filteredItems.value.slice(start, end)
+})
+
+watch([search, typeFilter, sortColumn, sortDirection], () => {
+  page.value = 1
+})
+
+watch(totalPages, (value) => {
+  if (page.value > value) {
+    page.value = value
+  }
 })
 
 const columns: TableColumn<FoodCatalogItem>[] = [
   {
     accessorKey: 'nombre',
-    header: 'Platillo',
+    header: () => renderSortableHeader('Platillo', 'nombre'),
     cell: ({ row }) => h('p', { class: 'py-1 font-medium text-highlighted' }, row.original.nombre)
   },
   {
     accessorKey: 'tipo',
-    header: 'Tipo',
+    header: () => renderSortableHeader('Tipo', 'tipo'),
     cell: ({ row }) => h(UBadge, { color: 'primary', variant: 'subtle' }, () => formatFoodType(row.original.tipo))
   },
   {
     accessorKey: 'calorias',
-    header: () => h('div', { class: 'text-right' }, 'Calorías'),
+    header: () => renderSortableHeader('Calorías', 'calorias', { align: 'right' }),
     cell: ({ row }) => h('div', { class: 'text-right font-medium text-highlighted' }, `${row.original.calorias} kcal`)
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Actualizado',
+    header: () => renderSortableHeader('Actualizado', 'updatedAt'),
     cell: ({ row }) => formatDate(row.original.updatedAt)
   },
   {
@@ -136,7 +222,7 @@ const columns: TableColumn<FoodCatalogItem>[] = [
 
     <div v-else class="relative min-h-56">
       <UTable
-        :data="loading ? [] : filteredItems"
+        :data="loading ? [] : paginatedItems"
         :columns="columns"
         class="shrink-0"
         :ui="{
@@ -157,6 +243,28 @@ const columns: TableColumn<FoodCatalogItem>[] = [
           Cargando platillos...
         </p>
       </div>
+    </div>
+
+    <div
+      v-if="!loading && totalItems > pageSize"
+      class="flex flex-col gap-3 border-t border-default pt-4 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p class="text-sm text-muted">
+        Mostrando
+        {{ (page - 1) * pageSize + 1 }}
+        -
+        {{ Math.min(page * pageSize, totalItems) }}
+        de
+        {{ totalItems }}
+        platillos
+      </p>
+
+      <UPagination
+        v-model:page="page"
+        :total="totalItems"
+        :items-per-page="pageSize"
+        color="primary"
+      />
     </div>
   </div>
 </template>
