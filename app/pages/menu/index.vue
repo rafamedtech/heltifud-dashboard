@@ -1,116 +1,241 @@
 <script setup lang="ts">
-import type { WeeklyMenu } from '~~/types/types'
-import Skeleton from 'boneyard-js/vue'
-import initialBones from '~/bones/admin-menu-index.bones.json'
-import { formatDate } from '~/utils/formatters'
+import { h, resolveComponent } from 'vue'
+import type { TableColumn } from '@nuxt/ui'
+import type { WeeklyMenu } from '~~/types/types';
+import Skeleton from 'boneyard-js/vue';
+import initialBones from '~/bones/admin-menu-index.bones.json';
+import { formatDate } from '~/utils/formatters';
 
 type SkeletonResponsiveBones = {
-  breakpoints: Record<number, {
-    name: string
-    viewportWidth: number
-    width: number
-    height: number
-    bones: Array<{
-      x: number
-      y: number
-      w: number
-      h: number
-      r: number | string
-      c?: boolean
-    }>
-  }>
+  breakpoints: Record<
+    number,
+    {
+      name: string;
+      viewportWidth: number;
+      width: number;
+      height: number;
+      bones: Array<{
+        x: number;
+        y: number;
+        w: number;
+        h: number;
+        r: number | string;
+        c?: boolean;
+      }>;
+    }
+  >;
+};
+
+const menuIndexSkeleton = initialBones as unknown as SkeletonResponsiveBones;
+const UButton = resolveComponent('UButton')
+
+function formatMenuDateRangeValue(date: string) {
+  return new Intl.DateTimeFormat('es-MX', {
+    day: 'numeric',
+    month: 'short'
+  }).format(new Date(date))
 }
 
-const menuIndexSkeleton = initialBones as unknown as SkeletonResponsiveBones
+function formatMenuDateRange(date: string, endDate: string) {
+  return `${formatMenuDateRangeValue(date)} - ${formatMenuDateRangeValue(endDate)}`
+}
 
 const {
   data: menus,
   refresh,
-  status
+  status,
 } = await useLazyFetch<WeeklyMenu[]>('/api/menu/all', {
-  default: () => []
-})
+  default: () => [],
+});
 
-const isLoading = computed(() => status.value === 'pending')
-const activeMenu = computed(() => menus.value.find(menu => menu.isActive) ?? null)
-const latestCreatedMenu = computed(() => menus.value[0] ?? null)
+const isLoading = computed(() => status.value === 'pending');
+const activeMenu = computed(
+  () => menus.value.find((menu) => menu.isActive) ?? null,
+);
+const latestCreatedMenu = computed(() => menus.value[0] ?? null);
+const summaryCards = computed(() => [
+  {
+    key: 'active-menu',
+    title: 'Menú activo',
+    description: activeMenu.value
+      ? formatMenuDateRange(activeMenu.value.startDate, activeMenu.value.endDate)
+      : 'Activa uno desde la lista inferior para publicarlo.',
+    icon: 'i-lucide-badge-check',
+    statIcon: 'i-lucide-eye',
+    stat: activeMenu.value ? 'Visible ahora' : 'Sin menú activo',
+    actionLabel: activeMenu.value ? 'Abrir' : 'Ver lista',
+    actionTo: activeMenu.value ? `/menu/${activeMenu.value.id}` : '#menu-list',
+  },
+  {
+    key: 'latest-menu',
+    title: 'Último agregado',
+    description: latestCreatedMenu.value
+      ? latestCreatedMenu.value.name
+      : 'Crea tu primer menú semanal para empezar a organizar la rotación.',
+    icon: 'i-lucide-sparkles',
+    statIcon: 'i-lucide-calendar-days',
+    stat: latestCreatedMenu.value
+      ? formatDate(latestCreatedMenu.value.createdAt)
+      : 'Sin registros',
+    actionLabel: latestCreatedMenu.value ? 'Editar' : 'Crear',
+    actionTo: latestCreatedMenu.value
+      ? `/menu/${latestCreatedMenu.value.id}`
+      : '/menu/crear-nuevo',
+  },
+  {
+    key: 'total-menus',
+    title: 'Menús creados',
+    description: 'Conteo total de menús semanales.',
+    icon: 'i-lucide-files',
+    statIcon: 'i-lucide-chart-column',
+    stat: `${menus.value.length} ${menus.value.length === 1 ? 'registro' : 'registros'}`,
+    actionLabel: 'Nuevo',
+    actionTo: '/menu/crear-nuevo',
+  },
+]);
 
-const { deleteMenuOnDB, setActiveMenuOnDB } = useMenu()
-const toast = useToast()
-const deletingId = ref<string | null>(null)
-const activatingId = ref<string | null>(null)
-const pendingDeleteMenu = ref<WeeklyMenu | null>(null)
+const columns: TableColumn<WeeklyMenu>[] = [
+  {
+    accessorKey: 'name',
+    header: 'Menú',
+    cell: ({ row }) =>
+      h('p', { class: 'truncate py-1 font-medium text-highlighted' }, row.original.name)
+  },
+  {
+    accessorKey: 'dateRange',
+    header: 'Fechas',
+    cell: ({ row }) =>
+      h('p', { class: 'py-1 text-sm text-highlighted' }, `${formatMenuDateRangeValue(row.original.startDate)} - ${formatMenuDateRangeValue(row.original.endDate)}`)
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: 'Actualizado',
+    cell: ({ row }) => h('span', { class: 'text-sm text-toned' }, formatDate(row.original.updatedAt))
+  },
+  {
+    id: 'details',
+    header: () => h('div', { class: 'text-center' }, 'Detalles'),
+    cell: ({ row }) =>
+      h('div', { class: 'flex justify-center' }, [
+        h(UButton, {
+          to: `/menu/${row.original.id}`,
+          color: 'primary',
+          variant: 'ghost',
+          icon: 'i-lucide-square-arrow-out-up-right',
+          'aria-label': 'Ver detalles'
+        })
+      ])
+  }
+]
+
+const tableMeta = {
+  class: {
+    tr: (row: { original: WeeklyMenu }) => row.original.isActive ? 'bg-success/10' : ''
+  }
+}
+
+const { deleteMenuOnDB, setActiveMenuOnDB } = useMenu();
+const toast = useToast();
+const deletingId = ref<string | null>(null);
+const activatingId = ref<string | null>(null);
+const pendingDeleteMenu = ref<WeeklyMenu | null>(null);
 const deleteModalDescription = computed(() =>
   pendingDeleteMenu.value
     ? `Se eliminará "${pendingDeleteMenu.value.name}". Esta acción no se puede deshacer.`
-    : undefined
-)
+    : undefined,
+);
 const isDeleteModalOpen = computed({
   get: () => Boolean(pendingDeleteMenu.value),
   set: (value) => {
     if (!value) {
-      pendingDeleteMenu.value = null
+      pendingDeleteMenu.value = null;
     }
-  }
-})
+  },
+});
 
 function requestDelete(menu: WeeklyMenu) {
-  pendingDeleteMenu.value = menu
+  pendingDeleteMenu.value = menu;
 }
 
 async function onDelete(id: string) {
-  deletingId.value = id
+  deletingId.value = id;
 
   try {
-    await deleteMenuOnDB(id)
-    await refresh()
-    toast.add({ title: 'Menú eliminado', color: 'success', icon: 'i-lucide-check-circle' })
+    await deleteMenuOnDB(id);
+    await refresh();
+    toast.add({
+      title: 'Menú eliminado',
+      color: 'success',
+      icon: 'i-lucide-check-circle',
+    });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'No se pudo eliminar'
-    toast.add({ title: 'Error', description: message, color: 'error', icon: 'i-lucide-circle-alert' })
+    const message =
+      error instanceof Error ? error.message : 'No se pudo eliminar';
+    toast.add({
+      title: 'Error',
+      description: message,
+      color: 'error',
+      icon: 'i-lucide-circle-alert',
+    });
   } finally {
-    deletingId.value = null
-    pendingDeleteMenu.value = null
+    deletingId.value = null;
+    pendingDeleteMenu.value = null;
   }
 }
 
 async function onSetActive(id: string) {
-  activatingId.value = id
+  activatingId.value = id;
 
   try {
-    await setActiveMenuOnDB(id)
-    await refresh()
-    toast.add({ title: 'Menú activo actualizado', color: 'success', icon: 'i-lucide-check-circle' })
+    await setActiveMenuOnDB(id);
+    await refresh();
+    toast.add({
+      title: 'Menú activo actualizado',
+      color: 'success',
+      icon: 'i-lucide-check-circle',
+    });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'No se pudo actualizar el menú activo'
-    toast.add({ title: 'Error', description: message, color: 'error', icon: 'i-lucide-circle-alert' })
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'No se pudo actualizar el menú activo';
+    toast.add({
+      title: 'Error',
+      description: message,
+      color: 'error',
+      icon: 'i-lucide-circle-alert',
+    });
   } finally {
-    activatingId.value = null
+    activatingId.value = null;
   }
 }
 
 definePageMeta({
   layout: 'admin',
-  middleware: ['supabase-auth']
-})
+  middleware: ['supabase-auth'],
+});
 
 useSeoMeta({
   title: 'Gestión de menús semanales | Heltifud Meal Preps',
-  description: 'Administra la rotación semanal de menús dentro del panel administrativo de Heltifud Meal Preps.',
-  robots: 'noindex, nofollow'
-})
+  description:
+    'Administra la rotación semanal de menús dentro del panel administrativo de Heltifud Meal Preps.',
+  robots: 'noindex, nofollow',
+});
 </script>
 
 <template>
   <main class="flex min-h-full flex-col space-y-6">
-    <section class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+    <section
+      class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between"
+    >
       <div class="space-y-2">
         <div class="space-y-1">
           <h1 class="text-3xl font-semibold tracking-tight text-primary">
             Menú semanal
           </h1>
           <p class="max-w-2xl text-sm text-muted">
-            Crea nuevos menús, edita los existentes y mantén visible la próxima rotación semanal.
+            Crea nuevos menús, edita los existentes y mantén visible la próxima
+            rotación semanal.
           </p>
         </div>
       </div>
@@ -127,69 +252,64 @@ useSeoMeta({
       </div>
     </section>
 
-    <Skeleton name="admin-menu-index" :initial-bones="menuIndexSkeleton" :loading="isLoading">
+    <Skeleton
+      name="admin-menu-index"
+      :initial-bones="menuIndexSkeleton"
+      :loading="isLoading"
+    >
       <section class="space-y-4">
         <section class="grid gap-3 lg:grid-cols-3">
-          <div class="app-surface-soft relative px-4 py-4">
-            <p class="pr-20 text-xs uppercase tracking-[0.18em] text-muted">
-              Menú activo
-            </p>
-            <UButton
-              v-if="activeMenu"
-              :to="`/menu/${activeMenu.id}`"
-              size="sm"
-              variant="outline"
-              color="neutral"
-              icon="i-lucide-square-arrow-out-up-right"
-              class="absolute right-4 top-4"
+          <UCard
+            v-for="card in summaryCards"
+            :key="card.key"
+            class="app-surface group relative overflow-hidden transition-colors duration-200 hover:border-default"
+            :ui="{
+              root: 'rounded-2xl',
+              body: 'relative flex min-h-[176px] flex-col p-4 sm:p-4.5',
+            }"
+          >
+            <div
+              class="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/20"
             >
-              Abrir
-            </UButton>
-            <div class="mt-3 space-y-1">
-              <p class="line-clamp-1 text-base font-semibold text-highlighted">
-                {{ activeMenu?.name ?? "Sin menú activo" }}
-              </p>
-              <p class="text-sm text-muted">
-                {{
-                  activeMenu
-                    ? `${formatDate(activeMenu.startDate)} - ${formatDate(activeMenu.endDate)}`
-                    : "Activa uno desde la lista inferior."
-                }}
-              </p>
+              <UIcon :name="card.icon" class="size-4" />
             </div>
-          </div>
 
-          <div class="app-surface-soft px-4 py-4">
-            <p class="text-xs uppercase tracking-[0.18em] text-muted">
-              Último agregado
-            </p>
-            <div class="mt-3 space-y-1">
-              <p class="line-clamp-1 text-base font-semibold text-highlighted">
-                {{ latestCreatedMenu?.name ?? "Sin registros" }}
-              </p>
-              <p class="text-sm text-muted">
-                {{
-                  latestCreatedMenu
-                    ? `Creado el ${formatDate(latestCreatedMenu.createdAt)}`
-                    : "Crea tu primer menú semanal."
-                }}
-              </p>
+            <div class="mt-4 space-y-2">
+              <div class="space-y-1.5">
+                <p class="text-base font-semibold text-highlighted">
+                  {{ card.title }}
+                </p>
+                <p class="line-clamp-2 text-sm leading-5 text-muted">
+                  {{ card.description }}
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div class="app-surface-soft px-4 py-4">
-            <p class="text-xs uppercase tracking-[0.18em] text-muted">
-              Menús creados
-            </p>
-            <div class="mt-3 space-y-1">
-              <p class="text-2xl font-bold text-highlighted">
-                {{ menus.length }}
-              </p>
-              <p class="text-sm text-muted">
-                Total de menús semanales registrados.
-              </p>
+            <div class="mt-auto pt-5">
+              <div class="border-t border-default/70 pt-3">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="flex min-w-0 items-center gap-2 text-muted">
+                    <UIcon :name="card.statIcon" class="size-4 shrink-0" />
+                    <span class="truncate text-sm">{{ card.stat }}</span>
+                  </div>
+
+                  <UButton
+                    :to="card.actionTo"
+                    size="sm"
+                    variant="ghost"
+                    color="neutral"
+                    icon="i-lucide-arrow-right"
+                    trailing
+                    :ui="{
+                      base: 'rounded-lg px-2.5 text-muted hover:text-highlighted',
+                    }"
+                  >
+                    {{ card.actionLabel }}
+                  </UButton>
+                </div>
+              </div>
             </div>
-          </div>
+          </UCard>
         </section>
 
         <UAlert
@@ -202,101 +322,35 @@ useSeoMeta({
         />
 
         <section
+          id="menu-list"
           v-else
-          class="grid grid-cols-1 gap-4 lg:grid-cols-2"
+          class="space-y-4"
         >
           <UCard
-            v-for="menu in menus"
-            :key="menu.id"
-            class="app-surface"
-            :ui="{
-              header: menu.isActive
-                ? 'bg-primary/18 text-highlighted px-5 py-4 sm:px-6'
-                : 'bg-default text-highlighted px-5 py-4 sm:px-6',
-              body: 'px-5 py-5 sm:px-6',
-              footer: 'px-5 py-4 sm:px-6'
-            }"
+            class="app-surface overflow-hidden"
+            :ui="{ body: 'p-0 sm:p-0' }"
           >
-            <template #header>
-              <section class="flex items-start justify-between gap-3">
-                <div>
-                  <h3
-                    class="text-lg font-bold"
-                    :class="menu.isActive ? 'text-primary' : 'text-highlighted'"
-                  >
-                    {{ menu.name }}
-                  </h3>
-                  <p
-                    class="mt-1 text-sm"
-                    :class="menu.isActive ? 'text-slate-700 dark:text-slate-200' : 'text-muted'"
-                  >
-                    {{ formatDate(menu.startDate) }} - {{ formatDate(menu.endDate) }}
-                  </p>
-                </div>
+            <div class="space-y-5 p-5 sm:p-6">
+              <div class="space-y-1">
+                <h2 class="text-lg font-semibold text-primary">
+                  Menús registrados
+                </h2>
+              </div>
 
-                <section class="flex flex-wrap justify-end gap-2">
-                  <UButton
-                    v-if="menu.isActive"
-                    :to="'/menu-publico'"
-                    variant="ghost"
-                    icon="i-lucide-eye"
-                    class="text-slate-700 hover:text-slate-700 dark:text-slate-200 dark:hover:text-slate-200"
-                  >
-                    Ver público
-                  </UButton>
-                  <UButton
-                    :variant="menu.isActive ? 'solid' : 'soft'"
-                    :color="menu.isActive ? 'success' : 'primary'"
-                    icon="i-lucide-badge-check"
-                    :loading="activatingId === menu.id"
-                    :disabled="menu.isActive"
-                    :class="menu.isActive ? 'text-white dark:text-black' : ''"
-                    @click="onSetActive(menu.id)"
-                  >
-                    {{ menu.isActive ? "Activo" : "Activar" }}
-                  </UButton>
-                </section>
-              </section>
-            </template>
-
-            <section class="space-y-3">
-              <section class="grid grid-cols-2 gap-2 text-sm">
-                <div class="rounded-xl bg-neutral-50 px-3 py-2 dark:bg-neutral-900">
-                  <span class="text-muted">Creado</span>
-                  <p class="font-medium text-highlighted">
-                    {{ formatDate(menu.createdAt) }}
-                  </p>
-                </div>
-                <div class="rounded-xl bg-neutral-50 px-3 py-2 dark:bg-neutral-900">
-                  <span class="text-muted">Actualizado</span>
-                  <p class="font-medium text-highlighted">
-                    {{ formatDate(menu.updatedAt) }}
-                  </p>
-                </div>
-              </section>
-            </section>
-
-            <template #footer>
-              <section class="flex flex-wrap justify-end gap-2">
-                <UButton
-                  :to="`/menu/${menu.id}`"
-                  variant="ghost"
-                  color="neutral"
-                  icon="i-lucide-square-pen"
-                >
-                  Editar
-                </UButton>
-                <UButton
-                  color="error"
-                  variant="ghost"
-                  icon="i-lucide-trash"
-                  :loading="deletingId === menu.id"
-                  @click="requestDelete(menu)"
-                >
-                  Eliminar
-                </UButton>
-              </section>
-            </template>
+              <UTable
+                :data="menus"
+                :columns="columns"
+                :meta="tableMeta"
+                class="shrink-0"
+                :ui="{
+                  base: 'table-fixed border-separate border-spacing-0',
+                  thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+                  tbody: '[&>tr]:last:[&>td]:border-b-0',
+                  th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(3)]:hidden',
+                  td: 'border-b border-default align-top max-md:[&:nth-child(3)]:hidden'
+                }"
+              />
+            </div>
           </UCard>
         </section>
       </section>

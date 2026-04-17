@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { h, resolveComponent } from 'vue'
+import type { TableColumn } from '@nuxt/ui'
 import type {
   DayMenu,
   FoodCatalogItem,
@@ -39,6 +41,18 @@ useSeoMeta({
 
 const loading = true
 const menuIndexSkeleton = menuIndexBones as unknown as SkeletonResponsiveBones
+const UButton = resolveComponent('UButton')
+
+function formatMenuDateRangeValue(date: string) {
+  return new Intl.DateTimeFormat('es-MX', {
+    day: 'numeric',
+    month: 'short'
+  }).format(new Date(date))
+}
+
+function formatMenuDateRange(date: string, endDate: string) {
+  return `${formatMenuDateRangeValue(date)} - ${formatMenuDateRangeValue(endDate)}`
+}
 
 const catalogItems: FoodCatalogItem[] = [
   {
@@ -145,6 +159,75 @@ const fixtureMenus: WeeklyMenu[] = [
     isActive: false
   }
 ]
+const fixtureSummaryCards = [
+  {
+    key: 'active-menu',
+    title: 'Menú activo',
+    description: formatMenuDateRange(fixtureMenus[0]!.startDate, fixtureMenus[0]!.endDate),
+    icon: 'i-lucide-badge-check',
+    statIcon: 'i-lucide-eye',
+    stat: 'Visible ahora',
+    actionLabel: 'Abrir'
+  },
+  {
+    key: 'latest-menu',
+    title: 'Último agregado',
+    description: fixtureMenus[1]!.name,
+    icon: 'i-lucide-sparkles',
+    statIcon: 'i-lucide-calendar-days',
+    stat: formatDate(fixtureMenus[1]!.createdAt),
+    actionLabel: 'Editar'
+  },
+  {
+    key: 'total-menus',
+    title: 'Menús creados',
+    description: 'Conteo total de menús semanales registrados en el panel.',
+    icon: 'i-lucide-files',
+    statIcon: 'i-lucide-chart-column',
+    stat: `${fixtureMenus.length} registros`,
+    actionLabel: 'Nuevo'
+  }
+]
+
+const fixtureMenuColumns: TableColumn<WeeklyMenu>[] = [
+  {
+    accessorKey: 'name',
+    header: 'Menú',
+    cell: ({ row }) =>
+      h('p', { class: 'truncate py-1 font-medium text-highlighted' }, row.original.name)
+  },
+  {
+    accessorKey: 'dateRange',
+    header: 'Fechas',
+    cell: ({ row }) =>
+      h('p', { class: 'py-1 text-sm text-highlighted' }, `${formatMenuDateRangeValue(row.original.startDate)} - ${formatMenuDateRangeValue(row.original.endDate)}`)
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: 'Actualizado',
+    cell: ({ row }) => h('span', { class: 'text-sm text-toned' }, formatDate(row.original.updatedAt))
+  },
+  {
+    id: 'details',
+    header: () => h('div', { class: 'text-center' }, 'Detalles'),
+    cell: ({ row }) =>
+      h('div', { class: 'flex justify-center' }, [
+        h(UButton, {
+          to: `/menu/${row.original.id}`,
+          color: 'primary',
+          variant: 'ghost',
+          icon: 'i-lucide-square-arrow-out-up-right',
+          'aria-label': 'Ver detalles'
+        })
+      ])
+  }
+]
+
+const fixtureTableMeta = {
+  class: {
+    tr: (row: { original: WeeklyMenu }) => row.original.isActive ? 'bg-success/10' : ''
+  }
+}
 
 const fixtureFoodItem: FoodCatalogItemDetail = {
   ...catalogItems[0]!,
@@ -174,113 +257,80 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
         <Skeleton name="admin-menu-index" :initial-bones="menuIndexSkeleton" :loading="loading">
           <section class="space-y-4">
             <section class="grid gap-3 lg:grid-cols-3">
-              <div class="app-surface-soft relative px-4 py-4">
-                <p class="pr-20 text-xs uppercase tracking-[0.18em] text-muted">
-                  Menú activo
-                </p>
-                <div class="mt-3 space-y-1">
-                  <p class="line-clamp-1 text-base font-semibold text-highlighted">
-                    {{ fixtureMenus[0]!.name }}
-                  </p>
-                  <p class="text-sm text-muted">
-                    {{ formatDate(fixtureMenus[0]!.startDate) }} - {{ formatDate(fixtureMenus[0]!.endDate) }}
-                  </p>
-                </div>
-              </div>
-
-              <div class="app-surface-soft px-4 py-4">
-                <p class="text-xs uppercase tracking-[0.18em] text-muted">
-                  Último agregado
-                </p>
-                <div class="mt-3 space-y-1">
-                  <p class="line-clamp-1 text-base font-semibold text-highlighted">
-                    {{ fixtureMenus[1]!.name }}
-                  </p>
-                  <p class="text-sm text-muted">
-                    Creado el {{ formatDate(fixtureMenus[1]!.createdAt) }}
-                  </p>
-                </div>
-              </div>
-
-              <div class="app-surface-soft px-4 py-4">
-                <p class="text-xs uppercase tracking-[0.18em] text-muted">
-                  Menús creados
-                </p>
-                <div class="mt-3 space-y-1">
-                  <p class="text-2xl font-bold text-highlighted">
-                    {{ fixtureMenus.length }}
-                  </p>
-                  <p class="text-sm text-muted">
-                    Total de menús semanales registrados.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            <section class="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <UCard
-                v-for="menu in fixtureMenus"
-                :key="menu.id"
-                class="app-surface"
+                v-for="card in fixtureSummaryCards"
+                :key="card.key"
+                class="app-surface group relative overflow-hidden"
                 :ui="{
-                  header: menu.isActive
-                    ? 'bg-primary/18 text-highlighted px-5 py-4 sm:px-6'
-                    : 'bg-default text-highlighted px-5 py-4 sm:px-6',
-                  body: 'px-5 py-5 sm:px-6',
-                  footer: 'px-5 py-4 sm:px-6'
+                  root: 'rounded-2xl',
+                  body: 'relative flex min-h-[176px] flex-col p-4 sm:p-4.5'
                 }"
               >
-                <template #header>
-                  <section class="flex items-start justify-between gap-3">
-                    <div>
-                      <h3 class="text-lg font-bold" :class="menu.isActive ? 'text-primary' : 'text-highlighted'">
-                        {{ menu.name }}
-                      </h3>
-                      <p class="mt-1 text-sm" :class="menu.isActive ? 'text-slate-700' : 'text-muted'">
-                        {{ formatDate(menu.startDate) }} - {{ formatDate(menu.endDate) }}
-                      </p>
-                    </div>
+                <div class="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/20">
+                  <UIcon :name="card.icon" class="size-4" />
+                </div>
 
-                    <section class="flex flex-wrap justify-end gap-2">
+                <div class="mt-4 space-y-2">
+                  <div class="space-y-1.5">
+                    <p class="text-base font-semibold text-highlighted">
+                      {{ card.title }}
+                    </p>
+                    <p class="line-clamp-2 text-sm leading-5 text-muted">
+                      {{ card.description }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mt-auto pt-5">
+                  <div class="border-t border-default/70 pt-3">
+                    <div class="flex items-center justify-between gap-3">
+                      <div class="flex min-w-0 items-center gap-2 text-muted">
+                        <UIcon :name="card.statIcon" class="size-4 shrink-0" />
+                        <span class="truncate text-sm">{{ card.stat }}</span>
+                      </div>
+
                       <UButton
-                        :variant="menu.isActive ? 'solid' : 'soft'"
-                        :color="menu.isActive ? 'success' : 'primary'"
-                        icon="i-lucide-badge-check"
-                        :class="menu.isActive ? 'text-white' : ''"
+                        size="sm"
+                        variant="ghost"
+                        color="neutral"
+                        icon="i-lucide-arrow-right"
+                        trailing
+                        :ui="{ base: 'rounded-lg px-2.5 text-muted hover:text-highlighted' }"
                       >
-                        {{ menu.isActive ? 'Activo' : 'Activar' }}
+                        {{ card.actionLabel }}
                       </UButton>
-                    </section>
-                  </section>
-                </template>
-
-                <section class="space-y-3">
-                  <section class="grid grid-cols-2 gap-2 text-sm">
-                    <div class="rounded-xl bg-neutral-50 px-3 py-2">
-                      <span class="text-muted">Creado</span>
-                      <p class="font-medium text-highlighted">
-                        {{ formatDate(menu.createdAt) }}
-                      </p>
                     </div>
-                    <div class="rounded-xl bg-neutral-50 px-3 py-2">
-                      <span class="text-muted">Actualizado</span>
-                      <p class="font-medium text-highlighted">
-                        {{ formatDate(menu.updatedAt) }}
-                      </p>
-                    </div>
-                  </section>
-                </section>
+                  </div>
+                </div>
+              </UCard>
+            </section>
 
-                <template #footer>
-                  <section class="flex flex-wrap justify-end gap-2">
-                    <UButton variant="ghost" color="neutral" icon="i-lucide-square-pen">
-                      Editar
-                    </UButton>
-                    <UButton color="error" variant="ghost" icon="i-lucide-trash">
-                      Eliminar
-                    </UButton>
-                  </section>
-                </template>
+            <section class="space-y-4">
+              <UCard
+                class="app-surface overflow-hidden"
+                :ui="{ body: 'p-0 sm:p-0' }"
+              >
+                <div class="space-y-5 p-5 sm:p-6">
+                  <div class="space-y-1">
+                    <h2 class="text-lg font-semibold text-primary">
+                      Menús registrados
+                    </h2>
+                  </div>
+
+                  <UTable
+                    :data="fixtureMenus"
+                    :columns="fixtureMenuColumns"
+                    :meta="fixtureTableMeta"
+                    class="shrink-0"
+                    :ui="{
+                      base: 'table-fixed border-separate border-spacing-0',
+                      thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+                      tbody: '[&>tr]:last:[&>td]:border-b-0',
+                      th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(3)]:hidden',
+                      td: 'border-b border-default align-top max-md:[&:nth-child(3)]:hidden'
+                    }"
+                  />
+                </div>
               </UCard>
             </section>
           </section>

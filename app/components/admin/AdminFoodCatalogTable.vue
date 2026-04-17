@@ -16,6 +16,7 @@ const sortColumn = ref<'nombre' | 'tipo' | 'calorias' | 'updatedAt'>('updatedAt'
 const sortDirection = ref<'asc' | 'desc'>('desc')
 const page = ref(1)
 const pageSize = 10
+const searchInput = useTemplateRef<InstanceType<typeof import('vue').ComponentPublicInstance> | null>('food-catalog-search-input')
 
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
@@ -34,7 +35,13 @@ function formatFoodType(type: string) {
     return type
   }
 
-  return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
+  const normalized = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
+
+  if (normalized === 'Guarnicion') {
+    return 'Guarnición'
+  }
+
+  return normalized
 }
 
 const availableTypes = computed(() => {
@@ -146,6 +153,14 @@ watch(totalPages, (value) => {
   }
 })
 
+onMounted(() => {
+  nextTick(() => {
+    const root = searchInput.value?.$el as HTMLElement | undefined
+    const input = root?.querySelector('input')
+    input?.focus()
+  })
+})
+
 const columns: TableColumn<FoodCatalogItem>[] = [
   {
     accessorKey: 'nombre',
@@ -189,6 +204,7 @@ const columns: TableColumn<FoodCatalogItem>[] = [
   <div class="space-y-5 p-5 sm:p-6">
     <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
       <UInput
+        ref="food-catalog-search-input"
         v-model="search"
         icon="i-lucide-search"
         placeholder="Buscar por nombre o descripción"
