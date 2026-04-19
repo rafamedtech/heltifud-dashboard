@@ -136,7 +136,7 @@ const totalCalories = computed(() => {
 </script>
 
 <template>
-  <article class="app-surface-soft space-y-4 p-4">
+  <article class="app-surface space-y-4 p-4">
     <div class="flex items-center justify-between gap-3">
       <h4 class="text-base font-semibold text-primary">
         {{ title }}

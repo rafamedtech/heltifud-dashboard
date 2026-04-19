@@ -41,7 +41,6 @@ const { saveMenu } = useMenu()
 
 const state = ref<WeeklyMenuFormState>(createMenuFormState(props.menu))
 const openDayKeys = ref<string[]>([])
-const errorMessage = ref('')
 const initialSnapshot = ref('')
 const isSubmitting = ref(false)
 const hasTriedSubmit = ref(false)
@@ -243,11 +242,15 @@ async function onSubmit() {
     return
   }
 
-  errorMessage.value = ''
   hasTriedSubmit.value = true
 
   if (!slotValidationResult.value.success) {
-    errorMessage.value = 'Completa platillo principal y contenedor en cada tiempo.'
+    toast.add({
+      title: 'No se pudo guardar el menu',
+      description: 'No se pudo guardar el menú porque hay un campo que quedó sin llenar.',
+      color: 'error',
+      icon: 'i-lucide-circle-alert'
+    })
     return
   }
 
@@ -255,6 +258,7 @@ async function onSubmit() {
 
   try {
     await saveMenu(buildPayload(), props.menu?.id)
+    initialSnapshot.value = JSON.stringify(state.value)
     toast.add({
       title: props.mode === 'edit' ? 'Menú actualizado' : 'Menú creado',
       description: props.mode === 'edit'
@@ -265,10 +269,9 @@ async function onSubmit() {
     })
     emit('saved')
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'No se pudo guardar el menú.'
     toast.add({
-      title: 'Error al guardar',
-      description: errorMessage.value,
+      title: 'No se pudo guardar el menu',
+      description: 'No se pudo guardar el menú porque hay un campo que quedó sin llenar.',
       color: 'error',
       icon: 'i-lucide-circle-alert'
     })
@@ -280,19 +283,15 @@ async function onSubmit() {
 
 <template>
   <form :id="formId" class="space-y-6" @submit.prevent="onSubmit">
-    <UCard class="app-surface" :ui="{ body: 'space-y-5 p-6' }">
+    <UCard
+      :ui="{
+        root: 'overflow-hidden rounded-2xl border border-default/70 ring-0 divide-y-0 bg-elevated/35 shadow-sm shadow-black/5',
+        body: 'space-y-5 p-6'
+      }"
+    >
       <h2 class="text-xl font-semibold text-primary">
         Información general del menú
       </h2>
-
-      <UAlert
-        v-if="errorMessage"
-        color="error"
-        variant="soft"
-        icon="i-lucide-circle-alert"
-        title="No se pudo guardar"
-        :description="errorMessage"
-      />
 
       <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px_220px]">
         <UFormField label="Nombre del menú" class="min-w-0">
@@ -370,11 +369,11 @@ async function onSubmit() {
       <section
         v-for="day in visibleDays"
         :key="day.dayOfWeek"
-        class="app-surface overflow-hidden"
+        class="overflow-hidden rounded-2xl border border-default/70 bg-elevated/35 shadow-sm shadow-black/5"
       >
         <button
           type="button"
-          class="flex w-full cursor-pointer items-center justify-between gap-3 border-b border-default/70 bg-elevated/40 px-5 py-4 text-left"
+          class="flex w-full cursor-pointer items-center justify-between gap-3 border-b border-default/70 px-5 py-4 text-left"
           @click="toggleDay(day.dayOfWeek)"
         >
           <UBadge color="primary" variant="soft">

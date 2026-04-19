@@ -270,9 +270,8 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
               <UCard
                 v-for="card in fixtureSummaryCards"
                 :key="card.key"
-                class="app-surface group relative overflow-hidden"
                 :ui="{
-                  root: 'rounded-2xl',
+                  root: 'group relative overflow-hidden rounded-2xl border border-default/70 ring-0 divide-y-0 bg-elevated/35 shadow-sm shadow-black/5',
                   body: 'relative flex min-h-[176px] flex-col p-4 sm:p-4.5'
                 }"
               >
@@ -317,8 +316,10 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
 
             <section class="space-y-4">
               <UCard
-                class="app-surface overflow-hidden"
-                :ui="{ body: 'p-0 sm:p-0' }"
+                :ui="{
+                  root: 'overflow-hidden rounded-2xl border border-default/70 ring-0 divide-y-0 bg-elevated/35 shadow-sm shadow-black/5',
+                  body: 'p-0 sm:p-0'
+                }"
               >
                 <div class="space-y-5 p-5 sm:p-6">
                   <UTable
@@ -328,7 +329,7 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
                     class="shrink-0"
                     :ui="{
                       base: 'table-fixed border-separate border-spacing-0',
-                      thead: '[&>tr]:bg-elevated/50 [&>tr]:after:content-none',
+                      thead: '[&>tr]:bg-default [&>tr]:after:content-none',
                       tbody: '[&>tr]:last:[&>td]:border-b-0',
                       th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(3)]:hidden',
                       td: 'border-b border-default align-top max-md:[&:nth-child(3)]:hidden'

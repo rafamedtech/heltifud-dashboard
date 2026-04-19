@@ -38,6 +38,10 @@ const {
 } = useFoodCatalogEditorState({ isLoading: computed(() => props.isLoading) })
 
 async function onSaved() {
+  if (props.mode === 'edit') {
+    return
+  }
+
   if (typeof route.query.returnTo === 'string') {
     await navigateTo(route.query.returnTo)
     return
