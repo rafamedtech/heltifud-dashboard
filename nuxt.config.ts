@@ -1,7 +1,7 @@
 import { boneyardPlugin } from 'boneyard-js/vite';
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@vueuse/nuxt', '@nuxtjs/supabase'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@netlify/nuxt', '@vueuse/nuxt', '@nuxtjs/supabase'],
   devtools: {
     enabled: true,
   },

@@ -117,7 +117,7 @@ useSeoMeta({
           />
         </div>
 
-        <div v-if="activeMenu" class="space-y-3 rounded-3xl border border-default/70 bg-elevated/35 p-5">
+        <div v-if="activeMenu" class="space-y-3 rounded-2xl border border-default/70 bg-elevated/35 p-5">
           <p class="text-sm text-muted">
             El menú activo ahora mismo es:
           </p>
@@ -142,7 +142,7 @@ useSeoMeta({
           </div>
         </div>
 
-        <div v-else class="space-y-3 rounded-3xl border border-default/70 bg-elevated/35 p-5">
+        <div v-else class="space-y-3 rounded-2xl border border-default/70 bg-elevated/35 p-5">
           <p class="text-sm text-muted">
             No hay ningún menú activo todavía.
           </p>

@@ -52,20 +52,11 @@ async function leaveWithoutSaving() {
 </script>
 
 <template>
-  <main class="space-y-6">
-    <section>
-      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div class="max-w-sm space-y-2">
-          <h1 class="text-3xl font-semibold tracking-tight text-primary">
-            Crear nuevo platillo
-          </h1>
-
-          <p class="text-sm text-muted">
-            Crea un nuevo platillo y guárdalo en el catálogo reusable para usarlo en los menús semanales.
-          </p>
-        </div>
-
-        <div class="flex items-center gap-3 md:justify-end">
+  <AdminEditorPageShell
+    title="Crear nuevo platillo"
+    description="Crea un nuevo platillo y guárdalo en el catálogo reusable para usarlo en los menús semanales."
+  >
+    <template #actions>
           <UButton
             color="neutral"
             variant="subtle"
@@ -98,11 +89,9 @@ async function leaveWithoutSaving() {
               </span>
             </span>
           </UButton>
-        </div>
-      </div>
-    </section>
+    </template>
 
-    <div class="mx-auto w-full max-w-6xl">
+    <template #default>
       <AdminFoodCatalogForm
         :form-id="createFormId"
         hide-submit
@@ -112,41 +101,41 @@ async function leaveWithoutSaving() {
         @validity-change="onValidityChange"
         @submit-state-change="onSubmitStateChange"
       />
-    </div>
+    </template>
+  </AdminEditorPageShell>
 
-    <UModal
-      v-model:open="leaveConfirmOpen"
-      title="Salir sin guardar"
-      description="Tienes cambios sin guardar. Si sales ahora, se perderán."
-    >
-      <template #body>
-        <p class="text-sm text-muted">
-          ¿Quieres regresar de todos modos?
-        </p>
-      </template>
+  <UModal
+    v-model:open="leaveConfirmOpen"
+    title="Salir sin guardar"
+    description="Tienes cambios sin guardar. Si sales ahora, se perderán."
+  >
+    <template #body>
+      <p class="text-sm text-muted">
+        ¿Quieres regresar de todos modos?
+      </p>
+    </template>
 
-      <template #footer>
-        <div class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <UButton
-            color="neutral"
-            variant="ghost"
-            block
-            class="cursor-pointer sm:w-auto"
-            @click="leaveConfirmOpen = false"
-          >
-            Seguir editando
-          </UButton>
-          <UButton
-            color="warning"
-            icon="i-lucide-arrow-left"
-            block
-            class="cursor-pointer sm:w-auto"
-            @click="leaveWithoutSaving"
-          >
-            Salir sin guardar
-          </UButton>
-        </div>
-      </template>
-    </UModal>
-  </main>
+    <template #footer>
+      <div class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+        <UButton
+          color="neutral"
+          variant="ghost"
+          block
+          class="cursor-pointer sm:w-auto"
+          @click="leaveConfirmOpen = false"
+        >
+          Seguir editando
+        </UButton>
+        <UButton
+          color="warning"
+          icon="i-lucide-arrow-left"
+          block
+          class="cursor-pointer sm:w-auto"
+          @click="leaveWithoutSaving"
+        >
+          Salir sin guardar
+        </UButton>
+      </div>
+    </template>
+  </UModal>
 </template>

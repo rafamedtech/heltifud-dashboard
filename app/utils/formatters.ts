@@ -2,6 +2,15 @@ import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 
 function toDate(value: Date | string) {
+  if (typeof value === 'string') {
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+
+    if (match) {
+      const [, year, month, day] = match
+      return new Date(Number(year), Number(month) - 1, Number(day), 12)
+    }
+  }
+
   const date = new Date(value)
   return Number.isNaN(date.getTime()) ? null : date
 }

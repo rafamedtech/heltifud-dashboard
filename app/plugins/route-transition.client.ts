@@ -80,6 +80,7 @@ function animateRouteIn(direction: RouteTransitionDirection) {
 export default defineNuxtPlugin(() => {
   const router = useRouter()
   const clientWindow = window as WindowWithRouteTransitionCleanup
+  let hasCompletedInitialNavigation = false
 
   clientWindow[ROUTE_TRANSITION_CLEANUP_KEY]?.()
 
@@ -110,6 +111,10 @@ export default defineNuxtPlugin(() => {
   window.addEventListener('popstate', handlePopState)
 
   const removeBeforeEach = router.beforeEach(async () => {
+    if (!hasCompletedInitialNavigation) {
+      return
+    }
+
     const currentPosition = getRouteHistoryPosition()
     const direction = nextDirection.value
       ?? (currentPosition < historyPosition.value ? 'back' : 'forward')
@@ -120,6 +125,13 @@ export default defineNuxtPlugin(() => {
 
   const removeAfterEach = router.afterEach(async () => {
     syncHistoryPosition()
+
+    if (!hasCompletedInitialNavigation) {
+      hasCompletedInitialNavigation = true
+      nextDirection.value = null
+      return
+    }
+
     await nextTick()
     await animateRouteIn(activeDirection.value)
     nextDirection.value = null

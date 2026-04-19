@@ -9,7 +9,6 @@ const route = useRoute()
 const {
   data: menu,
   status,
-  refresh,
   error
 } = useLazyFetch<WeeklyMenu>(`/api/menu/${route.params.id}`, {
   key: `admin-menu-${route.params.id}`
@@ -42,15 +41,10 @@ useSeoMeta({
     'Edita un menú semanal existente dentro del panel de gestión de menús de Heltifud Meal Preps.',
   robots: 'noindex, nofollow'
 })
-
-async function onSaved() {
-  await refresh()
-  await navigateTo('/menu')
-}
 </script>
 
 <template>
-  <main class="min-h-full space-y-6">
+  <main class="space-y-6">
     <UAlert
       v-if="error"
       color="error"
@@ -60,14 +54,12 @@ async function onSaved() {
       icon="i-lucide-circle-alert"
     />
 
-    <AdminMenuForm
+    <AdminMenuEditorPage
       v-else
       :menu="menu"
       :catalog-items="catalogItems"
-      :loading-fields="isLoading"
-      :loading-slots="isLoading"
+      :is-loading="isLoading"
       mode="edit"
-      @saved="onSaved"
     />
   </main>
 </template>

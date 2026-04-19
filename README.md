@@ -32,12 +32,21 @@ NUXT_SUPABASE_SECRET_KEY=
 NUXT_PUBLIC_SITE_URL=
 ```
 
+Variables opcionales para lookup nutricional:
+
+```bash
+FATSECRET_CLIENT_ID=
+FATSECRET_CLIENT_SECRET=
+USDA_FDC_API_KEY=
+```
+
 Notas:
 
 - `DATABASE_URL` debe apuntar a la base Postgres donde vive el modelo de menús y catálogo.
 - `NUXT_PUBLIC_SUPABASE_URL` y `NUXT_PUBLIC_SUPABASE_KEY` habilitan login y protección de rutas administrativas como `/`, `/menu/**` y `/platillos/**`.
 - `NUXT_SUPABASE_SECRET_KEY` no es obligatoria para esta migración, pero conviene dejarla lista para tareas server-side futuras.
 - `NUXT_PUBLIC_SITE_URL` se usa para SEO/meta públicas.
+- `FATSECRET_CLIENT_ID`, `FATSECRET_CLIENT_SECRET` y `USDA_FDC_API_KEY` sólo son necesarias si vas a habilitar los lookups nutricionales externos.
 
 ## Instalación
 
@@ -76,6 +85,29 @@ pnpm prisma:seed
 pnpm dev
 ```
 
+## Deploy en Netlify
+
+Configuración mínima incluida en este repo:
+
+- módulo oficial `@netlify/nuxt` para integrar Nuxt/Nitro con Netlify
+- `netlify.toml` con `pnpm build`, publish dir `dist`, Node `20` y `PNPM_FLAGS=--shamefully-hoist`
+- `.gitignore` actualizado para excluir `.netlify/`
+
+Comandos típicos:
+
+```bash
+pnpm install
+pnpm build
+netlify login
+netlify link --git-remote-url https://github.com/rafamedtech/heltifud-dashboard.git
+netlify env:import .env
+```
+
+Notas de Prisma para producción:
+
+- el proyecto ya usa `engineType = "client"` con `@prisma/adapter-pg`, así que no necesita binarios Rust adicionales en Netlify
+- no se configuró `prisma migrate deploy` dentro del build para evitar migraciones automáticas en cada deploy; es más seguro ejecutarlo manualmente cuando tu base productiva esté lista
+
 La captura de Boneyard queda activa automáticamente al arrancar el dev server y vuelve a correr con cada actualización por HMR en las rutas públicas configuradas.
 
 Si necesitas generar o refrescar los archivos `.bones.json` manualmente con el CLI:
@@ -104,6 +136,23 @@ Rutas principales:
 pnpm lint
 pnpm typecheck
 ```
+
+Checks de UI con Playwright:
+
+```bash
+pnpm test:e2e
+pnpm test:e2e:update
+pnpm check:ui
+pnpm test:ui
+```
+
+Notas:
+
+- `pnpm test:e2e` levanta Nuxt automáticamente en `http://127.0.0.1:3101` si no ya existe un server.
+- `pnpm test:e2e:update` refresca snapshots visuales cuando un cambio de UI es intencional.
+- `pnpm test:ui` corre Playwright directamente para validar cambios visuales rápido.
+- `pnpm check:ui` corre `lint`, `typecheck` y Playwright para una pasada completa.
+- CI ahora ejecuta Playwright en cada `push` y `pull_request`.
 
 ## Base de datos esperada
 

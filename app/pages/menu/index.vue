@@ -2,32 +2,10 @@
 import { h, resolveComponent } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
 import type { WeeklyMenu } from '~~/types/types';
-import Skeleton from 'boneyard-js/vue';
-import initialBones from '~/bones/admin-menu-index.bones.json';
 import { formatDate } from '~/utils/formatters';
-
-type SkeletonResponsiveBones = {
-  breakpoints: Record<
-    number,
-    {
-      name: string;
-      viewportWidth: number;
-      width: number;
-      height: number;
-      bones: Array<{
-        x: number;
-        y: number;
-        w: number;
-        h: number;
-        r: number | string;
-        c?: boolean;
-      }>;
-    }
-  >;
-};
-
-const menuIndexSkeleton = initialBones as unknown as SkeletonResponsiveBones;
 const UButton = resolveComponent('UButton')
+const summaryCardPlaceholders = [1, 2, 3]
+const tableRowPlaceholders = [1, 2, 3, 4, 5]
 
 function formatMenuDateRangeValue(date: string) {
   return new Intl.DateTimeFormat('es-MX', {
@@ -252,14 +230,37 @@ useSeoMeta({
       </div>
     </section>
 
-    <Skeleton
-      name="admin-menu-index"
-      :initial-bones="menuIndexSkeleton"
-      :loading="isLoading"
-    >
+    <section class="space-y-4">
       <section class="space-y-4">
         <section class="grid gap-3 lg:grid-cols-3">
           <UCard
+            v-if="isLoading"
+            v-for="placeholder in summaryCardPlaceholders"
+            :key="`summary-skeleton-${placeholder}`"
+            class="app-surface overflow-hidden"
+            :ui="{
+              root: 'rounded-2xl',
+              body: 'flex min-h-[176px] flex-col p-4 sm:p-4.5',
+            }"
+          >
+            <div class="size-9 animate-pulse rounded-lg bg-elevated" />
+            <div class="mt-4 space-y-2">
+              <div class="h-5 w-28 animate-pulse rounded-md bg-elevated" />
+              <div class="h-4 w-full animate-pulse rounded-md bg-elevated" />
+              <div class="h-4 w-3/4 animate-pulse rounded-md bg-elevated" />
+            </div>
+            <div class="mt-auto pt-5">
+              <div class="border-t border-default/70 pt-3">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="h-4 w-24 animate-pulse rounded-md bg-elevated" />
+                  <div class="h-8 w-16 animate-pulse rounded-lg bg-elevated" />
+                </div>
+              </div>
+            </div>
+          </UCard>
+
+          <UCard
+            v-else
             v-for="card in summaryCards"
             :key="card.key"
             class="app-surface group relative overflow-hidden transition-colors duration-200 hover:border-default"
@@ -313,7 +314,7 @@ useSeoMeta({
         </section>
 
         <UAlert
-          v-if="!menus.length"
+          v-if="!isLoading && !menus.length"
           title="Aún no hay menús"
           description="Empieza creando el primer menú semanal desde el botón de arriba."
           color="neutral"
@@ -323,7 +324,7 @@ useSeoMeta({
 
         <section
           id="menu-list"
-          v-else
+          v-else-if="!isLoading"
           class="space-y-4"
         >
           <UCard
@@ -353,8 +354,45 @@ useSeoMeta({
             </div>
           </UCard>
         </section>
+
+        <section v-else class="space-y-4">
+          <UCard
+            class="app-surface overflow-hidden"
+            :ui="{ body: 'p-0 sm:p-0' }"
+          >
+            <div class="space-y-5 p-5 sm:p-6">
+              <div class="space-y-1">
+                <h2 class="text-lg font-semibold text-primary">
+                  Menús registrados
+                </h2>
+              </div>
+
+              <div class="overflow-hidden rounded-xl border border-default/70">
+                <div class="grid grid-cols-[minmax(0,1.8fr)_1fr_1fr_auto] gap-4 border-b border-default/70 bg-elevated/50 px-4 py-3">
+                  <div class="h-4 w-20 animate-pulse rounded-md bg-default/70" />
+                  <div class="h-4 w-16 animate-pulse rounded-md bg-default/70" />
+                  <div class="h-4 w-16 animate-pulse rounded-md bg-default/70" />
+                  <div class="ml-auto h-4 w-16 animate-pulse rounded-md bg-default/70" />
+                </div>
+
+                <div
+                  v-for="placeholder in tableRowPlaceholders"
+                  :key="`row-skeleton-${placeholder}`"
+                  class="grid grid-cols-[minmax(0,1.8fr)_1fr_1fr_auto] gap-4 border-b border-default/70 px-4 py-4 last:border-b-0"
+                >
+                  <div class="space-y-2">
+                    <div class="h-4 w-36 animate-pulse rounded-md bg-elevated" />
+                  </div>
+                  <div class="h-4 w-24 animate-pulse rounded-md bg-elevated" />
+                  <div class="h-4 w-28 animate-pulse rounded-md bg-elevated" />
+                  <div class="ml-auto h-8 w-8 animate-pulse rounded-lg bg-elevated" />
+                </div>
+              </div>
+            </div>
+          </UCard>
+        </section>
       </section>
-    </Skeleton>
+    </section>
 
     <UModal
       v-model:open="isDeleteModalOpen"

@@ -25,11 +25,11 @@
 
 @layer components {
   .app-surface {
-    @apply rounded-3xl border border-default/80 bg-default shadow-sm shadow-black/5;
+    @apply rounded-2xl border border-default/80 bg-default shadow-sm shadow-black/5;
   }
 
   .app-surface-soft {
-    @apply rounded-3xl border border-default/70 bg-elevated/60 shadow-sm shadow-black/5;
+    @apply rounded-2xl border border-default/70 bg-elevated/60 shadow-sm shadow-black/5;
   }
 
   .app-grid {

@@ -3,6 +3,11 @@ export default defineAppConfig({
     colors: {
       primary: 'green',
       neutral: 'zinc'
+    },
+    card: {
+      slots: {
+        root: 'rounded-2xl overflow-hidden'
+      }
     }
   }
 })

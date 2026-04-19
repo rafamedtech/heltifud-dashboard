@@ -10,6 +10,12 @@
     "bones:build": "boneyard-js build",
     "bones:watch": "boneyard-js build --watch",
     "lint": "eslint .",
+    "test:e2e": "playwright test",
+    "test:e2e:serve": "pnpm exec nuxt dev --no-fork --host 127.0.0.1 --port 3101",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:update": "playwright test --update-snapshots",
+    "test:ui": "pnpm test:e2e",
+    "check:ui": "pnpm lint && pnpm typecheck && pnpm test:e2e",
     "typecheck": "nuxt typecheck",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
@@ -39,8 +45,10 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@netlify/nuxt": "^0.2.39",
     "@nuxt/eslint": "^1.13.0",
     "@nuxtjs/supabase": "^2.0.5",
+    "@playwright/test": "^1.59.1",
     "@types/node": "^25.5.2",
     "@types/pg": "^8.20.0",
     "eslint": "^9.39.2",

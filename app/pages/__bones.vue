@@ -239,7 +239,10 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
 </script>
 
 <template>
-  <main class="min-h-screen bg-neutral-50 px-6 py-10 text-slate-900">
+  <main
+    class="min-h-screen bg-neutral-50 px-6 py-10 text-slate-900"
+    data-testid="bones-root"
+  >
     <div class="mx-auto max-w-7xl space-y-10">
       <header class="space-y-2">
         <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
@@ -254,8 +257,15 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
       </header>
 
       <section class="space-y-6">
-        <Skeleton name="admin-menu-index" :initial-bones="menuIndexSkeleton" :loading="loading">
-          <section class="space-y-4">
+        <section class="space-y-4">
+          <div class="space-y-1">
+            <h2 class="text-lg font-semibold text-primary">
+              Menús registrados
+            </h2>
+          </div>
+
+          <Skeleton name="admin-menu-index" :initial-bones="menuIndexSkeleton" :loading="loading">
+            <section class="space-y-4" data-testid="bones-menu-index">
             <section class="grid gap-3 lg:grid-cols-3">
               <UCard
                 v-for="card in fixtureSummaryCards"
@@ -311,12 +321,6 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
                 :ui="{ body: 'p-0 sm:p-0' }"
               >
                 <div class="space-y-5 p-5 sm:p-6">
-                  <div class="space-y-1">
-                    <h2 class="text-lg font-semibold text-primary">
-                      Menús registrados
-                    </h2>
-                  </div>
-
                   <UTable
                     :data="fixtureMenus"
                     :columns="fixtureMenuColumns"
@@ -333,28 +337,35 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
                 </div>
               </UCard>
             </section>
-          </section>
-        </Skeleton>
+            </section>
+          </Skeleton>
+        </section>
 
-        <AdminMenuForm
-          :catalog-items="catalogItems"
-          :loading-slots="loading"
-        />
+        <div data-testid="bones-menu-create">
+          <AdminMenuForm
+            :catalog-items="catalogItems"
+            :loading-slots="loading"
+          />
+        </div>
 
-        <AdminMenuForm
-          :menu="fixtureMenu"
-          :catalog-items="catalogItems"
-          :loading-fields="loading"
-          :loading-slots="loading"
-          mode="edit"
-        />
+        <div data-testid="bones-menu-edit">
+          <AdminMenuForm
+            :menu="fixtureMenu"
+            :catalog-items="catalogItems"
+            :loading-fields="loading"
+            :loading-slots="loading"
+            mode="edit"
+          />
+        </div>
 
-        <AdminFoodCatalogForm
-          :item="fixtureFoodItem"
-          :loading-fields="loading"
-          :loading-sidebar="loading"
-          mode="edit"
-        />
+        <div data-testid="bones-food-edit">
+          <AdminFoodCatalogForm
+            :item="fixtureFoodItem"
+            :loading-fields="loading"
+            :loading-sidebar="loading"
+            mode="edit"
+          />
+        </div>
       </section>
     </div>
   </main>

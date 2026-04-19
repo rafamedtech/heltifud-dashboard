@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { FoodCatalogItem, MenuSlot, WeeklyMenu } from '~~/types/types'
-import Skeleton from 'boneyard-js/vue'
-import createSlotsBones from '~/bones/admin-menu-create-slots.bones.json'
-import editFieldsBones from '~/bones/admin-menu-edit-fields.bones.json'
-import editSlotsBones from '~/bones/admin-menu-edit-slots.bones.json'
+import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
+import type { DateValue } from '@internationalized/date'
+import { z } from 'zod'
 import {
   DAY_LABELS,
   SLOT_LABELS,
@@ -12,32 +11,18 @@ import {
   createMenuFormState,
   type WeeklyMenuFormState
 } from '~/utils/heltifud'
-import { formatWeekRange } from '~/utils/formatters'
-
-type SkeletonResponsiveBones = {
-  breakpoints: Record<number, {
-    name: string
-    viewportWidth: number
-    width: number
-    height: number
-    bones: Array<{
-      x: number
-      y: number
-      w: number
-      h: number
-      r: number | string
-      c?: boolean
-    }>
-  }>
-}
 
 const props = withDefaults(defineProps<{
+  formId?: string
+  hideSubmit?: boolean
   menu?: WeeklyMenu | null
   catalogItems: FoodCatalogItem[]
   loadingFields?: boolean
   loadingSlots?: boolean
   mode?: 'create' | 'edit'
 }>(), {
+  formId: undefined,
+  hideSubmit: false,
   menu: null,
   loadingFields: false,
   loadingSlots: false,
@@ -46,38 +31,163 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   saved: []
+  'dirty-change': [value: boolean]
+  'validity-change': [value: boolean]
+  'submit-state-change': [value: boolean]
 }>()
 
-const route = useRoute()
 const toast = useToast()
 const { saveMenu } = useMenu()
 
 const state = ref<WeeklyMenuFormState>(createMenuFormState(props.menu))
+const openDayKeys = ref<string[]>([])
 const errorMessage = ref('')
+const initialSnapshot = ref('')
 const isSubmitting = ref(false)
+const hasTriedSubmit = ref(false)
+const primarySlotKeys = ['desayuno', 'comida', 'cena'] as const
+const secondarySlotKeys = ['snack1', 'snack2'] as const
+const visibleDayKeys = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'] as const
+const timeZone = getLocalTimeZone()
+const dateFormatter = new DateFormatter('es-MX', {
+  dateStyle: 'medium'
+})
+const visibleDays = computed(() =>
+  state.value.days.filter(day => visibleDayKeys.includes(day.dayOfWeek as (typeof visibleDayKeys)[number]))
+)
+const isFormHydrating = computed(() => props.loadingFields)
+const slotValidationSchema = z.object({
+  days: z.array(z.any())
+}).superRefine((value, ctx) => {
+  value.days.forEach((day, dayIndex) => {
+    SLOT_ORDER.forEach((slotKey) => {
+      const slot = day[slotKey]
+
+      if (!slot?.platilloPrincipal?.catalogItemId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['days', dayIndex, slotKey, 'platilloPrincipal'],
+          message: 'Selecciona un platillo principal.'
+        })
+      }
+
+      if (!slot?.contenedor?.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['days', dayIndex, slotKey, 'contenedor'],
+          message: 'Selecciona un contenedor.'
+        })
+      }
+    })
+  })
+})
+
+function stringToDateValue(value: string) {
+  if (!value) {
+    return undefined
+  }
+
+  const [year, month, day] = value.split('-').map(Number)
+
+  if (!year || !month || !day) {
+    return undefined
+  }
+
+  return new CalendarDate(year, month, day)
+}
+
+function dateValueToString(value: DateValue | null | undefined) {
+  if (!value) {
+    return ''
+  }
+
+  return `${value.year}-${String(value.month).padStart(2, '0')}-${String(value.day).padStart(2, '0')}`
+}
+
+const startDateValue = computed({
+  get: () => stringToDateValue(state.value.startDate),
+  set: (value: DateValue | null | undefined) => {
+    state.value.startDate = dateValueToString(value)
+  }
+})
+
+const endDateValue = computed({
+  get: () => stringToDateValue(state.value.endDate),
+  set: (value: DateValue | null | undefined) => {
+    state.value.endDate = dateValueToString(value)
+  }
+})
+
+function formatDateLabel(value: DateValue | null | undefined, fallback: string) {
+  return value ? dateFormatter.format(value.toDate(timeZone)) : fallback
+}
 
 watch(
   () => props.menu,
   (menu) => {
     state.value = createMenuFormState(menu)
+    initialSnapshot.value = JSON.stringify(createMenuFormState(menu))
+
+    if (!openDayKeys.value.length && visibleDays.value.length) {
+      openDayKeys.value = [visibleDays.value[0]!.dayOfWeek]
+    }
   },
   { immediate: true }
 )
 
-const returnToCatalog = computed(() => `/platillos?returnTo=${encodeURIComponent(route.fullPath)}`)
-const fieldsSkeletonName = computed(() => props.mode === 'edit' ? 'admin-menu-edit-fields' : undefined)
-const fieldsInitialBones = computed(() =>
-  props.mode === 'edit'
-    ? editFieldsBones as unknown as SkeletonResponsiveBones
-    : undefined
+const canSubmit = computed(() =>
+  Boolean(
+    state.value.name.trim()
+    && state.value.startDate
+    && state.value.endDate
+    && slotValidationResult.value.success
+  )
 )
-const slotsSkeletonName = computed(() => props.mode === 'edit' ? 'admin-menu-edit-slots' : 'admin-menu-create-slots')
-const slotsInitialBones = computed(() =>
-  (props.mode === 'edit' ? editSlotsBones : createSlotsBones) as unknown as SkeletonResponsiveBones
+const hasUnsavedChanges = computed(() => JSON.stringify(state.value) !== initialSnapshot.value)
+const slotValidationResult = computed(() =>
+  slotValidationSchema.safeParse({
+    days: visibleDays.value.map(day => ({
+      dayOfWeek: day.dayOfWeek,
+      desayuno: day.desayuno,
+      comida: day.comida,
+      cena: day.cena,
+      snack1: day.snack1,
+      snack2: day.snack2
+    }))
+  })
 )
+const slotFieldErrors = computed(() => {
+  const errors: Record<string, string> = {}
+
+  if (slotValidationResult.value.success) {
+    return errors
+  }
+
+  slotValidationResult.value.error.issues.forEach((issue) => {
+    const [_, dayIndex, slotKey, fieldKey] = issue.path
+
+    if (typeof dayIndex !== 'number' || typeof slotKey !== 'string' || typeof fieldKey !== 'string') {
+      return
+    }
+
+    const day = visibleDays.value[dayIndex]
+
+    if (!day) {
+      return
+    }
+
+    errors[`${day.dayOfWeek}.${slotKey}.${fieldKey}`] = issue.message
+  })
+
+  return errors
+})
 
 function countConfiguredSlots(day: WeeklyMenuFormState['days'][number]) {
   return SLOT_ORDER.reduce((count, slotKey) => count + (slotHasContent(day[slotKey]) ? 1 : 0), 0)
+}
+
+function isDayCompleted(day: WeeklyMenuFormState['days'][number]) {
+  return countConfiguredSlots(day) === SLOT_ORDER.length
 }
 
 function slotHasContent(slot: MenuSlot) {
@@ -88,6 +198,16 @@ function slotHasContent(slot: MenuSlot) {
     || slot.contenedor?.trim()
     || slot.adicionales.length
   )
+}
+
+function isDayOpen(dayOfWeek: WeeklyMenuFormState['days'][number]['dayOfWeek']) {
+  return openDayKeys.value.includes(dayOfWeek)
+}
+
+function toggleDay(dayOfWeek: WeeklyMenuFormState['days'][number]['dayOfWeek']) {
+  openDayKeys.value = isDayOpen(dayOfWeek)
+    ? openDayKeys.value.filter(value => value !== dayOfWeek)
+    : [...openDayKeys.value, dayOfWeek]
 }
 
 function buildPayload() {
@@ -106,12 +226,31 @@ function buildPayload() {
   }
 }
 
+function getSlotError(dayOfWeek: WeeklyMenuFormState['days'][number]['dayOfWeek'], slotKey: typeof SLOT_ORDER[number], field: 'platilloPrincipal' | 'contenedor') {
+  if (!hasTriedSubmit.value) {
+    return undefined
+  }
+
+  return slotFieldErrors.value[`${dayOfWeek}.${slotKey}.${field}`]
+}
+
+watch(hasUnsavedChanges, value => emit('dirty-change', value), { immediate: true })
+watch(canSubmit, value => emit('validity-change', value), { immediate: true })
+watch(isSubmitting, value => emit('submit-state-change', value), { immediate: true })
+
 async function onSubmit() {
   if (isSubmitting.value) {
     return
   }
 
   errorMessage.value = ''
+  hasTriedSubmit.value = true
+
+  if (!slotValidationResult.value.success) {
+    errorMessage.value = 'Completa platillo principal y contenedor en cada tiempo.'
+    return
+  }
+
   isSubmitting.value = true
 
   try {
@@ -140,36 +279,11 @@ async function onSubmit() {
 </script>
 
 <template>
-  <form class="space-y-6" @submit.prevent="onSubmit">
+  <form :id="formId" class="space-y-6" @submit.prevent="onSubmit">
     <UCard class="app-surface" :ui="{ body: 'space-y-5 p-6' }">
-      <div class="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-        <div class="space-y-1">
-          <h2 class="text-xl font-semibold text-highlighted">
-            {{ mode === 'edit' ? 'Editar menú semanal' : 'Nuevo menú semanal' }}
-          </h2>
-          <p class="max-w-2xl text-sm text-muted">
-            Cada día usa platillos del catálogo. Entre semana el sistema exigirá un platillo principal por cada tiempo.
-          </p>
-        </div>
-
-        <UButton
-          :to="returnToCatalog"
-          color="neutral"
-          variant="outline"
-          icon="i-lucide-chef-hat"
-        >
-          Administrar catálogo
-        </UButton>
-      </div>
-
-      <UAlert
-        v-if="!catalogItems.length"
-        color="warning"
-        variant="soft"
-        icon="i-lucide-triangle-alert"
-        title="Tu catálogo está vacío"
-        description="Primero agrega platillos al catálogo para poder construir el menú semanal."
-      />
+      <h2 class="text-xl font-semibold text-primary">
+        Información general del menú
+      </h2>
 
       <UAlert
         v-if="errorMessage"
@@ -180,87 +294,143 @@ async function onSubmit() {
         :description="errorMessage"
       />
 
-      <Skeleton
-        :name="fieldsSkeletonName"
-        :initial-bones="fieldsInitialBones"
-        :loading="loadingFields"
-      >
-        <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px_220px]">
-          <UFormField label="Nombre del menú" class="min-w-0">
-            <UInput
-              v-model="state.name"
-              class="w-full"
+      <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px_220px]">
+        <UFormField label="Nombre del menú" class="min-w-0">
+          <UInput
+            v-model="state.name"
+            class="w-full"
+            size="xl"
+            :disabled="isFormHydrating"
+            :placeholder="isFormHydrating ? 'Cargando...' : 'Ej. Semana del 15 al 21 de abril'"
+          />
+        </UFormField>
+
+        <UFormField label="Fecha de inicio">
+          <UPopover :content="{ align: 'start' }">
+            <UButton
+              color="neutral"
+              variant="outline"
               size="xl"
-              placeholder="Ej. Semana del 15 al 21 de abril"
-            />
-          </UFormField>
+              icon="i-lucide-calendar"
+              class="w-full justify-between"
+              :disabled="isFormHydrating"
+            >
+              {{ isFormHydrating ? 'Cargando...' : formatDateLabel(startDateValue, 'Selecciona fecha') }}
 
-          <UFormField label="Fecha de inicio">
-            <UInput v-model="state.startDate" type="date" size="xl" />
-          </UFormField>
+              <template #trailing>
+                <UIcon name="i-lucide-chevron-down" class="size-5 text-dimmed" />
+              </template>
+            </UButton>
 
-          <UFormField label="Fecha de cierre">
-            <UInput v-model="state.endDate" type="date" size="xl" />
-          </UFormField>
-        </div>
+            <template #content>
+              <UCalendar v-model="startDateValue" class="p-2" />
+            </template>
+          </UPopover>
+        </UFormField>
 
-        <div class="flex flex-col gap-4 border-t border-default/70 pt-5 md:flex-row md:items-center md:justify-between">
-          <div class="space-y-1 text-sm text-muted">
-            <p>Ventana configurada: {{ formatWeekRange(state.startDate, state.endDate) }}</p>
-            <p>{{ props.catalogItems.length }} platillos disponibles en el catálogo.</p>
-          </div>
+        <UFormField label="Fecha de cierre">
+          <UPopover :content="{ align: 'start' }">
+            <UButton
+              color="neutral"
+              variant="outline"
+              size="xl"
+              icon="i-lucide-calendar"
+              class="w-full justify-between"
+              :disabled="isFormHydrating"
+            >
+              {{ isFormHydrating ? 'Cargando...' : formatDateLabel(endDateValue, 'Selecciona fecha') }}
 
-          <UButton
-            type="submit"
-            size="lg"
-            icon="i-lucide-save"
-            :loading="isSubmitting"
-            :disabled="!catalogItems.length"
-          >
-            {{ mode === 'edit' ? 'Guardar cambios' : 'Crear menú' }}
-          </UButton>
-        </div>
-      </Skeleton>
+              <template #trailing>
+                <UIcon name="i-lucide-chevron-down" class="size-5 text-dimmed" />
+              </template>
+            </UButton>
+
+            <template #content>
+              <UCalendar v-model="endDateValue" class="p-2" />
+            </template>
+          </UPopover>
+        </UFormField>
+      </div>
+
+      <div class="flex md:justify-end">
+        <UButton
+          v-if="!hideSubmit"
+          type="submit"
+          size="lg"
+          icon="i-lucide-save"
+          :loading="isSubmitting"
+          :disabled="!canSubmit"
+        >
+          {{ mode === 'edit' ? 'Guardar cambios' : 'Crear menú' }}
+        </UButton>
+      </div>
     </UCard>
 
-    <Skeleton
-      :name="slotsSkeletonName"
-      :initial-bones="slotsInitialBones"
-      :loading="loadingSlots"
-    >
-      <div class="space-y-4">
-        <details
-          v-for="(day, dayIndex) in state.days"
-          :key="day.dayOfWeek"
-          class="app-surface overflow-hidden"
-          :open="dayIndex < 2"
+    <div class="space-y-4">
+      <section
+        v-for="day in visibleDays"
+        :key="day.dayOfWeek"
+        class="app-surface overflow-hidden"
+      >
+        <button
+          type="button"
+          class="flex w-full cursor-pointer items-center justify-between gap-3 border-b border-default/70 bg-elevated/40 px-5 py-4 text-left"
+          @click="toggleDay(day.dayOfWeek)"
         >
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-3 border-b border-default/70 bg-elevated/40 px-5 py-4">
-            <div class="space-y-1">
-              <h3 class="text-lg font-semibold text-highlighted">
-                {{ DAY_LABELS[day.dayOfWeek] }}
-              </h3>
-              <p class="text-sm text-muted">
-                {{ countConfiguredSlots(day) }} de {{ SLOT_ORDER.length }} tiempos configurados.
-              </p>
-            </div>
+          <UBadge color="primary" variant="soft">
+            {{ day.dayOfWeek }}
+          </UBadge>
 
-            <UBadge color="primary" variant="soft">
-              {{ day.dayOfWeek }}
-            </UBadge>
-          </summary>
+          <div
+            v-if="isDayCompleted(day)"
+            class="inline-flex items-center gap-2 text-sm font-medium text-primary"
+          >
+            <UIcon name="i-lucide-check" class="size-4" />
+            <span>Completado</span>
+          </div>
+          <p v-else class="text-sm text-muted">
+            {{ countConfiguredSlots(day) }} de {{ SLOT_ORDER.length }} tiempos configurados.
+          </p>
+        </button>
 
-          <div class="grid gap-4 p-5 xl:grid-cols-2">
+        <div v-if="isDayOpen(day.dayOfWeek)" class="space-y-4 p-5">
+          <div class="grid gap-4 lg:grid-cols-3">
             <AdminMenuSlotEditor
-              v-for="slotKey in SLOT_ORDER"
+              v-for="slotKey in primarySlotKeys"
               :key="`${day.dayOfWeek}-${slotKey}`"
               v-model="day[slotKey]"
               :title="SLOT_LABELS[slotKey]"
               :catalog-items="catalogItems"
+              :main-types="slotKey === 'desayuno' ? ['desayuno'] : ['comida', 'cena']"
+              :side-types="['guarnicion']"
+              :additional-types="['guarnicion', 'ramekin']"
+              :loading="loadingSlots"
+              :main-error="getSlotError(day.dayOfWeek, slotKey, 'platilloPrincipal')"
+              :container-error="getSlotError(day.dayOfWeek, slotKey, 'contenedor')"
             />
           </div>
-        </details>
-      </div>
-    </Skeleton>
+
+          <div class="grid gap-4 lg:grid-cols-2">
+            <AdminMenuSlotEditor
+              v-for="slotKey in secondarySlotKeys"
+              :key="`${day.dayOfWeek}-${slotKey}`"
+              v-model="day[slotKey]"
+              :title="SLOT_LABELS[slotKey]"
+              :catalog-items="catalogItems"
+              :main-types="['snack']"
+              :additional-types="['guarnicion', 'ramekin']"
+              :loading="loadingSlots"
+              :main-error="getSlotError(day.dayOfWeek, slotKey, 'platilloPrincipal')"
+              :container-error="getSlotError(day.dayOfWeek, slotKey, 'contenedor')"
+              additional-label="Ramekin"
+              additional-placeholder="Selecciona ramekin"
+              empty-additional-text="Sin ramekin capturado para este snack."
+              add-additional-text="Agregar ramekin"
+              hide-sides
+            />
+          </div>
+        </div>
+      </section>
+    </div>
   </form>
 </template>
