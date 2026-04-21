@@ -199,6 +199,7 @@ export type WeeklyMenuWhereInput = {
   endDate?: Prisma.DateTimeFilter<"WeeklyMenu"> | Date | string
   name?: Prisma.StringFilter<"WeeklyMenu"> | string
   days?: Prisma.MenuDayListRelationFilter
+  orders?: Prisma.OrderListRelationFilter
 }
 
 export type WeeklyMenuOrderByWithRelationInput = {
@@ -210,6 +211,7 @@ export type WeeklyMenuOrderByWithRelationInput = {
   endDate?: Prisma.SortOrder
   name?: Prisma.SortOrder
   days?: Prisma.MenuDayOrderByRelationAggregateInput
+  orders?: Prisma.OrderOrderByRelationAggregateInput
 }
 
 export type WeeklyMenuWhereUniqueInput = Prisma.AtLeast<{
@@ -224,6 +226,7 @@ export type WeeklyMenuWhereUniqueInput = Prisma.AtLeast<{
   endDate?: Prisma.DateTimeFilter<"WeeklyMenu"> | Date | string
   name?: Prisma.StringFilter<"WeeklyMenu"> | string
   days?: Prisma.MenuDayListRelationFilter
+  orders?: Prisma.OrderListRelationFilter
 }, "id">
 
 export type WeeklyMenuOrderByWithAggregationInput = {
@@ -261,6 +264,7 @@ export type WeeklyMenuCreateInput = {
   endDate: Date | string
   name: string
   days?: Prisma.MenuDayCreateNestedManyWithoutWeeklyMenuInput
+  orders?: Prisma.OrderCreateNestedManyWithoutWeeklyMenuInput
 }
 
 export type WeeklyMenuUncheckedCreateInput = {
@@ -272,6 +276,7 @@ export type WeeklyMenuUncheckedCreateInput = {
   endDate: Date | string
   name: string
   days?: Prisma.MenuDayUncheckedCreateNestedManyWithoutWeeklyMenuInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutWeeklyMenuInput
 }
 
 export type WeeklyMenuUpdateInput = {
@@ -283,6 +288,7 @@ export type WeeklyMenuUpdateInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   days?: Prisma.MenuDayUpdateManyWithoutWeeklyMenuNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutWeeklyMenuNestedInput
 }
 
 export type WeeklyMenuUncheckedUpdateInput = {
@@ -294,6 +300,7 @@ export type WeeklyMenuUncheckedUpdateInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   days?: Prisma.MenuDayUncheckedUpdateManyWithoutWeeklyMenuNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutWeeklyMenuNestedInput
 }
 
 export type WeeklyMenuCreateManyInput = {
@@ -361,6 +368,11 @@ export type WeeklyMenuScalarRelationFilter = {
   isNot?: Prisma.WeeklyMenuWhereInput
 }
 
+export type WeeklyMenuNullableScalarRelationFilter = {
+  is?: Prisma.WeeklyMenuWhereInput | null
+  isNot?: Prisma.WeeklyMenuWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -387,6 +399,22 @@ export type WeeklyMenuUpdateOneRequiredWithoutDaysNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.WeeklyMenuUpdateToOneWithWhereWithoutDaysInput, Prisma.WeeklyMenuUpdateWithoutDaysInput>, Prisma.WeeklyMenuUncheckedUpdateWithoutDaysInput>
 }
 
+export type WeeklyMenuCreateNestedOneWithoutOrdersInput = {
+  create?: Prisma.XOR<Prisma.WeeklyMenuCreateWithoutOrdersInput, Prisma.WeeklyMenuUncheckedCreateWithoutOrdersInput>
+  connectOrCreate?: Prisma.WeeklyMenuCreateOrConnectWithoutOrdersInput
+  connect?: Prisma.WeeklyMenuWhereUniqueInput
+}
+
+export type WeeklyMenuUpdateOneWithoutOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.WeeklyMenuCreateWithoutOrdersInput, Prisma.WeeklyMenuUncheckedCreateWithoutOrdersInput>
+  connectOrCreate?: Prisma.WeeklyMenuCreateOrConnectWithoutOrdersInput
+  upsert?: Prisma.WeeklyMenuUpsertWithoutOrdersInput
+  disconnect?: Prisma.WeeklyMenuWhereInput | boolean
+  delete?: Prisma.WeeklyMenuWhereInput | boolean
+  connect?: Prisma.WeeklyMenuWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WeeklyMenuUpdateToOneWithWhereWithoutOrdersInput, Prisma.WeeklyMenuUpdateWithoutOrdersInput>, Prisma.WeeklyMenuUncheckedUpdateWithoutOrdersInput>
+}
+
 export type WeeklyMenuCreateWithoutDaysInput = {
   id?: string
   createdAt?: Date | string
@@ -395,6 +423,7 @@ export type WeeklyMenuCreateWithoutDaysInput = {
   startDate: Date | string
   endDate: Date | string
   name: string
+  orders?: Prisma.OrderCreateNestedManyWithoutWeeklyMenuInput
 }
 
 export type WeeklyMenuUncheckedCreateWithoutDaysInput = {
@@ -405,6 +434,7 @@ export type WeeklyMenuUncheckedCreateWithoutDaysInput = {
   startDate: Date | string
   endDate: Date | string
   name: string
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutWeeklyMenuInput
 }
 
 export type WeeklyMenuCreateOrConnectWithoutDaysInput = {
@@ -431,6 +461,7 @@ export type WeeklyMenuUpdateWithoutDaysInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  orders?: Prisma.OrderUpdateManyWithoutWeeklyMenuNestedInput
 }
 
 export type WeeklyMenuUncheckedUpdateWithoutDaysInput = {
@@ -441,6 +472,67 @@ export type WeeklyMenuUncheckedUpdateWithoutDaysInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutWeeklyMenuNestedInput
+}
+
+export type WeeklyMenuCreateWithoutOrdersInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isActive?: boolean
+  startDate: Date | string
+  endDate: Date | string
+  name: string
+  days?: Prisma.MenuDayCreateNestedManyWithoutWeeklyMenuInput
+}
+
+export type WeeklyMenuUncheckedCreateWithoutOrdersInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isActive?: boolean
+  startDate: Date | string
+  endDate: Date | string
+  name: string
+  days?: Prisma.MenuDayUncheckedCreateNestedManyWithoutWeeklyMenuInput
+}
+
+export type WeeklyMenuCreateOrConnectWithoutOrdersInput = {
+  where: Prisma.WeeklyMenuWhereUniqueInput
+  create: Prisma.XOR<Prisma.WeeklyMenuCreateWithoutOrdersInput, Prisma.WeeklyMenuUncheckedCreateWithoutOrdersInput>
+}
+
+export type WeeklyMenuUpsertWithoutOrdersInput = {
+  update: Prisma.XOR<Prisma.WeeklyMenuUpdateWithoutOrdersInput, Prisma.WeeklyMenuUncheckedUpdateWithoutOrdersInput>
+  create: Prisma.XOR<Prisma.WeeklyMenuCreateWithoutOrdersInput, Prisma.WeeklyMenuUncheckedCreateWithoutOrdersInput>
+  where?: Prisma.WeeklyMenuWhereInput
+}
+
+export type WeeklyMenuUpdateToOneWithWhereWithoutOrdersInput = {
+  where?: Prisma.WeeklyMenuWhereInput
+  data: Prisma.XOR<Prisma.WeeklyMenuUpdateWithoutOrdersInput, Prisma.WeeklyMenuUncheckedUpdateWithoutOrdersInput>
+}
+
+export type WeeklyMenuUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  days?: Prisma.MenuDayUpdateManyWithoutWeeklyMenuNestedInput
+}
+
+export type WeeklyMenuUncheckedUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  days?: Prisma.MenuDayUncheckedUpdateManyWithoutWeeklyMenuNestedInput
 }
 
 
@@ -450,10 +542,12 @@ export type WeeklyMenuUncheckedUpdateWithoutDaysInput = {
 
 export type WeeklyMenuCountOutputType = {
   days: number
+  orders: number
 }
 
 export type WeeklyMenuCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   days?: boolean | WeeklyMenuCountOutputTypeCountDaysArgs
+  orders?: boolean | WeeklyMenuCountOutputTypeCountOrdersArgs
 }
 
 /**
@@ -473,6 +567,13 @@ export type WeeklyMenuCountOutputTypeCountDaysArgs<ExtArgs extends runtime.Types
   where?: Prisma.MenuDayWhereInput
 }
 
+/**
+ * WeeklyMenuCountOutputType without action
+ */
+export type WeeklyMenuCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderWhereInput
+}
+
 
 export type WeeklyMenuSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -483,6 +584,7 @@ export type WeeklyMenuSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   endDate?: boolean
   name?: boolean
   days?: boolean | Prisma.WeeklyMenu$daysArgs<ExtArgs>
+  orders?: boolean | Prisma.WeeklyMenu$ordersArgs<ExtArgs>
   _count?: boolean | Prisma.WeeklyMenuCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["weeklyMenu"]>
 
@@ -519,6 +621,7 @@ export type WeeklyMenuSelectScalar = {
 export type WeeklyMenuOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "isActive" | "startDate" | "endDate" | "name", ExtArgs["result"]["weeklyMenu"]>
 export type WeeklyMenuInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   days?: boolean | Prisma.WeeklyMenu$daysArgs<ExtArgs>
+  orders?: boolean | Prisma.WeeklyMenu$ordersArgs<ExtArgs>
   _count?: boolean | Prisma.WeeklyMenuCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type WeeklyMenuIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -528,6 +631,7 @@ export type $WeeklyMenuPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "WeeklyMenu"
   objects: {
     days: Prisma.$MenuDayPayload<ExtArgs>[]
+    orders: Prisma.$OrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -932,6 +1036,7 @@ readonly fields: WeeklyMenuFieldRefs;
 export interface Prisma__WeeklyMenuClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   days<T extends Prisma.WeeklyMenu$daysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WeeklyMenu$daysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MenuDayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orders<T extends Prisma.WeeklyMenu$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WeeklyMenu$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1382,6 +1487,30 @@ export type WeeklyMenu$daysArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.MenuDayScalarFieldEnum | Prisma.MenuDayScalarFieldEnum[]
+}
+
+/**
+ * WeeklyMenu.orders
+ */
+export type WeeklyMenu$ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Order
+   */
+  select?: Prisma.OrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Order
+   */
+  omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  where?: Prisma.OrderWhereInput
+  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
+  cursor?: Prisma.OrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
 }
 
 /**

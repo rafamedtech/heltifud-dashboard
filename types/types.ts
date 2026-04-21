@@ -10,6 +10,11 @@ export const DAY_OF_WEEK_VALUES = [
 
 export const SLOT_KEYS = ['desayuno', 'comida', 'cena', 'snack1', 'snack2'] as const
 export const RECIPE_STATUS_VALUES = ['BORRADOR', 'ACTIVA', 'ARCHIVADA'] as const
+export const USER_ROLE_VALUES = ['ADMIN', 'CLIENTE'] as const
+export const USER_STATUS_VALUES = ['ACTIVO', 'PAUSADO', 'INACTIVO', 'BLOQUEADO'] as const
+export const USER_CUSTOMER_TYPE_VALUES = ['VEGETARIANO', 'NUTRIOLOGO', 'ESTANDAR'] as const
+export const USER_SOURCE_VALUES = ['ORGANICO', 'ADS', 'REFERIDO', 'OTRO'] as const
+export const USER_GENDER_VALUES = ['MUJER', 'HOMBRE', 'OTRO', 'PREFIERE_NO_DECIR'] as const
 export const MEASUREMENT_UNIT_VALUES = [
   'GRAMO',
   'KILOGRAMO',
@@ -30,6 +35,11 @@ export const MEASUREMENT_UNIT_VALUES = [
 export type DayOfWeek = (typeof DAY_OF_WEEK_VALUES)[number]
 export type SlotKey = (typeof SLOT_KEYS)[number]
 export type RecipeStatus = (typeof RECIPE_STATUS_VALUES)[number]
+export type UserRole = (typeof USER_ROLE_VALUES)[number]
+export type UserStatus = (typeof USER_STATUS_VALUES)[number]
+export type UserCustomerType = (typeof USER_CUSTOMER_TYPE_VALUES)[number]
+export type UserSource = (typeof USER_SOURCE_VALUES)[number]
+export type UserGender = (typeof USER_GENDER_VALUES)[number]
 export type MeasurementUnit = (typeof MEASUREMENT_UNIT_VALUES)[number]
 
 export interface WeeklyPlan {
@@ -230,4 +240,54 @@ export interface WeeklyMenuInput {
   startDate: string | Date
   endDate: string | Date
   days: DayMenu[]
+}
+
+export interface AdminUserSummary {
+  id: string
+  createdAt: string
+  updatedAt: string
+  email: string
+  nombre: string
+  apellidos: string
+  telefono: string | null
+  role: UserRole
+  status: UserStatus
+  customerType: UserCustomerType | null
+  ordersCountCached: number
+  lastOrderAt: string | null
+  totalSpentCached: number | null
+}
+
+export interface AdminUserInput {
+  email: string
+  nombre: string
+  apellidos: string
+  telefono?: string | null
+  role: UserRole
+  status: UserStatus
+  source?: UserSource | null
+  gender?: UserGender | null
+  customerType?: UserCustomerType | null
+  tags: string[]
+  primaryAddress: string
+  primaryAddress2: string
+  notas: string
+}
+
+export interface AdminUserDetail extends AdminUserSummary {
+  authUserId: string | null
+  source: UserSource | null
+  gender: UserGender | null
+  tags: string[]
+  primaryAddress: string
+  primaryAddress2: string
+  notas: string
+}
+
+export interface SessionAppUser {
+  id: string | null
+  authUserId: string | null
+  email: string
+  role: UserRole | null
+  isAdmin: boolean
 }

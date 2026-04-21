@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
+import type { SessionAppUser } from '~~/types/types'
 
-const open = useCookie('sidebar-open')
+const open = useCookie<boolean>('sidebar-open', {
+  default: () => true
+})
 
 const colorMode = useColorMode()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 const toast = useToast()
+const {
+  data: sessionAppUser
+} = await useFetch<SessionAppUser | null>('/api/session/me', {
+  default: () => null,
+  lazy: true
+})
 
 const isSigningOut = ref(false)
 
@@ -49,6 +58,14 @@ function getMainItems(state: 'collapsed' | 'expanded') {
       to: '/platillos'
     }
   ]
+
+  if (sessionAppUser.value?.isAdmin) {
+    baseItems.push({
+      label: 'Usuarios',
+      icon: 'i-lucide-users',
+      to: '/usuarios'
+    })
+  }
 
   if (state === 'collapsed') {
     return [

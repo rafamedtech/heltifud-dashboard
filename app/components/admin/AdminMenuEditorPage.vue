@@ -30,12 +30,17 @@ const {
   hasUnsavedChanges,
   isSubmitting,
   canSubmit,
-  submitButtonColor,
-  submitButtonVariant,
   onDirtyChange,
   onValidityChange,
   onSubmitStateChange
 } = useFoodCatalogEditorState({ isLoading: computed(() => props.isLoading) })
+const canSave = computed(() =>
+  props.mode === 'edit'
+    ? hasUnsavedChanges.value && !props.isLoading && !isSubmitting.value
+    : canSubmit.value
+)
+const saveButtonColor = computed(() => canSave.value ? 'primary' : 'neutral')
+const saveButtonVariant = computed(() => canSave.value ? 'solid' : 'subtle')
 
 async function onSaved() {
   if (props.mode === 'edit') {
@@ -84,9 +89,9 @@ async function leaveWithoutSaving() {
       <UButton
         type="submit"
         :form="formId"
-        :disabled="!canSubmit"
-        :color="submitButtonColor"
-        :variant="submitButtonVariant"
+        :disabled="!canSave"
+        :color="saveButtonColor"
+        :variant="saveButtonVariant"
         class="relative justify-center cursor-pointer"
       >
         <span class="inline-flex items-center gap-2 opacity-0">

@@ -1,10 +1,44 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
+import { randomUUID } from 'node:crypto'
 import { Pool } from 'pg'
 
 process.loadEnvFile?.()
 
 const connectionString = process.env.DATABASE_URL
+const adminEmail = process.env.SEED_ADMIN_EMAIL ?? 'admin@heltifud.com'
+const adminNombre = process.env.SEED_ADMIN_NOMBRE ?? 'Admin'
+const adminApellidos = process.env.SEED_ADMIN_APELLIDOS ?? 'Heltifud'
+const adminTelefono = process.env.SEED_ADMIN_TELEFONO ?? null
+const basePlans = [
+  {
+    slug: 'plan-desayuno-base',
+    nombre: 'Plan Desayuno Base',
+    precio: '0.00',
+    dishCount: 0,
+    tipo: 'DESAYUNO',
+    tags: [],
+    notas: 'Plan semilla. Ajustar precio y cantidad de platillos desde panel.'
+  },
+  {
+    slug: 'plan-comida-base',
+    nombre: 'Plan Comida Base',
+    precio: '0.00',
+    dishCount: 0,
+    tipo: 'COMIDA',
+    tags: [],
+    notas: 'Plan semilla. Ajustar precio y cantidad de platillos desde panel.'
+  },
+  {
+    slug: 'plan-cena-base',
+    nombre: 'Plan Cena Base',
+    precio: '0.00',
+    dishCount: 0,
+    tipo: 'CENA',
+    tags: [],
+    notas: 'Plan semilla. Ajustar precio y cantidad de platillos desde panel.'
+  }
+]
 
 if (!connectionString) {
   throw new Error('DATABASE_URL es requerido para ejecutar el seed.')
@@ -12,7 +46,7 @@ if (!connectionString) {
 
 const seedDataDir = join(process.cwd(), 'prisma', 'seed-data')
 const pool = new Pool({ connectionString })
-const requiredTables = ['WeeklyMenu', 'MenuDay', 'DaySlot', 'FoodCatalogItem', 'FoodComponent']
+const requiredTables = ['WeeklyMenu', 'MenuDay', 'DaySlot', 'FoodCatalogItem', 'FoodComponent', 'User', 'Plan']
 
 function parseCsv(text) {
   const rows = []
@@ -107,6 +141,103 @@ async function insertRows(client, table, columns, rows) {
   }
 }
 
+async function upsertAdminUser(client) {
+  let authUserId = null
+
+  try {
+    const { rows } = await client.query(
+      `
+        SELECT "id"::text AS "id"
+        FROM "auth"."users"
+        WHERE "email" = $1
+        ORDER BY "created_at" ASC
+        LIMIT 1
+      `,
+      [adminEmail]
+    )
+
+    authUserId = rows[0]?.id ?? null
+  } catch {
+    console.warn(`No se pudo consultar auth.users para ${adminEmail}. Se sembrara el admin sin authUserId.`)
+  }
+
+  await client.query(
+    `
+      INSERT INTO "User" (
+        "id",
+        "createdAt",
+        "updatedAt",
+        "authUserId",
+        "email",
+        "nombre",
+        "apellidos",
+        "telefono",
+        "role",
+        "status"
+      )
+      VALUES (
+        $1,
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        'ADMIN',
+        'ACTIVO'
+      )
+      ON CONFLICT ("email")
+      DO UPDATE SET
+        "updatedAt" = CURRENT_TIMESTAMP,
+        "authUserId" = COALESCE(EXCLUDED."authUserId", "User"."authUserId"),
+        "nombre" = EXCLUDED."nombre",
+        "apellidos" = EXCLUDED."apellidos",
+        "telefono" = EXCLUDED."telefono",
+        "role" = 'ADMIN',
+        "status" = 'ACTIVO'
+    `,
+    [randomUUID(), authUserId, adminEmail, adminNombre, adminApellidos, adminTelefono]
+  )
+}
+
+async function insertBasePlans(client) {
+  for (const plan of basePlans) {
+    await client.query(
+      `
+        INSERT INTO "Plan" (
+          "id",
+          "createdAt",
+          "updatedAt",
+          "nombre",
+          "slug",
+          "precio",
+          "dishCount",
+          "tipo",
+          "tags",
+          "isActive",
+          "notas"
+        )
+        VALUES (
+          $1,
+          CURRENT_TIMESTAMP,
+          CURRENT_TIMESTAMP,
+          $2,
+          $3,
+          $4::decimal(10,2),
+          $5,
+          $6::"PlanType",
+          $7::text[],
+          true,
+          $8
+        )
+        ON CONFLICT ("slug") DO NOTHING
+      `,
+      [randomUUID(), plan.nombre, plan.slug, plan.precio, plan.dishCount, plan.tipo, plan.tags, plan.notas]
+    )
+  }
+}
+
 async function ensureRequiredTables(client) {
   const { rows } = await client.query(
     `
@@ -186,7 +317,14 @@ async function loadSeedData() {
       catalogItemId: toNullable(row.catalogItemId),
       createdAt: generatedTimestamp,
       updatedAt: generatedTimestamp
-    }))
+    })),
+    adminUser: {
+      email: adminEmail,
+      nombre: adminNombre,
+      apellidos: adminApellidos,
+      telefono: adminTelefono
+    },
+    basePlans
   }
 }
 
@@ -195,7 +333,7 @@ async function main() {
 
   if (process.argv.includes('--dry-run')) {
     console.log(
-      `Dry run: ${seedData.weeklyMenus.length} menus, ${seedData.menuDays.length} dias, ${seedData.daySlots.length} slots, ${seedData.foodCatalogItems.length} items de catalogo y ${seedData.foodComponents.length} componentes listos para insertar.`
+      `Dry run: ${seedData.weeklyMenus.length} menus, ${seedData.menuDays.length} dias, ${seedData.daySlots.length} slots, ${seedData.foodCatalogItems.length} items de catalogo, ${seedData.foodComponents.length} componentes, ${seedData.basePlans.length} planes base y admin ${seedData.adminUser.email} listo para upsert.`
     )
     return
   }
@@ -242,11 +380,13 @@ async function main() {
       ['id', 'daySlotId', 'componentRole', 'nombre', 'descripcion', 'calorias', 'imagen', 'tipo', 'catalogItemId', 'createdAt', 'updatedAt'],
       seedData.foodComponents
     )
+    await upsertAdminUser(client)
+    await insertBasePlans(client)
 
     await client.query('COMMIT')
 
     console.log(
-      `Seed completado: ${seedData.weeklyMenus.length} menus, ${seedData.menuDays.length} dias, ${seedData.daySlots.length} slots, ${seedData.foodCatalogItems.length} items de catalogo y ${seedData.foodComponents.length} componentes.`
+      `Seed completado: ${seedData.weeklyMenus.length} menus, ${seedData.menuDays.length} dias, ${seedData.daySlots.length} slots, ${seedData.foodCatalogItems.length} items de catalogo, ${seedData.foodComponents.length} componentes, ${seedData.basePlans.length} planes base y admin ${seedData.adminUser.email}.`
     )
   } catch (error) {
     await client.query('ROLLBACK')

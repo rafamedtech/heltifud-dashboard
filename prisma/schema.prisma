@@ -84,6 +84,67 @@ enum NutritionLookupOutcome {
   ERROR
 }
 
+enum UserRole {
+  ADMIN
+  CLIENTE
+}
+
+enum UserStatus {
+  ACTIVO
+  PAUSADO
+  INACTIVO
+  BLOQUEADO
+}
+
+enum OrderStatus {
+  BORRADOR
+  INGRESADO
+  CONFIRMADO
+  PAGADO
+  EMPACADO
+  EMPACADO_POR_PAGAR
+  PROGRAMADO
+  EN_RUTA
+  ENTREGADO
+  ENTREGADO_POR_PAGAR
+  COMPLETADO
+  COMPLETADO_POR_PAGAR
+  CANCELADO
+}
+
+enum OrderPaymentStatus {
+  PENDIENTE
+  PAGADO
+  FALLIDO
+  REEMBOLSADO
+}
+
+enum UserSource {
+  ORGANICO
+  ADS
+  REFERIDO
+  OTRO
+}
+
+enum UserGender {
+  MUJER
+  HOMBRE
+  OTRO
+  PREFIERE_NO_DECIR
+}
+
+enum UserCustomerType {
+  VEGETARIANO
+  NUTRIOLOGO
+  ESTANDAR
+}
+
+enum PlanType {
+  DESAYUNO
+  COMIDA
+  CENA
+}
+
 model WeeklyMenu {
   id        String    @id @default(uuid())
   createdAt DateTime  @default(now())
@@ -93,6 +154,7 @@ model WeeklyMenu {
   endDate   DateTime
   name      String
   days      MenuDay[]
+  orders    Order[]
 
   @@index([isActive])
   @@index([startDate, endDate])
@@ -300,4 +362,142 @@ model SupplyNutritionLookupLog {
   @@index([supplyItemId, createdAt])
   @@index([source, normalizedQuery])
   @@index([outcome, createdAt])
+}
+
+model User {
+  id                String            @id @default(uuid())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  authUserId        String?           @unique
+  email             String            @unique
+  nombre            String
+  apellidos         String            @default("")
+  telefono          String?
+  role              UserRole          @default(CLIENTE)
+  status            UserStatus        @default(ACTIVO)
+  source            UserSource?
+  gender            UserGender?
+  customerType      UserCustomerType?
+  tags              String[]          @default([])
+  primaryAddress    String            @default("")
+  primaryAddress2   String            @default("")
+  notas             String            @default("")
+  totalSpentCached  Decimal?          @db.Decimal(10, 2)
+  ordersCountCached Int               @default(0)
+  lastOrderAt       DateTime?
+  addresses         UserAddress[]
+  orders            Order[]           @relation("OrderRecipient")
+  createdOrders     Order[]           @relation("OrderCreatedBy")
+
+  @@index([role, status])
+  @@index([source, status])
+  @@index([customerType, status])
+  @@index([nombre, apellidos])
+}
+
+model UserAddress {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  etiqueta     String   @default("")
+  destinatario String   @default("")
+  telefono     String   @default("")
+  linea1       String
+  linea2       String   @default("")
+  colonia      String   @default("")
+  ciudad       String
+  estado       String
+  codigoPostal String   @default("")
+  pais         String   @default("MX")
+  referencias  String   @default("")
+  isDefault    Boolean  @default(false)
+  orders       Order[]
+
+  @@index([userId, isDefault])
+  @@index([ciudad, estado])
+}
+
+model Plan {
+  id         String      @id @default(uuid())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  nombre     String
+  slug       String?     @unique
+  precio     Decimal     @db.Decimal(10, 2)
+  dishCount  Int         @default(0)
+  tipo       PlanType
+  tags       String[]    @default([])
+  isActive   Boolean     @default(true)
+  notas      String      @default("")
+  orderItems OrderPlan[]
+
+  @@index([tipo, isActive])
+  @@index([nombre])
+}
+
+model Order {
+  id                     String             @id @default(uuid())
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+  orderNumber            String?            @unique
+  userId                 String
+  user                   User               @relation("OrderRecipient", fields: [userId], references: [id], onDelete: Restrict)
+  createdById            String
+  createdBy              User               @relation("OrderCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  weeklyMenuId           String?
+  weeklyMenu             WeeklyMenu?        @relation(fields: [weeklyMenuId], references: [id], onDelete: SetNull)
+  deliveryAddressId      String?
+  deliveryAddress        UserAddress?       @relation(fields: [deliveryAddressId], references: [id], onDelete: SetNull)
+  status                 OrderStatus        @default(BORRADOR)
+  paymentStatus          OrderPaymentStatus @default(PENDIENTE)
+  currency               String             @default("MXN")
+  subtotal               Decimal?           @db.Decimal(10, 2)
+  descuento              Decimal?           @db.Decimal(10, 2)
+  extras                 Decimal?           @db.Decimal(10, 2)
+  costoEnvio             Decimal?           @db.Decimal(10, 2)
+  total                  Decimal?           @db.Decimal(10, 2)
+  totalPlanPriceCached   Decimal?           @db.Decimal(10, 2)
+  totalDishCountCached   Int                @default(0)
+  requiredBagCountCached Int?
+  scheduledFor           DateTime?
+  firstDeliveryAt        DateTime?
+  secondDeliveryAt       DateTime?
+  deliveredAt            DateTime?
+  cancelledAt            DateTime?
+  paymentReceiptUrl      String?
+  tags                   String[]           @default([])
+  notas                  String             @default("")
+  notasInternas          String             @default("")
+  menuNameSnapshot       String             @default("")
+  menuStartDateSnapshot  DateTime?
+  menuEndDateSnapshot    DateTime?
+  planItems              OrderPlan[]
+
+  @@index([userId, status, createdAt])
+  @@index([createdById, createdAt])
+  @@index([weeklyMenuId])
+  @@index([deliveryAddressId])
+  @@index([scheduledFor, status])
+  @@index([firstDeliveryAt, secondDeliveryAt])
+  @@index([paymentStatus, status])
+}
+
+model OrderPlan {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orderId      String
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  planId       String
+  plan         Plan     @relation(fields: [planId], references: [id], onDelete: Restrict)
+  quantity     Int      @default(1)
+  unitPrice    Decimal? @db.Decimal(10, 2)
+  lineSubtotal Decimal? @db.Decimal(10, 2)
+  notas        String   @default("")
+
+  @@unique([orderId, planId])
+  @@index([planId])
+  @@index([orderId, quantity])
 }

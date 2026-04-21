@@ -61,6 +61,7 @@ export default defineNuxtConfig({
         '/menu(/*)?',
         '/platillos(/*)?',
         '/planes(/*)?',
+        '/usuarios(/*)?',
       ],
       exclude: ['/login', '/menu-publico'],
       saveRedirectToCookie: true,

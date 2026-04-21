@@ -118,12 +118,13 @@ function updateAdditional(index: number, id?: string) {
   slotState.value.adicionales[index] = createFoodItemFromCatalog(getItemById(id))
 }
 
-const containerValue = computed({
-  get: () => slotState.value.contenedor ?? '',
-  set: (value: string) => {
-    slotState.value.contenedor = value
-  }
-})
+function getContainerValue() {
+  return slotState.value.contenedor ?? undefined
+}
+
+function updateContainer(value?: string) {
+  slotState.value.contenedor = value ?? ''
+}
 
 const totalCalories = computed(() => {
   const main = slotState.value.platilloPrincipal.calorias || 0
@@ -197,8 +198,8 @@ const totalCalories = computed(() => {
 
       <UFormField label="Contenedor" :error="containerError || false">
         <USelectMenu
-          v-model="containerValue"
           class="w-full"
+          :model-value="getContainerValue()"
           :items="containerOptions"
           label-key="label"
           value-key="value"
@@ -207,6 +208,7 @@ const totalCalories = computed(() => {
           :disabled="loading"
           :placeholder="loading ? 'Cargando...' : 'Selecciona un contenedor'"
           :search-input="{ placeholder: 'Buscar...' }"
+          @update:model-value="updateContainer"
         />
       </UFormField>
 

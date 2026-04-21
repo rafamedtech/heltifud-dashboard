@@ -60,7 +60,12 @@ export const ModelName = {
   SupplyItem: 'SupplyItem',
   Recipe: 'Recipe',
   RecipeIngredient: 'RecipeIngredient',
-  SupplyNutritionLookupLog: 'SupplyNutritionLookupLog'
+  SupplyNutritionLookupLog: 'SupplyNutritionLookupLog',
+  User: 'User',
+  UserAddress: 'UserAddress',
+  Plan: 'Plan',
+  Order: 'Order',
+  OrderPlan: 'OrderPlan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -270,6 +275,123 @@ export const SupplyNutritionLookupLogScalarFieldEnum = {
 } as const
 
 export type SupplyNutritionLookupLogScalarFieldEnum = (typeof SupplyNutritionLookupLogScalarFieldEnum)[keyof typeof SupplyNutritionLookupLogScalarFieldEnum]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  authUserId: 'authUserId',
+  email: 'email',
+  nombre: 'nombre',
+  apellidos: 'apellidos',
+  telefono: 'telefono',
+  role: 'role',
+  status: 'status',
+  source: 'source',
+  gender: 'gender',
+  customerType: 'customerType',
+  tags: 'tags',
+  primaryAddress: 'primaryAddress',
+  primaryAddress2: 'primaryAddress2',
+  notas: 'notas',
+  totalSpentCached: 'totalSpentCached',
+  ordersCountCached: 'ordersCountCached',
+  lastOrderAt: 'lastOrderAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const UserAddressScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  etiqueta: 'etiqueta',
+  destinatario: 'destinatario',
+  telefono: 'telefono',
+  linea1: 'linea1',
+  linea2: 'linea2',
+  colonia: 'colonia',
+  ciudad: 'ciudad',
+  estado: 'estado',
+  codigoPostal: 'codigoPostal',
+  pais: 'pais',
+  referencias: 'referencias',
+  isDefault: 'isDefault'
+} as const
+
+export type UserAddressScalarFieldEnum = (typeof UserAddressScalarFieldEnum)[keyof typeof UserAddressScalarFieldEnum]
+
+
+export const PlanScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  nombre: 'nombre',
+  slug: 'slug',
+  precio: 'precio',
+  dishCount: 'dishCount',
+  tipo: 'tipo',
+  tags: 'tags',
+  isActive: 'isActive',
+  notas: 'notas'
+} as const
+
+export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof PlanScalarFieldEnum]
+
+
+export const OrderScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  orderNumber: 'orderNumber',
+  userId: 'userId',
+  createdById: 'createdById',
+  weeklyMenuId: 'weeklyMenuId',
+  deliveryAddressId: 'deliveryAddressId',
+  status: 'status',
+  paymentStatus: 'paymentStatus',
+  currency: 'currency',
+  subtotal: 'subtotal',
+  descuento: 'descuento',
+  extras: 'extras',
+  costoEnvio: 'costoEnvio',
+  total: 'total',
+  totalPlanPriceCached: 'totalPlanPriceCached',
+  totalDishCountCached: 'totalDishCountCached',
+  requiredBagCountCached: 'requiredBagCountCached',
+  scheduledFor: 'scheduledFor',
+  firstDeliveryAt: 'firstDeliveryAt',
+  secondDeliveryAt: 'secondDeliveryAt',
+  deliveredAt: 'deliveredAt',
+  cancelledAt: 'cancelledAt',
+  paymentReceiptUrl: 'paymentReceiptUrl',
+  tags: 'tags',
+  notas: 'notas',
+  notasInternas: 'notasInternas',
+  menuNameSnapshot: 'menuNameSnapshot',
+  menuStartDateSnapshot: 'menuStartDateSnapshot',
+  menuEndDateSnapshot: 'menuEndDateSnapshot'
+} as const
+
+export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const OrderPlanScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  orderId: 'orderId',
+  planId: 'planId',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  lineSubtotal: 'lineSubtotal',
+  notas: 'notas'
+} as const
+
+export type OrderPlanScalarFieldEnum = (typeof OrderPlanScalarFieldEnum)[keyof typeof OrderPlanScalarFieldEnum]
 
 
 export const SortOrder = {

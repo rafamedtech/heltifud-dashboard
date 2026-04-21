@@ -110,3 +110,88 @@ export const NutritionLookupOutcome = {
 } as const
 
 export type NutritionLookupOutcome = (typeof NutritionLookupOutcome)[keyof typeof NutritionLookupOutcome]
+
+
+export const UserRole = {
+  ADMIN: 'ADMIN',
+  CLIENTE: 'CLIENTE'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const UserStatus = {
+  ACTIVO: 'ACTIVO',
+  PAUSADO: 'PAUSADO',
+  INACTIVO: 'INACTIVO',
+  BLOQUEADO: 'BLOQUEADO'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
+export const OrderStatus = {
+  BORRADOR: 'BORRADOR',
+  INGRESADO: 'INGRESADO',
+  CONFIRMADO: 'CONFIRMADO',
+  PAGADO: 'PAGADO',
+  EMPACADO: 'EMPACADO',
+  EMPACADO_POR_PAGAR: 'EMPACADO_POR_PAGAR',
+  PROGRAMADO: 'PROGRAMADO',
+  EN_RUTA: 'EN_RUTA',
+  ENTREGADO: 'ENTREGADO',
+  ENTREGADO_POR_PAGAR: 'ENTREGADO_POR_PAGAR',
+  COMPLETADO: 'COMPLETADO',
+  COMPLETADO_POR_PAGAR: 'COMPLETADO_POR_PAGAR',
+  CANCELADO: 'CANCELADO'
+} as const
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+
+export const OrderPaymentStatus = {
+  PENDIENTE: 'PENDIENTE',
+  PAGADO: 'PAGADO',
+  FALLIDO: 'FALLIDO',
+  REEMBOLSADO: 'REEMBOLSADO'
+} as const
+
+export type OrderPaymentStatus = (typeof OrderPaymentStatus)[keyof typeof OrderPaymentStatus]
+
+
+export const UserSource = {
+  ORGANICO: 'ORGANICO',
+  ADS: 'ADS',
+  REFERIDO: 'REFERIDO',
+  OTRO: 'OTRO'
+} as const
+
+export type UserSource = (typeof UserSource)[keyof typeof UserSource]
+
+
+export const UserGender = {
+  MUJER: 'MUJER',
+  HOMBRE: 'HOMBRE',
+  OTRO: 'OTRO',
+  PREFIERE_NO_DECIR: 'PREFIERE_NO_DECIR'
+} as const
+
+export type UserGender = (typeof UserGender)[keyof typeof UserGender]
+
+
+export const UserCustomerType = {
+  VEGETARIANO: 'VEGETARIANO',
+  NUTRIOLOGO: 'NUTRIOLOGO',
+  ESTANDAR: 'ESTANDAR'
+} as const
+
+export type UserCustomerType = (typeof UserCustomerType)[keyof typeof UserCustomerType]
+
+
+export const PlanType = {
+  DESAYUNO: 'DESAYUNO',
+  COMIDA: 'COMIDA',
+  CENA: 'CENA'
+} as const
+
+export type PlanType = (typeof PlanType)[keyof typeof PlanType]

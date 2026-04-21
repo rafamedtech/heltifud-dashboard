@@ -1,6 +1,15 @@
 import { z } from 'zod'
 
-import { DAY_OF_WEEK_VALUES, MEASUREMENT_UNIT_VALUES, RECIPE_STATUS_VALUES } from './types'
+import {
+  DAY_OF_WEEK_VALUES,
+  MEASUREMENT_UNIT_VALUES,
+  RECIPE_STATUS_VALUES,
+  USER_CUSTOMER_TYPE_VALUES,
+  USER_GENDER_VALUES,
+  USER_ROLE_VALUES,
+  USER_SOURCE_VALUES,
+  USER_STATUS_VALUES
+} from './types'
 
 const REQUIRED_DAY_VALUES = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'] as const
 const SLOT_KEYS = ['desayuno', 'comida', 'cena', 'snack1', 'snack2'] as const
@@ -243,3 +252,21 @@ export const supplyItemInputSchema = z.object({
 
 export type SupplyCategoryInputParsed = z.infer<typeof supplyCategoryInputSchema>
 export type SupplyItemInputParsed = z.infer<typeof supplyItemInputSchema>
+
+export const adminUserInputSchema = z.object({
+  email: z.email('Ingresa un correo electrónico válido.'),
+  nombre: z.string().trim().min(1, 'El nombre es obligatorio'),
+  apellidos: z.string().trim().default(''),
+  telefono: z.string().trim().nullable().optional(),
+  role: z.enum(USER_ROLE_VALUES),
+  status: z.enum(USER_STATUS_VALUES),
+  source: z.enum(USER_SOURCE_VALUES).nullable().optional(),
+  gender: z.enum(USER_GENDER_VALUES).nullable().optional(),
+  customerType: z.enum(USER_CUSTOMER_TYPE_VALUES).nullable().optional(),
+  tags: z.array(z.string().trim().min(1)).default([]),
+  primaryAddress: z.string().default(''),
+  primaryAddress2: z.string().default(''),
+  notas: z.string().default('')
+})
+
+export type AdminUserInputParsed = z.infer<typeof adminUserInputSchema>

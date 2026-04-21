@@ -91,3 +91,28 @@ export type RecipeIngredient = Prisma.RecipeIngredientModel
  * 
  */
 export type SupplyNutritionLookupLog = Prisma.SupplyNutritionLookupLogModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
+ * Model UserAddress
+ * 
+ */
+export type UserAddress = Prisma.UserAddressModel
+/**
+ * Model Plan
+ * 
+ */
+export type Plan = Prisma.PlanModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model OrderPlan
+ * 
+ */
+export type OrderPlan = Prisma.OrderPlanModel
