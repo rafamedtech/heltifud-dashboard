@@ -2,7 +2,11 @@ import { z } from 'zod'
 
 import {
   DAY_OF_WEEK_VALUES,
+  MENU_SLOT_TYPE_VALUES,
   MEASUREMENT_UNIT_VALUES,
+  ORDER_PAYMENT_STATUS_VALUES,
+  ORDER_STATUS_VALUES,
+  PLAN_TYPE_VALUES,
   RECIPE_STATUS_VALUES,
   USER_CUSTOMER_TYPE_VALUES,
   USER_GENDER_VALUES,
@@ -155,8 +159,22 @@ export const weeklyMenuInputSchema = z
 
 export type WeeklyMenuInputParsed = z.infer<typeof weeklyMenuInputSchema>
 const measurementUnitSchema = z.enum(MEASUREMENT_UNIT_VALUES)
+const planTypeSchema = z.enum(PLAN_TYPE_VALUES)
 const recipeStatusSchema = z.enum(RECIPE_STATUS_VALUES)
 const uuidSchema = z.string().uuid()
+
+export const planInputSchema = z.object({
+  nombre: z.string().trim().min(2, 'El nombre del plan es obligatorio'),
+  slug: z.string().trim().nullable().optional(),
+  precio: z.number().min(0, 'El precio debe ser mayor o igual a 0'),
+  dishCount: z.number().int().min(0, 'La cantidad de platillos no puede ser negativa'),
+  tipo: planTypeSchema,
+  tags: z.array(z.string().trim().min(1)).default([]),
+  isActive: z.boolean().default(true),
+  notas: z.string().default('')
+})
+
+export type PlanInputParsed = z.infer<typeof planInputSchema>
 
 const recipeIngredientInputSchema = z.object({
   supplyName: z.string().min(1, 'El insumo es obligatorio'),
@@ -270,3 +288,124 @@ export const adminUserInputSchema = z.object({
 })
 
 export type AdminUserInputParsed = z.infer<typeof adminUserInputSchema>
+
+const optionalDateSchema = z.union([z.string(), z.date()]).nullable().optional()
+
+const orderLineItemInputSchema = z.object({
+  planId: uuidSchema,
+  quantity: z.number().int().positive('La cantidad debe ser mayor a 0'),
+  notas: z.string().default(''),
+  slots: z.array(z.object({
+    sourceWeeklyMenuId: uuidSchema.nullable().optional(),
+    sourceMenuDayId: uuidSchema.nullable().optional(),
+    sourceDaySlotId: uuidSchema.nullable().optional(),
+    selectionIndex: z.number().int().positive('Cada selección debe tener un índice válido.'),
+    dayOfWeek: z.enum(DAY_OF_WEEK_VALUES),
+    menuDayOrder: z.number().int().min(1, 'El orden del día debe ser mayor a 0.'),
+    slotType: z.enum(MENU_SLOT_TYPE_VALUES),
+    contenedor: z.string().trim().min(1, 'Selecciona un contenedor.'),
+    platilloPrincipal: foodItemSchema.extend({
+      sourceFoodComponentId: uuidSchema.nullable().optional()
+    }),
+    guarnicion1: foodItemSchema.extend({
+      sourceFoodComponentId: uuidSchema.nullable().optional()
+    }).nullable().optional(),
+    guarnicion2: foodItemSchema.extend({
+      sourceFoodComponentId: uuidSchema.nullable().optional()
+    }).nullable().optional(),
+    adicionales: z.array(foodItemSchema.extend({
+      sourceFoodComponentId: uuidSchema.nullable().optional()
+    })).default([])
+  }).superRefine((slot, ctx) => {
+    if (!slot.platilloPrincipal.catalogItemId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['platilloPrincipal'],
+        message: 'Selecciona un platillo principal.'
+      })
+    }
+  })).default([])
+}).superRefine((value, ctx) => {
+  const seenSelectionIndexes = new Set<number>()
+
+  value.slots.forEach((slot, index) => {
+    if (seenSelectionIndexes.has(slot.selectionIndex)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['slots', index, 'selectionIndex'],
+        message: 'Cada selección debe ser única dentro del plan.'
+      })
+      return
+    }
+
+    seenSelectionIndexes.add(slot.selectionIndex)
+  })
+})
+
+const orderDeliveryAddressInputSchema = z.object({
+  etiqueta: z.string().default(''),
+  destinatario: z.string().trim().min(1, 'El destinatario es obligatorio'),
+  telefono: z.string().default(''),
+  linea1: z.string().trim().min(1, 'La línea principal es obligatoria'),
+  linea2: z.string().default(''),
+  colonia: z.string().default(''),
+  ciudad: z.string().trim().min(1, 'La ciudad es obligatoria'),
+  estado: z.string().trim().min(1, 'El estado es obligatorio'),
+  codigoPostal: z.string().default(''),
+  pais: z.string().default('MX'),
+  referencias: z.string().default(''),
+  makeDefault: z.boolean().default(false)
+})
+
+export const orderInputSchema = z.object({
+  userId: uuidSchema,
+  weeklyMenuId: uuidSchema.nullable().optional(),
+  deliveryAddressId: uuidSchema.nullable().optional(),
+  deliveryAddress: orderDeliveryAddressInputSchema.nullable().optional(),
+  status: z.enum(ORDER_STATUS_VALUES),
+  paymentStatus: z.enum(ORDER_PAYMENT_STATUS_VALUES),
+  currency: z.string().trim().min(3, 'La moneda es obligatoria').max(3, 'La moneda debe tener 3 caracteres'),
+  descuento: z.number().min(0, 'El descuento no puede ser negativo').nullable().optional(),
+  extras: z.number().min(0, 'Los extras no pueden ser negativos').nullable().optional(),
+  costoEnvio: z.number().min(0, 'El costo de envío no puede ser negativo').nullable().optional(),
+  scheduledFor: optionalDateSchema,
+  firstDeliveryAt: optionalDateSchema,
+  secondDeliveryAt: optionalDateSchema,
+  tags: z.array(z.string().trim().min(1)).default([]),
+  notas: z.string().default(''),
+  notasInternas: z.string().default(''),
+  planItems: z.array(orderLineItemInputSchema).min(1, 'Agrega al menos un plan al pedido')
+}).superRefine((value, ctx) => {
+  const seenPlanIds = new Set<string>()
+
+  value.planItems.forEach((item, index) => {
+    if (seenPlanIds.has(item.planId)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['planItems', index, 'planId'],
+        message: 'Este plan ya está agregado al pedido.'
+      })
+      return
+    }
+
+    seenPlanIds.add(item.planId)
+  })
+
+  if (value.deliveryAddressId && value.deliveryAddress) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['deliveryAddressId'],
+      message: 'Selecciona una dirección existente o captura una nueva, pero no ambas.'
+    })
+  }
+
+  if (value.secondDeliveryAt && !value.firstDeliveryAt) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['firstDeliveryAt'],
+      message: 'Captura la primera entrega antes de la segunda.'
+    })
+  }
+})
+
+export type OrderInputParsed = z.infer<typeof orderInputSchema>

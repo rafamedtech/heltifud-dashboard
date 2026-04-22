@@ -35,6 +35,9 @@ export type OrderAvgAggregateOutputType = {
   totalPlanPriceCached: runtime.Decimal | null
   totalDishCountCached: number | null
   requiredBagCountCached: number | null
+  totalRequestedDishCount: number | null
+  totalAssignedDishCount: number | null
+  totalPendingDishCount: number | null
 }
 
 export type OrderSumAggregateOutputType = {
@@ -46,6 +49,9 @@ export type OrderSumAggregateOutputType = {
   totalPlanPriceCached: runtime.Decimal | null
   totalDishCountCached: number | null
   requiredBagCountCached: number | null
+  totalRequestedDishCount: number | null
+  totalAssignedDishCount: number | null
+  totalPendingDishCount: number | null
 }
 
 export type OrderMinAggregateOutputType = {
@@ -79,6 +85,10 @@ export type OrderMinAggregateOutputType = {
   menuNameSnapshot: string | null
   menuStartDateSnapshot: Date | null
   menuEndDateSnapshot: Date | null
+  menuResolvedAt: Date | null
+  totalRequestedDishCount: number | null
+  totalAssignedDishCount: number | null
+  totalPendingDishCount: number | null
 }
 
 export type OrderMaxAggregateOutputType = {
@@ -112,6 +122,10 @@ export type OrderMaxAggregateOutputType = {
   menuNameSnapshot: string | null
   menuStartDateSnapshot: Date | null
   menuEndDateSnapshot: Date | null
+  menuResolvedAt: Date | null
+  totalRequestedDishCount: number | null
+  totalAssignedDishCount: number | null
+  totalPendingDishCount: number | null
 }
 
 export type OrderCountAggregateOutputType = {
@@ -146,6 +160,10 @@ export type OrderCountAggregateOutputType = {
   menuNameSnapshot: number
   menuStartDateSnapshot: number
   menuEndDateSnapshot: number
+  menuResolvedAt: number
+  totalRequestedDishCount: number
+  totalAssignedDishCount: number
+  totalPendingDishCount: number
   _all: number
 }
 
@@ -159,6 +177,9 @@ export type OrderAvgAggregateInputType = {
   totalPlanPriceCached?: true
   totalDishCountCached?: true
   requiredBagCountCached?: true
+  totalRequestedDishCount?: true
+  totalAssignedDishCount?: true
+  totalPendingDishCount?: true
 }
 
 export type OrderSumAggregateInputType = {
@@ -170,6 +191,9 @@ export type OrderSumAggregateInputType = {
   totalPlanPriceCached?: true
   totalDishCountCached?: true
   requiredBagCountCached?: true
+  totalRequestedDishCount?: true
+  totalAssignedDishCount?: true
+  totalPendingDishCount?: true
 }
 
 export type OrderMinAggregateInputType = {
@@ -203,6 +227,10 @@ export type OrderMinAggregateInputType = {
   menuNameSnapshot?: true
   menuStartDateSnapshot?: true
   menuEndDateSnapshot?: true
+  menuResolvedAt?: true
+  totalRequestedDishCount?: true
+  totalAssignedDishCount?: true
+  totalPendingDishCount?: true
 }
 
 export type OrderMaxAggregateInputType = {
@@ -236,6 +264,10 @@ export type OrderMaxAggregateInputType = {
   menuNameSnapshot?: true
   menuStartDateSnapshot?: true
   menuEndDateSnapshot?: true
+  menuResolvedAt?: true
+  totalRequestedDishCount?: true
+  totalAssignedDishCount?: true
+  totalPendingDishCount?: true
 }
 
 export type OrderCountAggregateInputType = {
@@ -270,6 +302,10 @@ export type OrderCountAggregateInputType = {
   menuNameSnapshot?: true
   menuStartDateSnapshot?: true
   menuEndDateSnapshot?: true
+  menuResolvedAt?: true
+  totalRequestedDishCount?: true
+  totalAssignedDishCount?: true
+  totalPendingDishCount?: true
   _all?: true
 }
 
@@ -391,6 +427,10 @@ export type OrderGroupByOutputType = {
   menuNameSnapshot: string
   menuStartDateSnapshot: Date | null
   menuEndDateSnapshot: Date | null
+  menuResolvedAt: Date | null
+  totalRequestedDishCount: number
+  totalAssignedDishCount: number
+  totalPendingDishCount: number
   _count: OrderCountAggregateOutputType | null
   _avg: OrderAvgAggregateOutputType | null
   _sum: OrderSumAggregateOutputType | null
@@ -448,6 +488,10 @@ export type OrderWhereInput = {
   menuNameSnapshot?: Prisma.StringFilter<"Order"> | string
   menuStartDateSnapshot?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   menuEndDateSnapshot?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  menuResolvedAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFilter<"Order"> | number
+  totalAssignedDishCount?: Prisma.IntFilter<"Order"> | number
+  totalPendingDishCount?: Prisma.IntFilter<"Order"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   weeklyMenu?: Prisma.XOR<Prisma.WeeklyMenuNullableScalarRelationFilter, Prisma.WeeklyMenuWhereInput> | null
@@ -487,6 +531,10 @@ export type OrderOrderByWithRelationInput = {
   menuNameSnapshot?: Prisma.SortOrder
   menuStartDateSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   menuEndDateSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
+  menuResolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalRequestedDishCount?: Prisma.SortOrder
+  totalAssignedDishCount?: Prisma.SortOrder
+  totalPendingDishCount?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   createdBy?: Prisma.UserOrderByWithRelationInput
   weeklyMenu?: Prisma.WeeklyMenuOrderByWithRelationInput
@@ -529,6 +577,10 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   menuNameSnapshot?: Prisma.StringFilter<"Order"> | string
   menuStartDateSnapshot?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   menuEndDateSnapshot?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  menuResolvedAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFilter<"Order"> | number
+  totalAssignedDishCount?: Prisma.IntFilter<"Order"> | number
+  totalPendingDishCount?: Prisma.IntFilter<"Order"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   weeklyMenu?: Prisma.XOR<Prisma.WeeklyMenuNullableScalarRelationFilter, Prisma.WeeklyMenuWhereInput> | null
@@ -568,6 +620,10 @@ export type OrderOrderByWithAggregationInput = {
   menuNameSnapshot?: Prisma.SortOrder
   menuStartDateSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   menuEndDateSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
+  menuResolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalRequestedDishCount?: Prisma.SortOrder
+  totalAssignedDishCount?: Prisma.SortOrder
+  totalPendingDishCount?: Prisma.SortOrder
   _count?: Prisma.OrderCountOrderByAggregateInput
   _avg?: Prisma.OrderAvgOrderByAggregateInput
   _max?: Prisma.OrderMaxOrderByAggregateInput
@@ -610,6 +666,10 @@ export type OrderScalarWhereWithAggregatesInput = {
   menuNameSnapshot?: Prisma.StringWithAggregatesFilter<"Order"> | string
   menuStartDateSnapshot?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
   menuEndDateSnapshot?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
+  menuResolvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
+  totalRequestedDishCount?: Prisma.IntWithAggregatesFilter<"Order"> | number
+  totalAssignedDishCount?: Prisma.IntWithAggregatesFilter<"Order"> | number
+  totalPendingDishCount?: Prisma.IntWithAggregatesFilter<"Order"> | number
 }
 
 export type OrderCreateInput = {
@@ -640,6 +700,10 @@ export type OrderCreateInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
@@ -679,6 +743,10 @@ export type OrderUncheckedCreateInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -710,6 +778,10 @@ export type OrderUpdateInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
@@ -749,6 +821,10 @@ export type OrderUncheckedUpdateInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -784,6 +860,10 @@ export type OrderCreateManyInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
 }
 
 export type OrderUpdateManyMutationInput = {
@@ -814,6 +894,10 @@ export type OrderUpdateManyMutationInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type OrderUncheckedUpdateManyInput = {
@@ -848,6 +932,10 @@ export type OrderUncheckedUpdateManyInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type OrderListRelationFilter = {
@@ -892,6 +980,10 @@ export type OrderCountOrderByAggregateInput = {
   menuNameSnapshot?: Prisma.SortOrder
   menuStartDateSnapshot?: Prisma.SortOrder
   menuEndDateSnapshot?: Prisma.SortOrder
+  menuResolvedAt?: Prisma.SortOrder
+  totalRequestedDishCount?: Prisma.SortOrder
+  totalAssignedDishCount?: Prisma.SortOrder
+  totalPendingDishCount?: Prisma.SortOrder
 }
 
 export type OrderAvgOrderByAggregateInput = {
@@ -903,6 +995,9 @@ export type OrderAvgOrderByAggregateInput = {
   totalPlanPriceCached?: Prisma.SortOrder
   totalDishCountCached?: Prisma.SortOrder
   requiredBagCountCached?: Prisma.SortOrder
+  totalRequestedDishCount?: Prisma.SortOrder
+  totalAssignedDishCount?: Prisma.SortOrder
+  totalPendingDishCount?: Prisma.SortOrder
 }
 
 export type OrderMaxOrderByAggregateInput = {
@@ -936,6 +1031,10 @@ export type OrderMaxOrderByAggregateInput = {
   menuNameSnapshot?: Prisma.SortOrder
   menuStartDateSnapshot?: Prisma.SortOrder
   menuEndDateSnapshot?: Prisma.SortOrder
+  menuResolvedAt?: Prisma.SortOrder
+  totalRequestedDishCount?: Prisma.SortOrder
+  totalAssignedDishCount?: Prisma.SortOrder
+  totalPendingDishCount?: Prisma.SortOrder
 }
 
 export type OrderMinOrderByAggregateInput = {
@@ -969,6 +1068,10 @@ export type OrderMinOrderByAggregateInput = {
   menuNameSnapshot?: Prisma.SortOrder
   menuStartDateSnapshot?: Prisma.SortOrder
   menuEndDateSnapshot?: Prisma.SortOrder
+  menuResolvedAt?: Prisma.SortOrder
+  totalRequestedDishCount?: Prisma.SortOrder
+  totalAssignedDishCount?: Prisma.SortOrder
+  totalPendingDishCount?: Prisma.SortOrder
 }
 
 export type OrderSumOrderByAggregateInput = {
@@ -980,6 +1083,9 @@ export type OrderSumOrderByAggregateInput = {
   totalPlanPriceCached?: Prisma.SortOrder
   totalDishCountCached?: Prisma.SortOrder
   requiredBagCountCached?: Prisma.SortOrder
+  totalRequestedDishCount?: Prisma.SortOrder
+  totalAssignedDishCount?: Prisma.SortOrder
+  totalPendingDishCount?: Prisma.SortOrder
 }
 
 export type OrderScalarRelationFilter = {
@@ -1214,6 +1320,10 @@ export type OrderCreateWithoutWeeklyMenuInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
   deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
@@ -1251,6 +1361,10 @@ export type OrderUncheckedCreateWithoutWeeklyMenuInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -1315,6 +1429,10 @@ export type OrderScalarWhereInput = {
   menuNameSnapshot?: Prisma.StringFilter<"Order"> | string
   menuStartDateSnapshot?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   menuEndDateSnapshot?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  menuResolvedAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFilter<"Order"> | number
+  totalAssignedDishCount?: Prisma.IntFilter<"Order"> | number
+  totalPendingDishCount?: Prisma.IntFilter<"Order"> | number
 }
 
 export type OrderCreateWithoutUserInput = {
@@ -1345,6 +1463,10 @@ export type OrderCreateWithoutUserInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
   deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
@@ -1382,6 +1504,10 @@ export type OrderUncheckedCreateWithoutUserInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -1423,6 +1549,10 @@ export type OrderCreateWithoutCreatedByInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
   deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
@@ -1460,6 +1590,10 @@ export type OrderUncheckedCreateWithoutCreatedByInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -1533,6 +1667,10 @@ export type OrderCreateWithoutDeliveryAddressInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
@@ -1570,6 +1708,10 @@ export type OrderUncheckedCreateWithoutDeliveryAddressInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -1627,6 +1769,10 @@ export type OrderCreateWithoutPlanItemsInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
@@ -1665,6 +1811,10 @@ export type OrderUncheckedCreateWithoutPlanItemsInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
 }
 
 export type OrderCreateOrConnectWithoutPlanItemsInput = {
@@ -1711,6 +1861,10 @@ export type OrderUpdateWithoutPlanItemsInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
@@ -1749,6 +1903,10 @@ export type OrderUncheckedUpdateWithoutPlanItemsInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type OrderCreateManyWeeklyMenuInput = {
@@ -1782,6 +1940,10 @@ export type OrderCreateManyWeeklyMenuInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
 }
 
 export type OrderUpdateWithoutWeeklyMenuInput = {
@@ -1812,6 +1974,10 @@ export type OrderUpdateWithoutWeeklyMenuInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
   deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
@@ -1849,6 +2015,10 @@ export type OrderUncheckedUpdateWithoutWeeklyMenuInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -1883,6 +2053,10 @@ export type OrderUncheckedUpdateManyWithoutWeeklyMenuInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type OrderCreateManyUserInput = {
@@ -1916,6 +2090,10 @@ export type OrderCreateManyUserInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
 }
 
 export type OrderCreateManyCreatedByInput = {
@@ -1949,6 +2127,10 @@ export type OrderCreateManyCreatedByInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
 }
 
 export type OrderUpdateWithoutUserInput = {
@@ -1979,6 +2161,10 @@ export type OrderUpdateWithoutUserInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
   deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
@@ -2016,6 +2202,10 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -2050,6 +2240,10 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type OrderUpdateWithoutCreatedByInput = {
@@ -2080,6 +2274,10 @@ export type OrderUpdateWithoutCreatedByInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
   deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
@@ -2117,6 +2315,10 @@ export type OrderUncheckedUpdateWithoutCreatedByInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -2151,6 +2353,10 @@ export type OrderUncheckedUpdateManyWithoutCreatedByInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type OrderCreateManyDeliveryAddressInput = {
@@ -2184,6 +2390,10 @@ export type OrderCreateManyDeliveryAddressInput = {
   menuNameSnapshot?: string
   menuStartDateSnapshot?: Date | string | null
   menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
 }
 
 export type OrderUpdateWithoutDeliveryAddressInput = {
@@ -2214,6 +2424,10 @@ export type OrderUpdateWithoutDeliveryAddressInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
@@ -2251,6 +2465,10 @@ export type OrderUncheckedUpdateWithoutDeliveryAddressInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -2285,6 +2503,10 @@ export type OrderUncheckedUpdateManyWithoutDeliveryAddressInput = {
   menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
   menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -2350,6 +2572,10 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   menuNameSnapshot?: boolean
   menuStartDateSnapshot?: boolean
   menuEndDateSnapshot?: boolean
+  menuResolvedAt?: boolean
+  totalRequestedDishCount?: boolean
+  totalAssignedDishCount?: boolean
+  totalPendingDishCount?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   weeklyMenu?: boolean | Prisma.Order$weeklyMenuArgs<ExtArgs>
@@ -2390,6 +2616,10 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   menuNameSnapshot?: boolean
   menuStartDateSnapshot?: boolean
   menuEndDateSnapshot?: boolean
+  menuResolvedAt?: boolean
+  totalRequestedDishCount?: boolean
+  totalAssignedDishCount?: boolean
+  totalPendingDishCount?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   weeklyMenu?: boolean | Prisma.Order$weeklyMenuArgs<ExtArgs>
@@ -2428,6 +2658,10 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   menuNameSnapshot?: boolean
   menuStartDateSnapshot?: boolean
   menuEndDateSnapshot?: boolean
+  menuResolvedAt?: boolean
+  totalRequestedDishCount?: boolean
+  totalAssignedDishCount?: boolean
+  totalPendingDishCount?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   weeklyMenu?: boolean | Prisma.Order$weeklyMenuArgs<ExtArgs>
@@ -2466,9 +2700,13 @@ export type OrderSelectScalar = {
   menuNameSnapshot?: boolean
   menuStartDateSnapshot?: boolean
   menuEndDateSnapshot?: boolean
+  menuResolvedAt?: boolean
+  totalRequestedDishCount?: boolean
+  totalAssignedDishCount?: boolean
+  totalPendingDishCount?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "orderNumber" | "userId" | "createdById" | "weeklyMenuId" | "deliveryAddressId" | "status" | "paymentStatus" | "currency" | "subtotal" | "descuento" | "extras" | "costoEnvio" | "total" | "totalPlanPriceCached" | "totalDishCountCached" | "requiredBagCountCached" | "scheduledFor" | "firstDeliveryAt" | "secondDeliveryAt" | "deliveredAt" | "cancelledAt" | "paymentReceiptUrl" | "tags" | "notas" | "notasInternas" | "menuNameSnapshot" | "menuStartDateSnapshot" | "menuEndDateSnapshot", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "orderNumber" | "userId" | "createdById" | "weeklyMenuId" | "deliveryAddressId" | "status" | "paymentStatus" | "currency" | "subtotal" | "descuento" | "extras" | "costoEnvio" | "total" | "totalPlanPriceCached" | "totalDishCountCached" | "requiredBagCountCached" | "scheduledFor" | "firstDeliveryAt" | "secondDeliveryAt" | "deliveredAt" | "cancelledAt" | "paymentReceiptUrl" | "tags" | "notas" | "notasInternas" | "menuNameSnapshot" | "menuStartDateSnapshot" | "menuEndDateSnapshot" | "menuResolvedAt" | "totalRequestedDishCount" | "totalAssignedDishCount" | "totalPendingDishCount", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -2531,6 +2769,10 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     menuNameSnapshot: string
     menuStartDateSnapshot: Date | null
     menuEndDateSnapshot: Date | null
+    menuResolvedAt: Date | null
+    totalRequestedDishCount: number
+    totalAssignedDishCount: number
+    totalPendingDishCount: number
   }, ExtArgs["result"]["order"]>
   composites: {}
 }
@@ -2990,6 +3232,10 @@ export interface OrderFieldRefs {
   readonly menuNameSnapshot: Prisma.FieldRef<"Order", 'String'>
   readonly menuStartDateSnapshot: Prisma.FieldRef<"Order", 'DateTime'>
   readonly menuEndDateSnapshot: Prisma.FieldRef<"Order", 'DateTime'>
+  readonly menuResolvedAt: Prisma.FieldRef<"Order", 'DateTime'>
+  readonly totalRequestedDishCount: Prisma.FieldRef<"Order", 'Int'>
+  readonly totalAssignedDishCount: Prisma.FieldRef<"Order", 'Int'>
+  readonly totalPendingDishCount: Prisma.FieldRef<"Order", 'Int'>
 }
     
 

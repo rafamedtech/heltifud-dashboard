@@ -4,10 +4,13 @@ import { ComponentRole, SlotType, type Prisma, type DayOfWeek } from '../../pris
 import { weeklyMenuInputSchema, type WeeklyMenuInputParsed } from '~~/types/menuSchema'
 import type {
   DayMenu,
+  DetailedDayMenu,
+  DetailedFoodItem,
+  DetailedMenuSlot,
   FoodItemDetail,
   MenuSlot,
   SlotKey,
-  WeeklyMenu,
+  WeeklyMenuDetail,
   WeeklyMenuInput
 } from '~~/types/types'
 
@@ -43,13 +46,17 @@ const menuInclude = {
   days: {
     orderBy: { order: 'asc' as const },
     select: {
+      id: true,
       dayOfWeek: true,
+      order: true,
       slots: {
         select: {
+          id: true,
           slotType: true,
           contenedor: true,
           components: {
             select: {
+              id: true,
               catalogItemId: true,
               componentRole: true,
               nombre: true,
@@ -209,28 +216,72 @@ function buildComponents(slot: MenuSlot): Prisma.FoodComponentCreateWithoutDaySl
   if (isFoodItemFilled(slot.platilloPrincipal)) {
     components.push({
       componentRole: ComponentRole.PLATILLO_PRINCIPAL,
-      ...slot.platilloPrincipal
+      catalogItem: slot.platilloPrincipal.catalogItemId
+        ? {
+            connect: {
+              id: slot.platilloPrincipal.catalogItemId
+            }
+          }
+        : undefined,
+      nombre: slot.platilloPrincipal.nombre,
+      descripcion: slot.platilloPrincipal.descripcion,
+      calorias: slot.platilloPrincipal.calorias,
+      imagen: slot.platilloPrincipal.imagen,
+      tipo: slot.platilloPrincipal.tipo
     })
   }
 
   if (slot.guarnicion1) {
     components.push({
       componentRole: ComponentRole.GUARNICION_1,
-      ...slot.guarnicion1
+      catalogItem: slot.guarnicion1.catalogItemId
+        ? {
+            connect: {
+              id: slot.guarnicion1.catalogItemId
+            }
+          }
+        : undefined,
+      nombre: slot.guarnicion1.nombre,
+      descripcion: slot.guarnicion1.descripcion,
+      calorias: slot.guarnicion1.calorias,
+      imagen: slot.guarnicion1.imagen,
+      tipo: slot.guarnicion1.tipo
     })
   }
 
   if (slot.guarnicion2) {
     components.push({
       componentRole: ComponentRole.GUARNICION_2,
-      ...slot.guarnicion2
+      catalogItem: slot.guarnicion2.catalogItemId
+        ? {
+            connect: {
+              id: slot.guarnicion2.catalogItemId
+            }
+          }
+        : undefined,
+      nombre: slot.guarnicion2.nombre,
+      descripcion: slot.guarnicion2.descripcion,
+      calorias: slot.guarnicion2.calorias,
+      imagen: slot.guarnicion2.imagen,
+      tipo: slot.guarnicion2.tipo
     })
   }
 
   slot.adicionales.forEach((adicional) => {
     components.push({
       componentRole: ComponentRole.ADICIONAL,
-      ...adicional
+      catalogItem: adicional.catalogItemId
+        ? {
+            connect: {
+              id: adicional.catalogItemId
+            }
+          }
+        : undefined,
+      nombre: adicional.nombre,
+      descripcion: adicional.descripcion,
+      calorias: adicional.calorias,
+      imagen: adicional.imagen,
+      tipo: adicional.tipo
     })
   })
 
@@ -254,14 +305,16 @@ function buildDays(days: WeeklyMenuInputParsed['days']): Prisma.MenuDayCreateWit
 }
 
 function mapFood(item: {
+  id: string
   catalogItemId: string | null
   nombre: string
   descripcion: string
   calorias: number
   imagen: string
   tipo: string
-}): FoodItemDetail {
+}): DetailedFoodItem {
   return {
+    sourceFoodComponentId: item.id,
     catalogItemId: item.catalogItemId,
     nombre: item.nombre,
     descripcion: item.descripcion,
@@ -271,7 +324,7 @@ function mapFood(item: {
   }
 }
 
-function mapSlot(record: WeeklyMenuRecord['days'][number]['slots'][number]): MenuSlot {
+function mapSlot(record: WeeklyMenuRecord['days'][number]['slots'][number]): DetailedMenuSlot {
   const platilloPrincipal = record.components.find(item => item.componentRole === ComponentRole.PLATILLO_PRINCIPAL)
 
   const guarnicion1 = record.components.find(item => item.componentRole === ComponentRole.GUARNICION_1)
@@ -279,6 +332,7 @@ function mapSlot(record: WeeklyMenuRecord['days'][number]['slots'][number]): Men
   const adicionales = record.components.filter(item => item.componentRole === ComponentRole.ADICIONAL)
 
   return {
+    sourceDaySlotId: record.id,
     platilloPrincipal: platilloPrincipal ? mapFood(platilloPrincipal) : createEmptyFoodItem(),
     guarnicion1: guarnicion1 ? mapFood(guarnicion1) : null,
     guarnicion2: guarnicion2 ? mapFood(guarnicion2) : null,
@@ -287,7 +341,7 @@ function mapSlot(record: WeeklyMenuRecord['days'][number]['slots'][number]): Men
   }
 }
 
-function mapMenu(record: WeeklyMenuRecord): WeeklyMenu {
+function mapMenu(record: WeeklyMenuRecord): WeeklyMenuDetail {
   return {
     id: record.id,
     name: record.name,
@@ -296,12 +350,14 @@ function mapMenu(record: WeeklyMenuRecord): WeeklyMenu {
     endDate: record.endDate.toISOString(),
     createdAt: record.createdAt.toISOString(),
     updatedAt: record.updatedAt.toISOString(),
-    days: record.days.map((day) => {
+    days: record.days.map((day): DetailedDayMenu => {
       const byType = Object.fromEntries(
         day.slots.map(slot => [ENUM_TO_SLOT[slot.slotType], mapSlot(slot)])
-      ) as Record<SlotKey, MenuSlot>
+      ) as Record<SlotKey, DetailedMenuSlot>
 
       return {
+        sourceMenuDayId: day.id,
+        menuDayOrder: day.order,
         dayOfWeek: day.dayOfWeek,
         desayuno: byType.desayuno ?? createEmptySlot(),
         comida: byType.comida ?? createEmptySlot(),

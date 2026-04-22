@@ -53,6 +53,16 @@ function getMainItems(state: 'collapsed' | 'expanded') {
       to: '/menu'
     },
     {
+      label: 'Planes',
+      icon: 'i-lucide-package-open',
+      to: '/planes'
+    },
+    {
+      label: 'Pedidos',
+      icon: 'i-lucide-shopping-bag',
+      to: '/pedidos'
+    },
+    {
       label: 'Platillos',
       icon: 'i-lucide-chef-hat',
       to: '/platillos'

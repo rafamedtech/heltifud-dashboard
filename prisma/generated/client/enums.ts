@@ -195,3 +195,12 @@ export const PlanType = {
 } as const
 
 export type PlanType = (typeof PlanType)[keyof typeof PlanType]
+
+
+export const OrderPlanResolutionStatus = {
+  PENDIENTE: 'PENDIENTE',
+  PARCIAL: 'PARCIAL',
+  COMPLETO: 'COMPLETO'
+} as const
+
+export type OrderPlanResolutionStatus = (typeof OrderPlanResolutionStatus)[keyof typeof OrderPlanResolutionStatus]

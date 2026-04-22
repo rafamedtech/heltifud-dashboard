@@ -65,7 +65,9 @@ export const ModelName = {
   UserAddress: 'UserAddress',
   Plan: 'Plan',
   Order: 'Order',
-  OrderPlan: 'OrderPlan'
+  OrderPlan: 'OrderPlan',
+  OrderPlanSlot: 'OrderPlanSlot',
+  OrderPlanSlotComponent: 'OrderPlanSlotComponent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -373,7 +375,11 @@ export const OrderScalarFieldEnum = {
   notasInternas: 'notasInternas',
   menuNameSnapshot: 'menuNameSnapshot',
   menuStartDateSnapshot: 'menuStartDateSnapshot',
-  menuEndDateSnapshot: 'menuEndDateSnapshot'
+  menuEndDateSnapshot: 'menuEndDateSnapshot',
+  menuResolvedAt: 'menuResolvedAt',
+  totalRequestedDishCount: 'totalRequestedDishCount',
+  totalAssignedDishCount: 'totalAssignedDishCount',
+  totalPendingDishCount: 'totalPendingDishCount'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -388,10 +394,52 @@ export const OrderPlanScalarFieldEnum = {
   quantity: 'quantity',
   unitPrice: 'unitPrice',
   lineSubtotal: 'lineSubtotal',
-  notas: 'notas'
+  notas: 'notas',
+  planDishCountSnapshot: 'planDishCountSnapshot',
+  planTypeSnapshot: 'planTypeSnapshot',
+  requestedDishCount: 'requestedDishCount',
+  assignedDishCount: 'assignedDishCount',
+  pendingDishCount: 'pendingDishCount',
+  resolutionStatus: 'resolutionStatus'
 } as const
 
 export type OrderPlanScalarFieldEnum = (typeof OrderPlanScalarFieldEnum)[keyof typeof OrderPlanScalarFieldEnum]
+
+
+export const OrderPlanSlotScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  orderPlanId: 'orderPlanId',
+  sourceWeeklyMenuId: 'sourceWeeklyMenuId',
+  sourceMenuDayId: 'sourceMenuDayId',
+  sourceDaySlotId: 'sourceDaySlotId',
+  selectionIndex: 'selectionIndex',
+  dayOfWeek: 'dayOfWeek',
+  menuDayOrder: 'menuDayOrder',
+  slotType: 'slotType',
+  contenedor: 'contenedor'
+} as const
+
+export type OrderPlanSlotScalarFieldEnum = (typeof OrderPlanSlotScalarFieldEnum)[keyof typeof OrderPlanSlotScalarFieldEnum]
+
+
+export const OrderPlanSlotComponentScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  orderPlanSlotId: 'orderPlanSlotId',
+  sourceFoodComponentId: 'sourceFoodComponentId',
+  sourceCatalogItemId: 'sourceCatalogItemId',
+  componentRole: 'componentRole',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  calorias: 'calorias',
+  imagen: 'imagen',
+  tipo: 'tipo'
+} as const
+
+export type OrderPlanSlotComponentScalarFieldEnum = (typeof OrderPlanSlotComponentScalarFieldEnum)[keyof typeof OrderPlanSlotComponentScalarFieldEnum]
 
 
 export const SortOrder = {

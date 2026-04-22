@@ -145,30 +145,38 @@ enum PlanType {
   CENA
 }
 
+enum OrderPlanResolutionStatus {
+  PENDIENTE
+  PARCIAL
+  COMPLETO
+}
+
 model WeeklyMenu {
-  id        String    @id @default(uuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  isActive  Boolean   @default(false)
-  startDate DateTime
-  endDate   DateTime
-  name      String
-  days      MenuDay[]
-  orders    Order[]
+  id             String          @id @default(uuid())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  isActive       Boolean         @default(false)
+  startDate      DateTime
+  endDate        DateTime
+  name           String
+  days           MenuDay[]
+  orders         Order[]
+  orderPlanSlots OrderPlanSlot[]
 
   @@index([isActive])
   @@index([startDate, endDate])
 }
 
 model MenuDay {
-  id           String     @id @default(uuid())
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  weeklyMenuId String
-  weeklyMenu   WeeklyMenu @relation(fields: [weeklyMenuId], references: [id], onDelete: Cascade)
-  dayOfWeek    DayOfWeek
-  order        Int
-  slots        DaySlot[]
+  id             String          @id @default(uuid())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  weeklyMenuId   String
+  weeklyMenu     WeeklyMenu      @relation(fields: [weeklyMenuId], references: [id], onDelete: Cascade)
+  dayOfWeek      DayOfWeek
+  order          Int
+  slots          DaySlot[]
+  orderPlanSlots OrderPlanSlot[]
 
   @@unique([weeklyMenuId, dayOfWeek])
   @@unique([weeklyMenuId, order])
@@ -176,48 +184,51 @@ model MenuDay {
 }
 
 model DaySlot {
-  id         String          @id @default(uuid())
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
-  menuDayId  String
-  menuDay    MenuDay         @relation(fields: [menuDayId], references: [id], onDelete: Cascade)
-  slotType   SlotType
-  contenedor String?
-  components FoodComponent[]
+  id             String          @id @default(uuid())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  menuDayId      String
+  menuDay        MenuDay         @relation(fields: [menuDayId], references: [id], onDelete: Cascade)
+  slotType       SlotType
+  contenedor     String?
+  components     FoodComponent[]
+  orderPlanSlots OrderPlanSlot[]
 
   @@unique([menuDayId, slotType])
   @@index([menuDayId])
 }
 
 model FoodCatalogItem {
-  id          String          @id @default(uuid())
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  nombre      String
-  descripcion String
-  calorias    Int
-  imagen      String
-  tipo        String
-  components  FoodComponent[]
-  recipe      Recipe?
+  id                      String                   @id @default(uuid())
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  nombre                  String
+  descripcion             String
+  calorias                Int
+  imagen                  String
+  tipo                    String
+  components              FoodComponent[]
+  recipe                  Recipe?
+  orderPlanSlotComponents OrderPlanSlotComponent[]
 
   @@index([tipo, nombre])
 }
 
 model FoodComponent {
-  id            String           @id @default(uuid())
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  daySlotId     String
-  daySlot       DaySlot          @relation(fields: [daySlotId], references: [id], onDelete: Cascade)
-  catalogItemId String?
-  catalogItem   FoodCatalogItem? @relation(fields: [catalogItemId], references: [id], onDelete: SetNull)
-  componentRole ComponentRole
-  nombre        String
-  descripcion   String
-  calorias      Int
-  imagen        String
-  tipo          String
+  id                      String                   @id @default(uuid())
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  daySlotId               String
+  daySlot                 DaySlot                  @relation(fields: [daySlotId], references: [id], onDelete: Cascade)
+  catalogItemId           String?
+  catalogItem             FoodCatalogItem?         @relation(fields: [catalogItemId], references: [id], onDelete: SetNull)
+  componentRole           ComponentRole
+  nombre                  String
+  descripcion             String
+  calorias                Int
+  imagen                  String
+  tipo                    String
+  orderPlanSlotComponents OrderPlanSlotComponent[]
 
   @@index([daySlotId, componentRole])
   @@index([catalogItemId])
@@ -438,42 +449,46 @@ model Plan {
 }
 
 model Order {
-  id                     String             @id @default(uuid())
-  createdAt              DateTime           @default(now())
-  updatedAt              DateTime           @updatedAt
-  orderNumber            String?            @unique
-  userId                 String
-  user                   User               @relation("OrderRecipient", fields: [userId], references: [id], onDelete: Restrict)
-  createdById            String
-  createdBy              User               @relation("OrderCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
-  weeklyMenuId           String?
-  weeklyMenu             WeeklyMenu?        @relation(fields: [weeklyMenuId], references: [id], onDelete: SetNull)
-  deliveryAddressId      String?
-  deliveryAddress        UserAddress?       @relation(fields: [deliveryAddressId], references: [id], onDelete: SetNull)
-  status                 OrderStatus        @default(BORRADOR)
-  paymentStatus          OrderPaymentStatus @default(PENDIENTE)
-  currency               String             @default("MXN")
-  subtotal               Decimal?           @db.Decimal(10, 2)
-  descuento              Decimal?           @db.Decimal(10, 2)
-  extras                 Decimal?           @db.Decimal(10, 2)
-  costoEnvio             Decimal?           @db.Decimal(10, 2)
-  total                  Decimal?           @db.Decimal(10, 2)
-  totalPlanPriceCached   Decimal?           @db.Decimal(10, 2)
-  totalDishCountCached   Int                @default(0)
-  requiredBagCountCached Int?
-  scheduledFor           DateTime?
-  firstDeliveryAt        DateTime?
-  secondDeliveryAt       DateTime?
-  deliveredAt            DateTime?
-  cancelledAt            DateTime?
-  paymentReceiptUrl      String?
-  tags                   String[]           @default([])
-  notas                  String             @default("")
-  notasInternas          String             @default("")
-  menuNameSnapshot       String             @default("")
-  menuStartDateSnapshot  DateTime?
-  menuEndDateSnapshot    DateTime?
-  planItems              OrderPlan[]
+  id                      String             @id @default(uuid())
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  orderNumber             String?            @unique
+  userId                  String
+  user                    User               @relation("OrderRecipient", fields: [userId], references: [id], onDelete: Restrict)
+  createdById             String
+  createdBy               User               @relation("OrderCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  weeklyMenuId            String?
+  weeklyMenu              WeeklyMenu?        @relation(fields: [weeklyMenuId], references: [id], onDelete: SetNull)
+  deliveryAddressId       String?
+  deliveryAddress         UserAddress?       @relation(fields: [deliveryAddressId], references: [id], onDelete: SetNull)
+  status                  OrderStatus        @default(BORRADOR)
+  paymentStatus           OrderPaymentStatus @default(PENDIENTE)
+  currency                String             @default("MXN")
+  subtotal                Decimal?           @db.Decimal(10, 2)
+  descuento               Decimal?           @db.Decimal(10, 2)
+  extras                  Decimal?           @db.Decimal(10, 2)
+  costoEnvio              Decimal?           @db.Decimal(10, 2)
+  total                   Decimal?           @db.Decimal(10, 2)
+  totalPlanPriceCached    Decimal?           @db.Decimal(10, 2)
+  totalDishCountCached    Int                @default(0)
+  requiredBagCountCached  Int?
+  scheduledFor            DateTime?
+  firstDeliveryAt         DateTime?
+  secondDeliveryAt        DateTime?
+  deliveredAt             DateTime?
+  cancelledAt             DateTime?
+  paymentReceiptUrl       String?
+  tags                    String[]           @default([])
+  notas                   String             @default("")
+  notasInternas           String             @default("")
+  menuNameSnapshot        String             @default("")
+  menuStartDateSnapshot   DateTime?
+  menuEndDateSnapshot     DateTime?
+  menuResolvedAt          DateTime?
+  totalRequestedDishCount Int                @default(0)
+  totalAssignedDishCount  Int                @default(0)
+  totalPendingDishCount   Int                @default(0)
+  planItems               OrderPlan[]
 
   @@index([userId, status, createdAt])
   @@index([createdById, createdAt])
@@ -485,19 +500,71 @@ model Order {
 }
 
 model OrderPlan {
-  id           String   @id @default(uuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  orderId      String
-  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  planId       String
-  plan         Plan     @relation(fields: [planId], references: [id], onDelete: Restrict)
-  quantity     Int      @default(1)
-  unitPrice    Decimal? @db.Decimal(10, 2)
-  lineSubtotal Decimal? @db.Decimal(10, 2)
-  notas        String   @default("")
+  id                    String                    @id @default(uuid())
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+  orderId               String
+  order                 Order                     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  planId                String
+  plan                  Plan                      @relation(fields: [planId], references: [id], onDelete: Restrict)
+  quantity              Int                       @default(1)
+  unitPrice             Decimal?                  @db.Decimal(10, 2)
+  lineSubtotal          Decimal?                  @db.Decimal(10, 2)
+  notas                 String                    @default("")
+  planDishCountSnapshot Int
+  planTypeSnapshot      PlanType
+  requestedDishCount    Int
+  assignedDishCount     Int                       @default(0)
+  pendingDishCount      Int                       @default(0)
+  resolutionStatus      OrderPlanResolutionStatus @default(PENDIENTE)
+  slots                 OrderPlanSlot[]
 
   @@unique([orderId, planId])
   @@index([planId])
   @@index([orderId, quantity])
+}
+
+model OrderPlanSlot {
+  id                 String                   @id @default(uuid())
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+  orderPlanId        String
+  orderPlan          OrderPlan                @relation(fields: [orderPlanId], references: [id], onDelete: Cascade)
+  sourceWeeklyMenuId String?
+  sourceWeeklyMenu   WeeklyMenu?              @relation(fields: [sourceWeeklyMenuId], references: [id], onDelete: SetNull)
+  sourceMenuDayId    String?
+  sourceMenuDay      MenuDay?                 @relation(fields: [sourceMenuDayId], references: [id], onDelete: SetNull)
+  sourceDaySlotId    String?
+  sourceDaySlot      DaySlot?                 @relation(fields: [sourceDaySlotId], references: [id], onDelete: SetNull)
+  selectionIndex     Int
+  dayOfWeek          DayOfWeek
+  menuDayOrder       Int
+  slotType           SlotType
+  contenedor         String?
+  components         OrderPlanSlotComponent[]
+
+  @@unique([orderPlanId, selectionIndex])
+  @@index([sourceDaySlotId])
+  @@index([orderPlanId, dayOfWeek, selectionIndex])
+}
+
+model OrderPlanSlotComponent {
+  id                    String           @id @default(uuid())
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  orderPlanSlotId       String
+  orderPlanSlot         OrderPlanSlot    @relation(fields: [orderPlanSlotId], references: [id], onDelete: Cascade)
+  sourceFoodComponentId String?
+  sourceFoodComponent   FoodComponent?   @relation(fields: [sourceFoodComponentId], references: [id], onDelete: SetNull)
+  sourceCatalogItemId   String?
+  sourceCatalogItem     FoodCatalogItem? @relation(fields: [sourceCatalogItemId], references: [id], onDelete: SetNull)
+  componentRole         ComponentRole
+  nombre                String
+  descripcion           String
+  calorias              Int
+  imagen                String
+  tipo                  String
+
+  @@index([orderPlanSlotId])
+  @@index([sourceCatalogItemId])
 }

@@ -116,3 +116,13 @@ export type Order = Prisma.OrderModel
  * 
  */
 export type OrderPlan = Prisma.OrderPlanModel
+/**
+ * Model OrderPlanSlot
+ * 
+ */
+export type OrderPlanSlot = Prisma.OrderPlanSlotModel
+/**
+ * Model OrderPlanSlotComponent
+ * 
+ */
+export type OrderPlanSlotComponent = Prisma.OrderPlanSlotComponentModel
