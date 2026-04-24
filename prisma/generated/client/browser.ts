@@ -33,6 +33,21 @@ export type MenuDay = Prisma.MenuDayModel
  */
 export type DaySlot = Prisma.DaySlotModel
 /**
+ * Model MenuPublication
+ * 
+ */
+export type MenuPublication = Prisma.MenuPublicationModel
+/**
+ * Model MenuPublicationDeliveryWindow
+ * 
+ */
+export type MenuPublicationDeliveryWindow = Prisma.MenuPublicationDeliveryWindowModel
+/**
+ * Model MenuPublicationSlot
+ * 
+ */
+export type MenuPublicationSlot = Prisma.MenuPublicationSlotModel
+/**
  * Model FoodCatalogItem
  * 
  */
@@ -63,6 +78,16 @@ export type Recipe = Prisma.RecipeModel
  */
 export type RecipeIngredient = Prisma.RecipeIngredientModel
 /**
+ * Model MenuPublicationSlotComponent
+ * 
+ */
+export type MenuPublicationSlotComponent = Prisma.MenuPublicationSlotComponentModel
+/**
+ * Model MenuPublicationSlotIngredient
+ * 
+ */
+export type MenuPublicationSlotIngredient = Prisma.MenuPublicationSlotIngredientModel
+/**
  * Model SupplyNutritionLookupLog
  * 
  */
@@ -83,6 +108,11 @@ export type UserAddress = Prisma.UserAddressModel
  */
 export type Plan = Prisma.PlanModel
 /**
+ * Model UserPlanSubscription
+ * 
+ */
+export type UserPlanSubscription = Prisma.UserPlanSubscriptionModel
+/**
  * Model Order
  * 
  */
@@ -102,3 +132,13 @@ export type OrderPlanSlot = Prisma.OrderPlanSlotModel
  * 
  */
 export type OrderPlanSlotComponent = Prisma.OrderPlanSlotComponentModel
+/**
+ * Model OrderDelivery
+ * 
+ */
+export type OrderDelivery = Prisma.OrderDeliveryModel
+/**
+ * Model OrderAddressSnapshot
+ * 
+ */
+export type OrderAddressSnapshot = Prisma.OrderAddressSnapshotModel

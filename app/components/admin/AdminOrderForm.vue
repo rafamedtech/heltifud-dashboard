@@ -324,7 +324,7 @@ const userOptions = computed(() =>
 const menuOptions = computed(() => [
   { label: 'Sin menú vinculado todavía', value: NO_WEEKLY_MENU_VALUE },
   ...props.formData.menus.map(menu => ({
-    label: `${menu.name}${menu.isActive ? ' · Activo' : ''}`,
+    label: `${menu.name} · ${menu.menuType === 'VEGETARIANO' ? 'Vegetariano' : 'Estándar'}${menu.isActive ? ' · Activo' : ''}`,
     value: menu.id
   }))
 ])

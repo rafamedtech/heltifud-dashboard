@@ -387,20 +387,28 @@ export const ModelName = {
   WeeklyMenu: 'WeeklyMenu',
   MenuDay: 'MenuDay',
   DaySlot: 'DaySlot',
+  MenuPublication: 'MenuPublication',
+  MenuPublicationDeliveryWindow: 'MenuPublicationDeliveryWindow',
+  MenuPublicationSlot: 'MenuPublicationSlot',
   FoodCatalogItem: 'FoodCatalogItem',
   FoodComponent: 'FoodComponent',
   SupplyCategory: 'SupplyCategory',
   SupplyItem: 'SupplyItem',
   Recipe: 'Recipe',
   RecipeIngredient: 'RecipeIngredient',
+  MenuPublicationSlotComponent: 'MenuPublicationSlotComponent',
+  MenuPublicationSlotIngredient: 'MenuPublicationSlotIngredient',
   SupplyNutritionLookupLog: 'SupplyNutritionLookupLog',
   User: 'User',
   UserAddress: 'UserAddress',
   Plan: 'Plan',
+  UserPlanSubscription: 'UserPlanSubscription',
   Order: 'Order',
   OrderPlan: 'OrderPlan',
   OrderPlanSlot: 'OrderPlanSlot',
-  OrderPlanSlotComponent: 'OrderPlanSlotComponent'
+  OrderPlanSlotComponent: 'OrderPlanSlotComponent',
+  OrderDelivery: 'OrderDelivery',
+  OrderAddressSnapshot: 'OrderAddressSnapshot'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -416,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "weeklyMenu" | "menuDay" | "daySlot" | "foodCatalogItem" | "foodComponent" | "supplyCategory" | "supplyItem" | "recipe" | "recipeIngredient" | "supplyNutritionLookupLog" | "user" | "userAddress" | "plan" | "order" | "orderPlan" | "orderPlanSlot" | "orderPlanSlotComponent"
+    modelProps: "weeklyMenu" | "menuDay" | "daySlot" | "menuPublication" | "menuPublicationDeliveryWindow" | "menuPublicationSlot" | "foodCatalogItem" | "foodComponent" | "supplyCategory" | "supplyItem" | "recipe" | "recipeIngredient" | "menuPublicationSlotComponent" | "menuPublicationSlotIngredient" | "supplyNutritionLookupLog" | "user" | "userAddress" | "plan" | "userPlanSubscription" | "order" | "orderPlan" | "orderPlanSlot" | "orderPlanSlotComponent" | "orderDelivery" | "orderAddressSnapshot"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -639,6 +647,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.DaySlotCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.DaySlotCountAggregateOutputType> | number
+        }
+      }
+    }
+    MenuPublication: {
+      payload: Prisma.$MenuPublicationPayload<ExtArgs>
+      fields: Prisma.MenuPublicationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MenuPublicationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MenuPublicationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload>
+        }
+        findFirst: {
+          args: Prisma.MenuPublicationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MenuPublicationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload>
+        }
+        findMany: {
+          args: Prisma.MenuPublicationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload>[]
+        }
+        create: {
+          args: Prisma.MenuPublicationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload>
+        }
+        createMany: {
+          args: Prisma.MenuPublicationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MenuPublicationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload>[]
+        }
+        delete: {
+          args: Prisma.MenuPublicationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload>
+        }
+        update: {
+          args: Prisma.MenuPublicationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload>
+        }
+        deleteMany: {
+          args: Prisma.MenuPublicationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MenuPublicationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MenuPublicationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload>[]
+        }
+        upsert: {
+          args: Prisma.MenuPublicationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationPayload>
+        }
+        aggregate: {
+          args: Prisma.MenuPublicationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMenuPublication>
+        }
+        groupBy: {
+          args: Prisma.MenuPublicationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MenuPublicationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationCountAggregateOutputType> | number
+        }
+      }
+    }
+    MenuPublicationDeliveryWindow: {
+      payload: Prisma.$MenuPublicationDeliveryWindowPayload<ExtArgs>
+      fields: Prisma.MenuPublicationDeliveryWindowFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MenuPublicationDeliveryWindowFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MenuPublicationDeliveryWindowFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload>
+        }
+        findFirst: {
+          args: Prisma.MenuPublicationDeliveryWindowFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MenuPublicationDeliveryWindowFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload>
+        }
+        findMany: {
+          args: Prisma.MenuPublicationDeliveryWindowFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload>[]
+        }
+        create: {
+          args: Prisma.MenuPublicationDeliveryWindowCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload>
+        }
+        createMany: {
+          args: Prisma.MenuPublicationDeliveryWindowCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MenuPublicationDeliveryWindowCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload>[]
+        }
+        delete: {
+          args: Prisma.MenuPublicationDeliveryWindowDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload>
+        }
+        update: {
+          args: Prisma.MenuPublicationDeliveryWindowUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload>
+        }
+        deleteMany: {
+          args: Prisma.MenuPublicationDeliveryWindowDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MenuPublicationDeliveryWindowUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MenuPublicationDeliveryWindowUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload>[]
+        }
+        upsert: {
+          args: Prisma.MenuPublicationDeliveryWindowUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationDeliveryWindowPayload>
+        }
+        aggregate: {
+          args: Prisma.MenuPublicationDeliveryWindowAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMenuPublicationDeliveryWindow>
+        }
+        groupBy: {
+          args: Prisma.MenuPublicationDeliveryWindowGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationDeliveryWindowGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MenuPublicationDeliveryWindowCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationDeliveryWindowCountAggregateOutputType> | number
+        }
+      }
+    }
+    MenuPublicationSlot: {
+      payload: Prisma.$MenuPublicationSlotPayload<ExtArgs>
+      fields: Prisma.MenuPublicationSlotFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MenuPublicationSlotFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MenuPublicationSlotFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload>
+        }
+        findFirst: {
+          args: Prisma.MenuPublicationSlotFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MenuPublicationSlotFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload>
+        }
+        findMany: {
+          args: Prisma.MenuPublicationSlotFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload>[]
+        }
+        create: {
+          args: Prisma.MenuPublicationSlotCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload>
+        }
+        createMany: {
+          args: Prisma.MenuPublicationSlotCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MenuPublicationSlotCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload>[]
+        }
+        delete: {
+          args: Prisma.MenuPublicationSlotDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload>
+        }
+        update: {
+          args: Prisma.MenuPublicationSlotUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload>
+        }
+        deleteMany: {
+          args: Prisma.MenuPublicationSlotDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MenuPublicationSlotUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MenuPublicationSlotUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload>[]
+        }
+        upsert: {
+          args: Prisma.MenuPublicationSlotUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotPayload>
+        }
+        aggregate: {
+          args: Prisma.MenuPublicationSlotAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMenuPublicationSlot>
+        }
+        groupBy: {
+          args: Prisma.MenuPublicationSlotGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationSlotGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MenuPublicationSlotCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationSlotCountAggregateOutputType> | number
         }
       }
     }
@@ -1086,6 +1316,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MenuPublicationSlotComponent: {
+      payload: Prisma.$MenuPublicationSlotComponentPayload<ExtArgs>
+      fields: Prisma.MenuPublicationSlotComponentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MenuPublicationSlotComponentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MenuPublicationSlotComponentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload>
+        }
+        findFirst: {
+          args: Prisma.MenuPublicationSlotComponentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MenuPublicationSlotComponentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload>
+        }
+        findMany: {
+          args: Prisma.MenuPublicationSlotComponentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload>[]
+        }
+        create: {
+          args: Prisma.MenuPublicationSlotComponentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload>
+        }
+        createMany: {
+          args: Prisma.MenuPublicationSlotComponentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MenuPublicationSlotComponentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload>[]
+        }
+        delete: {
+          args: Prisma.MenuPublicationSlotComponentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload>
+        }
+        update: {
+          args: Prisma.MenuPublicationSlotComponentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload>
+        }
+        deleteMany: {
+          args: Prisma.MenuPublicationSlotComponentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MenuPublicationSlotComponentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MenuPublicationSlotComponentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload>[]
+        }
+        upsert: {
+          args: Prisma.MenuPublicationSlotComponentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotComponentPayload>
+        }
+        aggregate: {
+          args: Prisma.MenuPublicationSlotComponentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMenuPublicationSlotComponent>
+        }
+        groupBy: {
+          args: Prisma.MenuPublicationSlotComponentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationSlotComponentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MenuPublicationSlotComponentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationSlotComponentCountAggregateOutputType> | number
+        }
+      }
+    }
+    MenuPublicationSlotIngredient: {
+      payload: Prisma.$MenuPublicationSlotIngredientPayload<ExtArgs>
+      fields: Prisma.MenuPublicationSlotIngredientFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MenuPublicationSlotIngredientFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MenuPublicationSlotIngredientFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload>
+        }
+        findFirst: {
+          args: Prisma.MenuPublicationSlotIngredientFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MenuPublicationSlotIngredientFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload>
+        }
+        findMany: {
+          args: Prisma.MenuPublicationSlotIngredientFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload>[]
+        }
+        create: {
+          args: Prisma.MenuPublicationSlotIngredientCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload>
+        }
+        createMany: {
+          args: Prisma.MenuPublicationSlotIngredientCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MenuPublicationSlotIngredientCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload>[]
+        }
+        delete: {
+          args: Prisma.MenuPublicationSlotIngredientDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload>
+        }
+        update: {
+          args: Prisma.MenuPublicationSlotIngredientUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload>
+        }
+        deleteMany: {
+          args: Prisma.MenuPublicationSlotIngredientDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MenuPublicationSlotIngredientUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MenuPublicationSlotIngredientUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload>[]
+        }
+        upsert: {
+          args: Prisma.MenuPublicationSlotIngredientUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPublicationSlotIngredientPayload>
+        }
+        aggregate: {
+          args: Prisma.MenuPublicationSlotIngredientAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMenuPublicationSlotIngredient>
+        }
+        groupBy: {
+          args: Prisma.MenuPublicationSlotIngredientGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationSlotIngredientGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MenuPublicationSlotIngredientCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuPublicationSlotIngredientCountAggregateOutputType> | number
+        }
+      }
+    }
     SupplyNutritionLookupLog: {
       payload: Prisma.$SupplyNutritionLookupLogPayload<ExtArgs>
       fields: Prisma.SupplyNutritionLookupLogFieldRefs
@@ -1379,6 +1757,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PlanCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PlanCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserPlanSubscription: {
+      payload: Prisma.$UserPlanSubscriptionPayload<ExtArgs>
+      fields: Prisma.UserPlanSubscriptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserPlanSubscriptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserPlanSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload>
+        }
+        findFirst: {
+          args: Prisma.UserPlanSubscriptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserPlanSubscriptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload>
+        }
+        findMany: {
+          args: Prisma.UserPlanSubscriptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload>[]
+        }
+        create: {
+          args: Prisma.UserPlanSubscriptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload>
+        }
+        createMany: {
+          args: Prisma.UserPlanSubscriptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserPlanSubscriptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload>[]
+        }
+        delete: {
+          args: Prisma.UserPlanSubscriptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload>
+        }
+        update: {
+          args: Prisma.UserPlanSubscriptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserPlanSubscriptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserPlanSubscriptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserPlanSubscriptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserPlanSubscriptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserPlanSubscriptionPayload>
+        }
+        aggregate: {
+          args: Prisma.UserPlanSubscriptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserPlanSubscription>
+        }
+        groupBy: {
+          args: Prisma.UserPlanSubscriptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserPlanSubscriptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserPlanSubscriptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserPlanSubscriptionCountAggregateOutputType> | number
         }
       }
     }
@@ -1678,6 +2130,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OrderDelivery: {
+      payload: Prisma.$OrderDeliveryPayload<ExtArgs>
+      fields: Prisma.OrderDeliveryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OrderDeliveryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OrderDeliveryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload>
+        }
+        findFirst: {
+          args: Prisma.OrderDeliveryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OrderDeliveryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload>
+        }
+        findMany: {
+          args: Prisma.OrderDeliveryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload>[]
+        }
+        create: {
+          args: Prisma.OrderDeliveryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload>
+        }
+        createMany: {
+          args: Prisma.OrderDeliveryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OrderDeliveryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload>[]
+        }
+        delete: {
+          args: Prisma.OrderDeliveryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload>
+        }
+        update: {
+          args: Prisma.OrderDeliveryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload>
+        }
+        deleteMany: {
+          args: Prisma.OrderDeliveryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OrderDeliveryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OrderDeliveryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload>[]
+        }
+        upsert: {
+          args: Prisma.OrderDeliveryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderDeliveryPayload>
+        }
+        aggregate: {
+          args: Prisma.OrderDeliveryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrderDelivery>
+        }
+        groupBy: {
+          args: Prisma.OrderDeliveryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrderDeliveryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OrderDeliveryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrderDeliveryCountAggregateOutputType> | number
+        }
+      }
+    }
+    OrderAddressSnapshot: {
+      payload: Prisma.$OrderAddressSnapshotPayload<ExtArgs>
+      fields: Prisma.OrderAddressSnapshotFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OrderAddressSnapshotFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OrderAddressSnapshotFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload>
+        }
+        findFirst: {
+          args: Prisma.OrderAddressSnapshotFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OrderAddressSnapshotFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload>
+        }
+        findMany: {
+          args: Prisma.OrderAddressSnapshotFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload>[]
+        }
+        create: {
+          args: Prisma.OrderAddressSnapshotCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload>
+        }
+        createMany: {
+          args: Prisma.OrderAddressSnapshotCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OrderAddressSnapshotCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload>[]
+        }
+        delete: {
+          args: Prisma.OrderAddressSnapshotDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload>
+        }
+        update: {
+          args: Prisma.OrderAddressSnapshotUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload>
+        }
+        deleteMany: {
+          args: Prisma.OrderAddressSnapshotDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OrderAddressSnapshotUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OrderAddressSnapshotUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload>[]
+        }
+        upsert: {
+          args: Prisma.OrderAddressSnapshotUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderAddressSnapshotPayload>
+        }
+        aggregate: {
+          args: Prisma.OrderAddressSnapshotAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrderAddressSnapshot>
+        }
+        groupBy: {
+          args: Prisma.OrderAddressSnapshotGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrderAddressSnapshotGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OrderAddressSnapshotCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrderAddressSnapshotCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1722,6 +2322,7 @@ export const WeeklyMenuScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   isActive: 'isActive',
+  menuType: 'menuType',
   startDate: 'startDate',
   endDate: 'endDate',
   name: 'name'
@@ -1752,6 +2353,64 @@ export const DaySlotScalarFieldEnum = {
 } as const
 
 export type DaySlotScalarFieldEnum = (typeof DaySlotScalarFieldEnum)[keyof typeof DaySlotScalarFieldEnum]
+
+
+export const MenuPublicationScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  sourceWeeklyMenuId: 'sourceWeeklyMenuId',
+  menuTypeSnapshot: 'menuTypeSnapshot',
+  version: 'version',
+  status: 'status',
+  isCurrent: 'isCurrent',
+  publishedAt: 'publishedAt',
+  generatedAt: 'generatedAt',
+  closedAt: 'closedAt',
+  supersededAt: 'supersededAt',
+  menuNameSnapshot: 'menuNameSnapshot',
+  menuStartDateSnapshot: 'menuStartDateSnapshot',
+  menuEndDateSnapshot: 'menuEndDateSnapshot',
+  eligibleDayCount: 'eligibleDayCount',
+  daySelectionStrategy: 'daySelectionStrategy',
+  deliverySplitStrategy: 'deliverySplitStrategy'
+} as const
+
+export type MenuPublicationScalarFieldEnum = (typeof MenuPublicationScalarFieldEnum)[keyof typeof MenuPublicationScalarFieldEnum]
+
+
+export const MenuPublicationDeliveryWindowScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  menuPublicationId: 'menuPublicationId',
+  deliveryIndex: 'deliveryIndex',
+  label: 'label',
+  startMenuDayOrder: 'startMenuDayOrder',
+  endMenuDayOrder: 'endMenuDayOrder',
+  scheduledFor: 'scheduledFor',
+  status: 'status'
+} as const
+
+export type MenuPublicationDeliveryWindowScalarFieldEnum = (typeof MenuPublicationDeliveryWindowScalarFieldEnum)[keyof typeof MenuPublicationDeliveryWindowScalarFieldEnum]
+
+
+export const MenuPublicationSlotScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  menuPublicationId: 'menuPublicationId',
+  deliveryWindowId: 'deliveryWindowId',
+  sourceMenuDayId: 'sourceMenuDayId',
+  sourceDaySlotId: 'sourceDaySlotId',
+  serviceDate: 'serviceDate',
+  dayOfWeek: 'dayOfWeek',
+  menuDayOrder: 'menuDayOrder',
+  slotType: 'slotType',
+  contenedor: 'contenedor'
+} as const
+
+export type MenuPublicationSlotScalarFieldEnum = (typeof MenuPublicationSlotScalarFieldEnum)[keyof typeof MenuPublicationSlotScalarFieldEnum]
 
 
 export const FoodCatalogItemScalarFieldEnum = {
@@ -1890,6 +2549,50 @@ export const RecipeIngredientScalarFieldEnum = {
 export type RecipeIngredientScalarFieldEnum = (typeof RecipeIngredientScalarFieldEnum)[keyof typeof RecipeIngredientScalarFieldEnum]
 
 
+export const MenuPublicationSlotComponentScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  menuPublicationSlotId: 'menuPublicationSlotId',
+  sourceFoodComponentId: 'sourceFoodComponentId',
+  sourceCatalogItemId: 'sourceCatalogItemId',
+  sourceRecipeId: 'sourceRecipeId',
+  componentIndex: 'componentIndex',
+  componentRole: 'componentRole',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  calorias: 'calorias',
+  imagen: 'imagen',
+  tipo: 'tipo',
+  recipeVersionSnapshot: 'recipeVersionSnapshot'
+} as const
+
+export type MenuPublicationSlotComponentScalarFieldEnum = (typeof MenuPublicationSlotComponentScalarFieldEnum)[keyof typeof MenuPublicationSlotComponentScalarFieldEnum]
+
+
+export const MenuPublicationSlotIngredientScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  menuPublicationSlotComponentId: 'menuPublicationSlotComponentId',
+  sourceRecipeIngredientId: 'sourceRecipeIngredientId',
+  sourceSupplyItemId: 'sourceSupplyItemId',
+  ingredientIndex: 'ingredientIndex',
+  grupo: 'grupo',
+  cantidad: 'cantidad',
+  unidad: 'unidad',
+  quantityInBaseUnit: 'quantityInBaseUnit',
+  wasteFactor: 'wasteFactor',
+  opcional: 'opcional',
+  supplyNameSnapshot: 'supplyNameSnapshot',
+  supplyUnitBaseSnapshot: 'supplyUnitBaseSnapshot',
+  supplyCategoryNameSnapshot: 'supplyCategoryNameSnapshot',
+  costoReferencialSnapshot: 'costoReferencialSnapshot'
+} as const
+
+export type MenuPublicationSlotIngredientScalarFieldEnum = (typeof MenuPublicationSlotIngredientScalarFieldEnum)[keyof typeof MenuPublicationSlotIngredientScalarFieldEnum]
+
+
 export const SupplyNutritionLookupLogScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -1975,6 +2678,29 @@ export const PlanScalarFieldEnum = {
 export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof PlanScalarFieldEnum]
 
 
+export const UserPlanSubscriptionScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  planId: 'planId',
+  status: 'status',
+  menuType: 'menuType',
+  quantity: 'quantity',
+  daysPerCycle: 'daysPerCycle',
+  unitPriceSnapshot: 'unitPriceSnapshot',
+  currency: 'currency',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  pausedAt: 'pausedAt',
+  cancelledAt: 'cancelledAt',
+  autoGenerate: 'autoGenerate',
+  notas: 'notas'
+} as const
+
+export type UserPlanSubscriptionScalarFieldEnum = (typeof UserPlanSubscriptionScalarFieldEnum)[keyof typeof UserPlanSubscriptionScalarFieldEnum]
+
+
 export const OrderScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -1983,7 +2709,9 @@ export const OrderScalarFieldEnum = {
   userId: 'userId',
   createdById: 'createdById',
   weeklyMenuId: 'weeklyMenuId',
+  menuPublicationId: 'menuPublicationId',
   deliveryAddressId: 'deliveryAddressId',
+  origin: 'origin',
   status: 'status',
   paymentStatus: 'paymentStatus',
   currency: 'currency',
@@ -2022,12 +2750,15 @@ export const OrderPlanScalarFieldEnum = {
   updatedAt: 'updatedAt',
   orderId: 'orderId',
   planId: 'planId',
+  userPlanSubscriptionId: 'userPlanSubscriptionId',
+  menuPublicationId: 'menuPublicationId',
   quantity: 'quantity',
   unitPrice: 'unitPrice',
   lineSubtotal: 'lineSubtotal',
   notas: 'notas',
   planDishCountSnapshot: 'planDishCountSnapshot',
   planTypeSnapshot: 'planTypeSnapshot',
+  menuTypeSnapshot: 'menuTypeSnapshot',
   requestedDishCount: 'requestedDishCount',
   assignedDishCount: 'assignedDishCount',
   pendingDishCount: 'pendingDishCount',
@@ -2042,9 +2773,13 @@ export const OrderPlanSlotScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   orderPlanId: 'orderPlanId',
+  menuPublicationSlotId: 'menuPublicationSlotId',
+  orderDeliveryId: 'orderDeliveryId',
   sourceWeeklyMenuId: 'sourceWeeklyMenuId',
   sourceMenuDayId: 'sourceMenuDayId',
   sourceDaySlotId: 'sourceDaySlotId',
+  serviceDate: 'serviceDate',
+  menuTypeSnapshot: 'menuTypeSnapshot',
   selectionIndex: 'selectionIndex',
   dayOfWeek: 'dayOfWeek',
   menuDayOrder: 'menuDayOrder',
@@ -2060,6 +2795,7 @@ export const OrderPlanSlotComponentScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   orderPlanSlotId: 'orderPlanSlotId',
+  menuPublicationSlotComponentId: 'menuPublicationSlotComponentId',
   sourceFoodComponentId: 'sourceFoodComponentId',
   sourceCatalogItemId: 'sourceCatalogItemId',
   componentRole: 'componentRole',
@@ -2071,6 +2807,43 @@ export const OrderPlanSlotComponentScalarFieldEnum = {
 } as const
 
 export type OrderPlanSlotComponentScalarFieldEnum = (typeof OrderPlanSlotComponentScalarFieldEnum)[keyof typeof OrderPlanSlotComponentScalarFieldEnum]
+
+
+export const OrderDeliveryScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  orderId: 'orderId',
+  menuPublicationDeliveryWindowId: 'menuPublicationDeliveryWindowId',
+  deliveryIndex: 'deliveryIndex',
+  scheduledFor: 'scheduledFor',
+  status: 'status',
+  slotCount: 'slotCount',
+  notas: 'notas'
+} as const
+
+export type OrderDeliveryScalarFieldEnum = (typeof OrderDeliveryScalarFieldEnum)[keyof typeof OrderDeliveryScalarFieldEnum]
+
+
+export const OrderAddressSnapshotScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  orderId: 'orderId',
+  etiqueta: 'etiqueta',
+  destinatario: 'destinatario',
+  telefono: 'telefono',
+  linea1: 'linea1',
+  linea2: 'linea2',
+  colonia: 'colonia',
+  ciudad: 'ciudad',
+  estado: 'estado',
+  codigoPostal: 'codigoPostal',
+  pais: 'pais',
+  referencias: 'referencias'
+} as const
+
+export type OrderAddressSnapshotScalarFieldEnum = (typeof OrderAddressSnapshotScalarFieldEnum)[keyof typeof OrderAddressSnapshotScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2156,6 +2929,20 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'MenuType'
+ */
+export type EnumMenuTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MenuType'>
+    
+
+
+/**
+ * Reference to a field of type 'MenuType[]'
+ */
+export type ListEnumMenuTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MenuType[]'>
+    
+
+
+/**
  * Reference to a field of type 'DayOfWeek'
  */
 export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
@@ -2194,6 +2981,62 @@ export type EnumSlotTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'SlotType[]'
  */
 export type ListEnumSlotTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SlotType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MenuPublicationStatus'
+ */
+export type EnumMenuPublicationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MenuPublicationStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'MenuPublicationStatus[]'
+ */
+export type ListEnumMenuPublicationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MenuPublicationStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MenuDaySelectionStrategy'
+ */
+export type EnumMenuDaySelectionStrategyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MenuDaySelectionStrategy'>
+    
+
+
+/**
+ * Reference to a field of type 'MenuDaySelectionStrategy[]'
+ */
+export type ListEnumMenuDaySelectionStrategyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MenuDaySelectionStrategy[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DeliverySplitStrategy'
+ */
+export type EnumDeliverySplitStrategyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliverySplitStrategy'>
+    
+
+
+/**
+ * Reference to a field of type 'DeliverySplitStrategy[]'
+ */
+export type ListEnumDeliverySplitStrategyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliverySplitStrategy[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DeliveryWindowStatus'
+ */
+export type EnumDeliveryWindowStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliveryWindowStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'DeliveryWindowStatus[]'
+ */
+export type ListEnumDeliveryWindowStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliveryWindowStatus[]'>
     
 
 
@@ -2408,6 +3251,34 @@ export type ListEnumPlanTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
+ * Reference to a field of type 'UserPlanSubscriptionStatus'
+ */
+export type EnumUserPlanSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserPlanSubscriptionStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'UserPlanSubscriptionStatus[]'
+ */
+export type ListEnumUserPlanSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserPlanSubscriptionStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'OrderOrigin'
+ */
+export type EnumOrderOriginFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderOrigin'>
+    
+
+
+/**
+ * Reference to a field of type 'OrderOrigin[]'
+ */
+export type ListEnumOrderOriginFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderOrigin[]'>
+    
+
+
+/**
  * Reference to a field of type 'OrderStatus'
  */
 export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus'>
@@ -2446,6 +3317,20 @@ export type EnumOrderPlanResolutionStatusFieldRefInput<$PrismaModel> = FieldRefI
  * Reference to a field of type 'OrderPlanResolutionStatus[]'
  */
 export type ListEnumOrderPlanResolutionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderPlanResolutionStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'OrderDeliveryStatus'
+ */
+export type EnumOrderDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderDeliveryStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'OrderDeliveryStatus[]'
+ */
+export type ListEnumOrderDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderDeliveryStatus[]'>
     
 
 
@@ -2560,20 +3445,28 @@ export type GlobalOmitConfig = {
   weeklyMenu?: Prisma.WeeklyMenuOmit
   menuDay?: Prisma.MenuDayOmit
   daySlot?: Prisma.DaySlotOmit
+  menuPublication?: Prisma.MenuPublicationOmit
+  menuPublicationDeliveryWindow?: Prisma.MenuPublicationDeliveryWindowOmit
+  menuPublicationSlot?: Prisma.MenuPublicationSlotOmit
   foodCatalogItem?: Prisma.FoodCatalogItemOmit
   foodComponent?: Prisma.FoodComponentOmit
   supplyCategory?: Prisma.SupplyCategoryOmit
   supplyItem?: Prisma.SupplyItemOmit
   recipe?: Prisma.RecipeOmit
   recipeIngredient?: Prisma.RecipeIngredientOmit
+  menuPublicationSlotComponent?: Prisma.MenuPublicationSlotComponentOmit
+  menuPublicationSlotIngredient?: Prisma.MenuPublicationSlotIngredientOmit
   supplyNutritionLookupLog?: Prisma.SupplyNutritionLookupLogOmit
   user?: Prisma.UserOmit
   userAddress?: Prisma.UserAddressOmit
   plan?: Prisma.PlanOmit
+  userPlanSubscription?: Prisma.UserPlanSubscriptionOmit
   order?: Prisma.OrderOmit
   orderPlan?: Prisma.OrderPlanOmit
   orderPlanSlot?: Prisma.OrderPlanSlotOmit
   orderPlanSlotComponent?: Prisma.OrderPlanSlotComponentOmit
+  orderDelivery?: Prisma.OrderDeliveryOmit
+  orderAddressSnapshot?: Prisma.OrderAddressSnapshotOmit
 }
 
 /* Types for Logging */

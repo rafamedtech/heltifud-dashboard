@@ -414,6 +414,7 @@ export type RecipeWhereInput = {
   notas?: Prisma.StringFilter<"Recipe"> | string
   foodCatalogItem?: Prisma.XOR<Prisma.FoodCatalogItemScalarRelationFilter, Prisma.FoodCatalogItemWhereInput>
   ingredients?: Prisma.RecipeIngredientListRelationFilter
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentListRelationFilter
 }
 
 export type RecipeOrderByWithRelationInput = {
@@ -442,6 +443,7 @@ export type RecipeOrderByWithRelationInput = {
   notas?: Prisma.SortOrder
   foodCatalogItem?: Prisma.FoodCatalogItemOrderByWithRelationInput
   ingredients?: Prisma.RecipeIngredientOrderByRelationAggregateInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentOrderByRelationAggregateInput
 }
 
 export type RecipeWhereUniqueInput = Prisma.AtLeast<{
@@ -473,6 +475,7 @@ export type RecipeWhereUniqueInput = Prisma.AtLeast<{
   notas?: Prisma.StringFilter<"Recipe"> | string
   foodCatalogItem?: Prisma.XOR<Prisma.FoodCatalogItemScalarRelationFilter, Prisma.FoodCatalogItemWhereInput>
   ingredients?: Prisma.RecipeIngredientListRelationFilter
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentListRelationFilter
 }, "id" | "foodCatalogItemId">
 
 export type RecipeOrderByWithAggregationInput = {
@@ -560,6 +563,7 @@ export type RecipeCreateInput = {
   notas?: string
   foodCatalogItem: Prisma.FoodCatalogItemCreateNestedOneWithoutRecipeInput
   ingredients?: Prisma.RecipeIngredientCreateNestedManyWithoutRecipeInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentCreateNestedManyWithoutSourceRecipeInput
 }
 
 export type RecipeUncheckedCreateInput = {
@@ -587,6 +591,7 @@ export type RecipeUncheckedCreateInput = {
   instrucciones?: string
   notas?: string
   ingredients?: Prisma.RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedCreateNestedManyWithoutSourceRecipeInput
 }
 
 export type RecipeUpdateInput = {
@@ -614,6 +619,7 @@ export type RecipeUpdateInput = {
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   foodCatalogItem?: Prisma.FoodCatalogItemUpdateOneRequiredWithoutRecipeNestedInput
   ingredients?: Prisma.RecipeIngredientUpdateManyWithoutRecipeNestedInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUpdateManyWithoutSourceRecipeNestedInput
 }
 
 export type RecipeUncheckedUpdateInput = {
@@ -641,6 +647,7 @@ export type RecipeUncheckedUpdateInput = {
   instrucciones?: Prisma.StringFieldUpdateOperationsInput | string
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   ingredients?: Prisma.RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedUpdateManyWithoutSourceRecipeNestedInput
 }
 
 export type RecipeCreateManyInput = {
@@ -900,6 +907,22 @@ export type RecipeUpdateOneRequiredWithoutIngredientsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RecipeUpdateToOneWithWhereWithoutIngredientsInput, Prisma.RecipeUpdateWithoutIngredientsInput>, Prisma.RecipeUncheckedUpdateWithoutIngredientsInput>
 }
 
+export type RecipeCreateNestedOneWithoutPublicationSlotComponentsInput = {
+  create?: Prisma.XOR<Prisma.RecipeCreateWithoutPublicationSlotComponentsInput, Prisma.RecipeUncheckedCreateWithoutPublicationSlotComponentsInput>
+  connectOrCreate?: Prisma.RecipeCreateOrConnectWithoutPublicationSlotComponentsInput
+  connect?: Prisma.RecipeWhereUniqueInput
+}
+
+export type RecipeUpdateOneWithoutPublicationSlotComponentsNestedInput = {
+  create?: Prisma.XOR<Prisma.RecipeCreateWithoutPublicationSlotComponentsInput, Prisma.RecipeUncheckedCreateWithoutPublicationSlotComponentsInput>
+  connectOrCreate?: Prisma.RecipeCreateOrConnectWithoutPublicationSlotComponentsInput
+  upsert?: Prisma.RecipeUpsertWithoutPublicationSlotComponentsInput
+  disconnect?: Prisma.RecipeWhereInput | boolean
+  delete?: Prisma.RecipeWhereInput | boolean
+  connect?: Prisma.RecipeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RecipeUpdateToOneWithWhereWithoutPublicationSlotComponentsInput, Prisma.RecipeUpdateWithoutPublicationSlotComponentsInput>, Prisma.RecipeUncheckedUpdateWithoutPublicationSlotComponentsInput>
+}
+
 export type RecipeCreateWithoutFoodCatalogItemInput = {
   id?: string
   createdAt?: Date | string
@@ -924,6 +947,7 @@ export type RecipeCreateWithoutFoodCatalogItemInput = {
   instrucciones?: string
   notas?: string
   ingredients?: Prisma.RecipeIngredientCreateNestedManyWithoutRecipeInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentCreateNestedManyWithoutSourceRecipeInput
 }
 
 export type RecipeUncheckedCreateWithoutFoodCatalogItemInput = {
@@ -950,6 +974,7 @@ export type RecipeUncheckedCreateWithoutFoodCatalogItemInput = {
   instrucciones?: string
   notas?: string
   ingredients?: Prisma.RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedCreateNestedManyWithoutSourceRecipeInput
 }
 
 export type RecipeCreateOrConnectWithoutFoodCatalogItemInput = {
@@ -992,6 +1017,7 @@ export type RecipeUpdateWithoutFoodCatalogItemInput = {
   instrucciones?: Prisma.StringFieldUpdateOperationsInput | string
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   ingredients?: Prisma.RecipeIngredientUpdateManyWithoutRecipeNestedInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUpdateManyWithoutSourceRecipeNestedInput
 }
 
 export type RecipeUncheckedUpdateWithoutFoodCatalogItemInput = {
@@ -1018,6 +1044,7 @@ export type RecipeUncheckedUpdateWithoutFoodCatalogItemInput = {
   instrucciones?: Prisma.StringFieldUpdateOperationsInput | string
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   ingredients?: Prisma.RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedUpdateManyWithoutSourceRecipeNestedInput
 }
 
 export type RecipeCreateWithoutIngredientsInput = {
@@ -1044,6 +1071,7 @@ export type RecipeCreateWithoutIngredientsInput = {
   instrucciones?: string
   notas?: string
   foodCatalogItem: Prisma.FoodCatalogItemCreateNestedOneWithoutRecipeInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentCreateNestedManyWithoutSourceRecipeInput
 }
 
 export type RecipeUncheckedCreateWithoutIngredientsInput = {
@@ -1070,6 +1098,7 @@ export type RecipeUncheckedCreateWithoutIngredientsInput = {
   nutritionCalculatedAt?: Date | string | null
   instrucciones?: string
   notas?: string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedCreateNestedManyWithoutSourceRecipeInput
 }
 
 export type RecipeCreateOrConnectWithoutIngredientsInput = {
@@ -1112,6 +1141,7 @@ export type RecipeUpdateWithoutIngredientsInput = {
   instrucciones?: Prisma.StringFieldUpdateOperationsInput | string
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   foodCatalogItem?: Prisma.FoodCatalogItemUpdateOneRequiredWithoutRecipeNestedInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUpdateManyWithoutSourceRecipeNestedInput
 }
 
 export type RecipeUncheckedUpdateWithoutIngredientsInput = {
@@ -1138,6 +1168,131 @@ export type RecipeUncheckedUpdateWithoutIngredientsInput = {
   nutritionCalculatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   instrucciones?: Prisma.StringFieldUpdateOperationsInput | string
   notas?: Prisma.StringFieldUpdateOperationsInput | string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedUpdateManyWithoutSourceRecipeNestedInput
+}
+
+export type RecipeCreateWithoutPublicationSlotComponentsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  status?: $Enums.RecipeStatus
+  version?: number
+  porciones?: number | null
+  rendimientoCantidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rendimientoUnidad?: $Enums.MeasurementUnit | null
+  tiempoPreparacionMin?: number | null
+  tiempoCoccionMin?: number | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEstimado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pesoTotalGramos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nutritionCalculatedAt?: Date | string | null
+  instrucciones?: string
+  notas?: string
+  foodCatalogItem: Prisma.FoodCatalogItemCreateNestedOneWithoutRecipeInput
+  ingredients?: Prisma.RecipeIngredientCreateNestedManyWithoutRecipeInput
+}
+
+export type RecipeUncheckedCreateWithoutPublicationSlotComponentsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  foodCatalogItemId: string
+  status?: $Enums.RecipeStatus
+  version?: number
+  porciones?: number | null
+  rendimientoCantidad?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rendimientoUnidad?: $Enums.MeasurementUnit | null
+  tiempoPreparacionMin?: number | null
+  tiempoCoccionMin?: number | null
+  calorias?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEstimado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pesoTotalGramos?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nutritionCalculatedAt?: Date | string | null
+  instrucciones?: string
+  notas?: string
+  ingredients?: Prisma.RecipeIngredientUncheckedCreateNestedManyWithoutRecipeInput
+}
+
+export type RecipeCreateOrConnectWithoutPublicationSlotComponentsInput = {
+  where: Prisma.RecipeWhereUniqueInput
+  create: Prisma.XOR<Prisma.RecipeCreateWithoutPublicationSlotComponentsInput, Prisma.RecipeUncheckedCreateWithoutPublicationSlotComponentsInput>
+}
+
+export type RecipeUpsertWithoutPublicationSlotComponentsInput = {
+  update: Prisma.XOR<Prisma.RecipeUpdateWithoutPublicationSlotComponentsInput, Prisma.RecipeUncheckedUpdateWithoutPublicationSlotComponentsInput>
+  create: Prisma.XOR<Prisma.RecipeCreateWithoutPublicationSlotComponentsInput, Prisma.RecipeUncheckedCreateWithoutPublicationSlotComponentsInput>
+  where?: Prisma.RecipeWhereInput
+}
+
+export type RecipeUpdateToOneWithWhereWithoutPublicationSlotComponentsInput = {
+  where?: Prisma.RecipeWhereInput
+  data: Prisma.XOR<Prisma.RecipeUpdateWithoutPublicationSlotComponentsInput, Prisma.RecipeUncheckedUpdateWithoutPublicationSlotComponentsInput>
+}
+
+export type RecipeUpdateWithoutPublicationSlotComponentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  porciones?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rendimientoCantidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rendimientoUnidad?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  tiempoPreparacionMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tiempoCoccionMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEstimado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pesoTotalGramos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nutritionCalculatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  instrucciones?: Prisma.StringFieldUpdateOperationsInput | string
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  foodCatalogItem?: Prisma.FoodCatalogItemUpdateOneRequiredWithoutRecipeNestedInput
+  ingredients?: Prisma.RecipeIngredientUpdateManyWithoutRecipeNestedInput
+}
+
+export type RecipeUncheckedUpdateWithoutPublicationSlotComponentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foodCatalogItemId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumRecipeStatusFieldUpdateOperationsInput | $Enums.RecipeStatus
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  porciones?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rendimientoCantidad?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rendimientoUnidad?: Prisma.NullableEnumMeasurementUnitFieldUpdateOperationsInput | $Enums.MeasurementUnit | null
+  tiempoPreparacionMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tiempoCoccionMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  calorias?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  proteina?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  carbohidratos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  grasas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  fibra?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  azucar?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  sodio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEstimado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pesoTotalGramos?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  nutritionCalculatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  instrucciones?: Prisma.StringFieldUpdateOperationsInput | string
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  ingredients?: Prisma.RecipeIngredientUncheckedUpdateManyWithoutRecipeNestedInput
 }
 
 
@@ -1147,10 +1302,12 @@ export type RecipeUncheckedUpdateWithoutIngredientsInput = {
 
 export type RecipeCountOutputType = {
   ingredients: number
+  publicationSlotComponents: number
 }
 
 export type RecipeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ingredients?: boolean | RecipeCountOutputTypeCountIngredientsArgs
+  publicationSlotComponents?: boolean | RecipeCountOutputTypeCountPublicationSlotComponentsArgs
 }
 
 /**
@@ -1168,6 +1325,13 @@ export type RecipeCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
  */
 export type RecipeCountOutputTypeCountIngredientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.RecipeIngredientWhereInput
+}
+
+/**
+ * RecipeCountOutputType without action
+ */
+export type RecipeCountOutputTypeCountPublicationSlotComponentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MenuPublicationSlotComponentWhereInput
 }
 
 
@@ -1197,6 +1361,7 @@ export type RecipeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   notas?: boolean
   foodCatalogItem?: boolean | Prisma.FoodCatalogItemDefaultArgs<ExtArgs>
   ingredients?: boolean | Prisma.Recipe$ingredientsArgs<ExtArgs>
+  publicationSlotComponents?: boolean | Prisma.Recipe$publicationSlotComponentsArgs<ExtArgs>
   _count?: boolean | Prisma.RecipeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["recipe"]>
 
@@ -1284,6 +1449,7 @@ export type RecipeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type RecipeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   foodCatalogItem?: boolean | Prisma.FoodCatalogItemDefaultArgs<ExtArgs>
   ingredients?: boolean | Prisma.Recipe$ingredientsArgs<ExtArgs>
+  publicationSlotComponents?: boolean | Prisma.Recipe$publicationSlotComponentsArgs<ExtArgs>
   _count?: boolean | Prisma.RecipeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RecipeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1298,6 +1464,7 @@ export type $RecipePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     foodCatalogItem: Prisma.$FoodCatalogItemPayload<ExtArgs>
     ingredients: Prisma.$RecipeIngredientPayload<ExtArgs>[]
+    publicationSlotComponents: Prisma.$MenuPublicationSlotComponentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1719,6 +1886,7 @@ export interface Prisma__RecipeClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   foodCatalogItem<T extends Prisma.FoodCatalogItemDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoodCatalogItemDefaultArgs<ExtArgs>>): Prisma.Prisma__FoodCatalogItemClient<runtime.Types.Result.GetResult<Prisma.$FoodCatalogItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   ingredients<T extends Prisma.Recipe$ingredientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recipe$ingredientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecipeIngredientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  publicationSlotComponents<T extends Prisma.Recipe$publicationSlotComponentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recipe$publicationSlotComponentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MenuPublicationSlotComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2193,6 +2361,30 @@ export type Recipe$ingredientsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.RecipeIngredientScalarFieldEnum | Prisma.RecipeIngredientScalarFieldEnum[]
+}
+
+/**
+ * Recipe.publicationSlotComponents
+ */
+export type Recipe$publicationSlotComponentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MenuPublicationSlotComponent
+   */
+  select?: Prisma.MenuPublicationSlotComponentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MenuPublicationSlotComponent
+   */
+  omit?: Prisma.MenuPublicationSlotComponentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuPublicationSlotComponentInclude<ExtArgs> | null
+  where?: Prisma.MenuPublicationSlotComponentWhereInput
+  orderBy?: Prisma.MenuPublicationSlotComponentOrderByWithRelationInput | Prisma.MenuPublicationSlotComponentOrderByWithRelationInput[]
+  cursor?: Prisma.MenuPublicationSlotComponentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MenuPublicationSlotComponentScalarFieldEnum | Prisma.MenuPublicationSlotComponentScalarFieldEnum[]
 }
 
 /**

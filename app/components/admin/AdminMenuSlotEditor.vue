@@ -46,6 +46,14 @@ const containerOptions = [
   { label: 'Redondo (24oz)', value: 'Redondo (24oz)' }
 ]
 
+type SelectOptionValue = string | { value?: string, label?: string } | null | undefined
+
+function resolveSelectValue(value: SelectOptionValue) {
+  return typeof value === 'string'
+    ? value
+    : value?.value ?? ''
+}
+
 function matchesAllowedTypes(itemType: string, allowedTypes?: string[]) {
   if (!allowedTypes?.length) {
     return true
@@ -97,33 +105,63 @@ function getSideValue(key: 'guarnicion1' | 'guarnicion2') {
   return slotState.value[key]?.catalogItemId ?? undefined
 }
 
-function updateMainDish(id?: string) {
-  slotState.value.platilloPrincipal = id ? createFoodItemFromCatalog(getItemById(id)) : createEmptyFoodItem()
+function updateMainDish(value: SelectOptionValue) {
+  const id = resolveSelectValue(value)
+  slotState.value = {
+    ...slotState.value,
+    platilloPrincipal: id ? createFoodItemFromCatalog(getItemById(id)) : createEmptyFoodItem()
+  }
 }
 
-function updateSideDish(key: 'guarnicion1' | 'guarnicion2', id?: string) {
-  slotState.value[key] = id ? createFoodItemFromCatalog(getItemById(id)) : null
+function updateSideDish(key: 'guarnicion1' | 'guarnicion2', value: SelectOptionValue) {
+  const id = resolveSelectValue(value)
+  slotState.value = {
+    ...slotState.value,
+    [key]: id ? createFoodItemFromCatalog(getItemById(id)) : null
+  }
 }
 
 function addAdditional() {
-  slotState.value.adicionales.push(createEmptyFoodItem())
+  slotState.value = {
+    ...slotState.value,
+    adicionales: [...slotState.value.adicionales, createEmptyFoodItem()]
+  }
 }
 
-function updateAdditional(index: number, id?: string) {
+function updateAdditional(index: number, value: SelectOptionValue) {
+  const id = resolveSelectValue(value)
+
   if (!id) {
-    slotState.value.adicionales.splice(index, 1)
+    removeAdditional(index)
     return
   }
 
-  slotState.value.adicionales[index] = createFoodItemFromCatalog(getItemById(id))
+  slotState.value = {
+    ...slotState.value,
+    adicionales: slotState.value.adicionales.map((item, itemIndex) =>
+      itemIndex === index ? createFoodItemFromCatalog(getItemById(id)) : item
+    )
+  }
+}
+
+function removeAdditional(index: number) {
+  slotState.value = {
+    ...slotState.value,
+    adicionales: slotState.value.adicionales.filter((_, itemIndex) => itemIndex !== index)
+  }
 }
 
 function getContainerValue() {
   return slotState.value.contenedor ?? undefined
 }
 
-function updateContainer(value?: string) {
-  slotState.value.contenedor = value ?? ''
+function updateContainer(value: SelectOptionValue) {
+  const nextValue = resolveSelectValue(value)
+
+  slotState.value = {
+    ...slotState.value,
+    contenedor: nextValue
+  }
 }
 
 const totalCalories = computed(() => {
@@ -251,7 +289,7 @@ const totalCalories = computed(() => {
               variant="ghost"
               square
               icon="i-lucide-trash"
-              @click="slotState.adicionales.splice(index, 1)"
+              @click="removeAdditional(index)"
             />
           </div>
         </div>

@@ -62,7 +62,9 @@ export type OrderMinAggregateOutputType = {
   userId: string | null
   createdById: string | null
   weeklyMenuId: string | null
+  menuPublicationId: string | null
   deliveryAddressId: string | null
+  origin: $Enums.OrderOrigin | null
   status: $Enums.OrderStatus | null
   paymentStatus: $Enums.OrderPaymentStatus | null
   currency: string | null
@@ -99,7 +101,9 @@ export type OrderMaxAggregateOutputType = {
   userId: string | null
   createdById: string | null
   weeklyMenuId: string | null
+  menuPublicationId: string | null
   deliveryAddressId: string | null
+  origin: $Enums.OrderOrigin | null
   status: $Enums.OrderStatus | null
   paymentStatus: $Enums.OrderPaymentStatus | null
   currency: string | null
@@ -136,7 +140,9 @@ export type OrderCountAggregateOutputType = {
   userId: number
   createdById: number
   weeklyMenuId: number
+  menuPublicationId: number
   deliveryAddressId: number
+  origin: number
   status: number
   paymentStatus: number
   currency: number
@@ -204,7 +210,9 @@ export type OrderMinAggregateInputType = {
   userId?: true
   createdById?: true
   weeklyMenuId?: true
+  menuPublicationId?: true
   deliveryAddressId?: true
+  origin?: true
   status?: true
   paymentStatus?: true
   currency?: true
@@ -241,7 +249,9 @@ export type OrderMaxAggregateInputType = {
   userId?: true
   createdById?: true
   weeklyMenuId?: true
+  menuPublicationId?: true
   deliveryAddressId?: true
+  origin?: true
   status?: true
   paymentStatus?: true
   currency?: true
@@ -278,7 +288,9 @@ export type OrderCountAggregateInputType = {
   userId?: true
   createdById?: true
   weeklyMenuId?: true
+  menuPublicationId?: true
   deliveryAddressId?: true
+  origin?: true
   status?: true
   paymentStatus?: true
   currency?: true
@@ -403,7 +415,9 @@ export type OrderGroupByOutputType = {
   userId: string
   createdById: string
   weeklyMenuId: string | null
+  menuPublicationId: string | null
   deliveryAddressId: string | null
+  origin: $Enums.OrderOrigin
   status: $Enums.OrderStatus
   paymentStatus: $Enums.OrderPaymentStatus
   currency: string
@@ -464,7 +478,9 @@ export type OrderWhereInput = {
   userId?: Prisma.StringFilter<"Order"> | string
   createdById?: Prisma.StringFilter<"Order"> | string
   weeklyMenuId?: Prisma.StringNullableFilter<"Order"> | string | null
+  menuPublicationId?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryAddressId?: Prisma.StringNullableFilter<"Order"> | string | null
+  origin?: Prisma.EnumOrderOriginFilter<"Order"> | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFilter<"Order"> | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFilter<"Order"> | string
@@ -495,7 +511,10 @@ export type OrderWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   weeklyMenu?: Prisma.XOR<Prisma.WeeklyMenuNullableScalarRelationFilter, Prisma.WeeklyMenuWhereInput> | null
+  menuPublication?: Prisma.XOR<Prisma.MenuPublicationNullableScalarRelationFilter, Prisma.MenuPublicationWhereInput> | null
   deliveryAddress?: Prisma.XOR<Prisma.UserAddressNullableScalarRelationFilter, Prisma.UserAddressWhereInput> | null
+  addressSnapshot?: Prisma.XOR<Prisma.OrderAddressSnapshotNullableScalarRelationFilter, Prisma.OrderAddressSnapshotWhereInput> | null
+  orderDeliveries?: Prisma.OrderDeliveryListRelationFilter
   planItems?: Prisma.OrderPlanListRelationFilter
 }
 
@@ -507,7 +526,9 @@ export type OrderOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   weeklyMenuId?: Prisma.SortOrderInput | Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryAddressId?: Prisma.SortOrderInput | Prisma.SortOrder
+  origin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -538,7 +559,10 @@ export type OrderOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   createdBy?: Prisma.UserOrderByWithRelationInput
   weeklyMenu?: Prisma.WeeklyMenuOrderByWithRelationInput
+  menuPublication?: Prisma.MenuPublicationOrderByWithRelationInput
   deliveryAddress?: Prisma.UserAddressOrderByWithRelationInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotOrderByWithRelationInput
+  orderDeliveries?: Prisma.OrderDeliveryOrderByRelationAggregateInput
   planItems?: Prisma.OrderPlanOrderByRelationAggregateInput
 }
 
@@ -553,7 +577,9 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Order"> | string
   createdById?: Prisma.StringFilter<"Order"> | string
   weeklyMenuId?: Prisma.StringNullableFilter<"Order"> | string | null
+  menuPublicationId?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryAddressId?: Prisma.StringNullableFilter<"Order"> | string | null
+  origin?: Prisma.EnumOrderOriginFilter<"Order"> | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFilter<"Order"> | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFilter<"Order"> | string
@@ -584,7 +610,10 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   weeklyMenu?: Prisma.XOR<Prisma.WeeklyMenuNullableScalarRelationFilter, Prisma.WeeklyMenuWhereInput> | null
+  menuPublication?: Prisma.XOR<Prisma.MenuPublicationNullableScalarRelationFilter, Prisma.MenuPublicationWhereInput> | null
   deliveryAddress?: Prisma.XOR<Prisma.UserAddressNullableScalarRelationFilter, Prisma.UserAddressWhereInput> | null
+  addressSnapshot?: Prisma.XOR<Prisma.OrderAddressSnapshotNullableScalarRelationFilter, Prisma.OrderAddressSnapshotWhereInput> | null
+  orderDeliveries?: Prisma.OrderDeliveryListRelationFilter
   planItems?: Prisma.OrderPlanListRelationFilter
 }, "id" | "orderNumber">
 
@@ -596,7 +625,9 @@ export type OrderOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   weeklyMenuId?: Prisma.SortOrderInput | Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveryAddressId?: Prisma.SortOrderInput | Prisma.SortOrder
+  origin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -642,7 +673,9 @@ export type OrderScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Order"> | string
   createdById?: Prisma.StringWithAggregatesFilter<"Order"> | string
   weeklyMenuId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  menuPublicationId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   deliveryAddressId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  origin?: Prisma.EnumOrderOriginWithAggregatesFilter<"Order"> | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusWithAggregatesFilter<"Order"> | $Enums.OrderPaymentStatus
   currency?: Prisma.StringWithAggregatesFilter<"Order"> | string
@@ -677,6 +710,7 @@ export type OrderCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderNumber?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -707,7 +741,10 @@ export type OrderCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrdersInput
   deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanCreateNestedManyWithoutOrderInput
 }
 
@@ -719,7 +756,9 @@ export type OrderUncheckedCreateInput = {
   userId: string
   createdById: string
   weeklyMenuId?: string | null
+  menuPublicationId?: string | null
   deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -747,6 +786,8 @@ export type OrderUncheckedCreateInput = {
   totalRequestedDishCount?: number
   totalAssignedDishCount?: number
   totalPendingDishCount?: number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -755,6 +796,7 @@ export type OrderUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -785,7 +827,10 @@ export type OrderUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrdersNestedInput
   deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUpdateManyWithoutOrderNestedInput
 }
 
@@ -797,7 +842,9 @@ export type OrderUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -825,6 +872,8 @@ export type OrderUncheckedUpdateInput = {
   totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -836,7 +885,9 @@ export type OrderCreateManyInput = {
   userId: string
   createdById: string
   weeklyMenuId?: string | null
+  menuPublicationId?: string | null
   deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -871,6 +922,7 @@ export type OrderUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -908,7 +960,9 @@ export type OrderUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -956,7 +1010,9 @@ export type OrderCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   weeklyMenuId?: Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrder
   deliveryAddressId?: Prisma.SortOrder
+  origin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -1008,7 +1064,9 @@ export type OrderMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   weeklyMenuId?: Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrder
   deliveryAddressId?: Prisma.SortOrder
+  origin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -1045,7 +1103,9 @@ export type OrderMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   weeklyMenuId?: Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrder
   deliveryAddressId?: Prisma.SortOrder
+  origin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -1132,6 +1192,48 @@ export type OrderUncheckedUpdateManyWithoutWeeklyMenuNestedInput = {
   connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
   update?: Prisma.OrderUpdateWithWhereUniqueWithoutWeeklyMenuInput | Prisma.OrderUpdateWithWhereUniqueWithoutWeeklyMenuInput[]
   updateMany?: Prisma.OrderUpdateManyWithWhereWithoutWeeklyMenuInput | Prisma.OrderUpdateManyWithWhereWithoutWeeklyMenuInput[]
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
+}
+
+export type OrderCreateNestedManyWithoutMenuPublicationInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutMenuPublicationInput, Prisma.OrderUncheckedCreateWithoutMenuPublicationInput> | Prisma.OrderCreateWithoutMenuPublicationInput[] | Prisma.OrderUncheckedCreateWithoutMenuPublicationInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutMenuPublicationInput | Prisma.OrderCreateOrConnectWithoutMenuPublicationInput[]
+  createMany?: Prisma.OrderCreateManyMenuPublicationInputEnvelope
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+}
+
+export type OrderUncheckedCreateNestedManyWithoutMenuPublicationInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutMenuPublicationInput, Prisma.OrderUncheckedCreateWithoutMenuPublicationInput> | Prisma.OrderCreateWithoutMenuPublicationInput[] | Prisma.OrderUncheckedCreateWithoutMenuPublicationInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutMenuPublicationInput | Prisma.OrderCreateOrConnectWithoutMenuPublicationInput[]
+  createMany?: Prisma.OrderCreateManyMenuPublicationInputEnvelope
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+}
+
+export type OrderUpdateManyWithoutMenuPublicationNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutMenuPublicationInput, Prisma.OrderUncheckedCreateWithoutMenuPublicationInput> | Prisma.OrderCreateWithoutMenuPublicationInput[] | Prisma.OrderUncheckedCreateWithoutMenuPublicationInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutMenuPublicationInput | Prisma.OrderCreateOrConnectWithoutMenuPublicationInput[]
+  upsert?: Prisma.OrderUpsertWithWhereUniqueWithoutMenuPublicationInput | Prisma.OrderUpsertWithWhereUniqueWithoutMenuPublicationInput[]
+  createMany?: Prisma.OrderCreateManyMenuPublicationInputEnvelope
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  update?: Prisma.OrderUpdateWithWhereUniqueWithoutMenuPublicationInput | Prisma.OrderUpdateWithWhereUniqueWithoutMenuPublicationInput[]
+  updateMany?: Prisma.OrderUpdateManyWithWhereWithoutMenuPublicationInput | Prisma.OrderUpdateManyWithWhereWithoutMenuPublicationInput[]
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
+}
+
+export type OrderUncheckedUpdateManyWithoutMenuPublicationNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutMenuPublicationInput, Prisma.OrderUncheckedCreateWithoutMenuPublicationInput> | Prisma.OrderCreateWithoutMenuPublicationInput[] | Prisma.OrderUncheckedCreateWithoutMenuPublicationInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutMenuPublicationInput | Prisma.OrderCreateOrConnectWithoutMenuPublicationInput[]
+  upsert?: Prisma.OrderUpsertWithWhereUniqueWithoutMenuPublicationInput | Prisma.OrderUpsertWithWhereUniqueWithoutMenuPublicationInput[]
+  createMany?: Prisma.OrderCreateManyMenuPublicationInputEnvelope
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  update?: Prisma.OrderUpdateWithWhereUniqueWithoutMenuPublicationInput | Prisma.OrderUpdateWithWhereUniqueWithoutMenuPublicationInput[]
+  updateMany?: Prisma.OrderUpdateManyWithWhereWithoutMenuPublicationInput | Prisma.OrderUpdateManyWithWhereWithoutMenuPublicationInput[]
   deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
 }
 
@@ -1265,6 +1367,10 @@ export type OrderCreatetagsInput = {
   set: string[]
 }
 
+export type EnumOrderOriginFieldUpdateOperationsInput = {
+  set?: $Enums.OrderOrigin
+}
+
 export type EnumOrderStatusFieldUpdateOperationsInput = {
   set?: $Enums.OrderStatus
 }
@@ -1292,11 +1398,40 @@ export type OrderUpdateOneRequiredWithoutPlanItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrderUpdateToOneWithWhereWithoutPlanItemsInput, Prisma.OrderUpdateWithoutPlanItemsInput>, Prisma.OrderUncheckedUpdateWithoutPlanItemsInput>
 }
 
+export type OrderCreateNestedOneWithoutOrderDeliveriesInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutOrderDeliveriesInput, Prisma.OrderUncheckedCreateWithoutOrderDeliveriesInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutOrderDeliveriesInput
+  connect?: Prisma.OrderWhereUniqueInput
+}
+
+export type OrderUpdateOneRequiredWithoutOrderDeliveriesNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutOrderDeliveriesInput, Prisma.OrderUncheckedCreateWithoutOrderDeliveriesInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutOrderDeliveriesInput
+  upsert?: Prisma.OrderUpsertWithoutOrderDeliveriesInput
+  connect?: Prisma.OrderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrderUpdateToOneWithWhereWithoutOrderDeliveriesInput, Prisma.OrderUpdateWithoutOrderDeliveriesInput>, Prisma.OrderUncheckedUpdateWithoutOrderDeliveriesInput>
+}
+
+export type OrderCreateNestedOneWithoutAddressSnapshotInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutAddressSnapshotInput, Prisma.OrderUncheckedCreateWithoutAddressSnapshotInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutAddressSnapshotInput
+  connect?: Prisma.OrderWhereUniqueInput
+}
+
+export type OrderUpdateOneRequiredWithoutAddressSnapshotNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutAddressSnapshotInput, Prisma.OrderUncheckedCreateWithoutAddressSnapshotInput>
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutAddressSnapshotInput
+  upsert?: Prisma.OrderUpsertWithoutAddressSnapshotInput
+  connect?: Prisma.OrderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrderUpdateToOneWithWhereWithoutAddressSnapshotInput, Prisma.OrderUpdateWithoutAddressSnapshotInput>, Prisma.OrderUncheckedUpdateWithoutAddressSnapshotInput>
+}
+
 export type OrderCreateWithoutWeeklyMenuInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   orderNumber?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1326,7 +1461,10 @@ export type OrderCreateWithoutWeeklyMenuInput = {
   totalPendingDishCount?: number
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrdersInput
   deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanCreateNestedManyWithoutOrderInput
 }
 
@@ -1337,7 +1475,9 @@ export type OrderUncheckedCreateWithoutWeeklyMenuInput = {
   orderNumber?: string | null
   userId: string
   createdById: string
+  menuPublicationId?: string | null
   deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1365,6 +1505,8 @@ export type OrderUncheckedCreateWithoutWeeklyMenuInput = {
   totalRequestedDishCount?: number
   totalAssignedDishCount?: number
   totalPendingDishCount?: number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -1405,7 +1547,9 @@ export type OrderScalarWhereInput = {
   userId?: Prisma.StringFilter<"Order"> | string
   createdById?: Prisma.StringFilter<"Order"> | string
   weeklyMenuId?: Prisma.StringNullableFilter<"Order"> | string | null
+  menuPublicationId?: Prisma.StringNullableFilter<"Order"> | string | null
   deliveryAddressId?: Prisma.StringNullableFilter<"Order"> | string | null
+  origin?: Prisma.EnumOrderOriginFilter<"Order"> | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFilter<"Order"> | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFilter<"Order"> | string
@@ -1435,11 +1579,122 @@ export type OrderScalarWhereInput = {
   totalPendingDishCount?: Prisma.IntFilter<"Order"> | number
 }
 
+export type OrderCreateWithoutMenuPublicationInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderNumber?: string | null
+  origin?: $Enums.OrderOrigin
+  status?: $Enums.OrderStatus
+  paymentStatus?: $Enums.OrderPaymentStatus
+  currency?: string
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: number
+  requiredBagCountCached?: number | null
+  scheduledFor?: Date | string | null
+  firstDeliveryAt?: Date | string | null
+  secondDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  paymentReceiptUrl?: string | null
+  tags?: Prisma.OrderCreatetagsInput | string[]
+  notas?: string
+  notasInternas?: string
+  menuNameSnapshot?: string
+  menuStartDateSnapshot?: Date | string | null
+  menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
+  user: Prisma.UserCreateNestedOneWithoutOrdersInput
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
+  weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
+  deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryCreateNestedManyWithoutOrderInput
+  planItems?: Prisma.OrderPlanCreateNestedManyWithoutOrderInput
+}
+
+export type OrderUncheckedCreateWithoutMenuPublicationInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderNumber?: string | null
+  userId: string
+  createdById: string
+  weeklyMenuId?: string | null
+  deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
+  status?: $Enums.OrderStatus
+  paymentStatus?: $Enums.OrderPaymentStatus
+  currency?: string
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: number
+  requiredBagCountCached?: number | null
+  scheduledFor?: Date | string | null
+  firstDeliveryAt?: Date | string | null
+  secondDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  paymentReceiptUrl?: string | null
+  tags?: Prisma.OrderCreatetagsInput | string[]
+  notas?: string
+  notasInternas?: string
+  menuNameSnapshot?: string
+  menuStartDateSnapshot?: Date | string | null
+  menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedCreateNestedManyWithoutOrderInput
+  planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
+}
+
+export type OrderCreateOrConnectWithoutMenuPublicationInput = {
+  where: Prisma.OrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderCreateWithoutMenuPublicationInput, Prisma.OrderUncheckedCreateWithoutMenuPublicationInput>
+}
+
+export type OrderCreateManyMenuPublicationInputEnvelope = {
+  data: Prisma.OrderCreateManyMenuPublicationInput | Prisma.OrderCreateManyMenuPublicationInput[]
+  skipDuplicates?: boolean
+}
+
+export type OrderUpsertWithWhereUniqueWithoutMenuPublicationInput = {
+  where: Prisma.OrderWhereUniqueInput
+  update: Prisma.XOR<Prisma.OrderUpdateWithoutMenuPublicationInput, Prisma.OrderUncheckedUpdateWithoutMenuPublicationInput>
+  create: Prisma.XOR<Prisma.OrderCreateWithoutMenuPublicationInput, Prisma.OrderUncheckedCreateWithoutMenuPublicationInput>
+}
+
+export type OrderUpdateWithWhereUniqueWithoutMenuPublicationInput = {
+  where: Prisma.OrderWhereUniqueInput
+  data: Prisma.XOR<Prisma.OrderUpdateWithoutMenuPublicationInput, Prisma.OrderUncheckedUpdateWithoutMenuPublicationInput>
+}
+
+export type OrderUpdateManyWithWhereWithoutMenuPublicationInput = {
+  where: Prisma.OrderScalarWhereInput
+  data: Prisma.XOR<Prisma.OrderUpdateManyMutationInput, Prisma.OrderUncheckedUpdateManyWithoutMenuPublicationInput>
+}
+
 export type OrderCreateWithoutUserInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   orderNumber?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1469,7 +1724,10 @@ export type OrderCreateWithoutUserInput = {
   totalPendingDishCount?: number
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrdersInput
   deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanCreateNestedManyWithoutOrderInput
 }
 
@@ -1480,7 +1738,9 @@ export type OrderUncheckedCreateWithoutUserInput = {
   orderNumber?: string | null
   createdById: string
   weeklyMenuId?: string | null
+  menuPublicationId?: string | null
   deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1508,6 +1768,8 @@ export type OrderUncheckedCreateWithoutUserInput = {
   totalRequestedDishCount?: number
   totalAssignedDishCount?: number
   totalPendingDishCount?: number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -1526,6 +1788,7 @@ export type OrderCreateWithoutCreatedByInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderNumber?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1555,7 +1818,10 @@ export type OrderCreateWithoutCreatedByInput = {
   totalPendingDishCount?: number
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrdersInput
   deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanCreateNestedManyWithoutOrderInput
 }
 
@@ -1566,7 +1832,9 @@ export type OrderUncheckedCreateWithoutCreatedByInput = {
   orderNumber?: string | null
   userId: string
   weeklyMenuId?: string | null
+  menuPublicationId?: string | null
   deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1594,6 +1862,8 @@ export type OrderUncheckedCreateWithoutCreatedByInput = {
   totalRequestedDishCount?: number
   totalAssignedDishCount?: number
   totalPendingDishCount?: number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -1644,6 +1914,7 @@ export type OrderCreateWithoutDeliveryAddressInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderNumber?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1674,6 +1945,9 @@ export type OrderCreateWithoutDeliveryAddressInput = {
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrdersInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanCreateNestedManyWithoutOrderInput
 }
 
@@ -1685,6 +1959,8 @@ export type OrderUncheckedCreateWithoutDeliveryAddressInput = {
   userId: string
   createdById: string
   weeklyMenuId?: string | null
+  menuPublicationId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1712,6 +1988,8 @@ export type OrderUncheckedCreateWithoutDeliveryAddressInput = {
   totalRequestedDishCount?: number
   totalAssignedDishCount?: number
   totalPendingDishCount?: number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedCreateNestedManyWithoutOrderInput
   planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -1746,6 +2024,7 @@ export type OrderCreateWithoutPlanItemsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderNumber?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1776,7 +2055,10 @@ export type OrderCreateWithoutPlanItemsInput = {
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
   weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrdersInput
   deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryCreateNestedManyWithoutOrderInput
 }
 
 export type OrderUncheckedCreateWithoutPlanItemsInput = {
@@ -1787,7 +2069,9 @@ export type OrderUncheckedCreateWithoutPlanItemsInput = {
   userId: string
   createdById: string
   weeklyMenuId?: string | null
+  menuPublicationId?: string | null
   deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1815,6 +2099,8 @@ export type OrderUncheckedCreateWithoutPlanItemsInput = {
   totalRequestedDishCount?: number
   totalAssignedDishCount?: number
   totalPendingDishCount?: number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedCreateNestedOneWithoutOrderInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedCreateNestedManyWithoutOrderInput
 }
 
 export type OrderCreateOrConnectWithoutPlanItemsInput = {
@@ -1838,6 +2124,7 @@ export type OrderUpdateWithoutPlanItemsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1868,7 +2155,10 @@ export type OrderUpdateWithoutPlanItemsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrdersNestedInput
   deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderUncheckedUpdateWithoutPlanItemsInput = {
@@ -1879,7 +2169,9 @@ export type OrderUncheckedUpdateWithoutPlanItemsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1907,6 +2199,376 @@ export type OrderUncheckedUpdateWithoutPlanItemsInput = {
   totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderCreateWithoutOrderDeliveriesInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderNumber?: string | null
+  origin?: $Enums.OrderOrigin
+  status?: $Enums.OrderStatus
+  paymentStatus?: $Enums.OrderPaymentStatus
+  currency?: string
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: number
+  requiredBagCountCached?: number | null
+  scheduledFor?: Date | string | null
+  firstDeliveryAt?: Date | string | null
+  secondDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  paymentReceiptUrl?: string | null
+  tags?: Prisma.OrderCreatetagsInput | string[]
+  notas?: string
+  notasInternas?: string
+  menuNameSnapshot?: string
+  menuStartDateSnapshot?: Date | string | null
+  menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
+  user: Prisma.UserCreateNestedOneWithoutOrdersInput
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
+  weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrdersInput
+  deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotCreateNestedOneWithoutOrderInput
+  planItems?: Prisma.OrderPlanCreateNestedManyWithoutOrderInput
+}
+
+export type OrderUncheckedCreateWithoutOrderDeliveriesInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderNumber?: string | null
+  userId: string
+  createdById: string
+  weeklyMenuId?: string | null
+  menuPublicationId?: string | null
+  deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
+  status?: $Enums.OrderStatus
+  paymentStatus?: $Enums.OrderPaymentStatus
+  currency?: string
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: number
+  requiredBagCountCached?: number | null
+  scheduledFor?: Date | string | null
+  firstDeliveryAt?: Date | string | null
+  secondDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  paymentReceiptUrl?: string | null
+  tags?: Prisma.OrderCreatetagsInput | string[]
+  notas?: string
+  notasInternas?: string
+  menuNameSnapshot?: string
+  menuStartDateSnapshot?: Date | string | null
+  menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedCreateNestedOneWithoutOrderInput
+  planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
+}
+
+export type OrderCreateOrConnectWithoutOrderDeliveriesInput = {
+  where: Prisma.OrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderCreateWithoutOrderDeliveriesInput, Prisma.OrderUncheckedCreateWithoutOrderDeliveriesInput>
+}
+
+export type OrderUpsertWithoutOrderDeliveriesInput = {
+  update: Prisma.XOR<Prisma.OrderUpdateWithoutOrderDeliveriesInput, Prisma.OrderUncheckedUpdateWithoutOrderDeliveriesInput>
+  create: Prisma.XOR<Prisma.OrderCreateWithoutOrderDeliveriesInput, Prisma.OrderUncheckedCreateWithoutOrderDeliveriesInput>
+  where?: Prisma.OrderWhereInput
+}
+
+export type OrderUpdateToOneWithWhereWithoutOrderDeliveriesInput = {
+  where?: Prisma.OrderWhereInput
+  data: Prisma.XOR<Prisma.OrderUpdateWithoutOrderDeliveriesInput, Prisma.OrderUncheckedUpdateWithoutOrderDeliveriesInput>
+}
+
+export type OrderUpdateWithoutOrderDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: Prisma.IntFieldUpdateOperationsInput | number
+  requiredBagCountCached?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  secondDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.OrderUpdatetagsInput | string[]
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  notasInternas?: Prisma.StringFieldUpdateOperationsInput | string
+  menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
+  weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrdersNestedInput
+  deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotUpdateOneWithoutOrderNestedInput
+  planItems?: Prisma.OrderPlanUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderUncheckedUpdateWithoutOrderDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: Prisma.IntFieldUpdateOperationsInput | number
+  requiredBagCountCached?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  secondDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.OrderUpdatetagsInput | string[]
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  notasInternas?: Prisma.StringFieldUpdateOperationsInput | string
+  menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedUpdateOneWithoutOrderNestedInput
+  planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderCreateWithoutAddressSnapshotInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderNumber?: string | null
+  origin?: $Enums.OrderOrigin
+  status?: $Enums.OrderStatus
+  paymentStatus?: $Enums.OrderPaymentStatus
+  currency?: string
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: number
+  requiredBagCountCached?: number | null
+  scheduledFor?: Date | string | null
+  firstDeliveryAt?: Date | string | null
+  secondDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  paymentReceiptUrl?: string | null
+  tags?: Prisma.OrderCreatetagsInput | string[]
+  notas?: string
+  notasInternas?: string
+  menuNameSnapshot?: string
+  menuStartDateSnapshot?: Date | string | null
+  menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
+  user: Prisma.UserCreateNestedOneWithoutOrdersInput
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedOrdersInput
+  weeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrdersInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrdersInput
+  deliveryAddress?: Prisma.UserAddressCreateNestedOneWithoutOrdersInput
+  orderDeliveries?: Prisma.OrderDeliveryCreateNestedManyWithoutOrderInput
+  planItems?: Prisma.OrderPlanCreateNestedManyWithoutOrderInput
+}
+
+export type OrderUncheckedCreateWithoutAddressSnapshotInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderNumber?: string | null
+  userId: string
+  createdById: string
+  weeklyMenuId?: string | null
+  menuPublicationId?: string | null
+  deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
+  status?: $Enums.OrderStatus
+  paymentStatus?: $Enums.OrderPaymentStatus
+  currency?: string
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: number
+  requiredBagCountCached?: number | null
+  scheduledFor?: Date | string | null
+  firstDeliveryAt?: Date | string | null
+  secondDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  paymentReceiptUrl?: string | null
+  tags?: Prisma.OrderCreatetagsInput | string[]
+  notas?: string
+  notasInternas?: string
+  menuNameSnapshot?: string
+  menuStartDateSnapshot?: Date | string | null
+  menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedCreateNestedManyWithoutOrderInput
+  planItems?: Prisma.OrderPlanUncheckedCreateNestedManyWithoutOrderInput
+}
+
+export type OrderCreateOrConnectWithoutAddressSnapshotInput = {
+  where: Prisma.OrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderCreateWithoutAddressSnapshotInput, Prisma.OrderUncheckedCreateWithoutAddressSnapshotInput>
+}
+
+export type OrderUpsertWithoutAddressSnapshotInput = {
+  update: Prisma.XOR<Prisma.OrderUpdateWithoutAddressSnapshotInput, Prisma.OrderUncheckedUpdateWithoutAddressSnapshotInput>
+  create: Prisma.XOR<Prisma.OrderCreateWithoutAddressSnapshotInput, Prisma.OrderUncheckedCreateWithoutAddressSnapshotInput>
+  where?: Prisma.OrderWhereInput
+}
+
+export type OrderUpdateToOneWithWhereWithoutAddressSnapshotInput = {
+  where?: Prisma.OrderWhereInput
+  data: Prisma.XOR<Prisma.OrderUpdateWithoutAddressSnapshotInput, Prisma.OrderUncheckedUpdateWithoutAddressSnapshotInput>
+}
+
+export type OrderUpdateWithoutAddressSnapshotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: Prisma.IntFieldUpdateOperationsInput | number
+  requiredBagCountCached?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  secondDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.OrderUpdatetagsInput | string[]
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  notasInternas?: Prisma.StringFieldUpdateOperationsInput | string
+  menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
+  weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrdersNestedInput
+  deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUpdateManyWithoutOrderNestedInput
+  planItems?: Prisma.OrderPlanUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderUncheckedUpdateWithoutAddressSnapshotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: Prisma.IntFieldUpdateOperationsInput | number
+  requiredBagCountCached?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  secondDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.OrderUpdatetagsInput | string[]
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  notasInternas?: Prisma.StringFieldUpdateOperationsInput | string
+  menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedUpdateManyWithoutOrderNestedInput
+  planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
 export type OrderCreateManyWeeklyMenuInput = {
@@ -1916,7 +2578,9 @@ export type OrderCreateManyWeeklyMenuInput = {
   orderNumber?: string | null
   userId: string
   createdById: string
+  menuPublicationId?: string | null
   deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -1951,6 +2615,7 @@ export type OrderUpdateWithoutWeeklyMenuInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1980,7 +2645,10 @@ export type OrderUpdateWithoutWeeklyMenuInput = {
   totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrdersNestedInput
   deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUpdateManyWithoutOrderNestedInput
 }
 
@@ -1991,7 +2659,9 @@ export type OrderUncheckedUpdateWithoutWeeklyMenuInput = {
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2019,6 +2689,8 @@ export type OrderUncheckedUpdateWithoutWeeklyMenuInput = {
   totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -2029,7 +2701,171 @@ export type OrderUncheckedUpdateManyWithoutWeeklyMenuInput = {
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: Prisma.IntFieldUpdateOperationsInput | number
+  requiredBagCountCached?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  secondDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.OrderUpdatetagsInput | string[]
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  notasInternas?: Prisma.StringFieldUpdateOperationsInput | string
+  menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type OrderCreateManyMenuPublicationInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderNumber?: string | null
+  userId: string
+  createdById: string
+  weeklyMenuId?: string | null
+  deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
+  status?: $Enums.OrderStatus
+  paymentStatus?: $Enums.OrderPaymentStatus
+  currency?: string
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: number
+  requiredBagCountCached?: number | null
+  scheduledFor?: Date | string | null
+  firstDeliveryAt?: Date | string | null
+  secondDeliveryAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  cancelledAt?: Date | string | null
+  paymentReceiptUrl?: string | null
+  tags?: Prisma.OrderCreatetagsInput | string[]
+  notas?: string
+  notasInternas?: string
+  menuNameSnapshot?: string
+  menuStartDateSnapshot?: Date | string | null
+  menuEndDateSnapshot?: Date | string | null
+  menuResolvedAt?: Date | string | null
+  totalRequestedDishCount?: number
+  totalAssignedDishCount?: number
+  totalPendingDishCount?: number
+}
+
+export type OrderUpdateWithoutMenuPublicationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: Prisma.IntFieldUpdateOperationsInput | number
+  requiredBagCountCached?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  secondDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.OrderUpdatetagsInput | string[]
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  notasInternas?: Prisma.StringFieldUpdateOperationsInput | string
+  menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
+  weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
+  deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUpdateManyWithoutOrderNestedInput
+  planItems?: Prisma.OrderPlanUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderUncheckedUpdateWithoutMenuPublicationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
+  status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+  paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  descuento?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  extras?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  costoEnvio?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalPlanPriceCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  totalDishCountCached?: Prisma.IntFieldUpdateOperationsInput | number
+  requiredBagCountCached?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  scheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  secondDeliveryAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentReceiptUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.OrderUpdatetagsInput | string[]
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  notasInternas?: Prisma.StringFieldUpdateOperationsInput | string
+  menuNameSnapshot?: Prisma.StringFieldUpdateOperationsInput | string
+  menuStartDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuEndDateSnapshot?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuResolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedUpdateManyWithoutOrderNestedInput
+  planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
+}
+
+export type OrderUncheckedUpdateManyWithoutMenuPublicationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2066,7 +2902,9 @@ export type OrderCreateManyUserInput = {
   orderNumber?: string | null
   createdById: string
   weeklyMenuId?: string | null
+  menuPublicationId?: string | null
   deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -2103,7 +2941,9 @@ export type OrderCreateManyCreatedByInput = {
   orderNumber?: string | null
   userId: string
   weeklyMenuId?: string | null
+  menuPublicationId?: string | null
   deliveryAddressId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -2138,6 +2978,7 @@ export type OrderUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2167,7 +3008,10 @@ export type OrderUpdateWithoutUserInput = {
   totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrdersNestedInput
   deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUpdateManyWithoutOrderNestedInput
 }
 
@@ -2178,7 +3022,9 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2206,6 +3052,8 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -2216,7 +3064,9 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2251,6 +3101,7 @@ export type OrderUpdateWithoutCreatedByInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2280,7 +3131,10 @@ export type OrderUpdateWithoutCreatedByInput = {
   totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrdersNestedInput
   deliveryAddress?: Prisma.UserAddressUpdateOneWithoutOrdersNestedInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUpdateManyWithoutOrderNestedInput
 }
 
@@ -2291,7 +3145,9 @@ export type OrderUncheckedUpdateWithoutCreatedByInput = {
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2319,6 +3175,8 @@ export type OrderUncheckedUpdateWithoutCreatedByInput = {
   totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -2329,7 +3187,9 @@ export type OrderUncheckedUpdateManyWithoutCreatedByInput = {
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   deliveryAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2367,6 +3227,8 @@ export type OrderCreateManyDeliveryAddressInput = {
   userId: string
   createdById: string
   weeklyMenuId?: string | null
+  menuPublicationId?: string | null
+  origin?: $Enums.OrderOrigin
   status?: $Enums.OrderStatus
   paymentStatus?: $Enums.OrderPaymentStatus
   currency?: string
@@ -2401,6 +3263,7 @@ export type OrderUpdateWithoutDeliveryAddressInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2431,6 +3294,9 @@ export type OrderUpdateWithoutDeliveryAddressInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedOrdersNestedInput
   weeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrdersNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrdersNestedInput
+  addressSnapshot?: Prisma.OrderAddressSnapshotUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUpdateManyWithoutOrderNestedInput
 }
 
@@ -2442,6 +3308,8 @@ export type OrderUncheckedUpdateWithoutDeliveryAddressInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2469,6 +3337,8 @@ export type OrderUncheckedUpdateWithoutDeliveryAddressInput = {
   totalRequestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalAssignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   totalPendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  addressSnapshot?: Prisma.OrderAddressSnapshotUncheckedUpdateOneWithoutOrderNestedInput
+  orderDeliveries?: Prisma.OrderDeliveryUncheckedUpdateManyWithoutOrderNestedInput
   planItems?: Prisma.OrderPlanUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -2480,6 +3350,8 @@ export type OrderUncheckedUpdateManyWithoutDeliveryAddressInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
   weeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  origin?: Prisma.EnumOrderOriginFieldUpdateOperationsInput | $Enums.OrderOrigin
   status?: Prisma.EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
   paymentStatus?: Prisma.EnumOrderPaymentStatusFieldUpdateOperationsInput | $Enums.OrderPaymentStatus
   currency?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2515,10 +3387,12 @@ export type OrderUncheckedUpdateManyWithoutDeliveryAddressInput = {
  */
 
 export type OrderCountOutputType = {
+  orderDeliveries: number
   planItems: number
 }
 
 export type OrderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  orderDeliveries?: boolean | OrderCountOutputTypeCountOrderDeliveriesArgs
   planItems?: boolean | OrderCountOutputTypeCountPlanItemsArgs
 }
 
@@ -2530,6 +3404,13 @@ export type OrderCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
    * Select specific fields to fetch from the OrderCountOutputType
    */
   select?: Prisma.OrderCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * OrderCountOutputType without action
+ */
+export type OrderCountOutputTypeCountOrderDeliveriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderDeliveryWhereInput
 }
 
 /**
@@ -2548,7 +3429,9 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   userId?: boolean
   createdById?: boolean
   weeklyMenuId?: boolean
+  menuPublicationId?: boolean
   deliveryAddressId?: boolean
+  origin?: boolean
   status?: boolean
   paymentStatus?: boolean
   currency?: boolean
@@ -2579,7 +3462,10 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   weeklyMenu?: boolean | Prisma.Order$weeklyMenuArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.Order$menuPublicationArgs<ExtArgs>
   deliveryAddress?: boolean | Prisma.Order$deliveryAddressArgs<ExtArgs>
+  addressSnapshot?: boolean | Prisma.Order$addressSnapshotArgs<ExtArgs>
+  orderDeliveries?: boolean | Prisma.Order$orderDeliveriesArgs<ExtArgs>
   planItems?: boolean | Prisma.Order$planItemsArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
@@ -2592,7 +3478,9 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   userId?: boolean
   createdById?: boolean
   weeklyMenuId?: boolean
+  menuPublicationId?: boolean
   deliveryAddressId?: boolean
+  origin?: boolean
   status?: boolean
   paymentStatus?: boolean
   currency?: boolean
@@ -2623,6 +3511,7 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   weeklyMenu?: boolean | Prisma.Order$weeklyMenuArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.Order$menuPublicationArgs<ExtArgs>
   deliveryAddress?: boolean | Prisma.Order$deliveryAddressArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
@@ -2634,7 +3523,9 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   userId?: boolean
   createdById?: boolean
   weeklyMenuId?: boolean
+  menuPublicationId?: boolean
   deliveryAddressId?: boolean
+  origin?: boolean
   status?: boolean
   paymentStatus?: boolean
   currency?: boolean
@@ -2665,6 +3556,7 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   weeklyMenu?: boolean | Prisma.Order$weeklyMenuArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.Order$menuPublicationArgs<ExtArgs>
   deliveryAddress?: boolean | Prisma.Order$deliveryAddressArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
@@ -2676,7 +3568,9 @@ export type OrderSelectScalar = {
   userId?: boolean
   createdById?: boolean
   weeklyMenuId?: boolean
+  menuPublicationId?: boolean
   deliveryAddressId?: boolean
+  origin?: boolean
   status?: boolean
   paymentStatus?: boolean
   currency?: boolean
@@ -2706,12 +3600,15 @@ export type OrderSelectScalar = {
   totalPendingDishCount?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "orderNumber" | "userId" | "createdById" | "weeklyMenuId" | "deliveryAddressId" | "status" | "paymentStatus" | "currency" | "subtotal" | "descuento" | "extras" | "costoEnvio" | "total" | "totalPlanPriceCached" | "totalDishCountCached" | "requiredBagCountCached" | "scheduledFor" | "firstDeliveryAt" | "secondDeliveryAt" | "deliveredAt" | "cancelledAt" | "paymentReceiptUrl" | "tags" | "notas" | "notasInternas" | "menuNameSnapshot" | "menuStartDateSnapshot" | "menuEndDateSnapshot" | "menuResolvedAt" | "totalRequestedDishCount" | "totalAssignedDishCount" | "totalPendingDishCount", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "orderNumber" | "userId" | "createdById" | "weeklyMenuId" | "menuPublicationId" | "deliveryAddressId" | "origin" | "status" | "paymentStatus" | "currency" | "subtotal" | "descuento" | "extras" | "costoEnvio" | "total" | "totalPlanPriceCached" | "totalDishCountCached" | "requiredBagCountCached" | "scheduledFor" | "firstDeliveryAt" | "secondDeliveryAt" | "deliveredAt" | "cancelledAt" | "paymentReceiptUrl" | "tags" | "notas" | "notasInternas" | "menuNameSnapshot" | "menuStartDateSnapshot" | "menuEndDateSnapshot" | "menuResolvedAt" | "totalRequestedDishCount" | "totalAssignedDishCount" | "totalPendingDishCount", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   weeklyMenu?: boolean | Prisma.Order$weeklyMenuArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.Order$menuPublicationArgs<ExtArgs>
   deliveryAddress?: boolean | Prisma.Order$deliveryAddressArgs<ExtArgs>
+  addressSnapshot?: boolean | Prisma.Order$addressSnapshotArgs<ExtArgs>
+  orderDeliveries?: boolean | Prisma.Order$orderDeliveriesArgs<ExtArgs>
   planItems?: boolean | Prisma.Order$planItemsArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -2719,12 +3616,14 @@ export type OrderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   weeklyMenu?: boolean | Prisma.Order$weeklyMenuArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.Order$menuPublicationArgs<ExtArgs>
   deliveryAddress?: boolean | Prisma.Order$deliveryAddressArgs<ExtArgs>
 }
 export type OrderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   weeklyMenu?: boolean | Prisma.Order$weeklyMenuArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.Order$menuPublicationArgs<ExtArgs>
   deliveryAddress?: boolean | Prisma.Order$deliveryAddressArgs<ExtArgs>
 }
 
@@ -2734,7 +3633,10 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     user: Prisma.$UserPayload<ExtArgs>
     createdBy: Prisma.$UserPayload<ExtArgs>
     weeklyMenu: Prisma.$WeeklyMenuPayload<ExtArgs> | null
+    menuPublication: Prisma.$MenuPublicationPayload<ExtArgs> | null
     deliveryAddress: Prisma.$UserAddressPayload<ExtArgs> | null
+    addressSnapshot: Prisma.$OrderAddressSnapshotPayload<ExtArgs> | null
+    orderDeliveries: Prisma.$OrderDeliveryPayload<ExtArgs>[]
     planItems: Prisma.$OrderPlanPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2745,7 +3647,9 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     userId: string
     createdById: string
     weeklyMenuId: string | null
+    menuPublicationId: string | null
     deliveryAddressId: string | null
+    origin: $Enums.OrderOrigin
     status: $Enums.OrderStatus
     paymentStatus: $Enums.OrderPaymentStatus
     currency: string
@@ -3170,7 +4074,10 @@ export interface Prisma__OrderClient<T, Null = never, ExtArgs extends runtime.Ty
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   weeklyMenu<T extends Prisma.Order$weeklyMenuArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$weeklyMenuArgs<ExtArgs>>): Prisma.Prisma__WeeklyMenuClient<runtime.Types.Result.GetResult<Prisma.$WeeklyMenuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  menuPublication<T extends Prisma.Order$menuPublicationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$menuPublicationArgs<ExtArgs>>): Prisma.Prisma__MenuPublicationClient<runtime.Types.Result.GetResult<Prisma.$MenuPublicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   deliveryAddress<T extends Prisma.Order$deliveryAddressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$deliveryAddressArgs<ExtArgs>>): Prisma.Prisma__UserAddressClient<runtime.Types.Result.GetResult<Prisma.$UserAddressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  addressSnapshot<T extends Prisma.Order$addressSnapshotArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$addressSnapshotArgs<ExtArgs>>): Prisma.Prisma__OrderAddressSnapshotClient<runtime.Types.Result.GetResult<Prisma.$OrderAddressSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  orderDeliveries<T extends Prisma.Order$orderDeliveriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$orderDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   planItems<T extends Prisma.Order$planItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Order$planItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3208,7 +4115,9 @@ export interface OrderFieldRefs {
   readonly userId: Prisma.FieldRef<"Order", 'String'>
   readonly createdById: Prisma.FieldRef<"Order", 'String'>
   readonly weeklyMenuId: Prisma.FieldRef<"Order", 'String'>
+  readonly menuPublicationId: Prisma.FieldRef<"Order", 'String'>
   readonly deliveryAddressId: Prisma.FieldRef<"Order", 'String'>
+  readonly origin: Prisma.FieldRef<"Order", 'OrderOrigin'>
   readonly status: Prisma.FieldRef<"Order", 'OrderStatus'>
   readonly paymentStatus: Prisma.FieldRef<"Order", 'OrderPaymentStatus'>
   readonly currency: Prisma.FieldRef<"Order", 'String'>
@@ -3656,6 +4565,25 @@ export type Order$weeklyMenuArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * Order.menuPublication
+ */
+export type Order$menuPublicationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MenuPublication
+   */
+  select?: Prisma.MenuPublicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MenuPublication
+   */
+  omit?: Prisma.MenuPublicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuPublicationInclude<ExtArgs> | null
+  where?: Prisma.MenuPublicationWhereInput
+}
+
+/**
  * Order.deliveryAddress
  */
 export type Order$deliveryAddressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3672,6 +4600,49 @@ export type Order$deliveryAddressArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   include?: Prisma.UserAddressInclude<ExtArgs> | null
   where?: Prisma.UserAddressWhereInput
+}
+
+/**
+ * Order.addressSnapshot
+ */
+export type Order$addressSnapshotArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrderAddressSnapshot
+   */
+  select?: Prisma.OrderAddressSnapshotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrderAddressSnapshot
+   */
+  omit?: Prisma.OrderAddressSnapshotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderAddressSnapshotInclude<ExtArgs> | null
+  where?: Prisma.OrderAddressSnapshotWhereInput
+}
+
+/**
+ * Order.orderDeliveries
+ */
+export type Order$orderDeliveriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrderDelivery
+   */
+  select?: Prisma.OrderDeliverySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrderDelivery
+   */
+  omit?: Prisma.OrderDeliveryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderDeliveryInclude<ExtArgs> | null
+  where?: Prisma.OrderDeliveryWhereInput
+  orderBy?: Prisma.OrderDeliveryOrderByWithRelationInput | Prisma.OrderDeliveryOrderByWithRelationInput[]
+  cursor?: Prisma.OrderDeliveryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderDeliveryScalarFieldEnum | Prisma.OrderDeliveryScalarFieldEnum[]
 }
 
 /**

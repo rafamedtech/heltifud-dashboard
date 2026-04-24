@@ -98,6 +98,7 @@ export function createEmptyWeeklyMenuFormState(): WeeklyMenuFormState {
 
   return {
     name: '',
+    menuType: 'ESTANDAR',
     startDate: toDateInputValue(today),
     endDate: toDateInputValue(nextWeek),
     days: DAY_ORDER.map(day => createEmptyDayMenu(day))
@@ -136,6 +137,7 @@ export function createMenuFormState(menu?: WeeklyMenu | null): WeeklyMenuFormSta
 
   return {
     name: menu.name,
+    menuType: menu.menuType ?? 'ESTANDAR',
     startDate: toDateInputValue(menu.startDate),
     endDate: toDateInputValue(menu.endDate),
     days: DAY_ORDER.map((dayOfWeek) => {

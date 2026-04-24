@@ -266,6 +266,7 @@ export type FoodComponentWhereInput = {
   tipo?: Prisma.StringFilter<"FoodComponent"> | string
   daySlot?: Prisma.XOR<Prisma.DaySlotScalarRelationFilter, Prisma.DaySlotWhereInput>
   catalogItem?: Prisma.XOR<Prisma.FoodCatalogItemNullableScalarRelationFilter, Prisma.FoodCatalogItemWhereInput> | null
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentListRelationFilter
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentListRelationFilter
 }
 
@@ -283,6 +284,7 @@ export type FoodComponentOrderByWithRelationInput = {
   tipo?: Prisma.SortOrder
   daySlot?: Prisma.DaySlotOrderByWithRelationInput
   catalogItem?: Prisma.FoodCatalogItemOrderByWithRelationInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentOrderByRelationAggregateInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentOrderByRelationAggregateInput
 }
 
@@ -303,6 +305,7 @@ export type FoodComponentWhereUniqueInput = Prisma.AtLeast<{
   tipo?: Prisma.StringFilter<"FoodComponent"> | string
   daySlot?: Prisma.XOR<Prisma.DaySlotScalarRelationFilter, Prisma.DaySlotWhereInput>
   catalogItem?: Prisma.XOR<Prisma.FoodCatalogItemNullableScalarRelationFilter, Prisma.FoodCatalogItemWhereInput> | null
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentListRelationFilter
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentListRelationFilter
 }, "id">
 
@@ -354,6 +357,7 @@ export type FoodComponentCreateInput = {
   tipo: string
   daySlot: Prisma.DaySlotCreateNestedOneWithoutComponentsInput
   catalogItem?: Prisma.FoodCatalogItemCreateNestedOneWithoutComponentsInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentCreateNestedManyWithoutSourceFoodComponentInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentCreateNestedManyWithoutSourceFoodComponentInput
 }
 
@@ -369,6 +373,7 @@ export type FoodComponentUncheckedCreateInput = {
   calorias: number
   imagen: string
   tipo: string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedCreateNestedManyWithoutSourceFoodComponentInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUncheckedCreateNestedManyWithoutSourceFoodComponentInput
 }
 
@@ -384,6 +389,7 @@ export type FoodComponentUpdateInput = {
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   daySlot?: Prisma.DaySlotUpdateOneRequiredWithoutComponentsNestedInput
   catalogItem?: Prisma.FoodCatalogItemUpdateOneWithoutComponentsNestedInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUpdateManyWithoutSourceFoodComponentNestedInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUpdateManyWithoutSourceFoodComponentNestedInput
 }
 
@@ -399,6 +405,7 @@ export type FoodComponentUncheckedUpdateInput = {
   calorias?: Prisma.IntFieldUpdateOperationsInput | number
   imagen?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedUpdateManyWithoutSourceFoodComponentNestedInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUncheckedUpdateManyWithoutSourceFoodComponentNestedInput
 }
 
@@ -595,6 +602,22 @@ export type EnumComponentRoleFieldUpdateOperationsInput = {
   set?: $Enums.ComponentRole
 }
 
+export type FoodComponentCreateNestedOneWithoutPublicationSlotComponentsInput = {
+  create?: Prisma.XOR<Prisma.FoodComponentCreateWithoutPublicationSlotComponentsInput, Prisma.FoodComponentUncheckedCreateWithoutPublicationSlotComponentsInput>
+  connectOrCreate?: Prisma.FoodComponentCreateOrConnectWithoutPublicationSlotComponentsInput
+  connect?: Prisma.FoodComponentWhereUniqueInput
+}
+
+export type FoodComponentUpdateOneWithoutPublicationSlotComponentsNestedInput = {
+  create?: Prisma.XOR<Prisma.FoodComponentCreateWithoutPublicationSlotComponentsInput, Prisma.FoodComponentUncheckedCreateWithoutPublicationSlotComponentsInput>
+  connectOrCreate?: Prisma.FoodComponentCreateOrConnectWithoutPublicationSlotComponentsInput
+  upsert?: Prisma.FoodComponentUpsertWithoutPublicationSlotComponentsInput
+  disconnect?: Prisma.FoodComponentWhereInput | boolean
+  delete?: Prisma.FoodComponentWhereInput | boolean
+  connect?: Prisma.FoodComponentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FoodComponentUpdateToOneWithWhereWithoutPublicationSlotComponentsInput, Prisma.FoodComponentUpdateWithoutPublicationSlotComponentsInput>, Prisma.FoodComponentUncheckedUpdateWithoutPublicationSlotComponentsInput>
+}
+
 export type FoodComponentCreateNestedOneWithoutOrderPlanSlotComponentsInput = {
   create?: Prisma.XOR<Prisma.FoodComponentCreateWithoutOrderPlanSlotComponentsInput, Prisma.FoodComponentUncheckedCreateWithoutOrderPlanSlotComponentsInput>
   connectOrCreate?: Prisma.FoodComponentCreateOrConnectWithoutOrderPlanSlotComponentsInput
@@ -622,6 +645,7 @@ export type FoodComponentCreateWithoutDaySlotInput = {
   imagen: string
   tipo: string
   catalogItem?: Prisma.FoodCatalogItemCreateNestedOneWithoutComponentsInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentCreateNestedManyWithoutSourceFoodComponentInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentCreateNestedManyWithoutSourceFoodComponentInput
 }
 
@@ -636,6 +660,7 @@ export type FoodComponentUncheckedCreateWithoutDaySlotInput = {
   calorias: number
   imagen: string
   tipo: string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedCreateNestedManyWithoutSourceFoodComponentInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUncheckedCreateNestedManyWithoutSourceFoodComponentInput
 }
 
@@ -693,6 +718,7 @@ export type FoodComponentCreateWithoutCatalogItemInput = {
   imagen: string
   tipo: string
   daySlot: Prisma.DaySlotCreateNestedOneWithoutComponentsInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentCreateNestedManyWithoutSourceFoodComponentInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentCreateNestedManyWithoutSourceFoodComponentInput
 }
 
@@ -707,6 +733,7 @@ export type FoodComponentUncheckedCreateWithoutCatalogItemInput = {
   calorias: number
   imagen: string
   tipo: string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedCreateNestedManyWithoutSourceFoodComponentInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUncheckedCreateNestedManyWithoutSourceFoodComponentInput
 }
 
@@ -736,6 +763,82 @@ export type FoodComponentUpdateManyWithWhereWithoutCatalogItemInput = {
   data: Prisma.XOR<Prisma.FoodComponentUpdateManyMutationInput, Prisma.FoodComponentUncheckedUpdateManyWithoutCatalogItemInput>
 }
 
+export type FoodComponentCreateWithoutPublicationSlotComponentsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  componentRole: $Enums.ComponentRole
+  nombre: string
+  descripcion: string
+  calorias: number
+  imagen: string
+  tipo: string
+  daySlot: Prisma.DaySlotCreateNestedOneWithoutComponentsInput
+  catalogItem?: Prisma.FoodCatalogItemCreateNestedOneWithoutComponentsInput
+  orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentCreateNestedManyWithoutSourceFoodComponentInput
+}
+
+export type FoodComponentUncheckedCreateWithoutPublicationSlotComponentsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  daySlotId: string
+  catalogItemId?: string | null
+  componentRole: $Enums.ComponentRole
+  nombre: string
+  descripcion: string
+  calorias: number
+  imagen: string
+  tipo: string
+  orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUncheckedCreateNestedManyWithoutSourceFoodComponentInput
+}
+
+export type FoodComponentCreateOrConnectWithoutPublicationSlotComponentsInput = {
+  where: Prisma.FoodComponentWhereUniqueInput
+  create: Prisma.XOR<Prisma.FoodComponentCreateWithoutPublicationSlotComponentsInput, Prisma.FoodComponentUncheckedCreateWithoutPublicationSlotComponentsInput>
+}
+
+export type FoodComponentUpsertWithoutPublicationSlotComponentsInput = {
+  update: Prisma.XOR<Prisma.FoodComponentUpdateWithoutPublicationSlotComponentsInput, Prisma.FoodComponentUncheckedUpdateWithoutPublicationSlotComponentsInput>
+  create: Prisma.XOR<Prisma.FoodComponentCreateWithoutPublicationSlotComponentsInput, Prisma.FoodComponentUncheckedCreateWithoutPublicationSlotComponentsInput>
+  where?: Prisma.FoodComponentWhereInput
+}
+
+export type FoodComponentUpdateToOneWithWhereWithoutPublicationSlotComponentsInput = {
+  where?: Prisma.FoodComponentWhereInput
+  data: Prisma.XOR<Prisma.FoodComponentUpdateWithoutPublicationSlotComponentsInput, Prisma.FoodComponentUncheckedUpdateWithoutPublicationSlotComponentsInput>
+}
+
+export type FoodComponentUpdateWithoutPublicationSlotComponentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  componentRole?: Prisma.EnumComponentRoleFieldUpdateOperationsInput | $Enums.ComponentRole
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  descripcion?: Prisma.StringFieldUpdateOperationsInput | string
+  calorias?: Prisma.IntFieldUpdateOperationsInput | number
+  imagen?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  daySlot?: Prisma.DaySlotUpdateOneRequiredWithoutComponentsNestedInput
+  catalogItem?: Prisma.FoodCatalogItemUpdateOneWithoutComponentsNestedInput
+  orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUpdateManyWithoutSourceFoodComponentNestedInput
+}
+
+export type FoodComponentUncheckedUpdateWithoutPublicationSlotComponentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  daySlotId?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  componentRole?: Prisma.EnumComponentRoleFieldUpdateOperationsInput | $Enums.ComponentRole
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  descripcion?: Prisma.StringFieldUpdateOperationsInput | string
+  calorias?: Prisma.IntFieldUpdateOperationsInput | number
+  imagen?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUncheckedUpdateManyWithoutSourceFoodComponentNestedInput
+}
+
 export type FoodComponentCreateWithoutOrderPlanSlotComponentsInput = {
   id?: string
   createdAt?: Date | string
@@ -748,6 +851,7 @@ export type FoodComponentCreateWithoutOrderPlanSlotComponentsInput = {
   tipo: string
   daySlot: Prisma.DaySlotCreateNestedOneWithoutComponentsInput
   catalogItem?: Prisma.FoodCatalogItemCreateNestedOneWithoutComponentsInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentCreateNestedManyWithoutSourceFoodComponentInput
 }
 
 export type FoodComponentUncheckedCreateWithoutOrderPlanSlotComponentsInput = {
@@ -762,6 +866,7 @@ export type FoodComponentUncheckedCreateWithoutOrderPlanSlotComponentsInput = {
   calorias: number
   imagen: string
   tipo: string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedCreateNestedManyWithoutSourceFoodComponentInput
 }
 
 export type FoodComponentCreateOrConnectWithoutOrderPlanSlotComponentsInput = {
@@ -792,6 +897,7 @@ export type FoodComponentUpdateWithoutOrderPlanSlotComponentsInput = {
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   daySlot?: Prisma.DaySlotUpdateOneRequiredWithoutComponentsNestedInput
   catalogItem?: Prisma.FoodCatalogItemUpdateOneWithoutComponentsNestedInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUpdateManyWithoutSourceFoodComponentNestedInput
 }
 
 export type FoodComponentUncheckedUpdateWithoutOrderPlanSlotComponentsInput = {
@@ -806,6 +912,7 @@ export type FoodComponentUncheckedUpdateWithoutOrderPlanSlotComponentsInput = {
   calorias?: Prisma.IntFieldUpdateOperationsInput | number
   imagen?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedUpdateManyWithoutSourceFoodComponentNestedInput
 }
 
 export type FoodComponentCreateManyDaySlotInput = {
@@ -832,6 +939,7 @@ export type FoodComponentUpdateWithoutDaySlotInput = {
   imagen?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   catalogItem?: Prisma.FoodCatalogItemUpdateOneWithoutComponentsNestedInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUpdateManyWithoutSourceFoodComponentNestedInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUpdateManyWithoutSourceFoodComponentNestedInput
 }
 
@@ -846,6 +954,7 @@ export type FoodComponentUncheckedUpdateWithoutDaySlotInput = {
   calorias?: Prisma.IntFieldUpdateOperationsInput | number
   imagen?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedUpdateManyWithoutSourceFoodComponentNestedInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUncheckedUpdateManyWithoutSourceFoodComponentNestedInput
 }
 
@@ -886,6 +995,7 @@ export type FoodComponentUpdateWithoutCatalogItemInput = {
   imagen?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
   daySlot?: Prisma.DaySlotUpdateOneRequiredWithoutComponentsNestedInput
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUpdateManyWithoutSourceFoodComponentNestedInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUpdateManyWithoutSourceFoodComponentNestedInput
 }
 
@@ -900,6 +1010,7 @@ export type FoodComponentUncheckedUpdateWithoutCatalogItemInput = {
   calorias?: Prisma.IntFieldUpdateOperationsInput | number
   imagen?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  publicationSlotComponents?: Prisma.MenuPublicationSlotComponentUncheckedUpdateManyWithoutSourceFoodComponentNestedInput
   orderPlanSlotComponents?: Prisma.OrderPlanSlotComponentUncheckedUpdateManyWithoutSourceFoodComponentNestedInput
 }
 
@@ -922,10 +1033,12 @@ export type FoodComponentUncheckedUpdateManyWithoutCatalogItemInput = {
  */
 
 export type FoodComponentCountOutputType = {
+  publicationSlotComponents: number
   orderPlanSlotComponents: number
 }
 
 export type FoodComponentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  publicationSlotComponents?: boolean | FoodComponentCountOutputTypeCountPublicationSlotComponentsArgs
   orderPlanSlotComponents?: boolean | FoodComponentCountOutputTypeCountOrderPlanSlotComponentsArgs
 }
 
@@ -937,6 +1050,13 @@ export type FoodComponentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Type
    * Select specific fields to fetch from the FoodComponentCountOutputType
    */
   select?: Prisma.FoodComponentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * FoodComponentCountOutputType without action
+ */
+export type FoodComponentCountOutputTypeCountPublicationSlotComponentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MenuPublicationSlotComponentWhereInput
 }
 
 /**
@@ -961,6 +1081,7 @@ export type FoodComponentSelect<ExtArgs extends runtime.Types.Extensions.Interna
   tipo?: boolean
   daySlot?: boolean | Prisma.DaySlotDefaultArgs<ExtArgs>
   catalogItem?: boolean | Prisma.FoodComponent$catalogItemArgs<ExtArgs>
+  publicationSlotComponents?: boolean | Prisma.FoodComponent$publicationSlotComponentsArgs<ExtArgs>
   orderPlanSlotComponents?: boolean | Prisma.FoodComponent$orderPlanSlotComponentsArgs<ExtArgs>
   _count?: boolean | Prisma.FoodComponentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["foodComponent"]>
@@ -1015,6 +1136,7 @@ export type FoodComponentOmit<ExtArgs extends runtime.Types.Extensions.InternalA
 export type FoodComponentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   daySlot?: boolean | Prisma.DaySlotDefaultArgs<ExtArgs>
   catalogItem?: boolean | Prisma.FoodComponent$catalogItemArgs<ExtArgs>
+  publicationSlotComponents?: boolean | Prisma.FoodComponent$publicationSlotComponentsArgs<ExtArgs>
   orderPlanSlotComponents?: boolean | Prisma.FoodComponent$orderPlanSlotComponentsArgs<ExtArgs>
   _count?: boolean | Prisma.FoodComponentCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1032,6 +1154,7 @@ export type $FoodComponentPayload<ExtArgs extends runtime.Types.Extensions.Inter
   objects: {
     daySlot: Prisma.$DaySlotPayload<ExtArgs>
     catalogItem: Prisma.$FoodCatalogItemPayload<ExtArgs> | null
+    publicationSlotComponents: Prisma.$MenuPublicationSlotComponentPayload<ExtArgs>[]
     orderPlanSlotComponents: Prisma.$OrderPlanSlotComponentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1442,6 +1565,7 @@ export interface Prisma__FoodComponentClient<T, Null = never, ExtArgs extends ru
   readonly [Symbol.toStringTag]: "PrismaPromise"
   daySlot<T extends Prisma.DaySlotDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DaySlotDefaultArgs<ExtArgs>>): Prisma.Prisma__DaySlotClient<runtime.Types.Result.GetResult<Prisma.$DaySlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   catalogItem<T extends Prisma.FoodComponent$catalogItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoodComponent$catalogItemArgs<ExtArgs>>): Prisma.Prisma__FoodCatalogItemClient<runtime.Types.Result.GetResult<Prisma.$FoodCatalogItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  publicationSlotComponents<T extends Prisma.FoodComponent$publicationSlotComponentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoodComponent$publicationSlotComponentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MenuPublicationSlotComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orderPlanSlotComponents<T extends Prisma.FoodComponent$orderPlanSlotComponentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FoodComponent$orderPlanSlotComponentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPlanSlotComponentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1900,6 +2024,30 @@ export type FoodComponent$catalogItemArgs<ExtArgs extends runtime.Types.Extensio
    */
   include?: Prisma.FoodCatalogItemInclude<ExtArgs> | null
   where?: Prisma.FoodCatalogItemWhereInput
+}
+
+/**
+ * FoodComponent.publicationSlotComponents
+ */
+export type FoodComponent$publicationSlotComponentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MenuPublicationSlotComponent
+   */
+  select?: Prisma.MenuPublicationSlotComponentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MenuPublicationSlotComponent
+   */
+  omit?: Prisma.MenuPublicationSlotComponentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuPublicationSlotComponentInclude<ExtArgs> | null
+  where?: Prisma.MenuPublicationSlotComponentWhereInput
+  orderBy?: Prisma.MenuPublicationSlotComponentOrderByWithRelationInput | Prisma.MenuPublicationSlotComponentOrderByWithRelationInput[]
+  cursor?: Prisma.MenuPublicationSlotComponentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MenuPublicationSlotComponentScalarFieldEnum | Prisma.MenuPublicationSlotComponentScalarFieldEnum[]
 }
 
 /**

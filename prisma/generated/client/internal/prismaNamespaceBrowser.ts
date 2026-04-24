@@ -54,20 +54,28 @@ export const ModelName = {
   WeeklyMenu: 'WeeklyMenu',
   MenuDay: 'MenuDay',
   DaySlot: 'DaySlot',
+  MenuPublication: 'MenuPublication',
+  MenuPublicationDeliveryWindow: 'MenuPublicationDeliveryWindow',
+  MenuPublicationSlot: 'MenuPublicationSlot',
   FoodCatalogItem: 'FoodCatalogItem',
   FoodComponent: 'FoodComponent',
   SupplyCategory: 'SupplyCategory',
   SupplyItem: 'SupplyItem',
   Recipe: 'Recipe',
   RecipeIngredient: 'RecipeIngredient',
+  MenuPublicationSlotComponent: 'MenuPublicationSlotComponent',
+  MenuPublicationSlotIngredient: 'MenuPublicationSlotIngredient',
   SupplyNutritionLookupLog: 'SupplyNutritionLookupLog',
   User: 'User',
   UserAddress: 'UserAddress',
   Plan: 'Plan',
+  UserPlanSubscription: 'UserPlanSubscription',
   Order: 'Order',
   OrderPlan: 'OrderPlan',
   OrderPlanSlot: 'OrderPlanSlot',
-  OrderPlanSlotComponent: 'OrderPlanSlotComponent'
+  OrderPlanSlotComponent: 'OrderPlanSlotComponent',
+  OrderDelivery: 'OrderDelivery',
+  OrderAddressSnapshot: 'OrderAddressSnapshot'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -91,6 +99,7 @@ export const WeeklyMenuScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   isActive: 'isActive',
+  menuType: 'menuType',
   startDate: 'startDate',
   endDate: 'endDate',
   name: 'name'
@@ -121,6 +130,64 @@ export const DaySlotScalarFieldEnum = {
 } as const
 
 export type DaySlotScalarFieldEnum = (typeof DaySlotScalarFieldEnum)[keyof typeof DaySlotScalarFieldEnum]
+
+
+export const MenuPublicationScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  sourceWeeklyMenuId: 'sourceWeeklyMenuId',
+  menuTypeSnapshot: 'menuTypeSnapshot',
+  version: 'version',
+  status: 'status',
+  isCurrent: 'isCurrent',
+  publishedAt: 'publishedAt',
+  generatedAt: 'generatedAt',
+  closedAt: 'closedAt',
+  supersededAt: 'supersededAt',
+  menuNameSnapshot: 'menuNameSnapshot',
+  menuStartDateSnapshot: 'menuStartDateSnapshot',
+  menuEndDateSnapshot: 'menuEndDateSnapshot',
+  eligibleDayCount: 'eligibleDayCount',
+  daySelectionStrategy: 'daySelectionStrategy',
+  deliverySplitStrategy: 'deliverySplitStrategy'
+} as const
+
+export type MenuPublicationScalarFieldEnum = (typeof MenuPublicationScalarFieldEnum)[keyof typeof MenuPublicationScalarFieldEnum]
+
+
+export const MenuPublicationDeliveryWindowScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  menuPublicationId: 'menuPublicationId',
+  deliveryIndex: 'deliveryIndex',
+  label: 'label',
+  startMenuDayOrder: 'startMenuDayOrder',
+  endMenuDayOrder: 'endMenuDayOrder',
+  scheduledFor: 'scheduledFor',
+  status: 'status'
+} as const
+
+export type MenuPublicationDeliveryWindowScalarFieldEnum = (typeof MenuPublicationDeliveryWindowScalarFieldEnum)[keyof typeof MenuPublicationDeliveryWindowScalarFieldEnum]
+
+
+export const MenuPublicationSlotScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  menuPublicationId: 'menuPublicationId',
+  deliveryWindowId: 'deliveryWindowId',
+  sourceMenuDayId: 'sourceMenuDayId',
+  sourceDaySlotId: 'sourceDaySlotId',
+  serviceDate: 'serviceDate',
+  dayOfWeek: 'dayOfWeek',
+  menuDayOrder: 'menuDayOrder',
+  slotType: 'slotType',
+  contenedor: 'contenedor'
+} as const
+
+export type MenuPublicationSlotScalarFieldEnum = (typeof MenuPublicationSlotScalarFieldEnum)[keyof typeof MenuPublicationSlotScalarFieldEnum]
 
 
 export const FoodCatalogItemScalarFieldEnum = {
@@ -259,6 +326,50 @@ export const RecipeIngredientScalarFieldEnum = {
 export type RecipeIngredientScalarFieldEnum = (typeof RecipeIngredientScalarFieldEnum)[keyof typeof RecipeIngredientScalarFieldEnum]
 
 
+export const MenuPublicationSlotComponentScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  menuPublicationSlotId: 'menuPublicationSlotId',
+  sourceFoodComponentId: 'sourceFoodComponentId',
+  sourceCatalogItemId: 'sourceCatalogItemId',
+  sourceRecipeId: 'sourceRecipeId',
+  componentIndex: 'componentIndex',
+  componentRole: 'componentRole',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  calorias: 'calorias',
+  imagen: 'imagen',
+  tipo: 'tipo',
+  recipeVersionSnapshot: 'recipeVersionSnapshot'
+} as const
+
+export type MenuPublicationSlotComponentScalarFieldEnum = (typeof MenuPublicationSlotComponentScalarFieldEnum)[keyof typeof MenuPublicationSlotComponentScalarFieldEnum]
+
+
+export const MenuPublicationSlotIngredientScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  menuPublicationSlotComponentId: 'menuPublicationSlotComponentId',
+  sourceRecipeIngredientId: 'sourceRecipeIngredientId',
+  sourceSupplyItemId: 'sourceSupplyItemId',
+  ingredientIndex: 'ingredientIndex',
+  grupo: 'grupo',
+  cantidad: 'cantidad',
+  unidad: 'unidad',
+  quantityInBaseUnit: 'quantityInBaseUnit',
+  wasteFactor: 'wasteFactor',
+  opcional: 'opcional',
+  supplyNameSnapshot: 'supplyNameSnapshot',
+  supplyUnitBaseSnapshot: 'supplyUnitBaseSnapshot',
+  supplyCategoryNameSnapshot: 'supplyCategoryNameSnapshot',
+  costoReferencialSnapshot: 'costoReferencialSnapshot'
+} as const
+
+export type MenuPublicationSlotIngredientScalarFieldEnum = (typeof MenuPublicationSlotIngredientScalarFieldEnum)[keyof typeof MenuPublicationSlotIngredientScalarFieldEnum]
+
+
 export const SupplyNutritionLookupLogScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -344,6 +455,29 @@ export const PlanScalarFieldEnum = {
 export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof PlanScalarFieldEnum]
 
 
+export const UserPlanSubscriptionScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  planId: 'planId',
+  status: 'status',
+  menuType: 'menuType',
+  quantity: 'quantity',
+  daysPerCycle: 'daysPerCycle',
+  unitPriceSnapshot: 'unitPriceSnapshot',
+  currency: 'currency',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  pausedAt: 'pausedAt',
+  cancelledAt: 'cancelledAt',
+  autoGenerate: 'autoGenerate',
+  notas: 'notas'
+} as const
+
+export type UserPlanSubscriptionScalarFieldEnum = (typeof UserPlanSubscriptionScalarFieldEnum)[keyof typeof UserPlanSubscriptionScalarFieldEnum]
+
+
 export const OrderScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -352,7 +486,9 @@ export const OrderScalarFieldEnum = {
   userId: 'userId',
   createdById: 'createdById',
   weeklyMenuId: 'weeklyMenuId',
+  menuPublicationId: 'menuPublicationId',
   deliveryAddressId: 'deliveryAddressId',
+  origin: 'origin',
   status: 'status',
   paymentStatus: 'paymentStatus',
   currency: 'currency',
@@ -391,12 +527,15 @@ export const OrderPlanScalarFieldEnum = {
   updatedAt: 'updatedAt',
   orderId: 'orderId',
   planId: 'planId',
+  userPlanSubscriptionId: 'userPlanSubscriptionId',
+  menuPublicationId: 'menuPublicationId',
   quantity: 'quantity',
   unitPrice: 'unitPrice',
   lineSubtotal: 'lineSubtotal',
   notas: 'notas',
   planDishCountSnapshot: 'planDishCountSnapshot',
   planTypeSnapshot: 'planTypeSnapshot',
+  menuTypeSnapshot: 'menuTypeSnapshot',
   requestedDishCount: 'requestedDishCount',
   assignedDishCount: 'assignedDishCount',
   pendingDishCount: 'pendingDishCount',
@@ -411,9 +550,13 @@ export const OrderPlanSlotScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   orderPlanId: 'orderPlanId',
+  menuPublicationSlotId: 'menuPublicationSlotId',
+  orderDeliveryId: 'orderDeliveryId',
   sourceWeeklyMenuId: 'sourceWeeklyMenuId',
   sourceMenuDayId: 'sourceMenuDayId',
   sourceDaySlotId: 'sourceDaySlotId',
+  serviceDate: 'serviceDate',
+  menuTypeSnapshot: 'menuTypeSnapshot',
   selectionIndex: 'selectionIndex',
   dayOfWeek: 'dayOfWeek',
   menuDayOrder: 'menuDayOrder',
@@ -429,6 +572,7 @@ export const OrderPlanSlotComponentScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   orderPlanSlotId: 'orderPlanSlotId',
+  menuPublicationSlotComponentId: 'menuPublicationSlotComponentId',
   sourceFoodComponentId: 'sourceFoodComponentId',
   sourceCatalogItemId: 'sourceCatalogItemId',
   componentRole: 'componentRole',
@@ -440,6 +584,43 @@ export const OrderPlanSlotComponentScalarFieldEnum = {
 } as const
 
 export type OrderPlanSlotComponentScalarFieldEnum = (typeof OrderPlanSlotComponentScalarFieldEnum)[keyof typeof OrderPlanSlotComponentScalarFieldEnum]
+
+
+export const OrderDeliveryScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  orderId: 'orderId',
+  menuPublicationDeliveryWindowId: 'menuPublicationDeliveryWindowId',
+  deliveryIndex: 'deliveryIndex',
+  scheduledFor: 'scheduledFor',
+  status: 'status',
+  slotCount: 'slotCount',
+  notas: 'notas'
+} as const
+
+export type OrderDeliveryScalarFieldEnum = (typeof OrderDeliveryScalarFieldEnum)[keyof typeof OrderDeliveryScalarFieldEnum]
+
+
+export const OrderAddressSnapshotScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  orderId: 'orderId',
+  etiqueta: 'etiqueta',
+  destinatario: 'destinatario',
+  telefono: 'telefono',
+  linea1: 'linea1',
+  linea2: 'linea2',
+  colonia: 'colonia',
+  ciudad: 'ciudad',
+  estado: 'estado',
+  codigoPostal: 'codigoPostal',
+  pais: 'pais',
+  referencias: 'referencias'
+} as const
+
+export type OrderAddressSnapshotScalarFieldEnum = (typeof OrderAddressSnapshotScalarFieldEnum)[keyof typeof OrderAddressSnapshotScalarFieldEnum]
 
 
 export const SortOrder = {

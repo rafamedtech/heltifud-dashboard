@@ -1,5 +1,5 @@
-import { getActiveMenu } from '../../utils/menu'
+import { getActiveMenus } from '../../utils/menu'
 
 export default defineEventHandler(async () => {
-  return await getActiveMenu()
+  return await getActiveMenus()
 })

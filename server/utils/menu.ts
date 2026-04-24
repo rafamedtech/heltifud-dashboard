@@ -1,6 +1,7 @@
 import { createError } from 'h3'
 
 import { ComponentRole, SlotType, type Prisma, type DayOfWeek } from '../../prisma/generated/client/client'
+import { MenuType, type MenuType as MenuTypeValue } from '../../prisma/generated/client/enums'
 import { weeklyMenuInputSchema, type WeeklyMenuInputParsed } from '~~/types/menuSchema'
 import type {
   DayMenu,
@@ -86,9 +87,112 @@ type OptionalFoodItemInput = {
 } | null
 
 const SLOT_KEYS: SlotKey[] = ['desayuno', 'comida', 'cena', 'snack1', 'snack2']
+const MENU_ACTIVE_LEAD_DAYS = 5
+const MENU_BUSINESS_TIME_ZONE = 'America/Tijuana'
+
+type MenuActivityRecord = {
+  id: string
+  menuType?: MenuTypeValue | string
+  startDate: Date
+  endDate: Date
+  createdAt?: Date | null
+  updatedAt?: Date | null
+}
 
 function trimString(value: string | undefined | null): string {
   return (value ?? '').trim()
+}
+
+function getDateKeyFromStoredDate(value: Date) {
+  return value.toISOString().slice(0, 10)
+}
+
+function getCurrentDateKey(timeZone = MENU_BUSINESS_TIME_ZONE, now = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).formatToParts(now)
+
+  const year = parts.find(part => part.type === 'year')?.value
+  const month = parts.find(part => part.type === 'month')?.value
+  const day = parts.find(part => part.type === 'day')?.value
+
+  if (!year || !month || !day) {
+    throw new Error('No se pudo resolver la fecha actual para la zona horaria del menú.')
+  }
+
+  return `${year}-${month}-${day}`
+}
+
+function addDaysToDateKey(dateKey: string, days: number) {
+  const [year, month, day] = dateKey.split('-').map(Number)
+
+  if (!year || !month || !day) {
+    throw new Error(`Fecha inválida para menú: ${dateKey}`)
+  }
+
+  const date = new Date(Date.UTC(year, month - 1, day))
+  date.setUTCDate(date.getUTCDate() + days)
+  return date.toISOString().slice(0, 10)
+}
+
+function getActivationStartDateKey(menu: Pick<MenuActivityRecord, 'startDate'>) {
+  return addDaysToDateKey(getDateKeyFromStoredDate(menu.startDate), -MENU_ACTIVE_LEAD_DAYS)
+}
+
+function isMenuActiveForDateKey(menu: Pick<MenuActivityRecord, 'startDate' | 'endDate'>, dateKey: string) {
+  const activationStartKey = getActivationStartDateKey(menu)
+  const endDateKey = getDateKeyFromStoredDate(menu.endDate)
+
+  return activationStartKey <= dateKey && dateKey <= endDateKey
+}
+
+function compareMenuPriority(a: MenuActivityRecord, b: MenuActivityRecord) {
+  const startDateDiff = b.startDate.getTime() - a.startDate.getTime()
+
+  if (startDateDiff !== 0) {
+    return startDateDiff
+  }
+
+  const updatedAtDiff = (b.updatedAt?.getTime() ?? 0) - (a.updatedAt?.getTime() ?? 0)
+
+  if (updatedAtDiff !== 0) {
+    return updatedAtDiff
+  }
+
+  return (b.createdAt?.getTime() ?? 0) - (a.createdAt?.getTime() ?? 0)
+}
+
+export function resolveActiveMenuIds(records: readonly MenuActivityRecord[], now = new Date()) {
+  const todayKey = getCurrentDateKey(MENU_BUSINESS_TIME_ZONE, now)
+  const byType = new Map<string, MenuActivityRecord>()
+  const activeRecords = [...records]
+    .filter(record => isMenuActiveForDateKey(record, todayKey))
+    .sort(compareMenuPriority)
+
+  activeRecords.forEach((record) => {
+    const menuType = record.menuType ?? MenuType.ESTANDAR
+
+    if (!byType.has(menuType)) {
+      byType.set(menuType, record)
+    }
+  })
+
+  return new Set([...byType.values()].map(record => record.id))
+}
+
+export function resolveActiveMenuId(records: readonly MenuActivityRecord[], now = new Date()) {
+  return [...resolveActiveMenuIds(records, now)][0] ?? null
+}
+
+function resolveNextMenuId(records: readonly MenuActivityRecord[], now = new Date()) {
+  const todayKey = getCurrentDateKey(MENU_BUSINESS_TIME_ZONE, now)
+
+  return [...records]
+    .filter(record => getActivationStartDateKey(record) > todayKey)
+    .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())[0]?.id ?? null
 }
 
 function normalizeFoodItem(item: FoodItemDetail): FoodItemDetail {
@@ -341,11 +445,12 @@ function mapSlot(record: WeeklyMenuRecord['days'][number]['slots'][number]): Det
   }
 }
 
-function mapMenu(record: WeeklyMenuRecord): WeeklyMenuDetail {
+function mapMenu(record: WeeklyMenuRecord, activeMenuIds: ReadonlySet<string>): WeeklyMenuDetail {
   return {
     id: record.id,
     name: record.name,
-    isActive: record.isActive,
+    isActive: activeMenuIds.has(record.id),
+    menuType: record.menuType,
     startDate: record.startDate.toISOString(),
     endDate: record.endDate.toISOString(),
     createdAt: record.createdAt.toISOString(),
@@ -386,10 +491,11 @@ function validatePayload(input: WeeklyMenuInput) {
   return normalizePayload(parsed.data)
 }
 
-async function assertNoOverlap(startDate: Date, endDate: Date, excludeId?: string) {
+async function assertNoOverlap(startDate: Date, endDate: Date, menuType: MenuTypeValue, excludeId?: string) {
   const overlap = await prisma.weeklyMenu.findFirst({
     where: {
       ...(excludeId ? { id: { not: excludeId } } : {}),
+      menuType,
       AND: [{ startDate: { lte: endDate } }, { endDate: { gte: startDate } }]
     },
     select: { id: true }
@@ -398,73 +504,92 @@ async function assertNoOverlap(startDate: Date, endDate: Date, excludeId?: strin
   if (overlap) {
     throw createError({
       statusCode: 409,
-      message: 'El rango de fechas del menú se traslapa con otro menú existente.',
+      message: 'El rango de fechas del menú se traslapa con otro menú existente del mismo tipo.',
       data: {
-        message: 'El rango de fechas del menú se traslapa con otro menú existente.'
+        message: 'El rango de fechas del menú se traslapa con otro menú existente del mismo tipo.'
       }
     })
   }
 }
 
-export async function getActiveMenu() {
-  const menu = await prisma.weeklyMenu.findFirst({
-    where: { isActive: true },
-    orderBy: { updatedAt: 'desc' },
+export async function getActiveMenus() {
+  const menus = await prisma.weeklyMenu.findMany({
+    orderBy: [{ startDate: 'desc' }, { createdAt: 'desc' }],
     include: menuInclude
   })
 
-  return menu ? mapMenu(menu) : null
+  const activeMenuIds = resolveActiveMenuIds(menus)
+
+  return menus
+    .filter(menu => activeMenuIds.has(menu.id))
+    .map(menu => mapMenu(menu, activeMenuIds))
+}
+
+export async function getActiveMenu() {
+  return (await getActiveMenus())[0] ?? null
 }
 
 export async function getNextMenu() {
-  const now = new Date()
-
-  const menu = await prisma.weeklyMenu.findFirst({
-    where: {
-      startDate: { gt: now }
-    },
-    orderBy: { startDate: 'asc' },
+  const menus = await prisma.weeklyMenu.findMany({
+    orderBy: [{ startDate: 'asc' }, { createdAt: 'asc' }],
     include: menuInclude
   })
 
-  return menu ? mapMenu(menu) : null
+  const activeMenuIds = resolveActiveMenuIds(menus)
+  const nextMenuId = resolveNextMenuId(menus)
+  const menu = menus.find(item => item.id === nextMenuId)
+
+  return menu ? mapMenu(menu, activeMenuIds) : null
 }
 
 export async function getAllMenus() {
   const menus = await prisma.weeklyMenu.findMany({
-    orderBy: { startDate: 'desc' },
+    orderBy: [{ startDate: 'desc' }, { createdAt: 'desc' }],
     include: menuInclude
   })
 
-  return menus.map(mapMenu)
+  const activeMenuIds = resolveActiveMenuIds(menus)
+
+  return menus.map(menu => mapMenu(menu, activeMenuIds))
 }
 
 export async function getMenuById(id: string) {
-  const menu = await prisma.weeklyMenu.findUnique({
-    where: { id },
-    include: menuInclude
-  })
+  const [menu, menuActivityRecords] = await Promise.all([
+    prisma.weeklyMenu.findUnique({
+      where: { id },
+      include: menuInclude
+    }),
+    prisma.weeklyMenu.findMany({
+      select: {
+        id: true,
+        menuType: true,
+        startDate: true,
+        endDate: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    })
+  ])
 
   if (!menu) {
     return null
   }
 
-  return mapMenu(menu)
+  const activeMenuIds = resolveActiveMenuIds(menuActivityRecords)
+
+  return mapMenu(menu, activeMenuIds)
 }
 
 export async function createWeeklyMenu(input: WeeklyMenuInput) {
   const payload = validatePayload(input)
 
-  await assertNoOverlap(payload.startDate, payload.endDate)
-
-  const hasActiveMenu = await prisma.weeklyMenu.count({
-    where: { isActive: true }
-  })
+  await assertNoOverlap(payload.startDate, payload.endDate, payload.menuType)
 
   const created = await prisma.weeklyMenu.create({
     data: {
       name: payload.name,
-      isActive: hasActiveMenu === 0,
+      isActive: false,
+      menuType: payload.menuType,
       startDate: payload.startDate,
       endDate: payload.endDate,
       days: {
@@ -474,7 +599,20 @@ export async function createWeeklyMenu(input: WeeklyMenuInput) {
     include: menuInclude
   })
 
-  return mapMenu(created)
+  const menuActivityRecords = await prisma.weeklyMenu.findMany({
+    select: {
+      id: true,
+      menuType: true,
+      startDate: true,
+      endDate: true,
+      createdAt: true,
+      updatedAt: true
+    }
+  })
+
+  const activeMenuIds = resolveActiveMenuIds(menuActivityRecords)
+
+  return mapMenu(created, activeMenuIds)
 }
 
 export async function updateWeeklyMenu(id: string, input: WeeklyMenuInput) {
@@ -488,7 +626,7 @@ export async function updateWeeklyMenu(id: string, input: WeeklyMenuInput) {
   }
 
   const payload = validatePayload(input)
-  await assertNoOverlap(payload.startDate, payload.endDate, id)
+  await assertNoOverlap(payload.startDate, payload.endDate, payload.menuType, id)
 
   const existingDays = await prisma.menuDay.findMany({
     where: { weeklyMenuId: id },
@@ -511,6 +649,7 @@ export async function updateWeeklyMenu(id: string, input: WeeklyMenuInput) {
       where: { id },
       data: {
         name: payload.name,
+        menuType: payload.menuType,
         startDate: payload.startDate,
         endDate: payload.endDate
       }
@@ -551,13 +690,26 @@ export async function updateWeeklyMenu(id: string, input: WeeklyMenuInput) {
   const results = await prisma.$transaction(operations)
   const updated = results[results.length - 1] as WeeklyMenuRecord
 
-  return mapMenu(updated)
+  const menuActivityRecords = await prisma.weeklyMenu.findMany({
+    select: {
+      id: true,
+      menuType: true,
+      startDate: true,
+      endDate: true,
+      createdAt: true,
+      updatedAt: true
+    }
+  })
+
+  const activeMenuIds = resolveActiveMenuIds(menuActivityRecords)
+
+  return mapMenu(updated, activeMenuIds)
 }
 
 export async function deleteWeeklyMenu(id: string) {
   const existing = await prisma.weeklyMenu.findUnique({
     where: { id },
-    select: { id: true, isActive: true }
+    select: { id: true }
   })
 
   if (!existing) {
@@ -565,19 +717,6 @@ export async function deleteWeeklyMenu(id: string) {
   }
 
   await prisma.weeklyMenu.delete({ where: { id } })
-
-  if (existing.isActive) {
-    const fallbackMenu = await prisma.weeklyMenu.findFirst({
-      orderBy: [{ startDate: 'desc' }, { createdAt: 'desc' }]
-    })
-
-    if (fallbackMenu) {
-      await prisma.weeklyMenu.update({
-        where: { id: fallbackMenu.id },
-        data: { isActive: true }
-      })
-    }
-  }
 
   return { id }
 }
@@ -592,25 +731,11 @@ export async function setActiveMenu(id: string) {
     throw createError({ statusCode: 404, statusMessage: 'Menú no encontrado.' })
   }
 
-  await prisma.$transaction([
-    prisma.weeklyMenu.updateMany({
-      where: { isActive: true },
-      data: { isActive: false }
-    }),
-    prisma.weeklyMenu.update({
-      where: { id },
-      data: { isActive: true }
-    })
-  ])
-
-  const activeMenu = await prisma.weeklyMenu.findUnique({
-    where: { id },
-    include: menuInclude
+  throw createError({
+    statusCode: 409,
+    message: 'El menú activo se determina automáticamente según la fecha de inicio y fin.',
+    data: {
+      message: 'El menú activo se determina automáticamente según la fecha de inicio y fin.'
+    }
   })
-
-  if (!activeMenu) {
-    throw createError({ statusCode: 404, statusMessage: 'Menú no encontrado.' })
-  }
-
-  return mapMenu(activeMenu)
 }

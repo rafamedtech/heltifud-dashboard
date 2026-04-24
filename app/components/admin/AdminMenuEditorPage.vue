@@ -74,6 +74,7 @@ async function leaveWithoutSaving() {
   <AdminEditorPageShell
     :title="pageTitle"
     :description="pageDescription"
+    content-class="w-full"
   >
     <template #actions>
       <UButton

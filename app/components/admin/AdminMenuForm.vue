@@ -12,6 +12,19 @@ import {
   type WeeklyMenuFormState
 } from '~/utils/heltifud'
 
+const menuTypeOptions = [
+  {
+    label: 'Estándar',
+    value: 'ESTANDAR',
+    icon: 'i-lucide-utensils'
+  },
+  {
+    label: 'Vegetariano',
+    value: 'VEGETARIANO',
+    icon: 'i-lucide-leaf'
+  }
+]
+
 const props = withDefaults(defineProps<{
   formId?: string
   hideSubmit?: boolean
@@ -55,6 +68,24 @@ const visibleDays = computed(() =>
   state.value.days.filter(day => visibleDayKeys.includes(day.dayOfWeek as (typeof visibleDayKeys)[number]))
 )
 const isFormHydrating = computed(() => props.loadingFields)
+type SelectOptionValue = string | { value?: string, label?: string } | null | undefined
+
+function resolveSelectValue(value: SelectOptionValue) {
+  return typeof value === 'string'
+    ? value
+    : value?.value ?? ''
+}
+
+const selectedMenuType = computed({
+  get: () => state.value.menuType,
+  set: (value: SelectOptionValue) => {
+    const nextValue = resolveSelectValue(value)
+    state.value.menuType = nextValue === 'VEGETARIANO' ? 'VEGETARIANO' : 'ESTANDAR'
+  }
+})
+const selectedMenuTypeIcon = computed(
+  () => menuTypeOptions.find(option => option.value === selectedMenuType.value)?.icon ?? 'i-lucide-utensils'
+)
 const slotValidationSchema = z.object({
   days: z.array(z.any())
 }).superRefine((value, ctx) => {
@@ -212,6 +243,7 @@ function toggleDay(dayOfWeek: WeeklyMenuFormState['days'][number]['dayOfWeek']) 
 function buildPayload() {
   return {
     name: state.value.name.trim(),
+    menuType: state.value.menuType,
     startDate: state.value.startDate,
     endDate: state.value.endDate,
     days: state.value.days.map(day => ({
@@ -293,7 +325,7 @@ async function onSubmit() {
         Información general del menú
       </h2>
 
-      <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px_220px]">
+      <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px_220px_220px]">
         <UFormField label="Nombre del menú" class="min-w-0">
           <UInput
             v-model="state.name"
@@ -301,6 +333,21 @@ async function onSubmit() {
             size="xl"
             :disabled="isFormHydrating"
             :placeholder="isFormHydrating ? 'Cargando...' : 'Ej. Semana del 15 al 21 de abril'"
+          />
+        </UFormField>
+
+        <UFormField label="Tipo de menú">
+          <USelectMenu
+            v-model="selectedMenuType"
+            :items="menuTypeOptions"
+            label-key="label"
+            value-key="value"
+            class="w-full"
+            color="primary"
+            size="xl"
+            :icon="selectedMenuTypeIcon"
+            :disabled="isFormHydrating"
+            :placeholder="isFormHydrating ? 'Cargando...' : 'Selecciona tipo'"
           />
         </UFormField>
 

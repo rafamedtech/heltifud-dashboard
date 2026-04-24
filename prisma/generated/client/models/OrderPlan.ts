@@ -52,12 +52,15 @@ export type OrderPlanMinAggregateOutputType = {
   updatedAt: Date | null
   orderId: string | null
   planId: string | null
+  userPlanSubscriptionId: string | null
+  menuPublicationId: string | null
   quantity: number | null
   unitPrice: runtime.Decimal | null
   lineSubtotal: runtime.Decimal | null
   notas: string | null
   planDishCountSnapshot: number | null
   planTypeSnapshot: $Enums.PlanType | null
+  menuTypeSnapshot: $Enums.MenuType | null
   requestedDishCount: number | null
   assignedDishCount: number | null
   pendingDishCount: number | null
@@ -70,12 +73,15 @@ export type OrderPlanMaxAggregateOutputType = {
   updatedAt: Date | null
   orderId: string | null
   planId: string | null
+  userPlanSubscriptionId: string | null
+  menuPublicationId: string | null
   quantity: number | null
   unitPrice: runtime.Decimal | null
   lineSubtotal: runtime.Decimal | null
   notas: string | null
   planDishCountSnapshot: number | null
   planTypeSnapshot: $Enums.PlanType | null
+  menuTypeSnapshot: $Enums.MenuType | null
   requestedDishCount: number | null
   assignedDishCount: number | null
   pendingDishCount: number | null
@@ -88,12 +94,15 @@ export type OrderPlanCountAggregateOutputType = {
   updatedAt: number
   orderId: number
   planId: number
+  userPlanSubscriptionId: number
+  menuPublicationId: number
   quantity: number
   unitPrice: number
   lineSubtotal: number
   notas: number
   planDishCountSnapshot: number
   planTypeSnapshot: number
+  menuTypeSnapshot: number
   requestedDishCount: number
   assignedDishCount: number
   pendingDishCount: number
@@ -128,12 +137,15 @@ export type OrderPlanMinAggregateInputType = {
   updatedAt?: true
   orderId?: true
   planId?: true
+  userPlanSubscriptionId?: true
+  menuPublicationId?: true
   quantity?: true
   unitPrice?: true
   lineSubtotal?: true
   notas?: true
   planDishCountSnapshot?: true
   planTypeSnapshot?: true
+  menuTypeSnapshot?: true
   requestedDishCount?: true
   assignedDishCount?: true
   pendingDishCount?: true
@@ -146,12 +158,15 @@ export type OrderPlanMaxAggregateInputType = {
   updatedAt?: true
   orderId?: true
   planId?: true
+  userPlanSubscriptionId?: true
+  menuPublicationId?: true
   quantity?: true
   unitPrice?: true
   lineSubtotal?: true
   notas?: true
   planDishCountSnapshot?: true
   planTypeSnapshot?: true
+  menuTypeSnapshot?: true
   requestedDishCount?: true
   assignedDishCount?: true
   pendingDishCount?: true
@@ -164,12 +179,15 @@ export type OrderPlanCountAggregateInputType = {
   updatedAt?: true
   orderId?: true
   planId?: true
+  userPlanSubscriptionId?: true
+  menuPublicationId?: true
   quantity?: true
   unitPrice?: true
   lineSubtotal?: true
   notas?: true
   planDishCountSnapshot?: true
   planTypeSnapshot?: true
+  menuTypeSnapshot?: true
   requestedDishCount?: true
   assignedDishCount?: true
   pendingDishCount?: true
@@ -269,12 +287,15 @@ export type OrderPlanGroupByOutputType = {
   updatedAt: Date
   orderId: string
   planId: string
+  userPlanSubscriptionId: string | null
+  menuPublicationId: string | null
   quantity: number
   unitPrice: runtime.Decimal | null
   lineSubtotal: runtime.Decimal | null
   notas: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount: number
   pendingDishCount: number
@@ -310,18 +331,23 @@ export type OrderPlanWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"OrderPlan"> | Date | string
   orderId?: Prisma.StringFilter<"OrderPlan"> | string
   planId?: Prisma.StringFilter<"OrderPlan"> | string
+  userPlanSubscriptionId?: Prisma.StringNullableFilter<"OrderPlan"> | string | null
+  menuPublicationId?: Prisma.StringNullableFilter<"OrderPlan"> | string | null
   quantity?: Prisma.IntFilter<"OrderPlan"> | number
   unitPrice?: Prisma.DecimalNullableFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.DecimalNullableFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringFilter<"OrderPlan"> | string
   planDishCountSnapshot?: Prisma.IntFilter<"OrderPlan"> | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFilter<"OrderPlan"> | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFilter<"OrderPlan"> | $Enums.MenuType
   requestedDishCount?: Prisma.IntFilter<"OrderPlan"> | number
   assignedDishCount?: Prisma.IntFilter<"OrderPlan"> | number
   pendingDishCount?: Prisma.IntFilter<"OrderPlan"> | number
   resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFilter<"OrderPlan"> | $Enums.OrderPlanResolutionStatus
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
   plan?: Prisma.XOR<Prisma.PlanScalarRelationFilter, Prisma.PlanWhereInput>
+  userPlanSubscription?: Prisma.XOR<Prisma.UserPlanSubscriptionNullableScalarRelationFilter, Prisma.UserPlanSubscriptionWhereInput> | null
+  menuPublication?: Prisma.XOR<Prisma.MenuPublicationNullableScalarRelationFilter, Prisma.MenuPublicationWhereInput> | null
   slots?: Prisma.OrderPlanSlotListRelationFilter
 }
 
@@ -331,24 +357,29 @@ export type OrderPlanOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   planId?: Prisma.SortOrder
+  userPlanSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   lineSubtotal?: Prisma.SortOrderInput | Prisma.SortOrder
   notas?: Prisma.SortOrder
   planDishCountSnapshot?: Prisma.SortOrder
   planTypeSnapshot?: Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   requestedDishCount?: Prisma.SortOrder
   assignedDishCount?: Prisma.SortOrder
   pendingDishCount?: Prisma.SortOrder
   resolutionStatus?: Prisma.SortOrder
   order?: Prisma.OrderOrderByWithRelationInput
   plan?: Prisma.PlanOrderByWithRelationInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionOrderByWithRelationInput
+  menuPublication?: Prisma.MenuPublicationOrderByWithRelationInput
   slots?: Prisma.OrderPlanSlotOrderByRelationAggregateInput
 }
 
 export type OrderPlanWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  orderId_planId?: Prisma.OrderPlanOrderIdPlanIdCompoundUniqueInput
+  orderId_planId_menuTypeSnapshot?: Prisma.OrderPlanOrderIdPlanIdMenuTypeSnapshotCompoundUniqueInput
   AND?: Prisma.OrderPlanWhereInput | Prisma.OrderPlanWhereInput[]
   OR?: Prisma.OrderPlanWhereInput[]
   NOT?: Prisma.OrderPlanWhereInput | Prisma.OrderPlanWhereInput[]
@@ -356,20 +387,25 @@ export type OrderPlanWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"OrderPlan"> | Date | string
   orderId?: Prisma.StringFilter<"OrderPlan"> | string
   planId?: Prisma.StringFilter<"OrderPlan"> | string
+  userPlanSubscriptionId?: Prisma.StringNullableFilter<"OrderPlan"> | string | null
+  menuPublicationId?: Prisma.StringNullableFilter<"OrderPlan"> | string | null
   quantity?: Prisma.IntFilter<"OrderPlan"> | number
   unitPrice?: Prisma.DecimalNullableFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.DecimalNullableFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringFilter<"OrderPlan"> | string
   planDishCountSnapshot?: Prisma.IntFilter<"OrderPlan"> | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFilter<"OrderPlan"> | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFilter<"OrderPlan"> | $Enums.MenuType
   requestedDishCount?: Prisma.IntFilter<"OrderPlan"> | number
   assignedDishCount?: Prisma.IntFilter<"OrderPlan"> | number
   pendingDishCount?: Prisma.IntFilter<"OrderPlan"> | number
   resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFilter<"OrderPlan"> | $Enums.OrderPlanResolutionStatus
   order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>
   plan?: Prisma.XOR<Prisma.PlanScalarRelationFilter, Prisma.PlanWhereInput>
+  userPlanSubscription?: Prisma.XOR<Prisma.UserPlanSubscriptionNullableScalarRelationFilter, Prisma.UserPlanSubscriptionWhereInput> | null
+  menuPublication?: Prisma.XOR<Prisma.MenuPublicationNullableScalarRelationFilter, Prisma.MenuPublicationWhereInput> | null
   slots?: Prisma.OrderPlanSlotListRelationFilter
-}, "id" | "orderId_planId">
+}, "id" | "orderId_planId_menuTypeSnapshot">
 
 export type OrderPlanOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -377,12 +413,15 @@ export type OrderPlanOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   planId?: Prisma.SortOrder
+  userPlanSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrderInput | Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   lineSubtotal?: Prisma.SortOrderInput | Prisma.SortOrder
   notas?: Prisma.SortOrder
   planDishCountSnapshot?: Prisma.SortOrder
   planTypeSnapshot?: Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   requestedDishCount?: Prisma.SortOrder
   assignedDishCount?: Prisma.SortOrder
   pendingDishCount?: Prisma.SortOrder
@@ -403,12 +442,15 @@ export type OrderPlanScalarWhereWithAggregatesInput = {
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"OrderPlan"> | Date | string
   orderId?: Prisma.StringWithAggregatesFilter<"OrderPlan"> | string
   planId?: Prisma.StringWithAggregatesFilter<"OrderPlan"> | string
+  userPlanSubscriptionId?: Prisma.StringNullableWithAggregatesFilter<"OrderPlan"> | string | null
+  menuPublicationId?: Prisma.StringNullableWithAggregatesFilter<"OrderPlan"> | string | null
   quantity?: Prisma.IntWithAggregatesFilter<"OrderPlan"> | number
   unitPrice?: Prisma.DecimalNullableWithAggregatesFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.DecimalNullableWithAggregatesFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringWithAggregatesFilter<"OrderPlan"> | string
   planDishCountSnapshot?: Prisma.IntWithAggregatesFilter<"OrderPlan"> | number
   planTypeSnapshot?: Prisma.EnumPlanTypeWithAggregatesFilter<"OrderPlan"> | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeWithAggregatesFilter<"OrderPlan"> | $Enums.MenuType
   requestedDishCount?: Prisma.IntWithAggregatesFilter<"OrderPlan"> | number
   assignedDishCount?: Prisma.IntWithAggregatesFilter<"OrderPlan"> | number
   pendingDishCount?: Prisma.IntWithAggregatesFilter<"OrderPlan"> | number
@@ -425,12 +467,15 @@ export type OrderPlanCreateInput = {
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
   resolutionStatus?: $Enums.OrderPlanResolutionStatus
   order: Prisma.OrderCreateNestedOneWithoutPlanItemsInput
   plan: Prisma.PlanCreateNestedOneWithoutOrderItemsInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionCreateNestedOneWithoutOrderPlansInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrderPlansInput
   slots?: Prisma.OrderPlanSlotCreateNestedManyWithoutOrderPlanInput
 }
 
@@ -440,12 +485,15 @@ export type OrderPlanUncheckedCreateInput = {
   updatedAt?: Date | string
   orderId: string
   planId: string
+  userPlanSubscriptionId?: string | null
+  menuPublicationId?: string | null
   quantity?: number
   unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
@@ -463,12 +511,15 @@ export type OrderPlanUpdateInput = {
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
   order?: Prisma.OrderUpdateOneRequiredWithoutPlanItemsNestedInput
   plan?: Prisma.PlanUpdateOneRequiredWithoutOrderItemsNestedInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionUpdateOneWithoutOrderPlansNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrderPlansNestedInput
   slots?: Prisma.OrderPlanSlotUpdateManyWithoutOrderPlanNestedInput
 }
 
@@ -478,12 +529,15 @@ export type OrderPlanUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
   planId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPlanSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -497,12 +551,15 @@ export type OrderPlanCreateManyInput = {
   updatedAt?: Date | string
   orderId: string
   planId: string
+  userPlanSubscriptionId?: string | null
+  menuPublicationId?: string | null
   quantity?: number
   unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
@@ -519,6 +576,7 @@ export type OrderPlanUpdateManyMutationInput = {
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -531,12 +589,15 @@ export type OrderPlanUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
   planId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPlanSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -553,9 +614,10 @@ export type OrderPlanOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type OrderPlanOrderIdPlanIdCompoundUniqueInput = {
+export type OrderPlanOrderIdPlanIdMenuTypeSnapshotCompoundUniqueInput = {
   orderId: string
   planId: string
+  menuTypeSnapshot: $Enums.MenuType
 }
 
 export type OrderPlanCountOrderByAggregateInput = {
@@ -564,12 +626,15 @@ export type OrderPlanCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   planId?: Prisma.SortOrder
+  userPlanSubscriptionId?: Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   lineSubtotal?: Prisma.SortOrder
   notas?: Prisma.SortOrder
   planDishCountSnapshot?: Prisma.SortOrder
   planTypeSnapshot?: Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   requestedDishCount?: Prisma.SortOrder
   assignedDishCount?: Prisma.SortOrder
   pendingDishCount?: Prisma.SortOrder
@@ -592,12 +657,15 @@ export type OrderPlanMaxOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   planId?: Prisma.SortOrder
+  userPlanSubscriptionId?: Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   lineSubtotal?: Prisma.SortOrder
   notas?: Prisma.SortOrder
   planDishCountSnapshot?: Prisma.SortOrder
   planTypeSnapshot?: Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   requestedDishCount?: Prisma.SortOrder
   assignedDishCount?: Prisma.SortOrder
   pendingDishCount?: Prisma.SortOrder
@@ -610,12 +678,15 @@ export type OrderPlanMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
   orderId?: Prisma.SortOrder
   planId?: Prisma.SortOrder
+  userPlanSubscriptionId?: Prisma.SortOrder
+  menuPublicationId?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
   unitPrice?: Prisma.SortOrder
   lineSubtotal?: Prisma.SortOrder
   notas?: Prisma.SortOrder
   planDishCountSnapshot?: Prisma.SortOrder
   planTypeSnapshot?: Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   requestedDishCount?: Prisma.SortOrder
   assignedDishCount?: Prisma.SortOrder
   pendingDishCount?: Prisma.SortOrder
@@ -635,6 +706,48 @@ export type OrderPlanSumOrderByAggregateInput = {
 export type OrderPlanScalarRelationFilter = {
   is?: Prisma.OrderPlanWhereInput
   isNot?: Prisma.OrderPlanWhereInput
+}
+
+export type OrderPlanCreateNestedManyWithoutMenuPublicationInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanCreateWithoutMenuPublicationInput, Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput> | Prisma.OrderPlanCreateWithoutMenuPublicationInput[] | Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput[]
+  connectOrCreate?: Prisma.OrderPlanCreateOrConnectWithoutMenuPublicationInput | Prisma.OrderPlanCreateOrConnectWithoutMenuPublicationInput[]
+  createMany?: Prisma.OrderPlanCreateManyMenuPublicationInputEnvelope
+  connect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+}
+
+export type OrderPlanUncheckedCreateNestedManyWithoutMenuPublicationInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanCreateWithoutMenuPublicationInput, Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput> | Prisma.OrderPlanCreateWithoutMenuPublicationInput[] | Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput[]
+  connectOrCreate?: Prisma.OrderPlanCreateOrConnectWithoutMenuPublicationInput | Prisma.OrderPlanCreateOrConnectWithoutMenuPublicationInput[]
+  createMany?: Prisma.OrderPlanCreateManyMenuPublicationInputEnvelope
+  connect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+}
+
+export type OrderPlanUpdateManyWithoutMenuPublicationNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanCreateWithoutMenuPublicationInput, Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput> | Prisma.OrderPlanCreateWithoutMenuPublicationInput[] | Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput[]
+  connectOrCreate?: Prisma.OrderPlanCreateOrConnectWithoutMenuPublicationInput | Prisma.OrderPlanCreateOrConnectWithoutMenuPublicationInput[]
+  upsert?: Prisma.OrderPlanUpsertWithWhereUniqueWithoutMenuPublicationInput | Prisma.OrderPlanUpsertWithWhereUniqueWithoutMenuPublicationInput[]
+  createMany?: Prisma.OrderPlanCreateManyMenuPublicationInputEnvelope
+  set?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  disconnect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  delete?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  connect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  update?: Prisma.OrderPlanUpdateWithWhereUniqueWithoutMenuPublicationInput | Prisma.OrderPlanUpdateWithWhereUniqueWithoutMenuPublicationInput[]
+  updateMany?: Prisma.OrderPlanUpdateManyWithWhereWithoutMenuPublicationInput | Prisma.OrderPlanUpdateManyWithWhereWithoutMenuPublicationInput[]
+  deleteMany?: Prisma.OrderPlanScalarWhereInput | Prisma.OrderPlanScalarWhereInput[]
+}
+
+export type OrderPlanUncheckedUpdateManyWithoutMenuPublicationNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanCreateWithoutMenuPublicationInput, Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput> | Prisma.OrderPlanCreateWithoutMenuPublicationInput[] | Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput[]
+  connectOrCreate?: Prisma.OrderPlanCreateOrConnectWithoutMenuPublicationInput | Prisma.OrderPlanCreateOrConnectWithoutMenuPublicationInput[]
+  upsert?: Prisma.OrderPlanUpsertWithWhereUniqueWithoutMenuPublicationInput | Prisma.OrderPlanUpsertWithWhereUniqueWithoutMenuPublicationInput[]
+  createMany?: Prisma.OrderPlanCreateManyMenuPublicationInputEnvelope
+  set?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  disconnect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  delete?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  connect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  update?: Prisma.OrderPlanUpdateWithWhereUniqueWithoutMenuPublicationInput | Prisma.OrderPlanUpdateWithWhereUniqueWithoutMenuPublicationInput[]
+  updateMany?: Prisma.OrderPlanUpdateManyWithWhereWithoutMenuPublicationInput | Prisma.OrderPlanUpdateManyWithWhereWithoutMenuPublicationInput[]
+  deleteMany?: Prisma.OrderPlanScalarWhereInput | Prisma.OrderPlanScalarWhereInput[]
 }
 
 export type OrderPlanCreateNestedManyWithoutPlanInput = {
@@ -676,6 +789,48 @@ export type OrderPlanUncheckedUpdateManyWithoutPlanNestedInput = {
   connect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
   update?: Prisma.OrderPlanUpdateWithWhereUniqueWithoutPlanInput | Prisma.OrderPlanUpdateWithWhereUniqueWithoutPlanInput[]
   updateMany?: Prisma.OrderPlanUpdateManyWithWhereWithoutPlanInput | Prisma.OrderPlanUpdateManyWithWhereWithoutPlanInput[]
+  deleteMany?: Prisma.OrderPlanScalarWhereInput | Prisma.OrderPlanScalarWhereInput[]
+}
+
+export type OrderPlanCreateNestedManyWithoutUserPlanSubscriptionInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput, Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput> | Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput[] | Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput[]
+  connectOrCreate?: Prisma.OrderPlanCreateOrConnectWithoutUserPlanSubscriptionInput | Prisma.OrderPlanCreateOrConnectWithoutUserPlanSubscriptionInput[]
+  createMany?: Prisma.OrderPlanCreateManyUserPlanSubscriptionInputEnvelope
+  connect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+}
+
+export type OrderPlanUncheckedCreateNestedManyWithoutUserPlanSubscriptionInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput, Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput> | Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput[] | Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput[]
+  connectOrCreate?: Prisma.OrderPlanCreateOrConnectWithoutUserPlanSubscriptionInput | Prisma.OrderPlanCreateOrConnectWithoutUserPlanSubscriptionInput[]
+  createMany?: Prisma.OrderPlanCreateManyUserPlanSubscriptionInputEnvelope
+  connect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+}
+
+export type OrderPlanUpdateManyWithoutUserPlanSubscriptionNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput, Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput> | Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput[] | Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput[]
+  connectOrCreate?: Prisma.OrderPlanCreateOrConnectWithoutUserPlanSubscriptionInput | Prisma.OrderPlanCreateOrConnectWithoutUserPlanSubscriptionInput[]
+  upsert?: Prisma.OrderPlanUpsertWithWhereUniqueWithoutUserPlanSubscriptionInput | Prisma.OrderPlanUpsertWithWhereUniqueWithoutUserPlanSubscriptionInput[]
+  createMany?: Prisma.OrderPlanCreateManyUserPlanSubscriptionInputEnvelope
+  set?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  disconnect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  delete?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  connect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  update?: Prisma.OrderPlanUpdateWithWhereUniqueWithoutUserPlanSubscriptionInput | Prisma.OrderPlanUpdateWithWhereUniqueWithoutUserPlanSubscriptionInput[]
+  updateMany?: Prisma.OrderPlanUpdateManyWithWhereWithoutUserPlanSubscriptionInput | Prisma.OrderPlanUpdateManyWithWhereWithoutUserPlanSubscriptionInput[]
+  deleteMany?: Prisma.OrderPlanScalarWhereInput | Prisma.OrderPlanScalarWhereInput[]
+}
+
+export type OrderPlanUncheckedUpdateManyWithoutUserPlanSubscriptionNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput, Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput> | Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput[] | Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput[]
+  connectOrCreate?: Prisma.OrderPlanCreateOrConnectWithoutUserPlanSubscriptionInput | Prisma.OrderPlanCreateOrConnectWithoutUserPlanSubscriptionInput[]
+  upsert?: Prisma.OrderPlanUpsertWithWhereUniqueWithoutUserPlanSubscriptionInput | Prisma.OrderPlanUpsertWithWhereUniqueWithoutUserPlanSubscriptionInput[]
+  createMany?: Prisma.OrderPlanCreateManyUserPlanSubscriptionInputEnvelope
+  set?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  disconnect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  delete?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  connect?: Prisma.OrderPlanWhereUniqueInput | Prisma.OrderPlanWhereUniqueInput[]
+  update?: Prisma.OrderPlanUpdateWithWhereUniqueWithoutUserPlanSubscriptionInput | Prisma.OrderPlanUpdateWithWhereUniqueWithoutUserPlanSubscriptionInput[]
+  updateMany?: Prisma.OrderPlanUpdateManyWithWhereWithoutUserPlanSubscriptionInput | Prisma.OrderPlanUpdateManyWithWhereWithoutUserPlanSubscriptionInput[]
   deleteMany?: Prisma.OrderPlanScalarWhereInput | Prisma.OrderPlanScalarWhereInput[]
 }
 
@@ -739,6 +894,98 @@ export type OrderPlanUpdateOneRequiredWithoutSlotsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrderPlanUpdateToOneWithWhereWithoutSlotsInput, Prisma.OrderPlanUpdateWithoutSlotsInput>, Prisma.OrderPlanUncheckedUpdateWithoutSlotsInput>
 }
 
+export type OrderPlanCreateWithoutMenuPublicationInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  quantity?: number
+  unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: string
+  planDishCountSnapshot: number
+  planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
+  requestedDishCount: number
+  assignedDishCount?: number
+  pendingDishCount?: number
+  resolutionStatus?: $Enums.OrderPlanResolutionStatus
+  order: Prisma.OrderCreateNestedOneWithoutPlanItemsInput
+  plan: Prisma.PlanCreateNestedOneWithoutOrderItemsInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionCreateNestedOneWithoutOrderPlansInput
+  slots?: Prisma.OrderPlanSlotCreateNestedManyWithoutOrderPlanInput
+}
+
+export type OrderPlanUncheckedCreateWithoutMenuPublicationInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderId: string
+  planId: string
+  userPlanSubscriptionId?: string | null
+  quantity?: number
+  unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: string
+  planDishCountSnapshot: number
+  planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
+  requestedDishCount: number
+  assignedDishCount?: number
+  pendingDishCount?: number
+  resolutionStatus?: $Enums.OrderPlanResolutionStatus
+  slots?: Prisma.OrderPlanSlotUncheckedCreateNestedManyWithoutOrderPlanInput
+}
+
+export type OrderPlanCreateOrConnectWithoutMenuPublicationInput = {
+  where: Prisma.OrderPlanWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderPlanCreateWithoutMenuPublicationInput, Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput>
+}
+
+export type OrderPlanCreateManyMenuPublicationInputEnvelope = {
+  data: Prisma.OrderPlanCreateManyMenuPublicationInput | Prisma.OrderPlanCreateManyMenuPublicationInput[]
+  skipDuplicates?: boolean
+}
+
+export type OrderPlanUpsertWithWhereUniqueWithoutMenuPublicationInput = {
+  where: Prisma.OrderPlanWhereUniqueInput
+  update: Prisma.XOR<Prisma.OrderPlanUpdateWithoutMenuPublicationInput, Prisma.OrderPlanUncheckedUpdateWithoutMenuPublicationInput>
+  create: Prisma.XOR<Prisma.OrderPlanCreateWithoutMenuPublicationInput, Prisma.OrderPlanUncheckedCreateWithoutMenuPublicationInput>
+}
+
+export type OrderPlanUpdateWithWhereUniqueWithoutMenuPublicationInput = {
+  where: Prisma.OrderPlanWhereUniqueInput
+  data: Prisma.XOR<Prisma.OrderPlanUpdateWithoutMenuPublicationInput, Prisma.OrderPlanUncheckedUpdateWithoutMenuPublicationInput>
+}
+
+export type OrderPlanUpdateManyWithWhereWithoutMenuPublicationInput = {
+  where: Prisma.OrderPlanScalarWhereInput
+  data: Prisma.XOR<Prisma.OrderPlanUpdateManyMutationInput, Prisma.OrderPlanUncheckedUpdateManyWithoutMenuPublicationInput>
+}
+
+export type OrderPlanScalarWhereInput = {
+  AND?: Prisma.OrderPlanScalarWhereInput | Prisma.OrderPlanScalarWhereInput[]
+  OR?: Prisma.OrderPlanScalarWhereInput[]
+  NOT?: Prisma.OrderPlanScalarWhereInput | Prisma.OrderPlanScalarWhereInput[]
+  id?: Prisma.StringFilter<"OrderPlan"> | string
+  createdAt?: Prisma.DateTimeFilter<"OrderPlan"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"OrderPlan"> | Date | string
+  orderId?: Prisma.StringFilter<"OrderPlan"> | string
+  planId?: Prisma.StringFilter<"OrderPlan"> | string
+  userPlanSubscriptionId?: Prisma.StringNullableFilter<"OrderPlan"> | string | null
+  menuPublicationId?: Prisma.StringNullableFilter<"OrderPlan"> | string | null
+  quantity?: Prisma.IntFilter<"OrderPlan"> | number
+  unitPrice?: Prisma.DecimalNullableFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: Prisma.DecimalNullableFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: Prisma.StringFilter<"OrderPlan"> | string
+  planDishCountSnapshot?: Prisma.IntFilter<"OrderPlan"> | number
+  planTypeSnapshot?: Prisma.EnumPlanTypeFilter<"OrderPlan"> | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFilter<"OrderPlan"> | $Enums.MenuType
+  requestedDishCount?: Prisma.IntFilter<"OrderPlan"> | number
+  assignedDishCount?: Prisma.IntFilter<"OrderPlan"> | number
+  pendingDishCount?: Prisma.IntFilter<"OrderPlan"> | number
+  resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFilter<"OrderPlan"> | $Enums.OrderPlanResolutionStatus
+}
+
 export type OrderPlanCreateWithoutPlanInput = {
   id?: string
   createdAt?: Date | string
@@ -749,11 +996,14 @@ export type OrderPlanCreateWithoutPlanInput = {
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
   resolutionStatus?: $Enums.OrderPlanResolutionStatus
   order: Prisma.OrderCreateNestedOneWithoutPlanItemsInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionCreateNestedOneWithoutOrderPlansInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrderPlansInput
   slots?: Prisma.OrderPlanSlotCreateNestedManyWithoutOrderPlanInput
 }
 
@@ -762,12 +1012,15 @@ export type OrderPlanUncheckedCreateWithoutPlanInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderId: string
+  userPlanSubscriptionId?: string | null
+  menuPublicationId?: string | null
   quantity?: number
   unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
@@ -801,25 +1054,72 @@ export type OrderPlanUpdateManyWithWhereWithoutPlanInput = {
   data: Prisma.XOR<Prisma.OrderPlanUpdateManyMutationInput, Prisma.OrderPlanUncheckedUpdateManyWithoutPlanInput>
 }
 
-export type OrderPlanScalarWhereInput = {
-  AND?: Prisma.OrderPlanScalarWhereInput | Prisma.OrderPlanScalarWhereInput[]
-  OR?: Prisma.OrderPlanScalarWhereInput[]
-  NOT?: Prisma.OrderPlanScalarWhereInput | Prisma.OrderPlanScalarWhereInput[]
-  id?: Prisma.StringFilter<"OrderPlan"> | string
-  createdAt?: Prisma.DateTimeFilter<"OrderPlan"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"OrderPlan"> | Date | string
-  orderId?: Prisma.StringFilter<"OrderPlan"> | string
-  planId?: Prisma.StringFilter<"OrderPlan"> | string
-  quantity?: Prisma.IntFilter<"OrderPlan"> | number
-  unitPrice?: Prisma.DecimalNullableFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  lineSubtotal?: Prisma.DecimalNullableFilter<"OrderPlan"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  notas?: Prisma.StringFilter<"OrderPlan"> | string
-  planDishCountSnapshot?: Prisma.IntFilter<"OrderPlan"> | number
-  planTypeSnapshot?: Prisma.EnumPlanTypeFilter<"OrderPlan"> | $Enums.PlanType
-  requestedDishCount?: Prisma.IntFilter<"OrderPlan"> | number
-  assignedDishCount?: Prisma.IntFilter<"OrderPlan"> | number
-  pendingDishCount?: Prisma.IntFilter<"OrderPlan"> | number
-  resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFilter<"OrderPlan"> | $Enums.OrderPlanResolutionStatus
+export type OrderPlanCreateWithoutUserPlanSubscriptionInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  quantity?: number
+  unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: string
+  planDishCountSnapshot: number
+  planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
+  requestedDishCount: number
+  assignedDishCount?: number
+  pendingDishCount?: number
+  resolutionStatus?: $Enums.OrderPlanResolutionStatus
+  order: Prisma.OrderCreateNestedOneWithoutPlanItemsInput
+  plan: Prisma.PlanCreateNestedOneWithoutOrderItemsInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrderPlansInput
+  slots?: Prisma.OrderPlanSlotCreateNestedManyWithoutOrderPlanInput
+}
+
+export type OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderId: string
+  planId: string
+  menuPublicationId?: string | null
+  quantity?: number
+  unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: string
+  planDishCountSnapshot: number
+  planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
+  requestedDishCount: number
+  assignedDishCount?: number
+  pendingDishCount?: number
+  resolutionStatus?: $Enums.OrderPlanResolutionStatus
+  slots?: Prisma.OrderPlanSlotUncheckedCreateNestedManyWithoutOrderPlanInput
+}
+
+export type OrderPlanCreateOrConnectWithoutUserPlanSubscriptionInput = {
+  where: Prisma.OrderPlanWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput, Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput>
+}
+
+export type OrderPlanCreateManyUserPlanSubscriptionInputEnvelope = {
+  data: Prisma.OrderPlanCreateManyUserPlanSubscriptionInput | Prisma.OrderPlanCreateManyUserPlanSubscriptionInput[]
+  skipDuplicates?: boolean
+}
+
+export type OrderPlanUpsertWithWhereUniqueWithoutUserPlanSubscriptionInput = {
+  where: Prisma.OrderPlanWhereUniqueInput
+  update: Prisma.XOR<Prisma.OrderPlanUpdateWithoutUserPlanSubscriptionInput, Prisma.OrderPlanUncheckedUpdateWithoutUserPlanSubscriptionInput>
+  create: Prisma.XOR<Prisma.OrderPlanCreateWithoutUserPlanSubscriptionInput, Prisma.OrderPlanUncheckedCreateWithoutUserPlanSubscriptionInput>
+}
+
+export type OrderPlanUpdateWithWhereUniqueWithoutUserPlanSubscriptionInput = {
+  where: Prisma.OrderPlanWhereUniqueInput
+  data: Prisma.XOR<Prisma.OrderPlanUpdateWithoutUserPlanSubscriptionInput, Prisma.OrderPlanUncheckedUpdateWithoutUserPlanSubscriptionInput>
+}
+
+export type OrderPlanUpdateManyWithWhereWithoutUserPlanSubscriptionInput = {
+  where: Prisma.OrderPlanScalarWhereInput
+  data: Prisma.XOR<Prisma.OrderPlanUpdateManyMutationInput, Prisma.OrderPlanUncheckedUpdateManyWithoutUserPlanSubscriptionInput>
 }
 
 export type OrderPlanCreateWithoutOrderInput = {
@@ -832,11 +1132,14 @@ export type OrderPlanCreateWithoutOrderInput = {
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
   resolutionStatus?: $Enums.OrderPlanResolutionStatus
   plan: Prisma.PlanCreateNestedOneWithoutOrderItemsInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionCreateNestedOneWithoutOrderPlansInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrderPlansInput
   slots?: Prisma.OrderPlanSlotCreateNestedManyWithoutOrderPlanInput
 }
 
@@ -845,12 +1148,15 @@ export type OrderPlanUncheckedCreateWithoutOrderInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   planId: string
+  userPlanSubscriptionId?: string | null
+  menuPublicationId?: string | null
   quantity?: number
   unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
@@ -894,12 +1200,15 @@ export type OrderPlanCreateWithoutSlotsInput = {
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
   resolutionStatus?: $Enums.OrderPlanResolutionStatus
   order: Prisma.OrderCreateNestedOneWithoutPlanItemsInput
   plan: Prisma.PlanCreateNestedOneWithoutOrderItemsInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionCreateNestedOneWithoutOrderPlansInput
+  menuPublication?: Prisma.MenuPublicationCreateNestedOneWithoutOrderPlansInput
 }
 
 export type OrderPlanUncheckedCreateWithoutSlotsInput = {
@@ -908,12 +1217,15 @@ export type OrderPlanUncheckedCreateWithoutSlotsInput = {
   updatedAt?: Date | string
   orderId: string
   planId: string
+  userPlanSubscriptionId?: string | null
+  menuPublicationId?: string | null
   quantity?: number
   unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
@@ -946,12 +1258,15 @@ export type OrderPlanUpdateWithoutSlotsInput = {
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
   order?: Prisma.OrderUpdateOneRequiredWithoutPlanItemsNestedInput
   plan?: Prisma.PlanUpdateOneRequiredWithoutOrderItemsNestedInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionUpdateOneWithoutOrderPlansNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrderPlansNestedInput
 }
 
 export type OrderPlanUncheckedUpdateWithoutSlotsInput = {
@@ -960,12 +1275,97 @@ export type OrderPlanUncheckedUpdateWithoutSlotsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
   planId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPlanSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
+}
+
+export type OrderPlanCreateManyMenuPublicationInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderId: string
+  planId: string
+  userPlanSubscriptionId?: string | null
+  quantity?: number
+  unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: string
+  planDishCountSnapshot: number
+  planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
+  requestedDishCount: number
+  assignedDishCount?: number
+  pendingDishCount?: number
+  resolutionStatus?: $Enums.OrderPlanResolutionStatus
+}
+
+export type OrderPlanUpdateWithoutMenuPublicationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
+  planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
+  order?: Prisma.OrderUpdateOneRequiredWithoutPlanItemsNestedInput
+  plan?: Prisma.PlanUpdateOneRequiredWithoutOrderItemsNestedInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionUpdateOneWithoutOrderPlansNestedInput
+  slots?: Prisma.OrderPlanSlotUpdateManyWithoutOrderPlanNestedInput
+}
+
+export type OrderPlanUncheckedUpdateWithoutMenuPublicationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  planId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPlanSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
+  planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
+  slots?: Prisma.OrderPlanSlotUncheckedUpdateManyWithoutOrderPlanNestedInput
+}
+
+export type OrderPlanUncheckedUpdateManyWithoutMenuPublicationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  planId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPlanSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
+  planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -977,12 +1377,15 @@ export type OrderPlanCreateManyPlanInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderId: string
+  userPlanSubscriptionId?: string | null
+  menuPublicationId?: string | null
   quantity?: number
   unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
@@ -999,11 +1402,14 @@ export type OrderPlanUpdateWithoutPlanInput = {
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
   order?: Prisma.OrderUpdateOneRequiredWithoutPlanItemsNestedInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionUpdateOneWithoutOrderPlansNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrderPlansNestedInput
   slots?: Prisma.OrderPlanSlotUpdateManyWithoutOrderPlanNestedInput
 }
 
@@ -1012,12 +1418,15 @@ export type OrderPlanUncheckedUpdateWithoutPlanInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPlanSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1030,12 +1439,97 @@ export type OrderPlanUncheckedUpdateManyWithoutPlanInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPlanSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
+}
+
+export type OrderPlanCreateManyUserPlanSubscriptionInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderId: string
+  planId: string
+  menuPublicationId?: string | null
+  quantity?: number
+  unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: string
+  planDishCountSnapshot: number
+  planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
+  requestedDishCount: number
+  assignedDishCount?: number
+  pendingDishCount?: number
+  resolutionStatus?: $Enums.OrderPlanResolutionStatus
+}
+
+export type OrderPlanUpdateWithoutUserPlanSubscriptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
+  planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
+  order?: Prisma.OrderUpdateOneRequiredWithoutPlanItemsNestedInput
+  plan?: Prisma.PlanUpdateOneRequiredWithoutOrderItemsNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrderPlansNestedInput
+  slots?: Prisma.OrderPlanSlotUpdateManyWithoutOrderPlanNestedInput
+}
+
+export type OrderPlanUncheckedUpdateWithoutUserPlanSubscriptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  planId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
+  planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
+  resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
+  slots?: Prisma.OrderPlanSlotUncheckedUpdateManyWithoutOrderPlanNestedInput
+}
+
+export type OrderPlanUncheckedUpdateManyWithoutUserPlanSubscriptionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderId?: Prisma.StringFieldUpdateOperationsInput | string
+  planId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
+  planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1047,12 +1541,15 @@ export type OrderPlanCreateManyOrderInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   planId: string
+  userPlanSubscriptionId?: string | null
+  menuPublicationId?: string | null
   quantity?: number
   unitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: string
   planDishCountSnapshot: number
   planTypeSnapshot: $Enums.PlanType
+  menuTypeSnapshot?: $Enums.MenuType
   requestedDishCount: number
   assignedDishCount?: number
   pendingDishCount?: number
@@ -1069,11 +1566,14 @@ export type OrderPlanUpdateWithoutOrderInput = {
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   resolutionStatus?: Prisma.EnumOrderPlanResolutionStatusFieldUpdateOperationsInput | $Enums.OrderPlanResolutionStatus
   plan?: Prisma.PlanUpdateOneRequiredWithoutOrderItemsNestedInput
+  userPlanSubscription?: Prisma.UserPlanSubscriptionUpdateOneWithoutOrderPlansNestedInput
+  menuPublication?: Prisma.MenuPublicationUpdateOneWithoutOrderPlansNestedInput
   slots?: Prisma.OrderPlanSlotUpdateManyWithoutOrderPlanNestedInput
 }
 
@@ -1082,12 +1582,15 @@ export type OrderPlanUncheckedUpdateWithoutOrderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   planId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPlanSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1100,12 +1603,15 @@ export type OrderPlanUncheckedUpdateManyWithoutOrderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   planId?: Prisma.StringFieldUpdateOperationsInput | string
+  userPlanSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   unitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   lineSubtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   notas?: Prisma.StringFieldUpdateOperationsInput | string
   planDishCountSnapshot?: Prisma.IntFieldUpdateOperationsInput | number
   planTypeSnapshot?: Prisma.EnumPlanTypeFieldUpdateOperationsInput | $Enums.PlanType
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   requestedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   assignedDishCount?: Prisma.IntFieldUpdateOperationsInput | number
   pendingDishCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1149,18 +1655,23 @@ export type OrderPlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   updatedAt?: boolean
   orderId?: boolean
   planId?: boolean
+  userPlanSubscriptionId?: boolean
+  menuPublicationId?: boolean
   quantity?: boolean
   unitPrice?: boolean
   lineSubtotal?: boolean
   notas?: boolean
   planDishCountSnapshot?: boolean
   planTypeSnapshot?: boolean
+  menuTypeSnapshot?: boolean
   requestedDishCount?: boolean
   assignedDishCount?: boolean
   pendingDishCount?: boolean
   resolutionStatus?: boolean
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
+  userPlanSubscription?: boolean | Prisma.OrderPlan$userPlanSubscriptionArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.OrderPlan$menuPublicationArgs<ExtArgs>
   slots?: boolean | Prisma.OrderPlan$slotsArgs<ExtArgs>
   _count?: boolean | Prisma.OrderPlanCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["orderPlan"]>
@@ -1171,18 +1682,23 @@ export type OrderPlanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   updatedAt?: boolean
   orderId?: boolean
   planId?: boolean
+  userPlanSubscriptionId?: boolean
+  menuPublicationId?: boolean
   quantity?: boolean
   unitPrice?: boolean
   lineSubtotal?: boolean
   notas?: boolean
   planDishCountSnapshot?: boolean
   planTypeSnapshot?: boolean
+  menuTypeSnapshot?: boolean
   requestedDishCount?: boolean
   assignedDishCount?: boolean
   pendingDishCount?: boolean
   resolutionStatus?: boolean
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
+  userPlanSubscription?: boolean | Prisma.OrderPlan$userPlanSubscriptionArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.OrderPlan$menuPublicationArgs<ExtArgs>
 }, ExtArgs["result"]["orderPlan"]>
 
 export type OrderPlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1191,18 +1707,23 @@ export type OrderPlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   updatedAt?: boolean
   orderId?: boolean
   planId?: boolean
+  userPlanSubscriptionId?: boolean
+  menuPublicationId?: boolean
   quantity?: boolean
   unitPrice?: boolean
   lineSubtotal?: boolean
   notas?: boolean
   planDishCountSnapshot?: boolean
   planTypeSnapshot?: boolean
+  menuTypeSnapshot?: boolean
   requestedDishCount?: boolean
   assignedDishCount?: boolean
   pendingDishCount?: boolean
   resolutionStatus?: boolean
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
+  userPlanSubscription?: boolean | Prisma.OrderPlan$userPlanSubscriptionArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.OrderPlan$menuPublicationArgs<ExtArgs>
 }, ExtArgs["result"]["orderPlan"]>
 
 export type OrderPlanSelectScalar = {
@@ -1211,32 +1732,41 @@ export type OrderPlanSelectScalar = {
   updatedAt?: boolean
   orderId?: boolean
   planId?: boolean
+  userPlanSubscriptionId?: boolean
+  menuPublicationId?: boolean
   quantity?: boolean
   unitPrice?: boolean
   lineSubtotal?: boolean
   notas?: boolean
   planDishCountSnapshot?: boolean
   planTypeSnapshot?: boolean
+  menuTypeSnapshot?: boolean
   requestedDishCount?: boolean
   assignedDishCount?: boolean
   pendingDishCount?: boolean
   resolutionStatus?: boolean
 }
 
-export type OrderPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "orderId" | "planId" | "quantity" | "unitPrice" | "lineSubtotal" | "notas" | "planDishCountSnapshot" | "planTypeSnapshot" | "requestedDishCount" | "assignedDishCount" | "pendingDishCount" | "resolutionStatus", ExtArgs["result"]["orderPlan"]>
+export type OrderPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "orderId" | "planId" | "userPlanSubscriptionId" | "menuPublicationId" | "quantity" | "unitPrice" | "lineSubtotal" | "notas" | "planDishCountSnapshot" | "planTypeSnapshot" | "menuTypeSnapshot" | "requestedDishCount" | "assignedDishCount" | "pendingDishCount" | "resolutionStatus", ExtArgs["result"]["orderPlan"]>
 export type OrderPlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
+  userPlanSubscription?: boolean | Prisma.OrderPlan$userPlanSubscriptionArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.OrderPlan$menuPublicationArgs<ExtArgs>
   slots?: boolean | Prisma.OrderPlan$slotsArgs<ExtArgs>
   _count?: boolean | Prisma.OrderPlanCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrderPlanIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
+  userPlanSubscription?: boolean | Prisma.OrderPlan$userPlanSubscriptionArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.OrderPlan$menuPublicationArgs<ExtArgs>
 }
 export type OrderPlanIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.PlanDefaultArgs<ExtArgs>
+  userPlanSubscription?: boolean | Prisma.OrderPlan$userPlanSubscriptionArgs<ExtArgs>
+  menuPublication?: boolean | Prisma.OrderPlan$menuPublicationArgs<ExtArgs>
 }
 
 export type $OrderPlanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1244,6 +1774,8 @@ export type $OrderPlanPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     order: Prisma.$OrderPayload<ExtArgs>
     plan: Prisma.$PlanPayload<ExtArgs>
+    userPlanSubscription: Prisma.$UserPlanSubscriptionPayload<ExtArgs> | null
+    menuPublication: Prisma.$MenuPublicationPayload<ExtArgs> | null
     slots: Prisma.$OrderPlanSlotPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1252,12 +1784,15 @@ export type $OrderPlanPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     updatedAt: Date
     orderId: string
     planId: string
+    userPlanSubscriptionId: string | null
+    menuPublicationId: string | null
     quantity: number
     unitPrice: runtime.Decimal | null
     lineSubtotal: runtime.Decimal | null
     notas: string
     planDishCountSnapshot: number
     planTypeSnapshot: $Enums.PlanType
+    menuTypeSnapshot: $Enums.MenuType
     requestedDishCount: number
     assignedDishCount: number
     pendingDishCount: number
@@ -1658,6 +2193,8 @@ export interface Prisma__OrderPlanClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   order<T extends Prisma.OrderDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderDefaultArgs<ExtArgs>>): Prisma.Prisma__OrderClient<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   plan<T extends Prisma.PlanDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlanDefaultArgs<ExtArgs>>): Prisma.Prisma__PlanClient<runtime.Types.Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  userPlanSubscription<T extends Prisma.OrderPlan$userPlanSubscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderPlan$userPlanSubscriptionArgs<ExtArgs>>): Prisma.Prisma__UserPlanSubscriptionClient<runtime.Types.Result.GetResult<Prisma.$UserPlanSubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  menuPublication<T extends Prisma.OrderPlan$menuPublicationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderPlan$menuPublicationArgs<ExtArgs>>): Prisma.Prisma__MenuPublicationClient<runtime.Types.Result.GetResult<Prisma.$MenuPublicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   slots<T extends Prisma.OrderPlan$slotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderPlan$slotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPlanSlotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1693,12 +2230,15 @@ export interface OrderPlanFieldRefs {
   readonly updatedAt: Prisma.FieldRef<"OrderPlan", 'DateTime'>
   readonly orderId: Prisma.FieldRef<"OrderPlan", 'String'>
   readonly planId: Prisma.FieldRef<"OrderPlan", 'String'>
+  readonly userPlanSubscriptionId: Prisma.FieldRef<"OrderPlan", 'String'>
+  readonly menuPublicationId: Prisma.FieldRef<"OrderPlan", 'String'>
   readonly quantity: Prisma.FieldRef<"OrderPlan", 'Int'>
   readonly unitPrice: Prisma.FieldRef<"OrderPlan", 'Decimal'>
   readonly lineSubtotal: Prisma.FieldRef<"OrderPlan", 'Decimal'>
   readonly notas: Prisma.FieldRef<"OrderPlan", 'String'>
   readonly planDishCountSnapshot: Prisma.FieldRef<"OrderPlan", 'Int'>
   readonly planTypeSnapshot: Prisma.FieldRef<"OrderPlan", 'PlanType'>
+  readonly menuTypeSnapshot: Prisma.FieldRef<"OrderPlan", 'MenuType'>
   readonly requestedDishCount: Prisma.FieldRef<"OrderPlan", 'Int'>
   readonly assignedDishCount: Prisma.FieldRef<"OrderPlan", 'Int'>
   readonly pendingDishCount: Prisma.FieldRef<"OrderPlan", 'Int'>
@@ -2101,6 +2641,44 @@ export type OrderPlanDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many OrderPlans to delete.
    */
   limit?: number
+}
+
+/**
+ * OrderPlan.userPlanSubscription
+ */
+export type OrderPlan$userPlanSubscriptionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserPlanSubscription
+   */
+  select?: Prisma.UserPlanSubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserPlanSubscription
+   */
+  omit?: Prisma.UserPlanSubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPlanSubscriptionInclude<ExtArgs> | null
+  where?: Prisma.UserPlanSubscriptionWhereInput
+}
+
+/**
+ * OrderPlan.menuPublication
+ */
+export type OrderPlan$menuPublicationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MenuPublication
+   */
+  select?: Prisma.MenuPublicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MenuPublication
+   */
+  omit?: Prisma.MenuPublicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuPublicationInclude<ExtArgs> | null
+  where?: Prisma.MenuPublicationWhereInput
 }
 
 /**

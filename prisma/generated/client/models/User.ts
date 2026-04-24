@@ -337,6 +337,7 @@ export type UserWhereInput = {
   ordersCountCached?: Prisma.IntFilter<"User"> | number
   lastOrderAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   addresses?: Prisma.UserAddressListRelationFilter
+  subscriptions?: Prisma.UserPlanSubscriptionListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   createdOrders?: Prisma.OrderListRelationFilter
 }
@@ -363,6 +364,7 @@ export type UserOrderByWithRelationInput = {
   ordersCountCached?: Prisma.SortOrder
   lastOrderAt?: Prisma.SortOrderInput | Prisma.SortOrder
   addresses?: Prisma.UserAddressOrderByRelationAggregateInput
+  subscriptions?: Prisma.UserPlanSubscriptionOrderByRelationAggregateInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
   createdOrders?: Prisma.OrderOrderByRelationAggregateInput
 }
@@ -392,6 +394,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   ordersCountCached?: Prisma.IntFilter<"User"> | number
   lastOrderAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   addresses?: Prisma.UserAddressListRelationFilter
+  subscriptions?: Prisma.UserPlanSubscriptionListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   createdOrders?: Prisma.OrderListRelationFilter
 }, "id" | "authUserId" | "email">
@@ -472,6 +475,7 @@ export type UserCreateInput = {
   ordersCountCached?: number
   lastOrderAt?: Date | string | null
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.UserPlanSubscriptionCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   createdOrders?: Prisma.OrderCreateNestedManyWithoutCreatedByInput
 }
@@ -498,6 +502,7 @@ export type UserUncheckedCreateInput = {
   ordersCountCached?: number
   lastOrderAt?: Date | string | null
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.UserPlanSubscriptionUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   createdOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutCreatedByInput
 }
@@ -524,6 +529,7 @@ export type UserUpdateInput = {
   ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
   lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.UserPlanSubscriptionUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   createdOrders?: Prisma.OrderUpdateManyWithoutCreatedByNestedInput
 }
@@ -550,6 +556,7 @@ export type UserUncheckedUpdateInput = {
   ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
   lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.UserPlanSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   createdOrders?: Prisma.OrderUncheckedUpdateManyWithoutCreatedByNestedInput
 }
@@ -748,6 +755,20 @@ export type UserUpdateOneRequiredWithoutAddressesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAddressesInput, Prisma.UserUpdateWithoutAddressesInput>, Prisma.UserUncheckedUpdateWithoutAddressesInput>
 }
 
+export type UserCreateNestedOneWithoutSubscriptionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSubscriptionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionsInput
+  upsert?: Prisma.UserUpsertWithoutSubscriptionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSubscriptionsInput, Prisma.UserUpdateWithoutSubscriptionsInput>, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
+}
+
 export type UserCreateNestedOneWithoutOrdersInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutOrdersInput, Prisma.UserUncheckedCreateWithoutOrdersInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutOrdersInput
@@ -797,6 +818,7 @@ export type UserCreateWithoutAddressesInput = {
   totalSpentCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   ordersCountCached?: number
   lastOrderAt?: Date | string | null
+  subscriptions?: Prisma.UserPlanSubscriptionCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   createdOrders?: Prisma.OrderCreateNestedManyWithoutCreatedByInput
 }
@@ -822,6 +844,7 @@ export type UserUncheckedCreateWithoutAddressesInput = {
   totalSpentCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   ordersCountCached?: number
   lastOrderAt?: Date | string | null
+  subscriptions?: Prisma.UserPlanSubscriptionUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   createdOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutCreatedByInput
 }
@@ -863,6 +886,7 @@ export type UserUpdateWithoutAddressesInput = {
   totalSpentCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
   lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptions?: Prisma.UserPlanSubscriptionUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   createdOrders?: Prisma.OrderUpdateManyWithoutCreatedByNestedInput
 }
@@ -888,6 +912,127 @@ export type UserUncheckedUpdateWithoutAddressesInput = {
   totalSpentCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
   lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptions?: Prisma.UserPlanSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
+  createdOrders?: Prisma.OrderUncheckedUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserCreateWithoutSubscriptionsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authUserId?: string | null
+  email: string
+  nombre: string
+  apellidos?: string
+  telefono?: string | null
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  source?: $Enums.UserSource | null
+  gender?: $Enums.UserGender | null
+  customerType?: $Enums.UserCustomerType | null
+  tags?: Prisma.UserCreatetagsInput | string[]
+  primaryAddress?: string
+  primaryAddress2?: string
+  notas?: string
+  totalSpentCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ordersCountCached?: number
+  lastOrderAt?: Date | string | null
+  addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
+  createdOrders?: Prisma.OrderCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserUncheckedCreateWithoutSubscriptionsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  authUserId?: string | null
+  email: string
+  nombre: string
+  apellidos?: string
+  telefono?: string | null
+  role?: $Enums.UserRole
+  status?: $Enums.UserStatus
+  source?: $Enums.UserSource | null
+  gender?: $Enums.UserGender | null
+  customerType?: $Enums.UserCustomerType | null
+  tags?: Prisma.UserCreatetagsInput | string[]
+  primaryAddress?: string
+  primaryAddress2?: string
+  notas?: string
+  totalSpentCached?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ordersCountCached?: number
+  lastOrderAt?: Date | string | null
+  addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
+  createdOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutCreatedByInput
+}
+
+export type UserCreateOrConnectWithoutSubscriptionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
+}
+
+export type UserUpsertWithoutSubscriptionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSubscriptionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
+}
+
+export type UserUpdateWithoutSubscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  source?: Prisma.NullableEnumUserSourceFieldUpdateOperationsInput | $Enums.UserSource | null
+  gender?: Prisma.NullableEnumUserGenderFieldUpdateOperationsInput | $Enums.UserGender | null
+  customerType?: Prisma.NullableEnumUserCustomerTypeFieldUpdateOperationsInput | $Enums.UserCustomerType | null
+  tags?: Prisma.UserUpdatetagsInput | string[]
+  primaryAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryAddress2?: Prisma.StringFieldUpdateOperationsInput | string
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  totalSpentCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
+  lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
+  createdOrders?: Prisma.OrderUpdateManyWithoutCreatedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSubscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  authUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  source?: Prisma.NullableEnumUserSourceFieldUpdateOperationsInput | $Enums.UserSource | null
+  gender?: Prisma.NullableEnumUserGenderFieldUpdateOperationsInput | $Enums.UserGender | null
+  customerType?: Prisma.NullableEnumUserCustomerTypeFieldUpdateOperationsInput | $Enums.UserCustomerType | null
+  tags?: Prisma.UserUpdatetagsInput | string[]
+  primaryAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  primaryAddress2?: Prisma.StringFieldUpdateOperationsInput | string
+  notas?: Prisma.StringFieldUpdateOperationsInput | string
+  totalSpentCached?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
+  lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   createdOrders?: Prisma.OrderUncheckedUpdateManyWithoutCreatedByNestedInput
 }
@@ -914,6 +1059,7 @@ export type UserCreateWithoutOrdersInput = {
   ordersCountCached?: number
   lastOrderAt?: Date | string | null
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.UserPlanSubscriptionCreateNestedManyWithoutUserInput
   createdOrders?: Prisma.OrderCreateNestedManyWithoutCreatedByInput
 }
 
@@ -939,6 +1085,7 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   ordersCountCached?: number
   lastOrderAt?: Date | string | null
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.UserPlanSubscriptionUncheckedCreateNestedManyWithoutUserInput
   createdOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutCreatedByInput
 }
 
@@ -969,6 +1116,7 @@ export type UserCreateWithoutCreatedOrdersInput = {
   ordersCountCached?: number
   lastOrderAt?: Date | string | null
   addresses?: Prisma.UserAddressCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.UserPlanSubscriptionCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
 }
 
@@ -994,6 +1142,7 @@ export type UserUncheckedCreateWithoutCreatedOrdersInput = {
   ordersCountCached?: number
   lastOrderAt?: Date | string | null
   addresses?: Prisma.UserAddressUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.UserPlanSubscriptionUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -1035,6 +1184,7 @@ export type UserUpdateWithoutOrdersInput = {
   ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
   lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.UserPlanSubscriptionUpdateManyWithoutUserNestedInput
   createdOrders?: Prisma.OrderUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1060,6 +1210,7 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
   lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.UserPlanSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   createdOrders?: Prisma.OrderUncheckedUpdateManyWithoutCreatedByNestedInput
 }
 
@@ -1096,6 +1247,7 @@ export type UserUpdateWithoutCreatedOrdersInput = {
   ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
   lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   addresses?: Prisma.UserAddressUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.UserPlanSubscriptionUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
 }
 
@@ -1121,6 +1273,7 @@ export type UserUncheckedUpdateWithoutCreatedOrdersInput = {
   ordersCountCached?: Prisma.IntFieldUpdateOperationsInput | number
   lastOrderAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   addresses?: Prisma.UserAddressUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.UserPlanSubscriptionUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1131,12 +1284,14 @@ export type UserUncheckedUpdateWithoutCreatedOrdersInput = {
 
 export type UserCountOutputType = {
   addresses: number
+  subscriptions: number
   orders: number
   createdOrders: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   addresses?: boolean | UserCountOutputTypeCountAddressesArgs
+  subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
   orders?: boolean | UserCountOutputTypeCountOrdersArgs
   createdOrders?: boolean | UserCountOutputTypeCountCreatedOrdersArgs
 }
@@ -1156,6 +1311,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountAddressesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserAddressWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserPlanSubscriptionWhereInput
 }
 
 /**
@@ -1195,6 +1357,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   ordersCountCached?: boolean
   lastOrderAt?: boolean
   addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>
+  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   createdOrders?: boolean | Prisma.User$createdOrdersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1272,6 +1435,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "authUserId" | "email" | "nombre" | "apellidos" | "telefono" | "role" | "status" | "source" | "gender" | "customerType" | "tags" | "primaryAddress" | "primaryAddress2" | "notas" | "totalSpentCached" | "ordersCountCached" | "lastOrderAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   addresses?: boolean | Prisma.User$addressesArgs<ExtArgs>
+  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   createdOrders?: boolean | Prisma.User$createdOrdersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1283,6 +1447,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     addresses: Prisma.$UserAddressPayload<ExtArgs>[]
+    subscriptions: Prisma.$UserPlanSubscriptionPayload<ExtArgs>[]
     orders: Prisma.$OrderPayload<ExtArgs>[]
     createdOrders: Prisma.$OrderPayload<ExtArgs>[]
   }
@@ -1702,6 +1867,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   addresses<T extends Prisma.User$addressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$addressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPlanSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orders<T extends Prisma.User$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdOrders<T extends Prisma.User$createdOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -2167,6 +2333,30 @@ export type User$addressesArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.UserAddressScalarFieldEnum | Prisma.UserAddressScalarFieldEnum[]
+}
+
+/**
+ * User.subscriptions
+ */
+export type User$subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserPlanSubscription
+   */
+  select?: Prisma.UserPlanSubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserPlanSubscription
+   */
+  omit?: Prisma.UserPlanSubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserPlanSubscriptionInclude<ExtArgs> | null
+  where?: Prisma.UserPlanSubscriptionWhereInput
+  orderBy?: Prisma.UserPlanSubscriptionOrderByWithRelationInput | Prisma.UserPlanSubscriptionOrderByWithRelationInput[]
+  cursor?: Prisma.UserPlanSubscriptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserPlanSubscriptionScalarFieldEnum | Prisma.UserPlanSubscriptionScalarFieldEnum[]
 }
 
 /**

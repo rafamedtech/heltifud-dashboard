@@ -41,9 +41,13 @@ export type OrderPlanSlotMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   orderPlanId: string | null
+  menuPublicationSlotId: string | null
+  orderDeliveryId: string | null
   sourceWeeklyMenuId: string | null
   sourceMenuDayId: string | null
   sourceDaySlotId: string | null
+  serviceDate: Date | null
+  menuTypeSnapshot: $Enums.MenuType | null
   selectionIndex: number | null
   dayOfWeek: $Enums.DayOfWeek | null
   menuDayOrder: number | null
@@ -56,9 +60,13 @@ export type OrderPlanSlotMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   orderPlanId: string | null
+  menuPublicationSlotId: string | null
+  orderDeliveryId: string | null
   sourceWeeklyMenuId: string | null
   sourceMenuDayId: string | null
   sourceDaySlotId: string | null
+  serviceDate: Date | null
+  menuTypeSnapshot: $Enums.MenuType | null
   selectionIndex: number | null
   dayOfWeek: $Enums.DayOfWeek | null
   menuDayOrder: number | null
@@ -71,9 +79,13 @@ export type OrderPlanSlotCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   orderPlanId: number
+  menuPublicationSlotId: number
+  orderDeliveryId: number
   sourceWeeklyMenuId: number
   sourceMenuDayId: number
   sourceDaySlotId: number
+  serviceDate: number
+  menuTypeSnapshot: number
   selectionIndex: number
   dayOfWeek: number
   menuDayOrder: number
@@ -98,9 +110,13 @@ export type OrderPlanSlotMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   orderPlanId?: true
+  menuPublicationSlotId?: true
+  orderDeliveryId?: true
   sourceWeeklyMenuId?: true
   sourceMenuDayId?: true
   sourceDaySlotId?: true
+  serviceDate?: true
+  menuTypeSnapshot?: true
   selectionIndex?: true
   dayOfWeek?: true
   menuDayOrder?: true
@@ -113,9 +129,13 @@ export type OrderPlanSlotMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   orderPlanId?: true
+  menuPublicationSlotId?: true
+  orderDeliveryId?: true
   sourceWeeklyMenuId?: true
   sourceMenuDayId?: true
   sourceDaySlotId?: true
+  serviceDate?: true
+  menuTypeSnapshot?: true
   selectionIndex?: true
   dayOfWeek?: true
   menuDayOrder?: true
@@ -128,9 +148,13 @@ export type OrderPlanSlotCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   orderPlanId?: true
+  menuPublicationSlotId?: true
+  orderDeliveryId?: true
   sourceWeeklyMenuId?: true
   sourceMenuDayId?: true
   sourceDaySlotId?: true
+  serviceDate?: true
+  menuTypeSnapshot?: true
   selectionIndex?: true
   dayOfWeek?: true
   menuDayOrder?: true
@@ -230,9 +254,13 @@ export type OrderPlanSlotGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   orderPlanId: string
+  menuPublicationSlotId: string | null
+  orderDeliveryId: string | null
   sourceWeeklyMenuId: string | null
   sourceMenuDayId: string | null
   sourceDaySlotId: string | null
+  serviceDate: Date | null
+  menuTypeSnapshot: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -268,15 +296,21 @@ export type OrderPlanSlotWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"OrderPlanSlot"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"OrderPlanSlot"> | Date | string
   orderPlanId?: Prisma.StringFilter<"OrderPlanSlot"> | string
+  menuPublicationSlotId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
+  orderDeliveryId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   sourceWeeklyMenuId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   sourceMenuDayId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   sourceDaySlotId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
+  serviceDate?: Prisma.DateTimeNullableFilter<"OrderPlanSlot"> | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFilter<"OrderPlanSlot"> | $Enums.MenuType
   selectionIndex?: Prisma.IntFilter<"OrderPlanSlot"> | number
   dayOfWeek?: Prisma.EnumDayOfWeekFilter<"OrderPlanSlot"> | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFilter<"OrderPlanSlot"> | number
   slotType?: Prisma.EnumSlotTypeFilter<"OrderPlanSlot"> | $Enums.SlotType
   contenedor?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   orderPlan?: Prisma.XOR<Prisma.OrderPlanScalarRelationFilter, Prisma.OrderPlanWhereInput>
+  menuPublicationSlot?: Prisma.XOR<Prisma.MenuPublicationSlotNullableScalarRelationFilter, Prisma.MenuPublicationSlotWhereInput> | null
+  orderDelivery?: Prisma.XOR<Prisma.OrderDeliveryNullableScalarRelationFilter, Prisma.OrderDeliveryWhereInput> | null
   sourceWeeklyMenu?: Prisma.XOR<Prisma.WeeklyMenuNullableScalarRelationFilter, Prisma.WeeklyMenuWhereInput> | null
   sourceMenuDay?: Prisma.XOR<Prisma.MenuDayNullableScalarRelationFilter, Prisma.MenuDayWhereInput> | null
   sourceDaySlot?: Prisma.XOR<Prisma.DaySlotNullableScalarRelationFilter, Prisma.DaySlotWhereInput> | null
@@ -288,15 +322,21 @@ export type OrderPlanSlotOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   orderPlanId?: Prisma.SortOrder
+  menuPublicationSlotId?: Prisma.SortOrderInput | Prisma.SortOrder
+  orderDeliveryId?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceWeeklyMenuId?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceMenuDayId?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceDaySlotId?: Prisma.SortOrderInput | Prisma.SortOrder
+  serviceDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   selectionIndex?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
   menuDayOrder?: Prisma.SortOrder
   slotType?: Prisma.SortOrder
   contenedor?: Prisma.SortOrderInput | Prisma.SortOrder
   orderPlan?: Prisma.OrderPlanOrderByWithRelationInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotOrderByWithRelationInput
+  orderDelivery?: Prisma.OrderDeliveryOrderByWithRelationInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuOrderByWithRelationInput
   sourceMenuDay?: Prisma.MenuDayOrderByWithRelationInput
   sourceDaySlot?: Prisma.DaySlotOrderByWithRelationInput
@@ -312,15 +352,21 @@ export type OrderPlanSlotWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"OrderPlanSlot"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"OrderPlanSlot"> | Date | string
   orderPlanId?: Prisma.StringFilter<"OrderPlanSlot"> | string
+  menuPublicationSlotId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
+  orderDeliveryId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   sourceWeeklyMenuId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   sourceMenuDayId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   sourceDaySlotId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
+  serviceDate?: Prisma.DateTimeNullableFilter<"OrderPlanSlot"> | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFilter<"OrderPlanSlot"> | $Enums.MenuType
   selectionIndex?: Prisma.IntFilter<"OrderPlanSlot"> | number
   dayOfWeek?: Prisma.EnumDayOfWeekFilter<"OrderPlanSlot"> | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFilter<"OrderPlanSlot"> | number
   slotType?: Prisma.EnumSlotTypeFilter<"OrderPlanSlot"> | $Enums.SlotType
   contenedor?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   orderPlan?: Prisma.XOR<Prisma.OrderPlanScalarRelationFilter, Prisma.OrderPlanWhereInput>
+  menuPublicationSlot?: Prisma.XOR<Prisma.MenuPublicationSlotNullableScalarRelationFilter, Prisma.MenuPublicationSlotWhereInput> | null
+  orderDelivery?: Prisma.XOR<Prisma.OrderDeliveryNullableScalarRelationFilter, Prisma.OrderDeliveryWhereInput> | null
   sourceWeeklyMenu?: Prisma.XOR<Prisma.WeeklyMenuNullableScalarRelationFilter, Prisma.WeeklyMenuWhereInput> | null
   sourceMenuDay?: Prisma.XOR<Prisma.MenuDayNullableScalarRelationFilter, Prisma.MenuDayWhereInput> | null
   sourceDaySlot?: Prisma.XOR<Prisma.DaySlotNullableScalarRelationFilter, Prisma.DaySlotWhereInput> | null
@@ -332,9 +378,13 @@ export type OrderPlanSlotOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   orderPlanId?: Prisma.SortOrder
+  menuPublicationSlotId?: Prisma.SortOrderInput | Prisma.SortOrder
+  orderDeliveryId?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceWeeklyMenuId?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceMenuDayId?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceDaySlotId?: Prisma.SortOrderInput | Prisma.SortOrder
+  serviceDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   selectionIndex?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
   menuDayOrder?: Prisma.SortOrder
@@ -355,9 +405,13 @@ export type OrderPlanSlotScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"OrderPlanSlot"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"OrderPlanSlot"> | Date | string
   orderPlanId?: Prisma.StringWithAggregatesFilter<"OrderPlanSlot"> | string
+  menuPublicationSlotId?: Prisma.StringNullableWithAggregatesFilter<"OrderPlanSlot"> | string | null
+  orderDeliveryId?: Prisma.StringNullableWithAggregatesFilter<"OrderPlanSlot"> | string | null
   sourceWeeklyMenuId?: Prisma.StringNullableWithAggregatesFilter<"OrderPlanSlot"> | string | null
   sourceMenuDayId?: Prisma.StringNullableWithAggregatesFilter<"OrderPlanSlot"> | string | null
   sourceDaySlotId?: Prisma.StringNullableWithAggregatesFilter<"OrderPlanSlot"> | string | null
+  serviceDate?: Prisma.DateTimeNullableWithAggregatesFilter<"OrderPlanSlot"> | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeWithAggregatesFilter<"OrderPlanSlot"> | $Enums.MenuType
   selectionIndex?: Prisma.IntWithAggregatesFilter<"OrderPlanSlot"> | number
   dayOfWeek?: Prisma.EnumDayOfWeekWithAggregatesFilter<"OrderPlanSlot"> | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntWithAggregatesFilter<"OrderPlanSlot"> | number
@@ -369,12 +423,16 @@ export type OrderPlanSlotCreateInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
   slotType: $Enums.SlotType
   contenedor?: string | null
   orderPlan: Prisma.OrderPlanCreateNestedOneWithoutSlotsInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotCreateNestedOneWithoutOrderPlanSlotsInput
+  orderDelivery?: Prisma.OrderDeliveryCreateNestedOneWithoutSlotsInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrderPlanSlotsInput
   sourceMenuDay?: Prisma.MenuDayCreateNestedOneWithoutOrderPlanSlotsInput
   sourceDaySlot?: Prisma.DaySlotCreateNestedOneWithoutOrderPlanSlotsInput
@@ -386,9 +444,13 @@ export type OrderPlanSlotUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderPlanId: string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceWeeklyMenuId?: string | null
   sourceMenuDayId?: string | null
   sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -401,12 +463,16 @@ export type OrderPlanSlotUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
   contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderPlan?: Prisma.OrderPlanUpdateOneRequiredWithoutSlotsNestedInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotUpdateOneWithoutOrderPlanSlotsNestedInput
+  orderDelivery?: Prisma.OrderDeliveryUpdateOneWithoutSlotsNestedInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrderPlanSlotsNestedInput
   sourceMenuDay?: Prisma.MenuDayUpdateOneWithoutOrderPlanSlotsNestedInput
   sourceDaySlot?: Prisma.DaySlotUpdateOneWithoutOrderPlanSlotsNestedInput
@@ -418,9 +484,13 @@ export type OrderPlanSlotUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -434,9 +504,13 @@ export type OrderPlanSlotCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderPlanId: string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceWeeklyMenuId?: string | null
   sourceMenuDayId?: string | null
   sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -448,6 +522,8 @@ export type OrderPlanSlotUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -460,9 +536,13 @@ export type OrderPlanSlotUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -490,9 +570,13 @@ export type OrderPlanSlotCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   orderPlanId?: Prisma.SortOrder
+  menuPublicationSlotId?: Prisma.SortOrder
+  orderDeliveryId?: Prisma.SortOrder
   sourceWeeklyMenuId?: Prisma.SortOrder
   sourceMenuDayId?: Prisma.SortOrder
   sourceDaySlotId?: Prisma.SortOrder
+  serviceDate?: Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   selectionIndex?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
   menuDayOrder?: Prisma.SortOrder
@@ -510,9 +594,13 @@ export type OrderPlanSlotMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   orderPlanId?: Prisma.SortOrder
+  menuPublicationSlotId?: Prisma.SortOrder
+  orderDeliveryId?: Prisma.SortOrder
   sourceWeeklyMenuId?: Prisma.SortOrder
   sourceMenuDayId?: Prisma.SortOrder
   sourceDaySlotId?: Prisma.SortOrder
+  serviceDate?: Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   selectionIndex?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
   menuDayOrder?: Prisma.SortOrder
@@ -525,9 +613,13 @@ export type OrderPlanSlotMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   orderPlanId?: Prisma.SortOrder
+  menuPublicationSlotId?: Prisma.SortOrder
+  orderDeliveryId?: Prisma.SortOrder
   sourceWeeklyMenuId?: Prisma.SortOrder
   sourceMenuDayId?: Prisma.SortOrder
   sourceDaySlotId?: Prisma.SortOrder
+  serviceDate?: Prisma.SortOrder
+  menuTypeSnapshot?: Prisma.SortOrder
   selectionIndex?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
   menuDayOrder?: Prisma.SortOrder
@@ -671,6 +763,48 @@ export type OrderPlanSlotUncheckedUpdateManyWithoutSourceDaySlotNestedInput = {
   deleteMany?: Prisma.OrderPlanSlotScalarWhereInput | Prisma.OrderPlanSlotScalarWhereInput[]
 }
 
+export type OrderPlanSlotCreateNestedManyWithoutMenuPublicationSlotInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput, Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput> | Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput[] | Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput[]
+  connectOrCreate?: Prisma.OrderPlanSlotCreateOrConnectWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotCreateOrConnectWithoutMenuPublicationSlotInput[]
+  createMany?: Prisma.OrderPlanSlotCreateManyMenuPublicationSlotInputEnvelope
+  connect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+}
+
+export type OrderPlanSlotUncheckedCreateNestedManyWithoutMenuPublicationSlotInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput, Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput> | Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput[] | Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput[]
+  connectOrCreate?: Prisma.OrderPlanSlotCreateOrConnectWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotCreateOrConnectWithoutMenuPublicationSlotInput[]
+  createMany?: Prisma.OrderPlanSlotCreateManyMenuPublicationSlotInputEnvelope
+  connect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+}
+
+export type OrderPlanSlotUpdateManyWithoutMenuPublicationSlotNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput, Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput> | Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput[] | Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput[]
+  connectOrCreate?: Prisma.OrderPlanSlotCreateOrConnectWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotCreateOrConnectWithoutMenuPublicationSlotInput[]
+  upsert?: Prisma.OrderPlanSlotUpsertWithWhereUniqueWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotUpsertWithWhereUniqueWithoutMenuPublicationSlotInput[]
+  createMany?: Prisma.OrderPlanSlotCreateManyMenuPublicationSlotInputEnvelope
+  set?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  disconnect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  delete?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  connect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  update?: Prisma.OrderPlanSlotUpdateWithWhereUniqueWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotUpdateWithWhereUniqueWithoutMenuPublicationSlotInput[]
+  updateMany?: Prisma.OrderPlanSlotUpdateManyWithWhereWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotUpdateManyWithWhereWithoutMenuPublicationSlotInput[]
+  deleteMany?: Prisma.OrderPlanSlotScalarWhereInput | Prisma.OrderPlanSlotScalarWhereInput[]
+}
+
+export type OrderPlanSlotUncheckedUpdateManyWithoutMenuPublicationSlotNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput, Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput> | Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput[] | Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput[]
+  connectOrCreate?: Prisma.OrderPlanSlotCreateOrConnectWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotCreateOrConnectWithoutMenuPublicationSlotInput[]
+  upsert?: Prisma.OrderPlanSlotUpsertWithWhereUniqueWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotUpsertWithWhereUniqueWithoutMenuPublicationSlotInput[]
+  createMany?: Prisma.OrderPlanSlotCreateManyMenuPublicationSlotInputEnvelope
+  set?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  disconnect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  delete?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  connect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  update?: Prisma.OrderPlanSlotUpdateWithWhereUniqueWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotUpdateWithWhereUniqueWithoutMenuPublicationSlotInput[]
+  updateMany?: Prisma.OrderPlanSlotUpdateManyWithWhereWithoutMenuPublicationSlotInput | Prisma.OrderPlanSlotUpdateManyWithWhereWithoutMenuPublicationSlotInput[]
+  deleteMany?: Prisma.OrderPlanSlotScalarWhereInput | Prisma.OrderPlanSlotScalarWhereInput[]
+}
+
 export type OrderPlanSlotCreateNestedManyWithoutOrderPlanInput = {
   create?: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutOrderPlanInput, Prisma.OrderPlanSlotUncheckedCreateWithoutOrderPlanInput> | Prisma.OrderPlanSlotCreateWithoutOrderPlanInput[] | Prisma.OrderPlanSlotUncheckedCreateWithoutOrderPlanInput[]
   connectOrCreate?: Prisma.OrderPlanSlotCreateOrConnectWithoutOrderPlanInput | Prisma.OrderPlanSlotCreateOrConnectWithoutOrderPlanInput[]
@@ -727,16 +861,62 @@ export type OrderPlanSlotUpdateOneRequiredWithoutComponentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrderPlanSlotUpdateToOneWithWhereWithoutComponentsInput, Prisma.OrderPlanSlotUpdateWithoutComponentsInput>, Prisma.OrderPlanSlotUncheckedUpdateWithoutComponentsInput>
 }
 
+export type OrderPlanSlotCreateNestedManyWithoutOrderDeliveryInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput, Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput> | Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput[] | Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput[]
+  connectOrCreate?: Prisma.OrderPlanSlotCreateOrConnectWithoutOrderDeliveryInput | Prisma.OrderPlanSlotCreateOrConnectWithoutOrderDeliveryInput[]
+  createMany?: Prisma.OrderPlanSlotCreateManyOrderDeliveryInputEnvelope
+  connect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+}
+
+export type OrderPlanSlotUncheckedCreateNestedManyWithoutOrderDeliveryInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput, Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput> | Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput[] | Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput[]
+  connectOrCreate?: Prisma.OrderPlanSlotCreateOrConnectWithoutOrderDeliveryInput | Prisma.OrderPlanSlotCreateOrConnectWithoutOrderDeliveryInput[]
+  createMany?: Prisma.OrderPlanSlotCreateManyOrderDeliveryInputEnvelope
+  connect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+}
+
+export type OrderPlanSlotUpdateManyWithoutOrderDeliveryNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput, Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput> | Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput[] | Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput[]
+  connectOrCreate?: Prisma.OrderPlanSlotCreateOrConnectWithoutOrderDeliveryInput | Prisma.OrderPlanSlotCreateOrConnectWithoutOrderDeliveryInput[]
+  upsert?: Prisma.OrderPlanSlotUpsertWithWhereUniqueWithoutOrderDeliveryInput | Prisma.OrderPlanSlotUpsertWithWhereUniqueWithoutOrderDeliveryInput[]
+  createMany?: Prisma.OrderPlanSlotCreateManyOrderDeliveryInputEnvelope
+  set?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  disconnect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  delete?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  connect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  update?: Prisma.OrderPlanSlotUpdateWithWhereUniqueWithoutOrderDeliveryInput | Prisma.OrderPlanSlotUpdateWithWhereUniqueWithoutOrderDeliveryInput[]
+  updateMany?: Prisma.OrderPlanSlotUpdateManyWithWhereWithoutOrderDeliveryInput | Prisma.OrderPlanSlotUpdateManyWithWhereWithoutOrderDeliveryInput[]
+  deleteMany?: Prisma.OrderPlanSlotScalarWhereInput | Prisma.OrderPlanSlotScalarWhereInput[]
+}
+
+export type OrderPlanSlotUncheckedUpdateManyWithoutOrderDeliveryNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput, Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput> | Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput[] | Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput[]
+  connectOrCreate?: Prisma.OrderPlanSlotCreateOrConnectWithoutOrderDeliveryInput | Prisma.OrderPlanSlotCreateOrConnectWithoutOrderDeliveryInput[]
+  upsert?: Prisma.OrderPlanSlotUpsertWithWhereUniqueWithoutOrderDeliveryInput | Prisma.OrderPlanSlotUpsertWithWhereUniqueWithoutOrderDeliveryInput[]
+  createMany?: Prisma.OrderPlanSlotCreateManyOrderDeliveryInputEnvelope
+  set?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  disconnect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  delete?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  connect?: Prisma.OrderPlanSlotWhereUniqueInput | Prisma.OrderPlanSlotWhereUniqueInput[]
+  update?: Prisma.OrderPlanSlotUpdateWithWhereUniqueWithoutOrderDeliveryInput | Prisma.OrderPlanSlotUpdateWithWhereUniqueWithoutOrderDeliveryInput[]
+  updateMany?: Prisma.OrderPlanSlotUpdateManyWithWhereWithoutOrderDeliveryInput | Prisma.OrderPlanSlotUpdateManyWithWhereWithoutOrderDeliveryInput[]
+  deleteMany?: Prisma.OrderPlanSlotScalarWhereInput | Prisma.OrderPlanSlotScalarWhereInput[]
+}
+
 export type OrderPlanSlotCreateWithoutSourceWeeklyMenuInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
   slotType: $Enums.SlotType
   contenedor?: string | null
   orderPlan: Prisma.OrderPlanCreateNestedOneWithoutSlotsInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotCreateNestedOneWithoutOrderPlanSlotsInput
+  orderDelivery?: Prisma.OrderDeliveryCreateNestedOneWithoutSlotsInput
   sourceMenuDay?: Prisma.MenuDayCreateNestedOneWithoutOrderPlanSlotsInput
   sourceDaySlot?: Prisma.DaySlotCreateNestedOneWithoutOrderPlanSlotsInput
   components?: Prisma.OrderPlanSlotComponentCreateNestedManyWithoutOrderPlanSlotInput
@@ -747,8 +927,12 @@ export type OrderPlanSlotUncheckedCreateWithoutSourceWeeklyMenuInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderPlanId: string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceMenuDayId?: string | null
   sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -791,9 +975,13 @@ export type OrderPlanSlotScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"OrderPlanSlot"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"OrderPlanSlot"> | Date | string
   orderPlanId?: Prisma.StringFilter<"OrderPlanSlot"> | string
+  menuPublicationSlotId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
+  orderDeliveryId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   sourceWeeklyMenuId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   sourceMenuDayId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
   sourceDaySlotId?: Prisma.StringNullableFilter<"OrderPlanSlot"> | string | null
+  serviceDate?: Prisma.DateTimeNullableFilter<"OrderPlanSlot"> | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFilter<"OrderPlanSlot"> | $Enums.MenuType
   selectionIndex?: Prisma.IntFilter<"OrderPlanSlot"> | number
   dayOfWeek?: Prisma.EnumDayOfWeekFilter<"OrderPlanSlot"> | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFilter<"OrderPlanSlot"> | number
@@ -805,12 +993,16 @@ export type OrderPlanSlotCreateWithoutSourceMenuDayInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
   slotType: $Enums.SlotType
   contenedor?: string | null
   orderPlan: Prisma.OrderPlanCreateNestedOneWithoutSlotsInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotCreateNestedOneWithoutOrderPlanSlotsInput
+  orderDelivery?: Prisma.OrderDeliveryCreateNestedOneWithoutSlotsInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrderPlanSlotsInput
   sourceDaySlot?: Prisma.DaySlotCreateNestedOneWithoutOrderPlanSlotsInput
   components?: Prisma.OrderPlanSlotComponentCreateNestedManyWithoutOrderPlanSlotInput
@@ -821,8 +1013,12 @@ export type OrderPlanSlotUncheckedCreateWithoutSourceMenuDayInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderPlanId: string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceWeeklyMenuId?: string | null
   sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -861,12 +1057,16 @@ export type OrderPlanSlotCreateWithoutSourceDaySlotInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
   slotType: $Enums.SlotType
   contenedor?: string | null
   orderPlan: Prisma.OrderPlanCreateNestedOneWithoutSlotsInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotCreateNestedOneWithoutOrderPlanSlotsInput
+  orderDelivery?: Prisma.OrderDeliveryCreateNestedOneWithoutSlotsInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrderPlanSlotsInput
   sourceMenuDay?: Prisma.MenuDayCreateNestedOneWithoutOrderPlanSlotsInput
   components?: Prisma.OrderPlanSlotComponentCreateNestedManyWithoutOrderPlanSlotInput
@@ -877,8 +1077,12 @@ export type OrderPlanSlotUncheckedCreateWithoutSourceDaySlotInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderPlanId: string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceWeeklyMenuId?: string | null
   sourceMenuDayId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -913,15 +1117,83 @@ export type OrderPlanSlotUpdateManyWithWhereWithoutSourceDaySlotInput = {
   data: Prisma.XOR<Prisma.OrderPlanSlotUpdateManyMutationInput, Prisma.OrderPlanSlotUncheckedUpdateManyWithoutSourceDaySlotInput>
 }
 
-export type OrderPlanSlotCreateWithoutOrderPlanInput = {
+export type OrderPlanSlotCreateWithoutMenuPublicationSlotInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
   slotType: $Enums.SlotType
   contenedor?: string | null
+  orderPlan: Prisma.OrderPlanCreateNestedOneWithoutSlotsInput
+  orderDelivery?: Prisma.OrderDeliveryCreateNestedOneWithoutSlotsInput
+  sourceWeeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrderPlanSlotsInput
+  sourceMenuDay?: Prisma.MenuDayCreateNestedOneWithoutOrderPlanSlotsInput
+  sourceDaySlot?: Prisma.DaySlotCreateNestedOneWithoutOrderPlanSlotsInput
+  components?: Prisma.OrderPlanSlotComponentCreateNestedManyWithoutOrderPlanSlotInput
+}
+
+export type OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderPlanId: string
+  orderDeliveryId?: string | null
+  sourceWeeklyMenuId?: string | null
+  sourceMenuDayId?: string | null
+  sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
+  selectionIndex: number
+  dayOfWeek: $Enums.DayOfWeek
+  menuDayOrder: number
+  slotType: $Enums.SlotType
+  contenedor?: string | null
+  components?: Prisma.OrderPlanSlotComponentUncheckedCreateNestedManyWithoutOrderPlanSlotInput
+}
+
+export type OrderPlanSlotCreateOrConnectWithoutMenuPublicationSlotInput = {
+  where: Prisma.OrderPlanSlotWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput, Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput>
+}
+
+export type OrderPlanSlotCreateManyMenuPublicationSlotInputEnvelope = {
+  data: Prisma.OrderPlanSlotCreateManyMenuPublicationSlotInput | Prisma.OrderPlanSlotCreateManyMenuPublicationSlotInput[]
+  skipDuplicates?: boolean
+}
+
+export type OrderPlanSlotUpsertWithWhereUniqueWithoutMenuPublicationSlotInput = {
+  where: Prisma.OrderPlanSlotWhereUniqueInput
+  update: Prisma.XOR<Prisma.OrderPlanSlotUpdateWithoutMenuPublicationSlotInput, Prisma.OrderPlanSlotUncheckedUpdateWithoutMenuPublicationSlotInput>
+  create: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutMenuPublicationSlotInput, Prisma.OrderPlanSlotUncheckedCreateWithoutMenuPublicationSlotInput>
+}
+
+export type OrderPlanSlotUpdateWithWhereUniqueWithoutMenuPublicationSlotInput = {
+  where: Prisma.OrderPlanSlotWhereUniqueInput
+  data: Prisma.XOR<Prisma.OrderPlanSlotUpdateWithoutMenuPublicationSlotInput, Prisma.OrderPlanSlotUncheckedUpdateWithoutMenuPublicationSlotInput>
+}
+
+export type OrderPlanSlotUpdateManyWithWhereWithoutMenuPublicationSlotInput = {
+  where: Prisma.OrderPlanSlotScalarWhereInput
+  data: Prisma.XOR<Prisma.OrderPlanSlotUpdateManyMutationInput, Prisma.OrderPlanSlotUncheckedUpdateManyWithoutMenuPublicationSlotInput>
+}
+
+export type OrderPlanSlotCreateWithoutOrderPlanInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
+  selectionIndex: number
+  dayOfWeek: $Enums.DayOfWeek
+  menuDayOrder: number
+  slotType: $Enums.SlotType
+  contenedor?: string | null
+  menuPublicationSlot?: Prisma.MenuPublicationSlotCreateNestedOneWithoutOrderPlanSlotsInput
+  orderDelivery?: Prisma.OrderDeliveryCreateNestedOneWithoutSlotsInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrderPlanSlotsInput
   sourceMenuDay?: Prisma.MenuDayCreateNestedOneWithoutOrderPlanSlotsInput
   sourceDaySlot?: Prisma.DaySlotCreateNestedOneWithoutOrderPlanSlotsInput
@@ -932,9 +1204,13 @@ export type OrderPlanSlotUncheckedCreateWithoutOrderPlanInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceWeeklyMenuId?: string | null
   sourceMenuDayId?: string | null
   sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -973,12 +1249,16 @@ export type OrderPlanSlotCreateWithoutComponentsInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
   slotType: $Enums.SlotType
   contenedor?: string | null
   orderPlan: Prisma.OrderPlanCreateNestedOneWithoutSlotsInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotCreateNestedOneWithoutOrderPlanSlotsInput
+  orderDelivery?: Prisma.OrderDeliveryCreateNestedOneWithoutSlotsInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrderPlanSlotsInput
   sourceMenuDay?: Prisma.MenuDayCreateNestedOneWithoutOrderPlanSlotsInput
   sourceDaySlot?: Prisma.DaySlotCreateNestedOneWithoutOrderPlanSlotsInput
@@ -989,9 +1269,13 @@ export type OrderPlanSlotUncheckedCreateWithoutComponentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderPlanId: string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceWeeklyMenuId?: string | null
   sourceMenuDayId?: string | null
   sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -1019,12 +1303,16 @@ export type OrderPlanSlotUpdateWithoutComponentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
   contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderPlan?: Prisma.OrderPlanUpdateOneRequiredWithoutSlotsNestedInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotUpdateOneWithoutOrderPlanSlotsNestedInput
+  orderDelivery?: Prisma.OrderDeliveryUpdateOneWithoutSlotsNestedInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrderPlanSlotsNestedInput
   sourceMenuDay?: Prisma.MenuDayUpdateOneWithoutOrderPlanSlotsNestedInput
   sourceDaySlot?: Prisma.DaySlotUpdateOneWithoutOrderPlanSlotsNestedInput
@@ -1035,9 +1323,13 @@ export type OrderPlanSlotUncheckedUpdateWithoutComponentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1045,13 +1337,81 @@ export type OrderPlanSlotUncheckedUpdateWithoutComponentsInput = {
   contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
+export type OrderPlanSlotCreateWithoutOrderDeliveryInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
+  selectionIndex: number
+  dayOfWeek: $Enums.DayOfWeek
+  menuDayOrder: number
+  slotType: $Enums.SlotType
+  contenedor?: string | null
+  orderPlan: Prisma.OrderPlanCreateNestedOneWithoutSlotsInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotCreateNestedOneWithoutOrderPlanSlotsInput
+  sourceWeeklyMenu?: Prisma.WeeklyMenuCreateNestedOneWithoutOrderPlanSlotsInput
+  sourceMenuDay?: Prisma.MenuDayCreateNestedOneWithoutOrderPlanSlotsInput
+  sourceDaySlot?: Prisma.DaySlotCreateNestedOneWithoutOrderPlanSlotsInput
+  components?: Prisma.OrderPlanSlotComponentCreateNestedManyWithoutOrderPlanSlotInput
+}
+
+export type OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderPlanId: string
+  menuPublicationSlotId?: string | null
+  sourceWeeklyMenuId?: string | null
+  sourceMenuDayId?: string | null
+  sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
+  selectionIndex: number
+  dayOfWeek: $Enums.DayOfWeek
+  menuDayOrder: number
+  slotType: $Enums.SlotType
+  contenedor?: string | null
+  components?: Prisma.OrderPlanSlotComponentUncheckedCreateNestedManyWithoutOrderPlanSlotInput
+}
+
+export type OrderPlanSlotCreateOrConnectWithoutOrderDeliveryInput = {
+  where: Prisma.OrderPlanSlotWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput, Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput>
+}
+
+export type OrderPlanSlotCreateManyOrderDeliveryInputEnvelope = {
+  data: Prisma.OrderPlanSlotCreateManyOrderDeliveryInput | Prisma.OrderPlanSlotCreateManyOrderDeliveryInput[]
+  skipDuplicates?: boolean
+}
+
+export type OrderPlanSlotUpsertWithWhereUniqueWithoutOrderDeliveryInput = {
+  where: Prisma.OrderPlanSlotWhereUniqueInput
+  update: Prisma.XOR<Prisma.OrderPlanSlotUpdateWithoutOrderDeliveryInput, Prisma.OrderPlanSlotUncheckedUpdateWithoutOrderDeliveryInput>
+  create: Prisma.XOR<Prisma.OrderPlanSlotCreateWithoutOrderDeliveryInput, Prisma.OrderPlanSlotUncheckedCreateWithoutOrderDeliveryInput>
+}
+
+export type OrderPlanSlotUpdateWithWhereUniqueWithoutOrderDeliveryInput = {
+  where: Prisma.OrderPlanSlotWhereUniqueInput
+  data: Prisma.XOR<Prisma.OrderPlanSlotUpdateWithoutOrderDeliveryInput, Prisma.OrderPlanSlotUncheckedUpdateWithoutOrderDeliveryInput>
+}
+
+export type OrderPlanSlotUpdateManyWithWhereWithoutOrderDeliveryInput = {
+  where: Prisma.OrderPlanSlotScalarWhereInput
+  data: Prisma.XOR<Prisma.OrderPlanSlotUpdateManyMutationInput, Prisma.OrderPlanSlotUncheckedUpdateManyWithoutOrderDeliveryInput>
+}
+
 export type OrderPlanSlotCreateManySourceWeeklyMenuInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   orderPlanId: string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceMenuDayId?: string | null
   sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -1063,12 +1423,16 @@ export type OrderPlanSlotUpdateWithoutSourceWeeklyMenuInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
   contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderPlan?: Prisma.OrderPlanUpdateOneRequiredWithoutSlotsNestedInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotUpdateOneWithoutOrderPlanSlotsNestedInput
+  orderDelivery?: Prisma.OrderDeliveryUpdateOneWithoutSlotsNestedInput
   sourceMenuDay?: Prisma.MenuDayUpdateOneWithoutOrderPlanSlotsNestedInput
   sourceDaySlot?: Prisma.DaySlotUpdateOneWithoutOrderPlanSlotsNestedInput
   components?: Prisma.OrderPlanSlotComponentUpdateManyWithoutOrderPlanSlotNestedInput
@@ -1079,8 +1443,12 @@ export type OrderPlanSlotUncheckedUpdateWithoutSourceWeeklyMenuInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1094,8 +1462,12 @@ export type OrderPlanSlotUncheckedUpdateManyWithoutSourceWeeklyMenuInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1108,8 +1480,12 @@ export type OrderPlanSlotCreateManySourceMenuDayInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderPlanId: string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceWeeklyMenuId?: string | null
   sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -1121,12 +1497,16 @@ export type OrderPlanSlotUpdateWithoutSourceMenuDayInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
   contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderPlan?: Prisma.OrderPlanUpdateOneRequiredWithoutSlotsNestedInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotUpdateOneWithoutOrderPlanSlotsNestedInput
+  orderDelivery?: Prisma.OrderDeliveryUpdateOneWithoutSlotsNestedInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrderPlanSlotsNestedInput
   sourceDaySlot?: Prisma.DaySlotUpdateOneWithoutOrderPlanSlotsNestedInput
   components?: Prisma.OrderPlanSlotComponentUpdateManyWithoutOrderPlanSlotNestedInput
@@ -1137,8 +1517,12 @@ export type OrderPlanSlotUncheckedUpdateWithoutSourceMenuDayInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1152,8 +1536,12 @@ export type OrderPlanSlotUncheckedUpdateManyWithoutSourceMenuDayInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1166,8 +1554,12 @@ export type OrderPlanSlotCreateManySourceDaySlotInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   orderPlanId: string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceWeeklyMenuId?: string | null
   sourceMenuDayId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -1179,12 +1571,16 @@ export type OrderPlanSlotUpdateWithoutSourceDaySlotInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
   contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orderPlan?: Prisma.OrderPlanUpdateOneRequiredWithoutSlotsNestedInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotUpdateOneWithoutOrderPlanSlotsNestedInput
+  orderDelivery?: Prisma.OrderDeliveryUpdateOneWithoutSlotsNestedInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrderPlanSlotsNestedInput
   sourceMenuDay?: Prisma.MenuDayUpdateOneWithoutOrderPlanSlotsNestedInput
   components?: Prisma.OrderPlanSlotComponentUpdateManyWithoutOrderPlanSlotNestedInput
@@ -1195,8 +1591,12 @@ export type OrderPlanSlotUncheckedUpdateWithoutSourceDaySlotInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1210,8 +1610,86 @@ export type OrderPlanSlotUncheckedUpdateManyWithoutSourceDaySlotInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
+  contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type OrderPlanSlotCreateManyMenuPublicationSlotInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderPlanId: string
+  orderDeliveryId?: string | null
+  sourceWeeklyMenuId?: string | null
+  sourceMenuDayId?: string | null
+  sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
+  selectionIndex: number
+  dayOfWeek: $Enums.DayOfWeek
+  menuDayOrder: number
+  slotType: $Enums.SlotType
+  contenedor?: string | null
+}
+
+export type OrderPlanSlotUpdateWithoutMenuPublicationSlotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
+  contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderPlan?: Prisma.OrderPlanUpdateOneRequiredWithoutSlotsNestedInput
+  orderDelivery?: Prisma.OrderDeliveryUpdateOneWithoutSlotsNestedInput
+  sourceWeeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrderPlanSlotsNestedInput
+  sourceMenuDay?: Prisma.MenuDayUpdateOneWithoutOrderPlanSlotsNestedInput
+  sourceDaySlot?: Prisma.DaySlotUpdateOneWithoutOrderPlanSlotsNestedInput
+  components?: Prisma.OrderPlanSlotComponentUpdateManyWithoutOrderPlanSlotNestedInput
+}
+
+export type OrderPlanSlotUncheckedUpdateWithoutMenuPublicationSlotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
+  contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  components?: Prisma.OrderPlanSlotComponentUncheckedUpdateManyWithoutOrderPlanSlotNestedInput
+}
+
+export type OrderPlanSlotUncheckedUpdateManyWithoutMenuPublicationSlotInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1223,9 +1701,13 @@ export type OrderPlanSlotCreateManyOrderPlanInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  menuPublicationSlotId?: string | null
+  orderDeliveryId?: string | null
   sourceWeeklyMenuId?: string | null
   sourceMenuDayId?: string | null
   sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
   selectionIndex: number
   dayOfWeek: $Enums.DayOfWeek
   menuDayOrder: number
@@ -1237,11 +1719,15 @@ export type OrderPlanSlotUpdateWithoutOrderPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
   slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
   contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  menuPublicationSlot?: Prisma.MenuPublicationSlotUpdateOneWithoutOrderPlanSlotsNestedInput
+  orderDelivery?: Prisma.OrderDeliveryUpdateOneWithoutSlotsNestedInput
   sourceWeeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrderPlanSlotsNestedInput
   sourceMenuDay?: Prisma.MenuDayUpdateOneWithoutOrderPlanSlotsNestedInput
   sourceDaySlot?: Prisma.DaySlotUpdateOneWithoutOrderPlanSlotsNestedInput
@@ -1252,9 +1738,13 @@ export type OrderPlanSlotUncheckedUpdateWithoutOrderPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1267,9 +1757,87 @@ export type OrderPlanSlotUncheckedUpdateManyWithoutOrderPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderDeliveryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
+  contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type OrderPlanSlotCreateManyOrderDeliveryInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  orderPlanId: string
+  menuPublicationSlotId?: string | null
+  sourceWeeklyMenuId?: string | null
+  sourceMenuDayId?: string | null
+  sourceDaySlotId?: string | null
+  serviceDate?: Date | string | null
+  menuTypeSnapshot?: $Enums.MenuType
+  selectionIndex: number
+  dayOfWeek: $Enums.DayOfWeek
+  menuDayOrder: number
+  slotType: $Enums.SlotType
+  contenedor?: string | null
+}
+
+export type OrderPlanSlotUpdateWithoutOrderDeliveryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
+  contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orderPlan?: Prisma.OrderPlanUpdateOneRequiredWithoutSlotsNestedInput
+  menuPublicationSlot?: Prisma.MenuPublicationSlotUpdateOneWithoutOrderPlanSlotsNestedInput
+  sourceWeeklyMenu?: Prisma.WeeklyMenuUpdateOneWithoutOrderPlanSlotsNestedInput
+  sourceMenuDay?: Prisma.MenuDayUpdateOneWithoutOrderPlanSlotsNestedInput
+  sourceDaySlot?: Prisma.DaySlotUpdateOneWithoutOrderPlanSlotsNestedInput
+  components?: Prisma.OrderPlanSlotComponentUpdateManyWithoutOrderPlanSlotNestedInput
+}
+
+export type OrderPlanSlotUncheckedUpdateWithoutOrderDeliveryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
+  selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
+  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  slotType?: Prisma.EnumSlotTypeFieldUpdateOperationsInput | $Enums.SlotType
+  contenedor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  components?: Prisma.OrderPlanSlotComponentUncheckedUpdateManyWithoutOrderPlanSlotNestedInput
+}
+
+export type OrderPlanSlotUncheckedUpdateManyWithoutOrderDeliveryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  orderPlanId?: Prisma.StringFieldUpdateOperationsInput | string
+  menuPublicationSlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceWeeklyMenuId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceMenuDayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceDaySlotId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serviceDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  menuTypeSnapshot?: Prisma.EnumMenuTypeFieldUpdateOperationsInput | $Enums.MenuType
   selectionIndex?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
   menuDayOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1313,15 +1881,21 @@ export type OrderPlanSlotSelect<ExtArgs extends runtime.Types.Extensions.Interna
   createdAt?: boolean
   updatedAt?: boolean
   orderPlanId?: boolean
+  menuPublicationSlotId?: boolean
+  orderDeliveryId?: boolean
   sourceWeeklyMenuId?: boolean
   sourceMenuDayId?: boolean
   sourceDaySlotId?: boolean
+  serviceDate?: boolean
+  menuTypeSnapshot?: boolean
   selectionIndex?: boolean
   dayOfWeek?: boolean
   menuDayOrder?: boolean
   slotType?: boolean
   contenedor?: boolean
   orderPlan?: boolean | Prisma.OrderPlanDefaultArgs<ExtArgs>
+  menuPublicationSlot?: boolean | Prisma.OrderPlanSlot$menuPublicationSlotArgs<ExtArgs>
+  orderDelivery?: boolean | Prisma.OrderPlanSlot$orderDeliveryArgs<ExtArgs>
   sourceWeeklyMenu?: boolean | Prisma.OrderPlanSlot$sourceWeeklyMenuArgs<ExtArgs>
   sourceMenuDay?: boolean | Prisma.OrderPlanSlot$sourceMenuDayArgs<ExtArgs>
   sourceDaySlot?: boolean | Prisma.OrderPlanSlot$sourceDaySlotArgs<ExtArgs>
@@ -1334,15 +1908,21 @@ export type OrderPlanSlotSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   updatedAt?: boolean
   orderPlanId?: boolean
+  menuPublicationSlotId?: boolean
+  orderDeliveryId?: boolean
   sourceWeeklyMenuId?: boolean
   sourceMenuDayId?: boolean
   sourceDaySlotId?: boolean
+  serviceDate?: boolean
+  menuTypeSnapshot?: boolean
   selectionIndex?: boolean
   dayOfWeek?: boolean
   menuDayOrder?: boolean
   slotType?: boolean
   contenedor?: boolean
   orderPlan?: boolean | Prisma.OrderPlanDefaultArgs<ExtArgs>
+  menuPublicationSlot?: boolean | Prisma.OrderPlanSlot$menuPublicationSlotArgs<ExtArgs>
+  orderDelivery?: boolean | Prisma.OrderPlanSlot$orderDeliveryArgs<ExtArgs>
   sourceWeeklyMenu?: boolean | Prisma.OrderPlanSlot$sourceWeeklyMenuArgs<ExtArgs>
   sourceMenuDay?: boolean | Prisma.OrderPlanSlot$sourceMenuDayArgs<ExtArgs>
   sourceDaySlot?: boolean | Prisma.OrderPlanSlot$sourceDaySlotArgs<ExtArgs>
@@ -1353,15 +1933,21 @@ export type OrderPlanSlotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   updatedAt?: boolean
   orderPlanId?: boolean
+  menuPublicationSlotId?: boolean
+  orderDeliveryId?: boolean
   sourceWeeklyMenuId?: boolean
   sourceMenuDayId?: boolean
   sourceDaySlotId?: boolean
+  serviceDate?: boolean
+  menuTypeSnapshot?: boolean
   selectionIndex?: boolean
   dayOfWeek?: boolean
   menuDayOrder?: boolean
   slotType?: boolean
   contenedor?: boolean
   orderPlan?: boolean | Prisma.OrderPlanDefaultArgs<ExtArgs>
+  menuPublicationSlot?: boolean | Prisma.OrderPlanSlot$menuPublicationSlotArgs<ExtArgs>
+  orderDelivery?: boolean | Prisma.OrderPlanSlot$orderDeliveryArgs<ExtArgs>
   sourceWeeklyMenu?: boolean | Prisma.OrderPlanSlot$sourceWeeklyMenuArgs<ExtArgs>
   sourceMenuDay?: boolean | Prisma.OrderPlanSlot$sourceMenuDayArgs<ExtArgs>
   sourceDaySlot?: boolean | Prisma.OrderPlanSlot$sourceDaySlotArgs<ExtArgs>
@@ -1372,9 +1958,13 @@ export type OrderPlanSlotSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   orderPlanId?: boolean
+  menuPublicationSlotId?: boolean
+  orderDeliveryId?: boolean
   sourceWeeklyMenuId?: boolean
   sourceMenuDayId?: boolean
   sourceDaySlotId?: boolean
+  serviceDate?: boolean
+  menuTypeSnapshot?: boolean
   selectionIndex?: boolean
   dayOfWeek?: boolean
   menuDayOrder?: boolean
@@ -1382,9 +1972,11 @@ export type OrderPlanSlotSelectScalar = {
   contenedor?: boolean
 }
 
-export type OrderPlanSlotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "orderPlanId" | "sourceWeeklyMenuId" | "sourceMenuDayId" | "sourceDaySlotId" | "selectionIndex" | "dayOfWeek" | "menuDayOrder" | "slotType" | "contenedor", ExtArgs["result"]["orderPlanSlot"]>
+export type OrderPlanSlotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "orderPlanId" | "menuPublicationSlotId" | "orderDeliveryId" | "sourceWeeklyMenuId" | "sourceMenuDayId" | "sourceDaySlotId" | "serviceDate" | "menuTypeSnapshot" | "selectionIndex" | "dayOfWeek" | "menuDayOrder" | "slotType" | "contenedor", ExtArgs["result"]["orderPlanSlot"]>
 export type OrderPlanSlotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   orderPlan?: boolean | Prisma.OrderPlanDefaultArgs<ExtArgs>
+  menuPublicationSlot?: boolean | Prisma.OrderPlanSlot$menuPublicationSlotArgs<ExtArgs>
+  orderDelivery?: boolean | Prisma.OrderPlanSlot$orderDeliveryArgs<ExtArgs>
   sourceWeeklyMenu?: boolean | Prisma.OrderPlanSlot$sourceWeeklyMenuArgs<ExtArgs>
   sourceMenuDay?: boolean | Prisma.OrderPlanSlot$sourceMenuDayArgs<ExtArgs>
   sourceDaySlot?: boolean | Prisma.OrderPlanSlot$sourceDaySlotArgs<ExtArgs>
@@ -1393,12 +1985,16 @@ export type OrderPlanSlotInclude<ExtArgs extends runtime.Types.Extensions.Intern
 }
 export type OrderPlanSlotIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   orderPlan?: boolean | Prisma.OrderPlanDefaultArgs<ExtArgs>
+  menuPublicationSlot?: boolean | Prisma.OrderPlanSlot$menuPublicationSlotArgs<ExtArgs>
+  orderDelivery?: boolean | Prisma.OrderPlanSlot$orderDeliveryArgs<ExtArgs>
   sourceWeeklyMenu?: boolean | Prisma.OrderPlanSlot$sourceWeeklyMenuArgs<ExtArgs>
   sourceMenuDay?: boolean | Prisma.OrderPlanSlot$sourceMenuDayArgs<ExtArgs>
   sourceDaySlot?: boolean | Prisma.OrderPlanSlot$sourceDaySlotArgs<ExtArgs>
 }
 export type OrderPlanSlotIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   orderPlan?: boolean | Prisma.OrderPlanDefaultArgs<ExtArgs>
+  menuPublicationSlot?: boolean | Prisma.OrderPlanSlot$menuPublicationSlotArgs<ExtArgs>
+  orderDelivery?: boolean | Prisma.OrderPlanSlot$orderDeliveryArgs<ExtArgs>
   sourceWeeklyMenu?: boolean | Prisma.OrderPlanSlot$sourceWeeklyMenuArgs<ExtArgs>
   sourceMenuDay?: boolean | Prisma.OrderPlanSlot$sourceMenuDayArgs<ExtArgs>
   sourceDaySlot?: boolean | Prisma.OrderPlanSlot$sourceDaySlotArgs<ExtArgs>
@@ -1408,6 +2004,8 @@ export type $OrderPlanSlotPayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "OrderPlanSlot"
   objects: {
     orderPlan: Prisma.$OrderPlanPayload<ExtArgs>
+    menuPublicationSlot: Prisma.$MenuPublicationSlotPayload<ExtArgs> | null
+    orderDelivery: Prisma.$OrderDeliveryPayload<ExtArgs> | null
     sourceWeeklyMenu: Prisma.$WeeklyMenuPayload<ExtArgs> | null
     sourceMenuDay: Prisma.$MenuDayPayload<ExtArgs> | null
     sourceDaySlot: Prisma.$DaySlotPayload<ExtArgs> | null
@@ -1418,9 +2016,13 @@ export type $OrderPlanSlotPayload<ExtArgs extends runtime.Types.Extensions.Inter
     createdAt: Date
     updatedAt: Date
     orderPlanId: string
+    menuPublicationSlotId: string | null
+    orderDeliveryId: string | null
     sourceWeeklyMenuId: string | null
     sourceMenuDayId: string | null
     sourceDaySlotId: string | null
+    serviceDate: Date | null
+    menuTypeSnapshot: $Enums.MenuType
     selectionIndex: number
     dayOfWeek: $Enums.DayOfWeek
     menuDayOrder: number
@@ -1821,6 +2423,8 @@ readonly fields: OrderPlanSlotFieldRefs;
 export interface Prisma__OrderPlanSlotClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   orderPlan<T extends Prisma.OrderPlanDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderPlanDefaultArgs<ExtArgs>>): Prisma.Prisma__OrderPlanClient<runtime.Types.Result.GetResult<Prisma.$OrderPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  menuPublicationSlot<T extends Prisma.OrderPlanSlot$menuPublicationSlotArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderPlanSlot$menuPublicationSlotArgs<ExtArgs>>): Prisma.Prisma__MenuPublicationSlotClient<runtime.Types.Result.GetResult<Prisma.$MenuPublicationSlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  orderDelivery<T extends Prisma.OrderPlanSlot$orderDeliveryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderPlanSlot$orderDeliveryArgs<ExtArgs>>): Prisma.Prisma__OrderDeliveryClient<runtime.Types.Result.GetResult<Prisma.$OrderDeliveryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sourceWeeklyMenu<T extends Prisma.OrderPlanSlot$sourceWeeklyMenuArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderPlanSlot$sourceWeeklyMenuArgs<ExtArgs>>): Prisma.Prisma__WeeklyMenuClient<runtime.Types.Result.GetResult<Prisma.$WeeklyMenuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sourceMenuDay<T extends Prisma.OrderPlanSlot$sourceMenuDayArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderPlanSlot$sourceMenuDayArgs<ExtArgs>>): Prisma.Prisma__MenuDayClient<runtime.Types.Result.GetResult<Prisma.$MenuDayPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sourceDaySlot<T extends Prisma.OrderPlanSlot$sourceDaySlotArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderPlanSlot$sourceDaySlotArgs<ExtArgs>>): Prisma.Prisma__DaySlotClient<runtime.Types.Result.GetResult<Prisma.$DaySlotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -1858,9 +2462,13 @@ export interface OrderPlanSlotFieldRefs {
   readonly createdAt: Prisma.FieldRef<"OrderPlanSlot", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"OrderPlanSlot", 'DateTime'>
   readonly orderPlanId: Prisma.FieldRef<"OrderPlanSlot", 'String'>
+  readonly menuPublicationSlotId: Prisma.FieldRef<"OrderPlanSlot", 'String'>
+  readonly orderDeliveryId: Prisma.FieldRef<"OrderPlanSlot", 'String'>
   readonly sourceWeeklyMenuId: Prisma.FieldRef<"OrderPlanSlot", 'String'>
   readonly sourceMenuDayId: Prisma.FieldRef<"OrderPlanSlot", 'String'>
   readonly sourceDaySlotId: Prisma.FieldRef<"OrderPlanSlot", 'String'>
+  readonly serviceDate: Prisma.FieldRef<"OrderPlanSlot", 'DateTime'>
+  readonly menuTypeSnapshot: Prisma.FieldRef<"OrderPlanSlot", 'MenuType'>
   readonly selectionIndex: Prisma.FieldRef<"OrderPlanSlot", 'Int'>
   readonly dayOfWeek: Prisma.FieldRef<"OrderPlanSlot", 'DayOfWeek'>
   readonly menuDayOrder: Prisma.FieldRef<"OrderPlanSlot", 'Int'>
@@ -2264,6 +2872,44 @@ export type OrderPlanSlotDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many OrderPlanSlots to delete.
    */
   limit?: number
+}
+
+/**
+ * OrderPlanSlot.menuPublicationSlot
+ */
+export type OrderPlanSlot$menuPublicationSlotArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MenuPublicationSlot
+   */
+  select?: Prisma.MenuPublicationSlotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MenuPublicationSlot
+   */
+  omit?: Prisma.MenuPublicationSlotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuPublicationSlotInclude<ExtArgs> | null
+  where?: Prisma.MenuPublicationSlotWhereInput
+}
+
+/**
+ * OrderPlanSlot.orderDelivery
+ */
+export type OrderPlanSlot$orderDeliveryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OrderDelivery
+   */
+  select?: Prisma.OrderDeliverySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OrderDelivery
+   */
+  omit?: Prisma.OrderDeliveryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderDeliveryInclude<ExtArgs> | null
+  where?: Prisma.OrderDeliveryWhereInput
 }
 
 /**

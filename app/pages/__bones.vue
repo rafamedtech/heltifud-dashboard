@@ -42,6 +42,7 @@ useSeoMeta({
 const loading = true
 const menuIndexSkeleton = menuIndexBones as unknown as SkeletonResponsiveBones
 const UButton = resolveComponent('UButton')
+const UBadge = resolveComponent('UBadge')
 
 function formatMenuDateRangeValue(date: string) {
   return new Intl.DateTimeFormat('es-MX', {
@@ -52,6 +53,10 @@ function formatMenuDateRangeValue(date: string) {
 
 function formatMenuDateRange(date: string, endDate: string) {
   return `${formatMenuDateRangeValue(date)} - ${formatMenuDateRangeValue(endDate)}`
+}
+
+function formatMenuType(menuType: WeeklyMenu['menuType']) {
+  return menuType === 'VEGETARIANO' ? 'Vegetariano' : 'Estándar'
 }
 
 const catalogItems: FoodCatalogItem[] = [
@@ -135,6 +140,7 @@ const fixtureMenu: WeeklyMenu = {
   createdAt: '2026-04-08T09:30:00.000Z',
   updatedAt: '2026-04-09T14:10:00.000Z',
   isActive: true,
+  menuType: 'ESTANDAR',
   days: [
     createDay('LUNES'),
     createDay('MARTES'),
@@ -156,7 +162,8 @@ const fixtureMenus: WeeklyMenu[] = [
     endDate: '2026-04-27',
     createdAt: '2026-04-09T09:00:00.000Z',
     updatedAt: '2026-04-09T15:30:00.000Z',
-    isActive: false
+    isActive: true,
+    menuType: 'VEGETARIANO'
   }
 ]
 const fixtureSummaryCards = [
@@ -201,6 +208,15 @@ const fixtureMenuColumns: TableColumn<WeeklyMenu>[] = [
     header: 'Fechas',
     cell: ({ row }) =>
       h('p', { class: 'py-1 text-sm text-highlighted' }, `${formatMenuDateRangeValue(row.original.startDate)} - ${formatMenuDateRangeValue(row.original.endDate)}`)
+  },
+  {
+    accessorKey: 'menuType',
+    header: 'Tipo',
+    cell: ({ row }) =>
+      h(UBadge, {
+        color: row.original.menuType === 'VEGETARIANO' ? 'success' : 'neutral',
+        variant: 'subtle'
+      }, () => formatMenuType(row.original.menuType))
   },
   {
     accessorKey: 'updatedAt',
@@ -331,8 +347,8 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
                       base: 'table-fixed border-separate border-spacing-0',
                       thead: '[&>tr]:bg-default [&>tr]:after:content-none',
                       tbody: '[&>tr]:last:[&>td]:border-b-0',
-                      th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(3)]:hidden',
-                      td: 'border-b border-default align-top max-md:[&:nth-child(3)]:hidden'
+                      th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(4)]:hidden',
+                      td: 'border-b border-default align-top max-md:[&:nth-child(4)]:hidden'
                     }"
                   />
                 </div>

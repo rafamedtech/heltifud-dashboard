@@ -16,9 +16,13 @@ const { data: catalogItems, status: catalogStatus } = await useLazyFetch<FoodCat
 })
 
 const isLoading = computed(() => menusStatus.value === 'pending' || catalogStatus.value === 'pending')
-const activeMenu = computed(() => menus.value.find(menu => menu.isActive) ?? null)
+const activeMenus = computed(() => menus.value.filter(menu => menu.isActive))
 const latestMenu = computed(() => menus.value[0] ?? null)
 const latestCatalogItem = computed(() => catalogItems.value[0] ?? null)
+
+function formatMenuType(menu: WeeklyMenu) {
+  return menu.menuType === 'VEGETARIANO' ? 'Vegetariano' : 'Estándar'
+}
 
 useSeoMeta({
   title: 'Gestión administrativa | Heltifud Meal Preps',
@@ -41,13 +45,13 @@ useSeoMeta({
     <section class="grid gap-4 lg:grid-cols-4">
       <UCard class="app-surface-soft" :ui="{ body: 'space-y-2 p-5' }">
         <p class="text-xs uppercase tracking-[0.18em] text-muted">
-          Menú activo
+          Menús activos
         </p>
         <p class="text-lg font-semibold text-highlighted">
-          {{ activeMenu?.name ?? 'Sin menú activo' }}
+          {{ activeMenus.length ? `${activeMenus.length} visibles` : 'Sin menú activo' }}
         </p>
         <p class="text-sm text-muted">
-          {{ activeMenu ? formatWeekRange(activeMenu.startDate, activeMenu.endDate) : 'Activa uno desde la sección de menús.' }}
+          {{ activeMenus.length ? activeMenus.map(formatMenuType).join(' · ') : 'Se activará automáticamente cuando un menú entre en su ventana de fechas.' }}
         </p>
       </UCard>
 
@@ -117,27 +121,35 @@ useSeoMeta({
           />
         </div>
 
-        <div v-if="activeMenu" class="space-y-3 rounded-2xl border border-default/70 bg-elevated/35 p-5">
+        <div v-if="activeMenus.length" class="space-y-3 rounded-2xl border border-default/70 bg-elevated/35 p-5">
           <p class="text-sm text-muted">
-            El menú activo ahora mismo es:
+            Menús activos ahora mismo:
           </p>
-          <p class="text-2xl font-semibold text-highlighted">
-            {{ activeMenu.name }}
-          </p>
-          <p class="text-sm text-muted">
-            {{ formatWeekRange(activeMenu.startDate, activeMenu.endDate) }}
-          </p>
+          <div class="space-y-3">
+            <div
+              v-for="menu in activeMenus"
+              :key="menu.id"
+              class="rounded-xl border border-default/70 bg-default p-3"
+            >
+              <p class="text-sm font-semibold text-highlighted">
+                {{ menu.name }}
+              </p>
+              <p class="mt-1 text-sm text-muted">
+                {{ formatMenuType(menu) }} · {{ formatWeekRange(menu.startDate, menu.endDate) }}
+              </p>
+            </div>
+          </div>
           <div class="flex flex-wrap gap-3 pt-2">
             <UButton to="/menu-publico" icon="i-lucide-eye">
               Ver público
             </UButton>
             <UButton
-              :to="`/menu/${activeMenu.id}`"
+              to="/menu"
               color="neutral"
               variant="outline"
               icon="i-lucide-square-pen"
             >
-              Editar
+              Administrar
             </UButton>
           </div>
         </div>

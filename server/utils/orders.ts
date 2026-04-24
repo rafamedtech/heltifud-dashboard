@@ -19,6 +19,7 @@ import {
   type Prisma
 } from '../../prisma/generated/client/client'
 
+import { resolveActiveMenuIds } from './menu'
 import { prisma } from './prisma'
 
 type DecimalLike = { toNumber: () => number } | number | null | undefined
@@ -134,6 +135,7 @@ type FormUserRecord = {
 type FormMenuRecord = {
   id: string
   name: string
+  menuType: AdminOrderFormMenuSummary['menuType']
   isActive: boolean
   startDate: Date
   endDate: Date
@@ -364,11 +366,12 @@ function mapFormUser(user: FormUserRecord): AdminOrderFormUserSummary {
   }
 }
 
-function mapFormMenu(menu: FormMenuRecord): AdminOrderFormMenuSummary {
+function mapFormMenu(menu: FormMenuRecord, activeMenuIds: ReadonlySet<string>): AdminOrderFormMenuSummary {
   return {
     id: menu.id,
     name: menu.name,
-    isActive: menu.isActive,
+    menuType: menu.menuType,
+    isActive: activeMenuIds.has(menu.id),
     startDate: menu.startDate.toISOString(),
     endDate: menu.endDate.toISOString()
   }
@@ -932,13 +935,11 @@ export async function getAdminOrderFormData(): Promise<AdminOrderFormData> {
       }
     }),
     prisma.weeklyMenu.findMany({
-      orderBy: [
-        { isActive: 'desc' },
-        { startDate: 'desc' }
-      ],
+      orderBy: [{ startDate: 'desc' }],
       select: {
         id: true,
         name: true,
+        menuType: true,
         isActive: true,
         startDate: true,
         endDate: true
@@ -946,10 +947,15 @@ export async function getAdminOrderFormData(): Promise<AdminOrderFormData> {
     })
   ])
 
+  const activeMenuIds = resolveActiveMenuIds(menus)
+  const normalizedMenus = menus
+    .map(menu => mapFormMenu(menu as FormMenuRecord, activeMenuIds))
+    .sort((a, b) => Number(b.isActive) - Number(a.isActive) || new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
+
   return {
     users: users.map(user => mapFormUser(user as FormUserRecord)),
     plans: plans.map(plan => mapPlanSummary(plan as PlanRecord)),
-    menus: menus.map(menu => mapFormMenu(menu as FormMenuRecord))
+    menus: normalizedMenus
   }
 }
 

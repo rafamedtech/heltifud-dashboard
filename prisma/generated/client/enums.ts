@@ -188,6 +188,14 @@ export const UserCustomerType = {
 export type UserCustomerType = (typeof UserCustomerType)[keyof typeof UserCustomerType]
 
 
+export const MenuType = {
+  ESTANDAR: 'ESTANDAR',
+  VEGETARIANO: 'VEGETARIANO'
+} as const
+
+export type MenuType = (typeof MenuType)[keyof typeof MenuType]
+
+
 export const PlanType = {
   DESAYUNO: 'DESAYUNO',
   COMIDA: 'COMIDA',
@@ -204,3 +212,68 @@ export const OrderPlanResolutionStatus = {
 } as const
 
 export type OrderPlanResolutionStatus = (typeof OrderPlanResolutionStatus)[keyof typeof OrderPlanResolutionStatus]
+
+
+export const MenuPublicationStatus = {
+  PUBLICADA: 'PUBLICADA',
+  GENERANDO: 'GENERANDO',
+  GENERADA: 'GENERADA',
+  CERRADA: 'CERRADA',
+  CANCELADA: 'CANCELADA',
+  SUPERSEDIDA: 'SUPERSEDIDA'
+} as const
+
+export type MenuPublicationStatus = (typeof MenuPublicationStatus)[keyof typeof MenuPublicationStatus]
+
+
+export const MenuDaySelectionStrategy = {
+  PRIMEROS_N_DIAS: 'PRIMEROS_N_DIAS'
+} as const
+
+export type MenuDaySelectionStrategy = (typeof MenuDaySelectionStrategy)[keyof typeof MenuDaySelectionStrategy]
+
+
+export const DeliverySplitStrategy = {
+  POR_RANGO_DE_DIAS: 'POR_RANGO_DE_DIAS'
+} as const
+
+export type DeliverySplitStrategy = (typeof DeliverySplitStrategy)[keyof typeof DeliverySplitStrategy]
+
+
+export const UserPlanSubscriptionStatus = {
+  ACTIVA: 'ACTIVA',
+  PAUSADA: 'PAUSADA',
+  CANCELADA: 'CANCELADA',
+  VENCIDA: 'VENCIDA'
+} as const
+
+export type UserPlanSubscriptionStatus = (typeof UserPlanSubscriptionStatus)[keyof typeof UserPlanSubscriptionStatus]
+
+
+export const OrderOrigin = {
+  MANUAL: 'MANUAL',
+  PUBLICACION: 'PUBLICACION'
+} as const
+
+export type OrderOrigin = (typeof OrderOrigin)[keyof typeof OrderOrigin]
+
+
+export const DeliveryWindowStatus = {
+  PLANIFICADA: 'PLANIFICADA',
+  EN_RUTA: 'EN_RUTA',
+  ENTREGADA: 'ENTREGADA',
+  CANCELADA: 'CANCELADA'
+} as const
+
+export type DeliveryWindowStatus = (typeof DeliveryWindowStatus)[keyof typeof DeliveryWindowStatus]
+
+
+export const OrderDeliveryStatus = {
+  PENDIENTE: 'PENDIENTE',
+  PROGRAMADA: 'PROGRAMADA',
+  EN_RUTA: 'EN_RUTA',
+  ENTREGADA: 'ENTREGADA',
+  CANCELADA: 'CANCELADA'
+} as const
+
+export type OrderDeliveryStatus = (typeof OrderDeliveryStatus)[keyof typeof OrderDeliveryStatus]

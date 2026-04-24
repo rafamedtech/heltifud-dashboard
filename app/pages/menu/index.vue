@@ -4,6 +4,7 @@ import type { TableColumn } from '@nuxt/ui'
 import type { WeeklyMenu } from '~~/types/types';
 import { formatDate } from '~/utils/formatters';
 const UButton = resolveComponent('UButton')
+const UBadge = resolveComponent('UBadge')
 const summaryCardPlaceholders = [1, 2, 3]
 const tableRowPlaceholders = [1, 2, 3, 4, 5]
 
@@ -18,6 +19,10 @@ function formatMenuDateRange(date: string, endDate: string) {
   return `${formatMenuDateRangeValue(date)} - ${formatMenuDateRangeValue(endDate)}`
 }
 
+function formatMenuType(menuType: WeeklyMenu['menuType']) {
+  return menuType === 'VEGETARIANO' ? 'Vegetariano' : 'Estándar'
+}
+
 const {
   data: menus,
   refresh,
@@ -27,22 +32,22 @@ const {
 });
 
 const isLoading = computed(() => status.value === 'pending');
-const activeMenu = computed(
-  () => menus.value.find((menu) => menu.isActive) ?? null,
-);
+const activeMenus = computed(() => menus.value.filter(menu => menu.isActive));
 const latestCreatedMenu = computed(() => menus.value[0] ?? null);
 const summaryCards = computed(() => [
   {
     key: 'active-menu',
-    title: 'Menú activo',
-    description: activeMenu.value
-      ? formatMenuDateRange(activeMenu.value.startDate, activeMenu.value.endDate)
-      : 'Activa uno desde la lista inferior para publicarlo.',
+    title: 'Menús activos',
+    description: activeMenus.value.length
+      ? activeMenus.value.map(menu => formatMenuType(menu.menuType)).join(' · ')
+      : 'Se activará automáticamente cuando entre en su ventana de publicación.',
     icon: 'i-lucide-badge-check',
     statIcon: 'i-lucide-eye',
-    stat: activeMenu.value ? 'Visible ahora' : 'Sin menú activo',
-    actionLabel: activeMenu.value ? 'Abrir' : 'Ver lista',
-    actionTo: activeMenu.value ? `/menu/${activeMenu.value.id}` : '#menu-list',
+    stat: activeMenus.value.length
+      ? `${activeMenus.value.length} ${activeMenus.value.length === 1 ? 'visible' : 'visibles'} ahora`
+      : 'Sin menú activo',
+    actionLabel: 'Ver lista',
+    actionTo: '#menu-list',
   },
   {
     key: 'latest-menu',
@@ -86,6 +91,15 @@ const columns: TableColumn<WeeklyMenu>[] = [
       h('p', { class: 'py-1 text-sm text-highlighted' }, `${formatMenuDateRangeValue(row.original.startDate)} - ${formatMenuDateRangeValue(row.original.endDate)}`)
   },
   {
+    accessorKey: 'menuType',
+    header: 'Tipo',
+    cell: ({ row }) =>
+      h(UBadge, {
+        color: row.original.menuType === 'VEGETARIANO' ? 'success' : 'neutral',
+        variant: 'subtle'
+      }, () => formatMenuType(row.original.menuType))
+  },
+  {
     accessorKey: 'updatedAt',
     header: 'Actualizado',
     cell: ({ row }) => h('span', { class: 'text-sm text-toned' }, formatDate(row.original.updatedAt))
@@ -112,10 +126,9 @@ const tableMeta = {
   }
 }
 
-const { deleteMenuOnDB, setActiveMenuOnDB } = useMenu();
+const { deleteMenuOnDB } = useMenu();
 const toast = useToast();
 const deletingId = ref<string | null>(null);
-const activatingId = ref<string | null>(null);
 const pendingDeleteMenu = ref<WeeklyMenu | null>(null);
 const deleteModalDescription = computed(() =>
   pendingDeleteMenu.value
@@ -158,33 +171,6 @@ async function onDelete(id: string) {
   } finally {
     deletingId.value = null;
     pendingDeleteMenu.value = null;
-  }
-}
-
-async function onSetActive(id: string) {
-  activatingId.value = id;
-
-  try {
-    await setActiveMenuOnDB(id);
-    await refresh();
-    toast.add({
-      title: 'Menú activo actualizado',
-      color: 'success',
-      icon: 'i-lucide-check-circle',
-    });
-  } catch (error) {
-    const message =
-      error instanceof Error
-        ? error.message
-        : 'No se pudo actualizar el menú activo';
-    toast.add({
-      title: 'Error',
-      description: message,
-      color: 'error',
-      icon: 'i-lucide-circle-alert',
-    });
-  } finally {
-    activatingId.value = null;
   }
 }
 
@@ -347,8 +333,8 @@ useSeoMeta({
                   base: 'table-fixed border-separate border-spacing-0',
                   thead: '[&>tr]:bg-default [&>tr]:after:content-none',
                   tbody: '[&>tr]:last:[&>td]:border-b-0',
-                  th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(3)]:hidden',
-                  td: 'border-b border-default align-top max-md:[&:nth-child(3)]:hidden'
+                  th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(4)]:hidden',
+                  td: 'border-b border-default align-top max-md:[&:nth-child(4)]:hidden'
                 }"
               />
             </div>
@@ -370,23 +356,25 @@ useSeoMeta({
               </div>
 
               <div class="overflow-hidden rounded-xl border border-default/70">
-                <div class="grid grid-cols-[minmax(0,1.8fr)_1fr_1fr_auto] gap-4 border-b border-default/70 bg-default px-4 py-3">
+                <div class="grid grid-cols-[minmax(0,1.8fr)_0.8fr_1fr_1fr_auto] gap-4 border-b border-default/70 bg-default px-4 py-3">
                   <div class="h-4 w-20 animate-pulse rounded-md bg-default/70" />
                   <div class="h-4 w-16 animate-pulse rounded-md bg-default/70" />
                   <div class="h-4 w-16 animate-pulse rounded-md bg-default/70" />
+                  <div class="h-4 w-16 animate-pulse rounded-md bg-default/70 max-md:hidden" />
                   <div class="ml-auto h-4 w-16 animate-pulse rounded-md bg-default/70" />
                 </div>
 
                 <div
                   v-for="placeholder in tableRowPlaceholders"
                   :key="`row-skeleton-${placeholder}`"
-                  class="grid grid-cols-[minmax(0,1.8fr)_1fr_1fr_auto] gap-4 border-b border-default/70 px-4 py-4 last:border-b-0"
+                  class="grid grid-cols-[minmax(0,1.8fr)_0.8fr_1fr_1fr_auto] gap-4 border-b border-default/70 px-4 py-4 last:border-b-0"
                 >
                   <div class="space-y-2">
                     <div class="h-4 w-36 animate-pulse rounded-md bg-elevated" />
                   </div>
                   <div class="h-4 w-24 animate-pulse rounded-md bg-elevated" />
                   <div class="h-4 w-28 animate-pulse rounded-md bg-elevated" />
+                  <div class="h-4 w-28 animate-pulse rounded-md bg-elevated max-md:hidden" />
                   <div class="ml-auto h-8 w-8 animate-pulse rounded-lg bg-elevated" />
                 </div>
               </div>

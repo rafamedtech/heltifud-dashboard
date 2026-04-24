@@ -11,6 +11,7 @@ export const DAY_OF_WEEK_VALUES = [
 export const SLOT_KEYS = ['desayuno', 'comida', 'cena', 'snack1', 'snack2'] as const
 export const MENU_SLOT_TYPE_VALUES = ['DESAYUNO', 'COMIDA', 'CENA', 'SNACK1', 'SNACK2'] as const
 export const PLAN_TYPE_VALUES = ['DESAYUNO', 'COMIDA', 'CENA'] as const
+export const MENU_TYPE_VALUES = ['ESTANDAR', 'VEGETARIANO'] as const
 export const RECIPE_STATUS_VALUES = ['BORRADOR', 'ACTIVA', 'ARCHIVADA'] as const
 export const USER_ROLE_VALUES = ['ADMIN', 'CLIENTE'] as const
 export const USER_STATUS_VALUES = ['ACTIVO', 'PAUSADO', 'INACTIVO', 'BLOQUEADO'] as const
@@ -41,6 +42,7 @@ export type DayOfWeek = (typeof DAY_OF_WEEK_VALUES)[number]
 export type SlotKey = (typeof SLOT_KEYS)[number]
 export type MenuSlotType = (typeof MENU_SLOT_TYPE_VALUES)[number]
 export type PlanType = (typeof PLAN_TYPE_VALUES)[number]
+export type MenuType = (typeof MENU_TYPE_VALUES)[number]
 export type RecipeStatus = (typeof RECIPE_STATUS_VALUES)[number]
 export type UserRole = (typeof USER_ROLE_VALUES)[number]
 export type UserStatus = (typeof USER_STATUS_VALUES)[number]
@@ -251,6 +253,7 @@ export interface WeeklyMenu {
   createdAt: string
   updatedAt: string
   isActive: boolean
+  menuType: MenuType
   startDate: string
   endDate: string
   name: string
@@ -285,6 +288,7 @@ export interface WeeklyMenuDetail extends Omit<WeeklyMenu, 'days'> {
 
 export interface WeeklyMenuInput {
   name: string
+  menuType?: MenuType
   startDate: string | Date
   endDate: string | Date
   days: DayMenu[]
@@ -371,6 +375,7 @@ export interface AdminOrderFormUserSummary {
 export interface AdminOrderFormMenuSummary {
   id: string
   name: string
+  menuType: MenuType
   isActive: boolean
   startDate: string
   endDate: string

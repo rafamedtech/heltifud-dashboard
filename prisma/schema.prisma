@@ -139,6 +139,11 @@ enum UserCustomerType {
   ESTANDAR
 }
 
+enum MenuType {
+  ESTANDAR
+  VEGETARIANO
+}
+
 enum PlanType {
   DESAYUNO
   COMIDA
@@ -151,32 +156,81 @@ enum OrderPlanResolutionStatus {
   COMPLETO
 }
 
+enum MenuPublicationStatus {
+  PUBLICADA
+  GENERANDO
+  GENERADA
+  CERRADA
+  CANCELADA
+  SUPERSEDIDA
+}
+
+enum MenuDaySelectionStrategy {
+  PRIMEROS_N_DIAS
+}
+
+enum DeliverySplitStrategy {
+  POR_RANGO_DE_DIAS
+}
+
+enum UserPlanSubscriptionStatus {
+  ACTIVA
+  PAUSADA
+  CANCELADA
+  VENCIDA
+}
+
+enum OrderOrigin {
+  MANUAL
+  PUBLICACION
+}
+
+enum DeliveryWindowStatus {
+  PLANIFICADA
+  EN_RUTA
+  ENTREGADA
+  CANCELADA
+}
+
+enum OrderDeliveryStatus {
+  PENDIENTE
+  PROGRAMADA
+  EN_RUTA
+  ENTREGADA
+  CANCELADA
+}
+
 model WeeklyMenu {
-  id             String          @id @default(uuid())
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  isActive       Boolean         @default(false)
+  id             String            @id @default(uuid())
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  isActive       Boolean           @default(false)
+  menuType       MenuType          @default(ESTANDAR)
   startDate      DateTime
   endDate        DateTime
   name           String
   days           MenuDay[]
   orders         Order[]
   orderPlanSlots OrderPlanSlot[]
+  publications   MenuPublication[]
 
   @@index([isActive])
+  @@index([menuType, isActive])
+  @@index([menuType, startDate, endDate])
   @@index([startDate, endDate])
 }
 
 model MenuDay {
-  id             String          @id @default(uuid())
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  weeklyMenuId   String
-  weeklyMenu     WeeklyMenu      @relation(fields: [weeklyMenuId], references: [id], onDelete: Cascade)
-  dayOfWeek      DayOfWeek
-  order          Int
-  slots          DaySlot[]
-  orderPlanSlots OrderPlanSlot[]
+  id               String                @id @default(uuid())
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  weeklyMenuId     String
+  weeklyMenu       WeeklyMenu            @relation(fields: [weeklyMenuId], references: [id], onDelete: Cascade)
+  dayOfWeek        DayOfWeek
+  order            Int
+  slots            DaySlot[]
+  orderPlanSlots   OrderPlanSlot[]
+  publicationSlots MenuPublicationSlot[]
 
   @@unique([weeklyMenuId, dayOfWeek])
   @@unique([weeklyMenuId, order])
@@ -184,51 +238,132 @@ model MenuDay {
 }
 
 model DaySlot {
-  id             String          @id @default(uuid())
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  menuDayId      String
-  menuDay        MenuDay         @relation(fields: [menuDayId], references: [id], onDelete: Cascade)
-  slotType       SlotType
-  contenedor     String?
-  components     FoodComponent[]
-  orderPlanSlots OrderPlanSlot[]
+  id               String                @id @default(uuid())
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  menuDayId        String
+  menuDay          MenuDay               @relation(fields: [menuDayId], references: [id], onDelete: Cascade)
+  slotType         SlotType
+  contenedor       String?
+  components       FoodComponent[]
+  orderPlanSlots   OrderPlanSlot[]
+  publicationSlots MenuPublicationSlot[]
 
   @@unique([menuDayId, slotType])
   @@index([menuDayId])
 }
 
+model MenuPublication {
+  id                    String                          @id @default(uuid())
+  createdAt             DateTime                        @default(now())
+  updatedAt             DateTime                        @updatedAt
+  sourceWeeklyMenuId    String
+  sourceWeeklyMenu      WeeklyMenu                      @relation(fields: [sourceWeeklyMenuId], references: [id], onDelete: Restrict)
+  menuTypeSnapshot      MenuType                        @default(ESTANDAR)
+  version               Int                             @default(1)
+  status                MenuPublicationStatus           @default(PUBLICADA)
+  isCurrent             Boolean                         @default(false)
+  publishedAt           DateTime                        @default(now())
+  generatedAt           DateTime?
+  closedAt              DateTime?
+  supersededAt          DateTime?
+  menuNameSnapshot      String
+  menuStartDateSnapshot DateTime
+  menuEndDateSnapshot   DateTime
+  eligibleDayCount      Int                             @default(0)
+  daySelectionStrategy  MenuDaySelectionStrategy        @default(PRIMEROS_N_DIAS)
+  deliverySplitStrategy DeliverySplitStrategy           @default(POR_RANGO_DE_DIAS)
+  deliveryWindows       MenuPublicationDeliveryWindow[]
+  publicationSlots      MenuPublicationSlot[]
+  orders                Order[]
+  orderPlans            OrderPlan[]
+
+  @@unique([sourceWeeklyMenuId, version])
+  @@index([status, publishedAt])
+  @@index([menuTypeSnapshot, status, publishedAt])
+  @@index([sourceWeeklyMenuId, publishedAt])
+}
+
+model MenuPublicationDeliveryWindow {
+  id                String                @id @default(uuid())
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  menuPublicationId String
+  menuPublication   MenuPublication       @relation(fields: [menuPublicationId], references: [id], onDelete: Cascade)
+  deliveryIndex     Int
+  label             String                @default("")
+  startMenuDayOrder Int
+  endMenuDayOrder   Int
+  scheduledFor      DateTime?
+  status            DeliveryWindowStatus  @default(PLANIFICADA)
+  publicationSlots  MenuPublicationSlot[]
+  orderDeliveries   OrderDelivery[]
+
+  @@unique([menuPublicationId, deliveryIndex])
+  @@index([menuPublicationId, status])
+  @@index([scheduledFor, status])
+}
+
+model MenuPublicationSlot {
+  id                String                         @id @default(uuid())
+  createdAt         DateTime                       @default(now())
+  updatedAt         DateTime                       @updatedAt
+  menuPublicationId String
+  menuPublication   MenuPublication                @relation(fields: [menuPublicationId], references: [id], onDelete: Cascade)
+  deliveryWindowId  String?
+  deliveryWindow    MenuPublicationDeliveryWindow? @relation(fields: [deliveryWindowId], references: [id], onDelete: SetNull)
+  sourceMenuDayId   String?
+  sourceMenuDay     MenuDay?                       @relation(fields: [sourceMenuDayId], references: [id], onDelete: SetNull)
+  sourceDaySlotId   String?
+  sourceDaySlot     DaySlot?                       @relation(fields: [sourceDaySlotId], references: [id], onDelete: SetNull)
+  serviceDate       DateTime                       @db.Date
+  dayOfWeek         DayOfWeek
+  menuDayOrder      Int
+  slotType          SlotType
+  contenedor        String?
+  components        MenuPublicationSlotComponent[]
+  orderPlanSlots    OrderPlanSlot[]
+
+  @@unique([menuPublicationId, serviceDate, slotType])
+  @@index([menuPublicationId, slotType, serviceDate])
+  @@index([sourceDaySlotId])
+  @@index([deliveryWindowId])
+  @@index([menuPublicationId, menuDayOrder])
+}
+
 model FoodCatalogItem {
-  id                      String                   @id @default(uuid())
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime                 @updatedAt
-  nombre                  String
-  descripcion             String
-  calorias                Int
-  imagen                  String
-  tipo                    String
-  components              FoodComponent[]
-  recipe                  Recipe?
-  orderPlanSlotComponents OrderPlanSlotComponent[]
+  id                        String                         @id @default(uuid())
+  createdAt                 DateTime                       @default(now())
+  updatedAt                 DateTime                       @updatedAt
+  nombre                    String
+  descripcion               String
+  calorias                  Int
+  imagen                    String
+  tipo                      String
+  components                FoodComponent[]
+  recipe                    Recipe?
+  publicationSlotComponents MenuPublicationSlotComponent[]
+  orderPlanSlotComponents   OrderPlanSlotComponent[]
 
   @@index([tipo, nombre])
 }
 
 model FoodComponent {
-  id                      String                   @id @default(uuid())
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime                 @updatedAt
-  daySlotId               String
-  daySlot                 DaySlot                  @relation(fields: [daySlotId], references: [id], onDelete: Cascade)
-  catalogItemId           String?
-  catalogItem             FoodCatalogItem?         @relation(fields: [catalogItemId], references: [id], onDelete: SetNull)
-  componentRole           ComponentRole
-  nombre                  String
-  descripcion             String
-  calorias                Int
-  imagen                  String
-  tipo                    String
-  orderPlanSlotComponents OrderPlanSlotComponent[]
+  id                        String                         @id @default(uuid())
+  createdAt                 DateTime                       @default(now())
+  updatedAt                 DateTime                       @updatedAt
+  daySlotId                 String
+  daySlot                   DaySlot                        @relation(fields: [daySlotId], references: [id], onDelete: Cascade)
+  catalogItemId             String?
+  catalogItem               FoodCatalogItem?               @relation(fields: [catalogItemId], references: [id], onDelete: SetNull)
+  componentRole             ComponentRole
+  nombre                    String
+  descripcion               String
+  calorias                  Int
+  imagen                    String
+  tipo                      String
+  publicationSlotComponents MenuPublicationSlotComponent[]
+  orderPlanSlotComponents   OrderPlanSlotComponent[]
 
   @@index([daySlotId, componentRole])
   @@index([catalogItemId])
@@ -250,45 +385,46 @@ model SupplyCategory {
 }
 
 model SupplyItem {
-  id                  String                     @id @default(uuid())
-  createdAt           DateTime                   @default(now())
-  updatedAt           DateTime                   @updatedAt
-  nombre              String
-  normalizedName      String                     @default("")
-  descripcion         String
-  codigo              String?                    @unique
-  barcode             String?                    @unique
-  unidadBase          MeasurementUnit
-  defaultServingSize  Decimal?                   @db.Decimal(10, 2)
-  defaultServingUnit  MeasurementUnit?
-  nutritionBasis      NutritionBasis?
-  calorias            Decimal?                   @db.Decimal(10, 2)
-  proteina            Decimal?                   @db.Decimal(10, 2)
-  carbohidratos       Decimal?                   @db.Decimal(10, 2)
-  grasas              Decimal?                   @db.Decimal(10, 2)
-  fibra               Decimal?                   @db.Decimal(10, 2)
-  azucar              Decimal?                   @db.Decimal(10, 2)
-  sodio               Decimal?                   @db.Decimal(10, 2)
-  densidad            Decimal?                   @db.Decimal(10, 4)
-  ediblePortionFactor Decimal?                   @db.Decimal(5, 4)
-  tags                String[]                   @default([])
-  source              NutritionSource?
-  sourceExternalId    String?
-  sourceQuery         String?
-  sourceConfidence    Decimal?                   @db.Decimal(5, 4)
-  sourceSnapshot      Json?
-  lastSyncedAt        DateTime?
-  manualOverride      Boolean                    @default(false)
-  needsReview         Boolean                    @default(false)
-  reviewNotes         String                     @default("")
-  status              SupplyItemStatus           @default(BORRADOR)
-  isActive            Boolean                    @default(true)
-  costoReferencial    Decimal?                   @db.Decimal(10, 2)
-  mermaPorcentaje     Decimal?                   @db.Decimal(5, 2)
-  categoryId          String?
-  category            SupplyCategory?            @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  recipeItems         RecipeIngredient[]
-  nutritionLookups    SupplyNutritionLookupLog[]
+  id                     String                          @id @default(uuid())
+  createdAt              DateTime                        @default(now())
+  updatedAt              DateTime                        @updatedAt
+  nombre                 String
+  normalizedName         String                          @default("")
+  descripcion            String
+  codigo                 String?                         @unique
+  barcode                String?                         @unique
+  unidadBase             MeasurementUnit
+  defaultServingSize     Decimal?                        @db.Decimal(10, 2)
+  defaultServingUnit     MeasurementUnit?
+  nutritionBasis         NutritionBasis?
+  calorias               Decimal?                        @db.Decimal(10, 2)
+  proteina               Decimal?                        @db.Decimal(10, 2)
+  carbohidratos          Decimal?                        @db.Decimal(10, 2)
+  grasas                 Decimal?                        @db.Decimal(10, 2)
+  fibra                  Decimal?                        @db.Decimal(10, 2)
+  azucar                 Decimal?                        @db.Decimal(10, 2)
+  sodio                  Decimal?                        @db.Decimal(10, 2)
+  densidad               Decimal?                        @db.Decimal(10, 4)
+  ediblePortionFactor    Decimal?                        @db.Decimal(5, 4)
+  tags                   String[]                        @default([])
+  source                 NutritionSource?
+  sourceExternalId       String?
+  sourceQuery            String?
+  sourceConfidence       Decimal?                        @db.Decimal(5, 4)
+  sourceSnapshot         Json?
+  lastSyncedAt           DateTime?
+  manualOverride         Boolean                         @default(false)
+  needsReview            Boolean                         @default(false)
+  reviewNotes            String                          @default("")
+  status                 SupplyItemStatus                @default(BORRADOR)
+  isActive               Boolean                         @default(true)
+  costoReferencial       Decimal?                        @db.Decimal(10, 2)
+  mermaPorcentaje        Decimal?                        @db.Decimal(5, 2)
+  categoryId             String?
+  category               SupplyCategory?                 @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  recipeItems            RecipeIngredient[]
+  publicationIngredients MenuPublicationSlotIngredient[]
+  nutritionLookups       SupplyNutritionLookupLog[]
 
   @@index([nombre])
   @@index([normalizedName])
@@ -300,57 +436,117 @@ model SupplyItem {
 }
 
 model Recipe {
-  id                    String             @id @default(uuid())
-  createdAt             DateTime           @default(now())
-  updatedAt             DateTime           @updatedAt
-  foodCatalogItemId     String             @unique
-  foodCatalogItem       FoodCatalogItem    @relation(fields: [foodCatalogItemId], references: [id], onDelete: Cascade)
-  status                RecipeStatus       @default(BORRADOR)
-  version               Int                @default(1)
-  porciones             Int?
-  rendimientoCantidad   Decimal?           @db.Decimal(10, 2)
-  rendimientoUnidad     MeasurementUnit?
-  tiempoPreparacionMin  Int?
-  tiempoCoccionMin      Int?
-  calorias              Decimal?           @db.Decimal(10, 2)
-  proteina              Decimal?           @db.Decimal(10, 2)
-  carbohidratos         Decimal?           @db.Decimal(10, 2)
-  grasas                Decimal?           @db.Decimal(10, 2)
-  fibra                 Decimal?           @db.Decimal(10, 2)
-  azucar                Decimal?           @db.Decimal(10, 2)
-  sodio                 Decimal?           @db.Decimal(10, 2)
-  costoEstimado         Decimal?           @db.Decimal(10, 2)
-  pesoTotalGramos       Decimal?           @db.Decimal(10, 2)
-  nutritionCalculatedAt DateTime?
-  instrucciones         String             @default("")
-  notas                 String             @default("")
-  ingredients           RecipeIngredient[]
+  id                        String                         @id @default(uuid())
+  createdAt                 DateTime                       @default(now())
+  updatedAt                 DateTime                       @updatedAt
+  foodCatalogItemId         String                         @unique
+  foodCatalogItem           FoodCatalogItem                @relation(fields: [foodCatalogItemId], references: [id], onDelete: Cascade)
+  status                    RecipeStatus                   @default(BORRADOR)
+  version                   Int                            @default(1)
+  porciones                 Int?
+  rendimientoCantidad       Decimal?                       @db.Decimal(10, 2)
+  rendimientoUnidad         MeasurementUnit?
+  tiempoPreparacionMin      Int?
+  tiempoCoccionMin          Int?
+  calorias                  Decimal?                       @db.Decimal(10, 2)
+  proteina                  Decimal?                       @db.Decimal(10, 2)
+  carbohidratos             Decimal?                       @db.Decimal(10, 2)
+  grasas                    Decimal?                       @db.Decimal(10, 2)
+  fibra                     Decimal?                       @db.Decimal(10, 2)
+  azucar                    Decimal?                       @db.Decimal(10, 2)
+  sodio                     Decimal?                       @db.Decimal(10, 2)
+  costoEstimado             Decimal?                       @db.Decimal(10, 2)
+  pesoTotalGramos           Decimal?                       @db.Decimal(10, 2)
+  nutritionCalculatedAt     DateTime?
+  instrucciones             String                         @default("")
+  notas                     String                         @default("")
+  ingredients               RecipeIngredient[]
+  publicationSlotComponents MenuPublicationSlotComponent[]
 
   @@index([status])
   @@index([nutritionCalculatedAt])
 }
 
 model RecipeIngredient {
-  id                 String          @id @default(uuid())
-  createdAt          DateTime        @default(now())
-  updatedAt          DateTime        @updatedAt
-  recipeId           String
-  recipe             Recipe          @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  supplyItemId       String
-  supplyItem         SupplyItem      @relation(fields: [supplyItemId], references: [id], onDelete: Restrict)
-  orden              Int             @default(0)
-  grupo              String?
-  cantidad           Decimal         @db.Decimal(10, 2)
-  unidad             MeasurementUnit
-  quantityInBaseUnit Decimal?        @db.Decimal(12, 4)
-  wasteFactor        Decimal?        @db.Decimal(5, 4)
-  notas              String          @default("")
-  notasInternas      String          @default("")
-  opcional           Boolean         @default(false)
+  id                     String                          @id @default(uuid())
+  createdAt              DateTime                        @default(now())
+  updatedAt              DateTime                        @updatedAt
+  recipeId               String
+  recipe                 Recipe                          @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  supplyItemId           String
+  supplyItem             SupplyItem                      @relation(fields: [supplyItemId], references: [id], onDelete: Restrict)
+  orden                  Int                             @default(0)
+  grupo                  String?
+  cantidad               Decimal                         @db.Decimal(10, 2)
+  unidad                 MeasurementUnit
+  quantityInBaseUnit     Decimal?                        @db.Decimal(12, 4)
+  wasteFactor            Decimal?                        @db.Decimal(5, 4)
+  notas                  String                          @default("")
+  notasInternas          String                          @default("")
+  opcional               Boolean                         @default(false)
+  publicationIngredients MenuPublicationSlotIngredient[]
 
   @@unique([recipeId, orden])
   @@index([recipeId, orden])
   @@index([supplyItemId])
+}
+
+model MenuPublicationSlotComponent {
+  id                      String                          @id @default(uuid())
+  createdAt               DateTime                        @default(now())
+  updatedAt               DateTime                        @updatedAt
+  menuPublicationSlotId   String
+  menuPublicationSlot     MenuPublicationSlot             @relation(fields: [menuPublicationSlotId], references: [id], onDelete: Cascade)
+  sourceFoodComponentId   String?
+  sourceFoodComponent     FoodComponent?                  @relation(fields: [sourceFoodComponentId], references: [id], onDelete: SetNull)
+  sourceCatalogItemId     String?
+  sourceCatalogItem       FoodCatalogItem?                @relation(fields: [sourceCatalogItemId], references: [id], onDelete: SetNull)
+  sourceRecipeId          String?
+  sourceRecipe            Recipe?                         @relation(fields: [sourceRecipeId], references: [id], onDelete: SetNull)
+  componentIndex          Int
+  componentRole           ComponentRole
+  nombre                  String
+  descripcion             String
+  calorias                Int
+  imagen                  String
+  tipo                    String
+  recipeVersionSnapshot   Int?
+  ingredients             MenuPublicationSlotIngredient[]
+  orderPlanSlotComponents OrderPlanSlotComponent[]
+
+  @@unique([menuPublicationSlotId, componentIndex])
+  @@index([menuPublicationSlotId, componentRole, componentIndex])
+  @@index([sourceCatalogItemId])
+  @@index([sourceFoodComponentId])
+  @@index([sourceRecipeId])
+}
+
+model MenuPublicationSlotIngredient {
+  id                             String                       @id @default(uuid())
+  createdAt                      DateTime                     @default(now())
+  updatedAt                      DateTime                     @updatedAt
+  menuPublicationSlotComponentId String
+  menuPublicationSlotComponent   MenuPublicationSlotComponent @relation(fields: [menuPublicationSlotComponentId], references: [id], onDelete: Cascade)
+  sourceRecipeIngredientId       String?
+  sourceRecipeIngredient         RecipeIngredient?            @relation(fields: [sourceRecipeIngredientId], references: [id], onDelete: SetNull)
+  sourceSupplyItemId             String?
+  sourceSupplyItem               SupplyItem?                  @relation(fields: [sourceSupplyItemId], references: [id], onDelete: SetNull)
+  ingredientIndex                Int
+  grupo                          String?
+  cantidad                       Decimal                      @db.Decimal(10, 2)
+  unidad                         MeasurementUnit
+  quantityInBaseUnit             Decimal?                     @db.Decimal(12, 4)
+  wasteFactor                    Decimal?                     @db.Decimal(5, 4)
+  opcional                       Boolean                      @default(false)
+  supplyNameSnapshot             String
+  supplyUnitBaseSnapshot         MeasurementUnit
+  supplyCategoryNameSnapshot     String?
+  costoReferencialSnapshot       Decimal?                     @db.Decimal(10, 2)
+
+  @@unique([menuPublicationSlotComponentId, ingredientIndex])
+  @@index([sourceSupplyItemId])
+  @@index([menuPublicationSlotComponentId, ingredientIndex])
+  @@index([sourceRecipeIngredientId])
 }
 
 model SupplyNutritionLookupLog {
@@ -376,29 +572,30 @@ model SupplyNutritionLookupLog {
 }
 
 model User {
-  id                String            @id @default(uuid())
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  authUserId        String?           @unique
-  email             String            @unique
+  id                String                 @id @default(uuid())
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+  authUserId        String?                @unique
+  email             String                 @unique
   nombre            String
-  apellidos         String            @default("")
+  apellidos         String                 @default("")
   telefono          String?
-  role              UserRole          @default(CLIENTE)
-  status            UserStatus        @default(ACTIVO)
+  role              UserRole               @default(CLIENTE)
+  status            UserStatus             @default(ACTIVO)
   source            UserSource?
   gender            UserGender?
   customerType      UserCustomerType?
-  tags              String[]          @default([])
-  primaryAddress    String            @default("")
-  primaryAddress2   String            @default("")
-  notas             String            @default("")
-  totalSpentCached  Decimal?          @db.Decimal(10, 2)
-  ordersCountCached Int               @default(0)
+  tags              String[]               @default([])
+  primaryAddress    String                 @default("")
+  primaryAddress2   String                 @default("")
+  notas             String                 @default("")
+  totalSpentCached  Decimal?               @db.Decimal(10, 2)
+  ordersCountCached Int                    @default(0)
   lastOrderAt       DateTime?
   addresses         UserAddress[]
-  orders            Order[]           @relation("OrderRecipient")
-  createdOrders     Order[]           @relation("OrderCreatedBy")
+  subscriptions     UserPlanSubscription[]
+  orders            Order[]                @relation("OrderRecipient")
+  createdOrders     Order[]                @relation("OrderCreatedBy")
 
   @@index([role, status])
   @@index([source, status])
@@ -431,46 +628,80 @@ model UserAddress {
 }
 
 model Plan {
-  id         String      @id @default(uuid())
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  nombre     String
-  slug       String?     @unique
-  precio     Decimal     @db.Decimal(10, 2)
-  dishCount  Int         @default(0)
-  tipo       PlanType
-  tags       String[]    @default([])
-  isActive   Boolean     @default(true)
-  notas      String      @default("")
-  orderItems OrderPlan[]
+  id            String                 @id @default(uuid())
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  nombre        String
+  slug          String?                @unique
+  precio        Decimal                @db.Decimal(10, 2)
+  dishCount     Int                    @default(0)
+  tipo          PlanType
+  tags          String[]               @default([])
+  isActive      Boolean                @default(true)
+  notas         String                 @default("")
+  subscriptions UserPlanSubscription[]
+  orderItems    OrderPlan[]
 
   @@index([tipo, isActive])
   @@index([nombre])
 }
 
+model UserPlanSubscription {
+  id                String                     @id @default(uuid())
+  createdAt         DateTime                   @default(now())
+  updatedAt         DateTime                   @updatedAt
+  userId            String
+  user              User                       @relation(fields: [userId], references: [id], onDelete: Restrict)
+  planId            String
+  plan              Plan                       @relation(fields: [planId], references: [id], onDelete: Restrict)
+  status            UserPlanSubscriptionStatus @default(ACTIVA)
+  menuType          MenuType                   @default(ESTANDAR)
+  quantity          Int                        @default(1)
+  daysPerCycle      Int
+  unitPriceSnapshot Decimal                    @db.Decimal(10, 2)
+  currency          String                     @default("MXN")
+  startsAt          DateTime                   @db.Date
+  endsAt            DateTime?                  @db.Date
+  pausedAt          DateTime?
+  cancelledAt       DateTime?
+  autoGenerate      Boolean                    @default(true)
+  notas             String                     @default("")
+  orderPlans        OrderPlan[]
+
+  @@index([userId, status])
+  @@index([userId, menuType, status])
+  @@index([menuType, status])
+  @@index([planId, status])
+  @@index([status, startsAt, endsAt])
+  @@index([userId, autoGenerate, status])
+}
+
 model Order {
-  id                      String             @id @default(uuid())
-  createdAt               DateTime           @default(now())
-  updatedAt               DateTime           @updatedAt
-  orderNumber             String?            @unique
+  id                      String                @id @default(uuid())
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+  orderNumber             String?               @unique
   userId                  String
-  user                    User               @relation("OrderRecipient", fields: [userId], references: [id], onDelete: Restrict)
+  user                    User                  @relation("OrderRecipient", fields: [userId], references: [id], onDelete: Restrict)
   createdById             String
-  createdBy               User               @relation("OrderCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  createdBy               User                  @relation("OrderCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
   weeklyMenuId            String?
-  weeklyMenu              WeeklyMenu?        @relation(fields: [weeklyMenuId], references: [id], onDelete: SetNull)
+  weeklyMenu              WeeklyMenu?           @relation(fields: [weeklyMenuId], references: [id], onDelete: SetNull)
+  menuPublicationId       String?
+  menuPublication         MenuPublication?      @relation(fields: [menuPublicationId], references: [id], onDelete: SetNull)
   deliveryAddressId       String?
-  deliveryAddress         UserAddress?       @relation(fields: [deliveryAddressId], references: [id], onDelete: SetNull)
-  status                  OrderStatus        @default(BORRADOR)
-  paymentStatus           OrderPaymentStatus @default(PENDIENTE)
-  currency                String             @default("MXN")
-  subtotal                Decimal?           @db.Decimal(10, 2)
-  descuento               Decimal?           @db.Decimal(10, 2)
-  extras                  Decimal?           @db.Decimal(10, 2)
-  costoEnvio              Decimal?           @db.Decimal(10, 2)
-  total                   Decimal?           @db.Decimal(10, 2)
-  totalPlanPriceCached    Decimal?           @db.Decimal(10, 2)
-  totalDishCountCached    Int                @default(0)
+  deliveryAddress         UserAddress?          @relation(fields: [deliveryAddressId], references: [id], onDelete: SetNull)
+  origin                  OrderOrigin           @default(MANUAL)
+  status                  OrderStatus           @default(BORRADOR)
+  paymentStatus           OrderPaymentStatus    @default(PENDIENTE)
+  currency                String                @default("MXN")
+  subtotal                Decimal?              @db.Decimal(10, 2)
+  descuento               Decimal?              @db.Decimal(10, 2)
+  extras                  Decimal?              @db.Decimal(10, 2)
+  costoEnvio              Decimal?              @db.Decimal(10, 2)
+  total                   Decimal?              @db.Decimal(10, 2)
+  totalPlanPriceCached    Decimal?              @db.Decimal(10, 2)
+  totalDishCountCached    Int                   @default(0)
   requiredBagCountCached  Int?
   scheduledFor            DateTime?
   firstDeliveryAt         DateTime?
@@ -478,93 +709,158 @@ model Order {
   deliveredAt             DateTime?
   cancelledAt             DateTime?
   paymentReceiptUrl       String?
-  tags                    String[]           @default([])
-  notas                   String             @default("")
-  notasInternas           String             @default("")
-  menuNameSnapshot        String             @default("")
+  tags                    String[]              @default([])
+  notas                   String                @default("")
+  notasInternas           String                @default("")
+  menuNameSnapshot        String                @default("")
   menuStartDateSnapshot   DateTime?
   menuEndDateSnapshot     DateTime?
   menuResolvedAt          DateTime?
-  totalRequestedDishCount Int                @default(0)
-  totalAssignedDishCount  Int                @default(0)
-  totalPendingDishCount   Int                @default(0)
+  totalRequestedDishCount Int                   @default(0)
+  totalAssignedDishCount  Int                   @default(0)
+  totalPendingDishCount   Int                   @default(0)
+  addressSnapshot         OrderAddressSnapshot?
+  orderDeliveries         OrderDelivery[]
   planItems               OrderPlan[]
 
   @@index([userId, status, createdAt])
   @@index([createdById, createdAt])
   @@index([weeklyMenuId])
+  @@index([menuPublicationId, status, createdAt])
   @@index([deliveryAddressId])
+  @@index([origin, status, createdAt])
   @@index([scheduledFor, status])
   @@index([firstDeliveryAt, secondDeliveryAt])
   @@index([paymentStatus, status])
 }
 
 model OrderPlan {
-  id                    String                    @id @default(uuid())
-  createdAt             DateTime                  @default(now())
-  updatedAt             DateTime                  @updatedAt
-  orderId               String
-  order                 Order                     @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  planId                String
-  plan                  Plan                      @relation(fields: [planId], references: [id], onDelete: Restrict)
-  quantity              Int                       @default(1)
-  unitPrice             Decimal?                  @db.Decimal(10, 2)
-  lineSubtotal          Decimal?                  @db.Decimal(10, 2)
-  notas                 String                    @default("")
-  planDishCountSnapshot Int
-  planTypeSnapshot      PlanType
-  requestedDishCount    Int
-  assignedDishCount     Int                       @default(0)
-  pendingDishCount      Int                       @default(0)
-  resolutionStatus      OrderPlanResolutionStatus @default(PENDIENTE)
-  slots                 OrderPlanSlot[]
+  id                     String                    @id @default(uuid())
+  createdAt              DateTime                  @default(now())
+  updatedAt              DateTime                  @updatedAt
+  orderId                String
+  order                  Order                     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  planId                 String
+  plan                   Plan                      @relation(fields: [planId], references: [id], onDelete: Restrict)
+  userPlanSubscriptionId String?
+  userPlanSubscription   UserPlanSubscription?     @relation(fields: [userPlanSubscriptionId], references: [id], onDelete: SetNull)
+  menuPublicationId      String?
+  menuPublication        MenuPublication?          @relation(fields: [menuPublicationId], references: [id], onDelete: SetNull)
+  quantity               Int                       @default(1)
+  unitPrice              Decimal?                  @db.Decimal(10, 2)
+  lineSubtotal           Decimal?                  @db.Decimal(10, 2)
+  notas                  String                    @default("")
+  planDishCountSnapshot  Int
+  planTypeSnapshot       PlanType
+  menuTypeSnapshot       MenuType                  @default(ESTANDAR)
+  requestedDishCount     Int
+  assignedDishCount      Int                       @default(0)
+  pendingDishCount       Int                       @default(0)
+  resolutionStatus       OrderPlanResolutionStatus @default(PENDIENTE)
+  slots                  OrderPlanSlot[]
 
-  @@unique([orderId, planId])
+  @@unique([orderId, planId, menuTypeSnapshot])
   @@index([planId])
+  @@index([userPlanSubscriptionId])
+  @@index([menuPublicationId])
+  @@index([menuTypeSnapshot])
   @@index([orderId, quantity])
 }
 
 model OrderPlanSlot {
-  id                 String                   @id @default(uuid())
-  createdAt          DateTime                 @default(now())
-  updatedAt          DateTime                 @updatedAt
-  orderPlanId        String
-  orderPlan          OrderPlan                @relation(fields: [orderPlanId], references: [id], onDelete: Cascade)
-  sourceWeeklyMenuId String?
-  sourceWeeklyMenu   WeeklyMenu?              @relation(fields: [sourceWeeklyMenuId], references: [id], onDelete: SetNull)
-  sourceMenuDayId    String?
-  sourceMenuDay      MenuDay?                 @relation(fields: [sourceMenuDayId], references: [id], onDelete: SetNull)
-  sourceDaySlotId    String?
-  sourceDaySlot      DaySlot?                 @relation(fields: [sourceDaySlotId], references: [id], onDelete: SetNull)
-  selectionIndex     Int
-  dayOfWeek          DayOfWeek
-  menuDayOrder       Int
-  slotType           SlotType
-  contenedor         String?
-  components         OrderPlanSlotComponent[]
+  id                    String                   @id @default(uuid())
+  createdAt             DateTime                 @default(now())
+  updatedAt             DateTime                 @updatedAt
+  orderPlanId           String
+  orderPlan             OrderPlan                @relation(fields: [orderPlanId], references: [id], onDelete: Cascade)
+  menuPublicationSlotId String?
+  menuPublicationSlot   MenuPublicationSlot?     @relation(fields: [menuPublicationSlotId], references: [id], onDelete: SetNull)
+  orderDeliveryId       String?
+  orderDelivery         OrderDelivery?           @relation(fields: [orderDeliveryId], references: [id], onDelete: SetNull)
+  sourceWeeklyMenuId    String?
+  sourceWeeklyMenu      WeeklyMenu?              @relation(fields: [sourceWeeklyMenuId], references: [id], onDelete: SetNull)
+  sourceMenuDayId       String?
+  sourceMenuDay         MenuDay?                 @relation(fields: [sourceMenuDayId], references: [id], onDelete: SetNull)
+  sourceDaySlotId       String?
+  sourceDaySlot         DaySlot?                 @relation(fields: [sourceDaySlotId], references: [id], onDelete: SetNull)
+  serviceDate           DateTime?                @db.Date
+  menuTypeSnapshot      MenuType                 @default(ESTANDAR)
+  selectionIndex        Int
+  dayOfWeek             DayOfWeek
+  menuDayOrder          Int
+  slotType              SlotType
+  contenedor            String?
+  components            OrderPlanSlotComponent[]
 
   @@unique([orderPlanId, selectionIndex])
+  @@index([menuPublicationSlotId])
+  @@index([orderDeliveryId])
+  @@index([serviceDate])
+  @@index([menuTypeSnapshot, serviceDate])
   @@index([sourceDaySlotId])
   @@index([orderPlanId, dayOfWeek, selectionIndex])
 }
 
 model OrderPlanSlotComponent {
-  id                    String           @id @default(uuid())
-  createdAt             DateTime         @default(now())
-  updatedAt             DateTime         @updatedAt
-  orderPlanSlotId       String
-  orderPlanSlot         OrderPlanSlot    @relation(fields: [orderPlanSlotId], references: [id], onDelete: Cascade)
-  sourceFoodComponentId String?
-  sourceFoodComponent   FoodComponent?   @relation(fields: [sourceFoodComponentId], references: [id], onDelete: SetNull)
-  sourceCatalogItemId   String?
-  sourceCatalogItem     FoodCatalogItem? @relation(fields: [sourceCatalogItemId], references: [id], onDelete: SetNull)
-  componentRole         ComponentRole
-  nombre                String
-  descripcion           String
-  calorias              Int
-  imagen                String
-  tipo                  String
+  id                             String                        @id @default(uuid())
+  createdAt                      DateTime                      @default(now())
+  updatedAt                      DateTime                      @updatedAt
+  orderPlanSlotId                String
+  orderPlanSlot                  OrderPlanSlot                 @relation(fields: [orderPlanSlotId], references: [id], onDelete: Cascade)
+  menuPublicationSlotComponentId String?
+  menuPublicationSlotComponent   MenuPublicationSlotComponent? @relation(fields: [menuPublicationSlotComponentId], references: [id], onDelete: SetNull)
+  sourceFoodComponentId          String?
+  sourceFoodComponent            FoodComponent?                @relation(fields: [sourceFoodComponentId], references: [id], onDelete: SetNull)
+  sourceCatalogItemId            String?
+  sourceCatalogItem              FoodCatalogItem?              @relation(fields: [sourceCatalogItemId], references: [id], onDelete: SetNull)
+  componentRole                  ComponentRole
+  nombre                         String
+  descripcion                    String
+  calorias                       Int
+  imagen                         String
+  tipo                           String
 
   @@index([orderPlanSlotId])
+  @@index([menuPublicationSlotComponentId])
   @@index([sourceCatalogItemId])
+}
+
+model OrderDelivery {
+  id                              String                         @id @default(uuid())
+  createdAt                       DateTime                       @default(now())
+  updatedAt                       DateTime                       @updatedAt
+  orderId                         String
+  order                           Order                          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuPublicationDeliveryWindowId String?
+  menuPublicationDeliveryWindow   MenuPublicationDeliveryWindow? @relation(fields: [menuPublicationDeliveryWindowId], references: [id], onDelete: SetNull)
+  deliveryIndex                   Int
+  scheduledFor                    DateTime?
+  status                          OrderDeliveryStatus            @default(PENDIENTE)
+  slotCount                       Int                            @default(0)
+  notas                           String                         @default("")
+  slots                           OrderPlanSlot[]
+
+  @@unique([orderId, deliveryIndex])
+  @@index([menuPublicationDeliveryWindowId])
+  @@index([orderId, status])
+  @@index([scheduledFor, status])
+}
+
+model OrderAddressSnapshot {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orderId      String   @unique
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  etiqueta     String   @default("")
+  destinatario String
+  telefono     String   @default("")
+  linea1       String
+  linea2       String   @default("")
+  colonia      String   @default("")
+  ciudad       String
+  estado       String
+  codigoPostal String   @default("")
+  pais         String   @default("MX")
+  referencias  String   @default("")
 }
