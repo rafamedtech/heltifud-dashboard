@@ -108,6 +108,16 @@ const slotValidationSchema = z.object({
           message: 'Selecciona un contenedor.'
         })
       }
+
+      slot?.adicionales?.forEach((adicional: { catalogItemId?: string | null, nombre?: string }, adicionalIndex: number) => {
+        if (!adicional.catalogItemId && !adicional.nombre?.trim()) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['days', dayIndex, slotKey, 'adicionales', adicionalIndex],
+            message: 'Selecciona un platillo o elimina el adicional.'
+          })
+        }
+      })
     })
   })
 })
@@ -134,14 +144,14 @@ function dateValueToString(value: DateValue | null | undefined) {
   return `${value.year}-${String(value.month).padStart(2, '0')}-${String(value.day).padStart(2, '0')}`
 }
 
-const startDateValue = computed({
+const startDateValue = computed<any>({
   get: () => stringToDateValue(state.value.startDate),
   set: (value: DateValue | null | undefined) => {
     state.value.startDate = dateValueToString(value)
   }
 })
 
-const endDateValue = computed({
+const endDateValue = computed<any>({
   get: () => stringToDateValue(state.value.endDate),
   set: (value: DateValue | null | undefined) => {
     state.value.endDate = dateValueToString(value)
@@ -171,6 +181,7 @@ const canSubmit = computed(() =>
     && state.value.startDate
     && state.value.endDate
     && slotValidationResult.value.success
+    && visibleDays.value.every(day => isDayCompleted(day))
   )
 )
 const hasUnsavedChanges = computed(() => JSON.stringify(state.value) !== initialSnapshot.value)
@@ -216,8 +227,13 @@ function countConfiguredSlots(day: WeeklyMenuFormState['days'][number]) {
   return SLOT_ORDER.reduce((count, slotKey) => count + (slotHasContent(day[slotKey]) ? 1 : 0), 0)
 }
 
+function slotHasEmptyAdicional(slot: MenuSlot) {
+  return slot.adicionales.some(a => !a.catalogItemId && !a.nombre.trim())
+}
+
 function isDayCompleted(day: WeeklyMenuFormState['days'][number]) {
   return countConfiguredSlots(day) === SLOT_ORDER.length
+    && SLOT_ORDER.every(slotKey => !slotHasEmptyAdicional(day[slotKey]))
 }
 
 function slotHasContent(slot: MenuSlot) {
@@ -325,7 +341,7 @@ async function onSubmit() {
         Información general del menú
       </h2>
 
-      <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px_220px_220px]">
+      <div class="grid gap-4 lg:grid-cols-4">
         <UFormField label="Nombre del menú" class="min-w-0">
           <UInput
             v-model="state.name"
@@ -348,6 +364,7 @@ async function onSubmit() {
             :icon="selectedMenuTypeIcon"
             :disabled="isFormHydrating"
             :placeholder="isFormHydrating ? 'Cargando...' : 'Selecciona tipo'"
+            :search-input="false"
           />
         </UFormField>
 
@@ -434,6 +451,9 @@ async function onSubmit() {
             <UIcon name="i-lucide-check" class="size-4" />
             <span>Completado</span>
           </div>
+          <p v-else-if="SLOT_ORDER.some(slotKey => slotHasEmptyAdicional(day[slotKey]))" class="text-sm text-warning">
+            Adicional pendiente
+          </p>
           <p v-else class="text-sm text-muted">
             {{ countConfiguredSlots(day) }} de {{ SLOT_ORDER.length }} tiempos configurados.
           </p>

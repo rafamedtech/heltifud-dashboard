@@ -3,6 +3,7 @@ import type {
   ExternalNutritionCandidate,
   NormalizedNutritionRecord,
 } from './types'
+import type { Prisma } from '~~/prisma/generated/client/client'
 import {
   clamp,
   computeNameSimilarity,
@@ -108,7 +109,7 @@ export class NutritionNormalizer {
         completeness,
         canonicalBasis: canonical.nutritionBasis,
         candidate,
-      },
+      } as unknown as Prisma.InputJsonValue,
       reviewReasons,
     }
   }

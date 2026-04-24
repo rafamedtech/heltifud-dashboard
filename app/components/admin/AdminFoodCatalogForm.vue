@@ -125,6 +125,9 @@ type IngredientNutritionLookupResponse = {
     normalized?: IngredientNutritionLookupResponse['normalized'];
   }>;
 };
+type IngredientNutritionProviderMatch = NonNullable<
+  IngredientNutritionLookupResponse['providerMatches']
+>[number];
 
 type RecipeFormState = {
   status: RecipeStatus;
@@ -264,6 +267,28 @@ const isCreatingIngredient = computed(
 const activeIngredientNutritionReviewDraft = computed(
   () => ingredientNutritionReviewDrafts[activeIngredientNutritionReviewTab.value],
 );
+const activeIngredientNutritionConfidence = computed(() =>
+  activeIngredientNutritionReviewDraft.value.confidence === null
+    ? ''
+    : String(activeIngredientNutritionReviewDraft.value.confidence),
+);
+const activeIngredientNutritionBasis = computed({
+  get: () =>
+    activeIngredientNutritionReviewDraft.value.supplyNutritionBasis ?? undefined,
+  set: (value: NutritionBasisOption | undefined) => {
+    activeIngredientNutritionReviewDraft.value.supplyNutritionBasis =
+      value ?? null;
+  },
+});
+const activeIngredientServingUnit = computed({
+  get: () =>
+    activeIngredientNutritionReviewDraft.value.supplyDefaultServingUnit ??
+    undefined,
+  set: (value: MeasurementUnit | undefined) => {
+    activeIngredientNutritionReviewDraft.value.supplyDefaultServingUnit =
+      value ?? null;
+  },
+});
 function formatSelectMenuLabel(value: string) {
   const trimmedValue = value.trim();
 
@@ -584,7 +609,7 @@ function syncIngredientDraft(source?: RecipeIngredientFormState | null) {
 
 function buildIngredientNutritionReviewFromLookup(
   source: IngredientNutritionReviewSource,
-  match?: IngredientNutritionLookupResponse['providerMatches'][number] | null,
+  match?: IngredientNutritionProviderMatch | null,
 ) {
   if (!match?.normalized) {
     return {
@@ -3001,11 +3026,7 @@ async function onSubmit() {
                       :ui="{ label: 'font-semibold text-highlighted' }"
                     >
                       <UInput
-                        :model-value="
-                          activeIngredientNutritionReviewDraft.confidence === null
-                            ? ''
-                            : activeIngredientNutritionReviewDraft.confidence
-                        "
+                        :model-value="activeIngredientNutritionConfidence"
                         class="w-full"
                         readonly
                       />
@@ -3016,7 +3037,7 @@ async function onSubmit() {
                       :ui="{ label: 'font-semibold text-highlighted' }"
                     >
                       <USelect
-                        v-model="activeIngredientNutritionReviewDraft.supplyNutritionBasis"
+                        v-model="activeIngredientNutritionBasis"
                         :items="nutritionBasisOptions"
                         label-key="label"
                         value-key="value"
@@ -3043,7 +3064,7 @@ async function onSubmit() {
                       :ui="{ label: 'font-semibold text-highlighted' }"
                     >
                       <USelect
-                        v-model="activeIngredientNutritionReviewDraft.supplyDefaultServingUnit"
+                        v-model="activeIngredientServingUnit"
                         :items="unitOptions"
                         label-key="label"
                         value-key="value"

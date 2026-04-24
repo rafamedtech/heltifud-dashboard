@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DetailedDayMenu, DetailedMenuSlot, WeeklyMenuDetail } from '~~/types/types'
+import type { DetailedMenuSlot, WeeklyMenuDetail } from '~~/types/types'
 import { formatCalories, formatDate } from '~/utils/formatters'
 
 definePageMeta({
@@ -27,10 +27,31 @@ const DAY_LABELS = {
   SABADO: 'Sábado',
   DOMINGO: 'Domingo'
 } as const
+const VEGETARIAN_VISIBLE_DAYS = new Set(['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'])
 
 type SlotKey = keyof typeof SLOT_LABELS
+type PublicMenuType = 'ESTANDAR' | 'VEGETARIANO'
 
 const slotKeys = Object.keys(SLOT_LABELS) as SlotKey[]
+const route = useRoute()
+const router = useRouter()
+
+function menuTypeFromQuery(value: unknown): PublicMenuType {
+  const queryValue = Array.isArray(value) ? value[0] : value
+
+  return typeof queryValue === 'string'
+    && ['vegetariano', 'veggie', 'veg', 'vegetarian', 'VEGETARIANO'].includes(queryValue)
+    ? 'VEGETARIANO'
+    : 'ESTANDAR'
+}
+
+function menuTypeToQuery(value: PublicMenuType) {
+  return value === 'VEGETARIANO' ? 'vegetariano' : undefined
+}
+
+const selectedMenuTypeTab = ref<PublicMenuType>(
+  menuTypeFromQuery(route.query.tipo)
+)
 
 const {
   data: activeMenus,
@@ -63,15 +84,19 @@ function addDaysToDateKey(dateKey: string, days: number) {
   return `${nextYear}-${nextMonth}-${nextDay}`
 }
 
-function hasFood(item: DetailedMenuSlot['platilloPrincipal'] | null | undefined) {
+function hasFood(
+  item: DetailedMenuSlot['platilloPrincipal'] | null | undefined
+) {
   return Boolean(item?.nombre?.trim())
 }
 
 function hasSlotContent(slot: DetailedMenuSlot) {
-  return hasFood(slot.platilloPrincipal)
+  return (
+    hasFood(slot.platilloPrincipal)
     || hasFood(slot.guarnicion1)
     || hasFood(slot.guarnicion2)
     || slot.adicionales.some(hasFood)
+  )
 }
 
 function getSlotCalories(slot: DetailedMenuSlot) {
@@ -100,8 +125,12 @@ function getVisibleDays(menu: WeeklyMenuDetail) {
   return menu.days
     .map((day, index) => ({
       ...day,
-      dateKey: addDaysToDateKey(startDateKey, (day.menuDayOrder ?? index + 1) - 1)
+      dateKey: addDaysToDateKey(
+        startDateKey,
+        (day.menuDayOrder ?? index + 1) - 1
+      )
     }))
+    .filter(day => menu.menuType !== 'VEGETARIANO' || VEGETARIAN_VISIBLE_DAYS.has(day.dayOfWeek))
     .filter(day => slotKeys.some(slotKey => hasSlotContent(day[slotKey])))
 }
 
@@ -109,21 +138,67 @@ function getWeekRange(menu: WeeklyMenuDetail) {
   return `${formatDate(toDateKey(menu.startDate), 'd MMM')} - ${formatDate(toDateKey(menu.endDate), 'd MMM yyyy')}`
 }
 
-function formatMenuType(menu: WeeklyMenuDetail) {
-  return menu.menuType === 'VEGETARIANO' ? 'Vegetariano' : 'Estándar'
-}
-
-const firstActiveMenu = computed(() => activeMenus.value[0] ?? null)
-const headerDateLabel = computed(() => {
-  if (!activeMenus.value.length) {
+function getRangeLabel(menus: WeeklyMenuDetail[]) {
+  if (!menus.length) {
     return 'Fechas por definir'
   }
 
-  const ranges = new Set(activeMenus.value.map(getWeekRange))
+  const ranges = new Set(menus.map(getWeekRange))
 
   return ranges.size === 1
-    ? getWeekRange(firstActiveMenu.value!)
-    : `${activeMenus.value.length} menús activos`
+    ? getWeekRange(menus[0]!)
+    : `${menus.length} menús activos`
+}
+
+const standardMenus = computed(() =>
+  activeMenus.value.filter(menu => menu.menuType === 'ESTANDAR')
+)
+const vegetarianMenus = computed(() =>
+  activeMenus.value.filter(menu => menu.menuType === 'VEGETARIANO')
+)
+const filteredActiveMenus = computed(() =>
+  selectedMenuTypeTab.value === 'VEGETARIANO'
+    ? vegetarianMenus.value
+    : standardMenus.value
+)
+const headerDateLabel = computed(() =>
+  getRangeLabel(filteredActiveMenus.value)
+)
+const menuTypeTabs = computed(() => [
+  {
+    label: 'Regular',
+    value: 'ESTANDAR',
+    icon: 'i-lucide-utensils',
+    badge: standardMenus.value.length
+  },
+  {
+    label: 'Vegetariano',
+    value: 'VEGETARIANO',
+    icon: 'i-lucide-leaf',
+    badge: vegetarianMenus.value.length
+  }
+])
+
+watch(
+  () => route.query.tipo,
+  (value) => {
+    selectedMenuTypeTab.value = menuTypeFromQuery(value)
+  }
+)
+
+watch(selectedMenuTypeTab, (value) => {
+  const nextTipo = menuTypeToQuery(value)
+
+  if (route.query.tipo === nextTipo) {
+    return
+  }
+
+  router.replace({
+    query: {
+      ...route.query,
+      tipo: nextTipo
+    }
+  })
 })
 
 useSeoMeta({
@@ -134,34 +209,35 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="min-h-dvh bg-gradient-to-b from-primary/5 via-default to-primary/5 text-default">
+  <div class="min-h-dvh bg-default text-default">
     <PublicHeader />
 
-    <main class="mx-auto flex w-full max-w-7xl flex-col gap-7 px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
-      <section class="space-y-6">
-        <div class="space-y-5">
+    <main
+      class="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8 lg:py-10"
+    >
+      <section
+        class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+      >
+        <div class="max-w-2xl space-y-2">
           <h1 class="text-3xl font-semibold tracking-tight text-primary">
             Menú de la semana
           </h1>
 
-          <div class="flex flex-wrap items-center gap-3 text-sm font-medium text-muted sm:text-base">
-            <UIcon
-              name="i-lucide-calendar-days"
-              class="size-5 text-highlighted"
-            />
-            <span>{{ headerDateLabel }}</span>
-
-            <UButton
-              to="/login"
-              color="neutral"
-              variant="outline"
-              icon="i-lucide-square-pen"
-              class="rounded-xl"
-            >
-              Editar menú
-            </UButton>
-          </div>
+          <p class="text-sm leading-6 text-muted">
+            Consulta la rotación activa de Heltifud, organizada por día y tiempo
+            de comida.
+          </p>
         </div>
+
+        <UButton
+          to="/login"
+          color="neutral"
+          variant="subtle"
+          icon="i-lucide-square-pen"
+          class="w-full cursor-pointer justify-center md:w-auto"
+        >
+          Editar menú
+        </UButton>
       </section>
 
       <UAlert
@@ -189,7 +265,9 @@ useSeoMeta({
           body: 'p-6 sm:p-8'
         }"
       >
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div
+          class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+        >
           <div class="space-y-2">
             <p class="text-lg font-semibold text-highlighted">
               Sin menú activo
@@ -210,99 +288,142 @@ useSeoMeta({
         </div>
       </UCard>
 
-      <section
-        v-else
-        id="menu"
-        class="space-y-10"
-      >
-        <section
-          v-for="menu in activeMenus"
-          :key="menu.id"
-          class="space-y-5"
+      <section v-else id="menu" class="space-y-6">
+        <UCard
+          :ui="{
+            root: 'overflow-hidden rounded-2xl border border-default/70 ring-0 divide-y-0 bg-elevated/35 shadow-sm shadow-black/5',
+            body: 'space-y-5 p-6'
+          }"
         >
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <div class="space-y-1">
-              <UBadge
-                color="primary"
-                variant="subtle"
-                :icon="menu.menuType === 'VEGETARIANO' ? 'i-lucide-leaf' : 'i-lucide-utensils'"
-              >
-                {{ formatMenuType(menu) }}
-              </UBadge>
-              <h2 class="text-xl font-semibold tracking-tight text-highlighted">
-                {{ menu.name }}
-              </h2>
-            </div>
+          <h2 class="text-xl font-semibold text-primary">
+            Información general del menú
+          </h2>
 
-            <p class="text-sm font-medium text-muted">
-              {{ getWeekRange(menu) }}
-            </p>
-          </div>
-
-          <UCard
-            v-for="day in getVisibleDays(menu)"
-            :key="`${menu.id}-${day.dayOfWeek}`"
-            :ui="{
-              root: 'overflow-hidden rounded-2xl border border-default/80 ring-0 divide-y-0 bg-default/80 shadow-sm shadow-black/5 backdrop-blur',
-              header: 'border-b border-default/80 px-5 py-4 sm:px-6',
-              body: 'p-0'
-            }"
+          <div
+            class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between"
           >
-            <template #header>
-              <div class="flex items-center justify-between gap-3">
-                <h3 class="text-xl font-semibold tracking-tight text-primary">
-                  {{ DAY_LABELS[day.dayOfWeek] }}
-                </h3>
+            <div class="space-y-2">
+              <p class="text-sm font-medium text-muted">
+                Semana activa
+              </p>
 
-                <span class="text-sm font-medium text-muted">
-                  {{ formatDate(day.dateKey, 'd MMM') }}
-                </span>
+              <div class="flex flex-wrap items-center gap-3">
+                <UBadge
+                  color="neutral"
+                  variant="subtle"
+                  icon="i-lucide-calendar-days"
+                  size="lg"
+                >
+                  {{ headerDateLabel }}
+                </UBadge>
               </div>
-            </template>
-
-            <div class="grid divide-y divide-default/80 md:grid-cols-3 md:divide-x md:divide-y-0">
-              <article
-                v-for="slotKey in slotKeys"
-                :key="slotKey"
-                class="min-h-40 p-5 sm:p-6"
-              >
-                <div class="flex items-center gap-3">
-                  <UIcon
-                    :name="SLOT_ICONS[slotKey]"
-                    class="size-5 shrink-0 text-highlighted"
-                  />
-
-                  <h4 class="text-lg font-semibold tracking-tight text-highlighted">
-                    {{ SLOT_LABELS[slotKey] }}
-                  </h4>
-                </div>
-
-                <div class="mt-5 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-start">
-                  <ul class="space-y-2 text-sm leading-6 text-muted">
-                    <li
-                      v-for="dish in getDishNames(day[slotKey])"
-                      :key="dish"
-                      class="pl-0"
-                    >
-                      - {{ dish }}
-                    </li>
-
-                    <li
-                      v-if="!getDishNames(day[slotKey]).length"
-                      class="text-toned"
-                    >
-                      - Por definir
-                    </li>
-                  </ul>
-
-                  <p class="whitespace-nowrap text-sm font-semibold text-primary">
-                    {{ formatCalories(getSlotCalories(day[slotKey])) }} Cal
-                  </p>
-                </div>
-              </article>
             </div>
-          </UCard>
+
+            <UTabs
+              v-model="selectedMenuTypeTab"
+              :items="menuTypeTabs"
+              color="primary"
+              variant="pill"
+              size="sm"
+              :content="false"
+              :ui="{
+                root: 'w-full lg:w-auto',
+                list: 'w-full overflow-x-auto rounded-xl bg-elevated p-1 lg:w-fit',
+                trigger: 'shrink-0 justify-center'
+              }"
+            />
+          </div>
+        </UCard>
+
+        <section v-if="filteredActiveMenus.length" class="space-y-6">
+          <section
+            v-for="menu in filteredActiveMenus"
+            :key="menu.id"
+            class="space-y-4"
+          >
+            <section
+              v-for="day in getVisibleDays(menu)"
+              :key="`${menu.id}-${day.dayOfWeek}`"
+              class="overflow-hidden rounded-2xl border border-default/70 bg-elevated/35 shadow-sm shadow-black/5"
+            >
+              <div
+                class="flex w-full items-center justify-between gap-3 border-b border-default/70 px-5 py-4 text-left"
+              >
+                <UBadge color="primary" variant="soft">
+                  {{ DAY_LABELS[day.dayOfWeek] }}
+                </UBadge>
+
+                <p class="text-sm font-medium text-muted">
+                  {{ formatDate(day.dateKey, 'd MMM') }}
+                </p>
+              </div>
+
+              <div class="space-y-4 p-5">
+                <div class="grid items-stretch gap-4 lg:grid-cols-3">
+                  <article
+                    v-for="slotKey in slotKeys"
+                    :key="slotKey"
+                    class="app-surface flex h-full min-h-40 flex-col space-y-4 p-4"
+                  >
+                    <div class="flex items-center justify-between gap-3">
+                      <div class="flex min-w-0 items-center gap-2">
+                        <UIcon
+                          :name="SLOT_ICONS[slotKey]"
+                          class="size-4 shrink-0 text-primary"
+                        />
+
+                        <h4
+                          class="truncate text-base font-semibold text-primary"
+                        >
+                          {{ SLOT_LABELS[slotKey] }}
+                        </h4>
+                      </div>
+
+                      <UBadge color="neutral" variant="subtle">
+                        {{ formatCalories(getSlotCalories(day[slotKey])) }}
+                        kcal
+                      </UBadge>
+                    </div>
+
+                    <div class="flex flex-1 flex-col space-y-3">
+                      <ul class="space-y-2 text-sm leading-6 text-muted">
+                        <li
+                          v-for="dish in getDishNames(day[slotKey])"
+                          :key="dish"
+                          class="flex gap-2"
+                        >
+                          <span
+                            class="mt-2 size-1.5 shrink-0 rounded-full bg-primary/70"
+                          />
+                          <span>{{ dish }}</span>
+                        </li>
+
+                        <li
+                          v-if="!getDishNames(day[slotKey]).length"
+                          class="text-toned flex gap-2"
+                        >
+                          <span
+                            class="mt-2 size-1.5 shrink-0 rounded-full bg-muted"
+                          />
+                          <span>Por definir</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </section>
+          </section>
         </section>
+
+        <UAlert
+          v-else
+          color="neutral"
+          variant="soft"
+          icon="i-lucide-notebook-tabs"
+          :title="`Sin menú ${selectedMenuTypeTab === 'VEGETARIANO' ? 'vegetariano' : 'regular'} activo`"
+          description="Cuando este tipo de menú entre en su ventana de publicación aparecerá aquí."
+        />
       </section>
     </main>
 

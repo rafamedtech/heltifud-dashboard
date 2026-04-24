@@ -121,6 +121,45 @@ function updateSideDish(key: 'guarnicion1' | 'guarnicion2', value: SelectOptionV
   }
 }
 
+function createMainDish(nombre: string) {
+  slotState.value = {
+    ...slotState.value,
+    platilloPrincipal: {
+      catalogItemId: null,
+      nombre,
+      descripcion: '',
+      calorias: 0,
+      imagen: '',
+      tipo: props.mainTypes?.[0] ?? ''
+    }
+  }
+}
+
+function createSideDish(key: 'guarnicion1' | 'guarnicion2', nombre: string) {
+  slotState.value = {
+    ...slotState.value,
+    [key]: {
+      catalogItemId: null,
+      nombre,
+      descripcion: '',
+      calorias: 0,
+      imagen: '',
+      tipo: props.sideTypes?.[0] ?? 'guarnicion'
+    }
+  }
+}
+
+function createAdditionalItem(index: number, nombre: string) {
+  slotState.value = {
+    ...slotState.value,
+    adicionales: slotState.value.adicionales.map((item, i) =>
+      i === index
+        ? { catalogItemId: null, nombre, descripcion: '', calorias: 0, imagen: '', tipo: props.additionalTypes?.[0] ?? '' }
+        : item
+    )
+  }
+}
+
 function addAdditional() {
   slotState.value = {
     ...slotState.value,
@@ -164,6 +203,10 @@ function updateContainer(value: SelectOptionValue) {
   }
 }
 
+const hasEmptyAdicional = computed(() =>
+  slotState.value.adicionales.some(a => !a.catalogItemId && !a.nombre.trim())
+)
+
 const totalCalories = computed(() => {
   const main = slotState.value.platilloPrincipal.calorias || 0
   const side1 = slotState.value.guarnicion1?.calorias || 0
@@ -198,8 +241,14 @@ const totalCalories = computed(() => {
           :disabled="loading"
           :placeholder="loading ? 'Cargando...' : 'Selecciona un platillo'"
           :search-input="{ placeholder: 'Buscar...' }"
+          :create-item="{ when: 'empty' }"
           @update:model-value="updateMainDish"
-        />
+          @create="createMainDish"
+        >
+          <template #create-item-label="{ item }">
+            Crear "{{ item }}" como {{ mainTypes?.[0] ?? 'platillo' }}
+          </template>
+        </USelectMenu>
       </UFormField>
 
       <div v-if="!hideSides" class="grid gap-4 xl:grid-cols-2">
@@ -214,8 +263,14 @@ const totalCalories = computed(() => {
             :disabled="loading"
             :placeholder="loading ? 'Cargando...' : 'Selecciona un platillo'"
             :search-input="{ placeholder: 'Buscar...' }"
+            :create-item="{ when: 'empty' }"
             @update:model-value="(value) => updateSideDish('guarnicion1', value)"
-          />
+            @create="(nombre) => createSideDish('guarnicion1', nombre)"
+          >
+            <template #create-item-label="{ item }">
+              Crear "{{ item }}" como {{ sideTypes?.[0] ?? 'guarnicion' }}
+            </template>
+          </USelectMenu>
         </UFormField>
 
         <UFormField label="Guarnición 2">
@@ -229,8 +284,14 @@ const totalCalories = computed(() => {
             :disabled="loading"
             :placeholder="loading ? 'Cargando...' : 'Selecciona un platillo'"
             :search-input="{ placeholder: 'Buscar...' }"
+            :create-item="{ when: 'empty' }"
             @update:model-value="(value) => updateSideDish('guarnicion2', value)"
-          />
+            @create="(nombre) => createSideDish('guarnicion2', nombre)"
+          >
+            <template #create-item-label="{ item }">
+              Crear "{{ item }}" como {{ sideTypes?.[0] ?? 'guarnicion' }}
+            </template>
+          </USelectMenu>
         </UFormField>
       </div>
 
@@ -259,7 +320,7 @@ const totalCalories = computed(() => {
             color="neutral"
             variant="ghost"
             icon="i-lucide-plus"
-            :disabled="loading"
+            :disabled="loading || hasEmptyAdicional"
             @click="addAdditional"
           >
             {{ addAdditionalText || 'Agregar' }}
@@ -282,8 +343,14 @@ const totalCalories = computed(() => {
               :disabled="loading"
               :placeholder="loading ? 'Cargando...' : (additionalPlaceholder || 'Selecciona un platillo')"
               :search-input="{ placeholder: 'Buscar...' }"
+              :create-item="{ when: 'empty' }"
               @update:model-value="(value) => updateAdditional(index, value)"
-            />
+              @create="(nombre) => createAdditionalItem(index, nombre)"
+            >
+              <template #create-item-label="{ item }">
+                Crear "{{ item }}" como {{ additionalTypes?.[0] ?? 'adicional' }}
+              </template>
+            </USelectMenu>
             <UButton
               color="error"
               variant="ghost"

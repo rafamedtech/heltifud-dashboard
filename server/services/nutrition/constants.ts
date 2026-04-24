@@ -1,4 +1,5 @@
 import { NutritionBasis, NutritionSource } from '~~/prisma/generated/client/enums'
+import type { MeasurementUnit } from '~~/prisma/generated/client/enums'
 
 export const USDA_DEFAULT_BASE_URL = 'https://api.nal.usda.gov/fdc/v1'
 export const FATSECRET_TOKEN_URL = 'https://oauth.fatsecret.com/connect/token'
@@ -49,7 +50,7 @@ export const VOLUME_UNITS_IN_MILLILITERS = {
   LATA: 355,
 } as const
 
-export const UNIT_LIKE_MEASUREMENT_UNITS = new Set([
+export const UNIT_LIKE_MEASUREMENT_UNITS: ReadonlySet<MeasurementUnit> = new Set([
   'PIEZA',
   'PORCION',
   'PAQUETE',

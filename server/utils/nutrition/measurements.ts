@@ -6,6 +6,9 @@ import {
 } from '~~/server/services/nutrition/constants'
 import type { NullableNumber } from '~~/server/services/nutrition/types'
 
+type MassMeasurementUnit = keyof typeof MASS_UNITS_IN_GRAMS
+type VolumeMeasurementUnit = keyof typeof VOLUME_UNITS_IN_MILLILITERS
+
 export function measurementUnitFromString(value: string | null | undefined): MeasurementUnit | null {
   if (!value) {
     return null
@@ -49,11 +52,15 @@ export function measurementUnitFromString(value: string | null | undefined): Mea
     : null)
 }
 
-export function isMassUnit(unit: MeasurementUnit | null | undefined) {
+export function isMassUnit(
+  unit: MeasurementUnit | null | undefined,
+): unit is MassMeasurementUnit {
   return Boolean(unit && unit in MASS_UNITS_IN_GRAMS)
 }
 
-export function isVolumeUnit(unit: MeasurementUnit | null | undefined) {
+export function isVolumeUnit(
+  unit: MeasurementUnit | null | undefined,
+): unit is VolumeMeasurementUnit {
   return Boolean(unit && unit in VOLUME_UNITS_IN_MILLILITERS)
 }
 

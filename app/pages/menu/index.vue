@@ -4,19 +4,15 @@ import type { TableColumn } from '@nuxt/ui'
 import type { WeeklyMenu } from '~~/types/types';
 import { formatDate } from '~/utils/formatters';
 const UButton = resolveComponent('UButton')
-const UBadge = resolveComponent('UBadge')
 const summaryCardPlaceholders = [1, 2, 3]
 const tableRowPlaceholders = [1, 2, 3, 4, 5]
+const selectedMenuTypeTab = ref<WeeklyMenu['menuType']>('ESTANDAR')
 
 function formatMenuDateRangeValue(date: string) {
   return new Intl.DateTimeFormat('es-MX', {
     day: 'numeric',
     month: 'short'
   }).format(new Date(date))
-}
-
-function formatMenuDateRange(date: string, endDate: string) {
-  return `${formatMenuDateRangeValue(date)} - ${formatMenuDateRangeValue(endDate)}`
 }
 
 function formatMenuType(menuType: WeeklyMenu['menuType']) {
@@ -34,6 +30,27 @@ const {
 const isLoading = computed(() => status.value === 'pending');
 const activeMenus = computed(() => menus.value.filter(menu => menu.isActive));
 const latestCreatedMenu = computed(() => menus.value[0] ?? null);
+const standardMenus = computed(() => menus.value.filter(menu => menu.menuType === 'ESTANDAR'));
+const vegetarianMenus = computed(() => menus.value.filter(menu => menu.menuType === 'VEGETARIANO'));
+const filteredMenus = computed(() =>
+  selectedMenuTypeTab.value === 'VEGETARIANO'
+    ? vegetarianMenus.value
+    : standardMenus.value
+);
+const menuTypeTabs = computed(() => [
+  {
+    label: 'Estándar',
+    value: 'ESTANDAR',
+    icon: 'i-lucide-utensils',
+    badge: standardMenus.value.length,
+  },
+  {
+    label: 'Vegetariano',
+    value: 'VEGETARIANO',
+    icon: 'i-lucide-leaf',
+    badge: vegetarianMenus.value.length,
+  },
+]);
 const summaryCards = computed(() => [
   {
     key: 'active-menu',
@@ -89,15 +106,6 @@ const columns: TableColumn<WeeklyMenu>[] = [
     header: 'Fechas',
     cell: ({ row }) =>
       h('p', { class: 'py-1 text-sm text-highlighted' }, `${formatMenuDateRangeValue(row.original.startDate)} - ${formatMenuDateRangeValue(row.original.endDate)}`)
-  },
-  {
-    accessorKey: 'menuType',
-    header: 'Tipo',
-    cell: ({ row }) =>
-      h(UBadge, {
-        color: row.original.menuType === 'VEGETARIANO' ? 'success' : 'neutral',
-        variant: 'subtle'
-      }, () => formatMenuType(row.original.menuType))
   },
   {
     accessorKey: 'updatedAt',
@@ -317,15 +325,35 @@ useSeoMeta({
               body: 'p-0 sm:p-0'
             }"
           >
-            <div class="space-y-5 p-5 sm:p-6">
-              <div class="space-y-1">
+            <div class="space-y-4 p-5 sm:p-6">
+              <div class="flex items-center justify-between gap-3">
                 <h2 class="text-lg font-semibold text-primary">
                   Menús registrados
                 </h2>
+
+                <div class="flex overflow-x-auto rounded-xl bg-elevated p-1">
+                  <button
+                    v-for="tab in menuTypeTabs"
+                    :key="tab.value"
+                    type="button"
+                    :class="[
+                      'flex shrink-0 items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
+                      selectedMenuTypeTab === tab.value
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted hover:text-highlighted'
+                    ]"
+                    @click="selectedMenuTypeTab = tab.value as WeeklyMenu['menuType']"
+                  >
+                    <UIcon :name="tab.icon" class="size-4" />
+                    {{ tab.label }}
+                    <UBadge color="neutral" variant="subtle" size="sm">{{ tab.badge }}</UBadge>
+                  </button>
+                </div>
               </div>
 
               <UTable
-                :data="menus"
+                v-if="filteredMenus.length"
+                :data="filteredMenus"
                 :columns="columns"
                 :meta="tableMeta"
                 class="shrink-0"
@@ -333,9 +361,18 @@ useSeoMeta({
                   base: 'table-fixed border-separate border-spacing-0',
                   thead: '[&>tr]:bg-default [&>tr]:after:content-none',
                   tbody: '[&>tr]:last:[&>td]:border-b-0',
-                  th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(4)]:hidden',
-                  td: 'border-b border-default align-top max-md:[&:nth-child(4)]:hidden'
+                  th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(3)]:hidden',
+                  td: 'border-b border-default align-top max-md:[&:nth-child(3)]:hidden'
                 }"
+              />
+
+              <UAlert
+                v-else
+                title="Sin menús en esta categoría"
+                description="Cuando crees un menú de este tipo aparecerá aquí."
+                color="neutral"
+                variant="soft"
+                icon="i-lucide-notebook-tabs"
               />
             </div>
           </UCard>
@@ -356,9 +393,8 @@ useSeoMeta({
               </div>
 
               <div class="overflow-hidden rounded-xl border border-default/70">
-                <div class="grid grid-cols-[minmax(0,1.8fr)_0.8fr_1fr_1fr_auto] gap-4 border-b border-default/70 bg-default px-4 py-3">
+                <div class="grid grid-cols-[minmax(0,1.8fr)_1fr_1fr_auto] gap-4 border-b border-default/70 bg-default px-4 py-3">
                   <div class="h-4 w-20 animate-pulse rounded-md bg-default/70" />
-                  <div class="h-4 w-16 animate-pulse rounded-md bg-default/70" />
                   <div class="h-4 w-16 animate-pulse rounded-md bg-default/70" />
                   <div class="h-4 w-16 animate-pulse rounded-md bg-default/70 max-md:hidden" />
                   <div class="ml-auto h-4 w-16 animate-pulse rounded-md bg-default/70" />
@@ -367,13 +403,12 @@ useSeoMeta({
                 <div
                   v-for="placeholder in tableRowPlaceholders"
                   :key="`row-skeleton-${placeholder}`"
-                  class="grid grid-cols-[minmax(0,1.8fr)_0.8fr_1fr_1fr_auto] gap-4 border-b border-default/70 px-4 py-4 last:border-b-0"
+                  class="grid grid-cols-[minmax(0,1.8fr)_1fr_1fr_auto] gap-4 border-b border-default/70 px-4 py-4 last:border-b-0"
                 >
                   <div class="space-y-2">
                     <div class="h-4 w-36 animate-pulse rounded-md bg-elevated" />
                   </div>
                   <div class="h-4 w-24 animate-pulse rounded-md bg-elevated" />
-                  <div class="h-4 w-28 animate-pulse rounded-md bg-elevated" />
                   <div class="h-4 w-28 animate-pulse rounded-md bg-elevated max-md:hidden" />
                   <div class="ml-auto h-8 w-8 animate-pulse rounded-lg bg-elevated" />
                 </div>

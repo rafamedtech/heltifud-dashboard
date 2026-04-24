@@ -1,4 +1,5 @@
 import { NutritionSource } from '~~/prisma/generated/client/enums'
+import type { Prisma } from '~~/prisma/generated/client/client'
 import { USDA_DEFAULT_BASE_URL, USDA_NUTRIENT_IDS, USDA_SEARCH_PAGE_SIZE } from '../constants'
 import type {
   ExternalNutritionCandidate,
@@ -101,10 +102,10 @@ export class UsdaNutritionProvider implements NutritionProvider {
       query,
       normalizedQuery: normalizeNutritionText(query),
       candidates: candidates.filter(Boolean) as ExternalNutritionCandidate[],
-      requestSnapshot: requestSnapshots,
+      requestSnapshot: requestSnapshots as Prisma.InputJsonValue,
       responseSnapshot: {
         foods: topFoods,
-      },
+      } as Prisma.InputJsonValue,
     }
   }
 

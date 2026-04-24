@@ -34,11 +34,7 @@ const {
   onValidityChange,
   onSubmitStateChange
 } = useFoodCatalogEditorState({ isLoading: computed(() => props.isLoading) })
-const canSave = computed(() =>
-  props.mode === 'edit'
-    ? hasUnsavedChanges.value && !props.isLoading && !isSubmitting.value
-    : canSubmit.value
-)
+const canSave = computed(() => canSubmit.value)
 const saveButtonColor = computed(() => canSave.value ? 'primary' : 'neutral')
 const saveButtonVariant = computed(() => canSave.value ? 'solid' : 'subtle')
 

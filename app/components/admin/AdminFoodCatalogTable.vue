@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { h, resolveComponent } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
 import type { FoodCatalogItem } from '~~/types/types'
 import { formatDate } from '~/utils/formatters'
@@ -16,7 +17,7 @@ const sortColumn = ref<'nombre' | 'tipo' | 'calorias' | 'updatedAt'>('updatedAt'
 const sortDirection = ref<'asc' | 'desc'>('desc')
 const page = ref(1)
 const pageSize = 10
-const searchInput = useTemplateRef<InstanceType<typeof import('vue').ComponentPublicInstance> | null>('food-catalog-search-input')
+const searchInput = useTemplateRef<ComponentPublicInstance | null>('food-catalog-search-input')
 
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')

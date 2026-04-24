@@ -42,7 +42,7 @@ useSeoMeta({
 const loading = true
 const menuIndexSkeleton = menuIndexBones as unknown as SkeletonResponsiveBones
 const UButton = resolveComponent('UButton')
-const UBadge = resolveComponent('UBadge')
+const fixtureSelectedMenuTypeTab = ref<WeeklyMenu['menuType']>('ESTANDAR')
 
 function formatMenuDateRangeValue(date: string) {
   return new Intl.DateTimeFormat('es-MX', {
@@ -53,10 +53,6 @@ function formatMenuDateRangeValue(date: string) {
 
 function formatMenuDateRange(date: string, endDate: string) {
   return `${formatMenuDateRangeValue(date)} - ${formatMenuDateRangeValue(endDate)}`
-}
-
-function formatMenuType(menuType: WeeklyMenu['menuType']) {
-  return menuType === 'VEGETARIANO' ? 'Vegetariano' : 'Estándar'
 }
 
 const catalogItems: FoodCatalogItem[] = [
@@ -166,6 +162,27 @@ const fixtureMenus: WeeklyMenu[] = [
     menuType: 'VEGETARIANO'
   }
 ]
+const fixtureStandardMenus = computed(() => fixtureMenus.filter(menu => menu.menuType === 'ESTANDAR'))
+const fixtureVegetarianMenus = computed(() => fixtureMenus.filter(menu => menu.menuType === 'VEGETARIANO'))
+const fixtureFilteredMenus = computed(() =>
+  fixtureSelectedMenuTypeTab.value === 'VEGETARIANO'
+    ? fixtureVegetarianMenus.value
+    : fixtureStandardMenus.value
+)
+const fixtureMenuTypeTabs = computed(() => [
+  {
+    label: 'Estándar',
+    value: 'ESTANDAR',
+    icon: 'i-lucide-utensils',
+    badge: fixtureStandardMenus.value.length
+  },
+  {
+    label: 'Vegetariano',
+    value: 'VEGETARIANO',
+    icon: 'i-lucide-leaf',
+    badge: fixtureVegetarianMenus.value.length
+  }
+])
 const fixtureSummaryCards = [
   {
     key: 'active-menu',
@@ -208,15 +225,6 @@ const fixtureMenuColumns: TableColumn<WeeklyMenu>[] = [
     header: 'Fechas',
     cell: ({ row }) =>
       h('p', { class: 'py-1 text-sm text-highlighted' }, `${formatMenuDateRangeValue(row.original.startDate)} - ${formatMenuDateRangeValue(row.original.endDate)}`)
-  },
-  {
-    accessorKey: 'menuType',
-    header: 'Tipo',
-    cell: ({ row }) =>
-      h(UBadge, {
-        color: row.original.menuType === 'VEGETARIANO' ? 'success' : 'neutral',
-        variant: 'subtle'
-      }, () => formatMenuType(row.original.menuType))
   },
   {
     accessorKey: 'updatedAt',
@@ -338,19 +346,35 @@ const fixtureFoodItem: FoodCatalogItemDetail = {
                 }"
               >
                 <div class="space-y-5 p-5 sm:p-6">
-                  <UTable
-                    :data="fixtureMenus"
-                    :columns="fixtureMenuColumns"
-                    :meta="fixtureTableMeta"
-                    class="shrink-0"
+                  <UTabs
+                    v-model="fixtureSelectedMenuTypeTab"
+                    :items="fixtureMenuTypeTabs"
+                    color="primary"
+                    variant="pill"
+                    size="sm"
                     :ui="{
-                      base: 'table-fixed border-separate border-spacing-0',
-                      thead: '[&>tr]:bg-default [&>tr]:after:content-none',
-                      tbody: '[&>tr]:last:[&>td]:border-b-0',
-                      th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(4)]:hidden',
-                      td: 'border-b border-default align-top max-md:[&:nth-child(4)]:hidden'
+                      root: 'w-full gap-4',
+                      list: 'w-full overflow-x-auto rounded-xl bg-elevated p-1 sm:w-fit',
+                      trigger: 'shrink-0 justify-center',
+                      content: 'w-full'
                     }"
-                  />
+                  >
+                    <template #content>
+                      <UTable
+                        :data="fixtureFilteredMenus"
+                        :columns="fixtureMenuColumns"
+                        :meta="fixtureTableMeta"
+                        class="shrink-0"
+                        :ui="{
+                          base: 'table-fixed border-separate border-spacing-0',
+                          thead: '[&>tr]:bg-default [&>tr]:after:content-none',
+                          tbody: '[&>tr]:last:[&>td]:border-b-0',
+                          th: 'py-2 first:rounded-l-lg last:rounded-r-lg border-y border-default first:border-l last:border-r max-md:[&:nth-child(3)]:hidden',
+                          td: 'border-b border-default align-top max-md:[&:nth-child(3)]:hidden'
+                        }"
+                      />
+                    </template>
+                  </UTabs>
                 </div>
               </UCard>
             </section>
